@@ -1363,8 +1363,8 @@
     },
     {
       "path": "model/tests/test_mof_screening_candidate_packages.py",
-      "bytes": 33552,
-      "sha256": "a094e068f327db1fbfe82eccb0cef6df5ee504fb5c9531c56ba41a28031e72e5"
+      "bytes": 33596,
+      "sha256": "d219625f8ea284a3b08c1797d0b034dfe2bff48e2e939e182a22c9b648c25a87"
     },
     {
       "path": "model/tests/test_mof_screening_case_presets.js",
@@ -1378,8 +1378,8 @@
     },
     {
       "path": "model/tests/test_mof_screening_cof_mil.py",
-      "bytes": 27564,
-      "sha256": "fedf1e78a8d4e19cbb38788cfc025fdd4a79368b581746f995fda96b905666ed"
+      "bytes": 27603,
+      "sha256": "b5f62beccd724ce516d0746cf74413339410b2ee83b72d81d1c8fff708805c1d"
     },
     {
       "path": "model/tests/test_mof_screening_cold_hot_extension.py",
@@ -1428,8 +1428,8 @@
     },
     {
       "path": "model/tests/test_mof_screening_manager.py",
-      "bytes": 25302,
-      "sha256": "02f56d01a3f8a8654e6bc918839735aeaab5ac8849eaa7eec4454dc71b4a3b2d"
+      "bytes": 25444,
+      "sha256": "526fabbb71f01a1ff113ea9a4bb716a25590ddc9e31724ce45db03a71c992288"
     },
     {
       "path": "model/tests/test_mof_screening_material_state.js",

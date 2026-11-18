@@ -4,6 +4,7 @@ import json
 import os
 import threading
 import time
+from types import SimpleNamespace
 
 import pytest
 
@@ -49,7 +50,9 @@ def test_atomic_json_retries_transient_windows_share_errors(
             raise _windows_share_error(winerror)
         real_replace(source, destination)
 
-    monkeypatch.setattr(manager_module.os, "replace", flaky_replace)
+    monkeypatch.setattr(
+        manager_module.windows_io, "os", SimpleNamespace(name="nt", replace=flaky_replace)
+    )
     monkeypatch.setattr(
         manager_module, "WINDOWS_REPLACE_RETRY_DELAYS_S", (0.0, 0.0)
     )
@@ -77,7 +80,9 @@ def test_atomic_json_retry_exhaustion_preserves_state_and_temp(
         assert target.read_bytes() == original
         raise _windows_share_error(32)
 
-    monkeypatch.setattr(manager_module.os, "replace", blocked_replace)
+    monkeypatch.setattr(
+        manager_module.windows_io, "os", SimpleNamespace(name="nt", replace=blocked_replace)
+    )
     monkeypatch.setattr(
         manager_module, "WINDOWS_REPLACE_RETRY_DELAYS_S", (0.0, 0.0)
     )
@@ -112,8 +117,9 @@ def test_atomic_json_does_not_retry_permanent_or_non_windows_error(
         attempts.append(1)
         raise _windows_share_error(winerror)
 
-    monkeypatch.setattr(manager_module.os, "name", platform_name)
-    monkeypatch.setattr(manager_module.os, "replace", blocked_replace)
+    monkeypatch.setattr(
+        manager_module.windows_io, "os", SimpleNamespace(name=platform_name, replace=blocked_replace)
+    )
     monkeypatch.setattr(
         manager_module, "WINDOWS_REPLACE_RETRY_DELAYS_S", (0.0, 0.0)
     )

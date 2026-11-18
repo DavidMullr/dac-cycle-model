@@ -3,7 +3,7 @@ import math
 from contextlib import ExitStack
 from copy import deepcopy
 import json
-from pathlib import Path
+from pathlib import PureWindowsPath
 from unittest.mock import patch
 
 import numpy as np
@@ -165,7 +165,7 @@ def test_mof808_packages_preserve_exact_digitized_source_and_table_discrepancy(
     curve = material["co2"]["reference_curve"]
     provenance = material["provenance"]["co2_reference_curve"]
     package_path = MATERIAL_ROOT / f"{material_id}.json"
-    source_path = ROOT / "tests/fixtures/mof_screening/source_tables" / Path(provenance["source_asset"]).name
+    source_path = ROOT / "tests/fixtures/mof_screening/source_tables" / PureWindowsPath(provenance["source_asset"]).name
     with source_path.open(newline="", encoding="utf-8") as handle:
         rows = list(csv.DictReader(handle))
 
@@ -186,7 +186,7 @@ def test_mof808_packages_preserve_exact_digitized_source_and_table_discrepancy(
     assert file_sha256(source_path) == curve["source_csv_sha256"]
     assert (
         file_sha256(
-            ROOT / "tests/fixtures/mof_screening/source_tables" / Path(provenance["source_audit"]).name
+            ROOT / "tests/fixtures/mof_screening/source_tables" / PureWindowsPath(provenance["source_audit"]).name
         )
         == curve["digitization_audit_sha256"]
     )
@@ -209,7 +209,7 @@ def test_tepa_package_preserves_raw_nonmonotonicity_and_fitted_projection():
     curve = material["co2"]["reference_curve"]
     provenance = material["provenance"]["co2_reference_curve"]
     package_path = MATERIAL_ROOT / f"{material_id}.json"
-    source_path = ROOT / "tests/fixtures/mof_screening/source_tables" / Path(provenance["source_asset"]).name
+    source_path = ROOT / "tests/fixtures/mof_screening/source_tables" / PureWindowsPath(provenance["source_asset"]).name
     with source_path.open(newline="", encoding="utf-8") as handle:
         rows = list(csv.DictReader(handle))
 

@@ -1,6 +1,6 @@
 from copy import deepcopy
 import csv
-from pathlib import Path
+from pathlib import PureWindowsPath
 
 import numpy as np
 import pytest
@@ -86,9 +86,8 @@ def test_cof_and_mil_packages_preserve_sources_classes_and_gaps():
 
     cof1000 = load_builtin_material(COF_MATERIAL_IDS[0])
     curve = cof1000["co2"]["reference_curve"]
-    source = ROOT / "tests/fixtures/mof_screening/source_tables" / Path(cof1000["provenance"][
-        "co2_reference_curve"
-    ]["source_asset"]).name
+    source_asset = cof1000["provenance"]["co2_reference_curve"]["source_asset"]
+    source = ROOT / "tests/fixtures/mof_screening/source_tables" / PureWindowsPath(source_asset).name
     with source.open(newline="", encoding="utf-8") as handle:
         rows = list(csv.DictReader(handle))
     assert len(rows) == len(curve["pressure_Pa"]) == 36
