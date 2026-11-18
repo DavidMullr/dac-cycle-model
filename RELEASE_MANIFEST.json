@@ -7,6 +7,11 @@
       "sha256": "87e643d6294c51e5e151731d221e11bf099b3ac4312481ff5b09cf604beacade"
     },
     {
+      "path": ".github/workflows/pages.yml",
+      "bytes": 848,
+      "sha256": "64d6125da60cd8925e9dd80bb0d7ca5f21a3aea34cd5c6684e40d1f43ca1cbc4"
+    },
+    {
       "path": ".github/workflows/review.yml",
       "bytes": 603,
       "sha256": "cc37751f3bf63182f64e827fe88ed6bbb0908b06f6d5809b65a25a1d43d5537a"
@@ -33,8 +38,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 5998,
-      "sha256": "4a8e28195f8a17327e2f83ac1dd6386d5ce9c2f5706cd082528971ccebf00c5e"
+      "bytes": 6233,
+      "sha256": "34de84588e1a7bd370d5ed45586866e8a403c957e6f34da8eb5b4dfbd3c9bd93"
     },
     {
       "path": "START.cmd",
@@ -63,8 +68,8 @@
     },
     {
       "path": "docs/MAINTENANCE.md",
-      "bytes": 1726,
-      "sha256": "1879209d9a672cf8361e36acf1a8cba8d52f75a5b3fe9ad745399510d2f437f4"
+      "bytes": 2011,
+      "sha256": "a1f38682fe9c326be8ed935539f8c2b08e7945517a47c3f2be7a1e56fb7032f6"
     },
     {
       "path": "docs/PROJECT_MAP.md",
@@ -1570,6 +1575,11 @@
       "path": "tools/check_submission.py",
       "bytes": 7879,
       "sha256": "a3981ee3d32465b28edc133e6af37a6bc3b6d4d31b7413ccf6c4b820cc8b6c73"
+    },
+    {
+      "path": "tools/publish_docs.py",
+      "bytes": 2514,
+      "sha256": "33b5dba185fed1c0099dab6221d3a41a3fbd82a5b722616a3c1691b469f80448"
     },
     {
       "path": "tools/release.py",
