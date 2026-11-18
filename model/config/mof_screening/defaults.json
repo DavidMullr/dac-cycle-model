@@ -1,0 +1,1505 @@
+{
+  "schema": "mof-screening-defaults/1",
+  "built_in_materials": [
+    {
+      "id": "hypothetical_mmen_like",
+      "name": "Hypothetical mmen-inspired material",
+      "status": "assumed"
+    },
+    {
+      "id": "calf20_shaped",
+      "name": "CALF-20 80/20 shaped source-transfer",
+      "status": "conditional_measured_source"
+    },
+    {
+      "id": "synthetic_independent_demo",
+      "name": "Synthetic independent-family fixture",
+      "status": "synthetic"
+    },
+    {
+      "id": "mmen_mg2_dobpdc_mcdonald2012_conditional",
+      "name": "mmen-Mg2(dobpdc), McDonald 2012 dry curve conditional",
+      "status": "conditional_measured_source"
+    },
+    {
+      "id": "lewatit_vp_oc_1065_low2023_conditional",
+      "name": "Lewatit VP OC 1065, dry-curve conditional benchmark",
+      "status": "conditional_measured_source"
+    },
+    {
+      "id": "lewatit_vp_oc_1065_young2021_wadst_conditional",
+      "name": "Lewatit VP OC 1065, Young 2021 coupled water-CO2 conditional",
+      "status": "conditional_source_reproduced_coupled_model"
+    },
+    {
+      "id": "lewatit_vp_oc_1065_young2021_hot116_conditional",
+      "name": "Lewatit VP OC 1065, Young 2021 hot numerical extrapolation",
+      "status": "conditional_hot_numerical_extrapolation_not_validated"
+    },
+    {
+      "id": "mmen_mg2_hob_powder_2024_dry_conditional",
+      "name": "mmen-Mg2(hob) powder, 2024 dry conditional",
+      "status": "conditional_representation_failed_dry_only"
+    },
+    {
+      "id": "mmen_mg2_hob_pvdf_2024_dry_conditional",
+      "name": "mmen-Mg2(hob)/PVDF composite, 2024 dry conditional",
+      "status": "conditional_representation_failed_dry_only"
+    },
+    {
+      "id": "mof808_lys_2024_25c_dry_conditional",
+      "name": "MOF-808-Lys, 2024 25 C dry conditional",
+      "status": "conditional_named_extrapolation_dry_only"
+    },
+    {
+      "id": "mof808_tapa_2024_25c_dry_conditional",
+      "name": "MOF-808-TAPA, 2024 25 C dry conditional",
+      "status": "conditional_named_extrapolation_dry_only"
+    },
+    {
+      "id": "tepa50_mg2_dobpdc_2025_25c_apparent_dry_conditional",
+      "name": "TEPA(50)-Mg2(dobpdc), 2025 25 C apparent dry conditional",
+      "status": "conditional_apparent_named_extrapolation_dry_only"
+    },
+    {
+      "id": "cof1000_2025_25c_split_rate_dry_conditional",
+      "name": "COF-1000, 2025 25 C split-rate dry conditional",
+      "status": "conditional_fitted_apparent_kinetics_dry_only"
+    },
+    {
+      "id": "cof999_2024_25c_dry_conditional",
+      "name": "COF-999, 2024 25 C dry conditional",
+      "status": "conditional_low_loading_heat_named_extrapolation_dry_only"
+    },
+    {
+      "id": "mil101_pei800_30_glycerin_2026_25c_dry_conditional",
+      "name": "PEI800-30/MIL-101(Cr) glycerin OH/N=1, 2026 25 C dry conditional",
+      "status": "conditional_25c_dry_only_failed_hot_holdout_retained"
+    },
+    {
+      "id": "mil101_pei800_30_2026_25c_dry_conditional",
+      "name": "PEI800-30/MIL-101(Cr) glycerin-free control, 2026 25 C dry conditional",
+      "status": "conditional_25c_dry_only_failed_hot_holdout_retained"
+    },
+    {
+      "id": "lewatit_vp_oc_1065_young2021_advisory_temperature_conditional",
+      "name": "Lewatit VP OC 1065, Young 2021 temperature-advisory humid extrapolation",
+      "status": "conditional_temperature_advisory_extrapolation"
+    },
+    {
+      "id": "lewatit_vp_oc_1065_young2021_dry_bdf_recovery_v1",
+      "name": "Lewatit VP OC 1065, Young 2021 dry BDF trial-recovery policy",
+      "status": "conditional_dry_opt_in_bdf_trial_recovery"
+    },
+    {
+      "id": "cof1000_humid_water_shift_scenario_v1",
+      "name": "COF-1000 exploratory stored-water candidate",
+      "status": "exploratory_humid_candidate_not_validated"
+    },
+    {
+      "id": "cof999_humid_water_shift_scenario_v1",
+      "name": "COF-999 exploratory stored-water candidate",
+      "status": "exploratory_humid_candidate_not_validated"
+    },
+    {
+      "id": "mmen_independent_unary_humid_diagnostic_v1",
+      "name": "mmen-Mg2(dobpdc) exploratory stored-water candidate",
+      "status": "exploratory_humid_candidate_not_validated"
+    },
+    {
+      "id": "hob_powder_measured_water_transport_independent_v1",
+      "name": "mmen-Mg2(hob) powder exploratory stored-water candidate",
+      "status": "exploratory_humid_candidate_not_validated"
+    },
+    {
+      "id": "hob_pvdf_same_framework_water_transfer_scenario_v1",
+      "name": "mmen-Mg2(hob)/PVDF exploratory stored-water candidate",
+      "status": "exploratory_humid_candidate_not_validated"
+    },
+    {
+      "id": "mof808_lys_humid_one_node_scenario_v1",
+      "name": "MOF-808-Lys exploratory stored-water candidate",
+      "status": "exploratory_humid_candidate_not_validated"
+    },
+    {
+      "id": "mof808_tapa_water_shift_scenario_v1",
+      "name": "MOF-808-TAPA exploratory stored-water candidate",
+      "status": "exploratory_humid_candidate_not_validated"
+    },
+    {
+      "id": "mil101_pei800_control_measured_water_diagnostic_v1",
+      "name": "PEI800-30/MIL-101(Cr) glycerin-free control exploratory stored-water candidate",
+      "status": "exploratory_humid_candidate_not_validated"
+    },
+    {
+      "id": "mil101_pei800_glycerin_measured_water_diagnostic_v1",
+      "name": "PEI800-30/MIL-101(Cr) glycerin OH/N=1 exploratory stored-water candidate",
+      "status": "exploratory_humid_candidate_not_validated"
+    },
+    {
+      "id": "calf20_independent_water_diagnostic_v1",
+      "name": "CALF-20 80/20 shaped exploratory stored-water candidate",
+      "status": "exploratory_humid_candidate_not_validated"
+    },
+    {
+      "id": "tepa50_finite_window_water_proxy_scenario_v1",
+      "name": "TEPA(50)-Mg2(dobpdc) exploratory stored-water candidate",
+      "status": "exploratory_humid_candidate_not_validated"
+    }
+  ],
+  "official_weather_examples": [
+    {
+      "label": "Pully cold-start pilot, 15 January 2023",
+      "start_utc": "2023-01-15T00:00:00Z"
+    },
+    {
+      "label": "Pully summer interval, 15 July 2023",
+      "start_utc": "2023-07-15T00:00:00Z"
+    }
+  ],
+  "case_presets": [
+    {
+      "id": "young2021_humid_short_cycle",
+      "label": "Young 2021 coupled-humidity 1-hour diagnostic",
+      "material_id": "lewatit_vp_oc_1065_young2021_wadst_conditional",
+      "case_sha256": "f4dd5640a4db81217c19bd78a5e62f43b9a37a085b2d86091033d2bc80a55104",
+      "evidence_context": "Loads the Young 2021 coupled-humidity package and a 1-hour conditional diagnostic. The configured phases determine how many complete cycles or tails occur inside the fixed one-hour horizon; it is not convergence, CSS, or humid-cycle validation.",
+      "case": {
+        "schema": "mof-screening-case/1",
+        "label": "Young 2021 conditional coupled-humidity 1-hour diagnostic, 30 C",
+        "engine": "spatial",
+        "runtime_policy": {
+          "schema": "mof-screening-runtime-policy/1",
+          "mode": "manual_stop",
+          "time_limit_s": null,
+          "classification": "operational_runtime_control",
+          "physical_operating_condition": false
+        },
+        "temperature_policy": {
+          "schema": "mof-screening-temperature-policy/1",
+          "mode": "stop_at_scenario_guard"
+        },
+        "weather": {
+          "mode": "fixed",
+          "hours": 1,
+          "temperature_C": 30.0,
+          "relative_humidity": 0.3,
+          "pressure_Pa": 100000.0,
+          "co2_ppm_dry": 400.0,
+          "start_utc": "2023-01-15T00:00:00Z"
+        },
+        "equipment": {
+          "dry_shaped_mass_kg": 10.0,
+          "bed_thickness_m": 0.016,
+          "bed_face_area_m2": 1.7361111111111112,
+          "particle_diameter_m": 0.0015,
+          "bed_void_fraction": 0.4,
+          "airflow_m3_s": 0.18,
+          "heater_power_W": 2000.0,
+          "effective_bed_conductivity_W_m_K": 0.1,
+          "gas_solid_heat_transfer_W_m2_K": 80.0,
+          "wall_heat_capacity_J_K": 12000.0,
+          "wall_loss_UA_W_K": 2.0,
+          "wall_cooling_UA_W_K": 100.0
+        },
+        "cycle": {
+          "adsorption_s": 600.0,
+          "evacuation_s": 60.0,
+          "desorption_s": 600.0,
+          "cooling_max_s": 300.0,
+          "repressurization_max_s": 120.0,
+          "regeneration_temperature_C": 55.0,
+          "regeneration_pressure_Pa": 20000.0,
+          "purge_s": 0.0
+        },
+        "solver": {
+          "cells": 4,
+          "rtol": 1e-07,
+          "max_step_s": 10.0,
+          "samples_per_phase": 31
+        },
+        "initial_state": {
+          "basis": "equilibrated_with_first_weather",
+          "cold_start": false
+        },
+        "collection": {
+          "product_route": "all_desorption_and_cooling",
+          "knockout_model": "ideal_pump_inlet_55C"
+        }
+      }
+    },
+    {
+      "id": "dry_air_comparison_baseline_48h",
+      "label": "Dry-air comparison baseline (48 h)",
+      "case_sha256": "37397c393358d68dc593294564619328a36b76915430037fce5919bbd06bc4ca",
+      "evidence_context": "Explicit dry-air conditional comparison baseline. The selected material package and manual-stop runtime control remain unchanged.",
+      "case": {
+        "schema": "mof-screening-case/1",
+        "label": "Matched TVSA baseline 48h 116C 16kPa",
+        "engine": "spatial",
+        "runtime_policy": {
+          "schema": "mof-screening-runtime-policy/1",
+          "mode": "manual_stop",
+          "time_limit_s": null,
+          "classification": "operational_runtime_control",
+          "physical_operating_condition": false
+        },
+        "temperature_policy": {
+          "schema": "mof-screening-temperature-policy/1",
+          "mode": "record_scenario_excursions"
+        },
+        "weather": {
+          "mode": "fixed",
+          "hours": 48,
+          "temperature_C": 25.0,
+          "relative_humidity": 0.0,
+          "pressure_Pa": 100000.0,
+          "co2_ppm_dry": 420.0,
+          "start_utc": "2023-01-15T00:00:00Z"
+        },
+        "equipment": {
+          "dry_shaped_mass_kg": 10.0,
+          "bed_thickness_m": 0.016,
+          "bed_face_area_m2": 1.7361111111111112,
+          "particle_diameter_m": 0.0015,
+          "bed_void_fraction": 0.4,
+          "airflow_m3_s": 0.18,
+          "heater_power_W": 2000.0,
+          "effective_bed_conductivity_W_m_K": 0.1,
+          "gas_solid_heat_transfer_W_m2_K": 80.0,
+          "wall_heat_capacity_J_K": 12000.0,
+          "wall_loss_UA_W_K": 2.0,
+          "wall_cooling_UA_W_K": 100.0
+        },
+        "cycle": {
+          "adsorption_s": 7200,
+          "evacuation_s": 300,
+          "desorption_s": 7200,
+          "cooling_max_s": 1800,
+          "repressurization_max_s": 600,
+          "regeneration_temperature_C": 116,
+          "regeneration_pressure_Pa": 16000,
+          "purge_s": 0.0
+        },
+        "solver": {
+          "cells": 16,
+          "rtol": 1e-07,
+          "max_step_s": 10,
+          "samples_per_phase": 31
+        },
+        "initial_state": {
+          "basis": "clean_dry",
+          "cold_start": true
+        },
+        "collection": {
+          "product_route": "all_desorption_and_cooling",
+          "knockout_model": "ideal_pump_inlet_55C"
+        }
+      }
+    },
+    {
+      "id": "young2021_hot116_48h_rh0",
+      "label": "Young 2021 hot 116 C conditional preview, dry 48 h",
+      "material_id": "lewatit_vp_oc_1065_young2021_hot116_conditional",
+      "case_sha256": "c246e39357249046e9308bd53ef1478bb85aadda055ba0b806c820180e6bbe90",
+      "evidence_context": "Exact original 48 h dry-air baseline controls paired with the separate hot Young numerical provider. The provider keeps the measured Young 25-70 C evidence boundary and labels the 116 C result as unvalidated numerical extrapolation.",
+      "case": {
+        "collection": {
+          "knockout_model": "ideal_pump_inlet_55C",
+          "product_route": "all_desorption_and_cooling"
+        },
+        "cycle": {
+          "adsorption_s": 7200,
+          "cooling_max_s": 1800,
+          "desorption_s": 7200,
+          "evacuation_s": 300,
+          "purge_s": 0,
+          "regeneration_pressure_Pa": 16000,
+          "regeneration_temperature_C": 116,
+          "repressurization_max_s": 600
+        },
+        "engine": "spatial",
+        "equipment": {
+          "airflow_m3_s": 0.18,
+          "bed_face_area_m2": 1.7361111111111112,
+          "bed_thickness_m": 0.016,
+          "bed_void_fraction": 0.4,
+          "dry_shaped_mass_kg": 10,
+          "effective_bed_conductivity_W_m_K": 0.1,
+          "gas_solid_heat_transfer_W_m2_K": 80,
+          "heater_power_W": 2000,
+          "particle_diameter_m": 0.0015,
+          "wall_cooling_UA_W_K": 100,
+          "wall_heat_capacity_J_K": 12000,
+          "wall_loss_UA_W_K": 2
+        },
+        "initial_state": {
+          "basis": "clean_dry",
+          "cold_start": true
+        },
+        "label": "Matched TVSA baseline 48h 116C 16kPa",
+        "operating_policy": {
+          "conditioner": {
+            "allocation": "conditioner_first_then_bed",
+            "line_holdup_mol": 0.0,
+            "phase_availability": [
+              "evacuation",
+              "desorption",
+              "cooling"
+            ],
+            "policy": "pump_inlet_cooler_knockout_v1",
+            "pressure_drop_Pa": 0.0
+          },
+          "hardware": {
+            "combined_cooling_power_W": 2000.0,
+            "conditioner_target_C": 55.0,
+            "cooling_cop": 3.0,
+            "heater_power_W": 2000.0,
+            "pump_running_input_W": 135.0
+          },
+          "phases": {
+            "adsorption": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "enabled",
+              "request": "setpoint",
+              "target": "current ambient temperature"
+            },
+            "cooling": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "disabled",
+              "request": "positive_sensible_cooling",
+              "target": "current ambient temperature"
+            },
+            "desorption": {
+              "cooler": "disabled",
+              "gain_W_K": 5000.0,
+              "heater": "enabled",
+              "request": "positive_setpoint",
+              "target": "regeneration temperature"
+            },
+            "evacuation": {
+              "cooler": "enabled",
+              "gain_W_K": null,
+              "heater": "enabled",
+              "request": "zero_net_bed_energy_imbalance",
+              "target": null
+            },
+            "repressurization": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "enabled",
+              "request": "setpoint",
+              "target": "current ambient temperature"
+            }
+          },
+          "representation_difference": {
+            "lumped": "phase requests act on one well-mixed bed temperature",
+            "pressure_control": "spatial retains its local-pressure valve control; lumped retains the reviewed target-inlet pressure control",
+            "spatial": "phase requests act through finite wall/heater transfer and local through-thickness states"
+          },
+          "schema": "mof-screening-shared-operating-policy/1",
+          "source": "Reviewed portable lumped phase requests, mapped to spatial wall and heater nodes with finite transfer."
+        },
+        "runtime_policy": {
+          "classification": "operational_runtime_control",
+          "mode": "manual_stop",
+          "physical_operating_condition": false,
+          "schema": "mof-screening-runtime-policy/1",
+          "time_limit_s": null
+        },
+        "schema": "mof-screening-case/1",
+        "solver": {
+          "cells": 16,
+          "max_step_s": 10,
+          "rtol": 1e-07,
+          "samples_per_phase": 31
+        },
+        "temperature_policy": {
+          "mode": "record_scenario_excursions",
+          "schema": "mof-screening-temperature-policy/1"
+        },
+        "weather": {
+          "co2_ppm_dry": 420,
+          "hours": 48,
+          "mode": "fixed",
+          "pressure_Pa": 100000,
+          "relative_humidity": 0,
+          "start_utc": "2023-01-15T00:00:00Z",
+          "temperature_C": 25
+        }
+      }
+    },
+    {
+      "id": "young2021_hot116_48h_rh030",
+      "label": "Young 2021 hot 116 C conditional preview, ambient 30% RH 48 h",
+      "material_id": "lewatit_vp_oc_1065_young2021_hot116_conditional",
+      "case_sha256": "e51b8491f932655a09adf9512494765bd46fa6c21cf9246e7c6c80a909292015",
+      "evidence_context": "Exact original 48 h baseline controls with 25 C ambient feed at 30% RH paired with the separate hot Young numerical provider. Ambient 30% RH feed is distinct from the much lower local relative humidity at 116 C and 16 kPa total pressure.",
+      "case": {
+        "collection": {
+          "knockout_model": "ideal_pump_inlet_55C",
+          "product_route": "all_desorption_and_cooling"
+        },
+        "cycle": {
+          "adsorption_s": 7200,
+          "cooling_max_s": 1800,
+          "desorption_s": 7200,
+          "evacuation_s": 300,
+          "purge_s": 0,
+          "regeneration_pressure_Pa": 16000,
+          "regeneration_temperature_C": 116,
+          "repressurization_max_s": 600
+        },
+        "engine": "spatial",
+        "equipment": {
+          "airflow_m3_s": 0.18,
+          "bed_face_area_m2": 1.7361111111111112,
+          "bed_thickness_m": 0.016,
+          "bed_void_fraction": 0.4,
+          "dry_shaped_mass_kg": 10,
+          "effective_bed_conductivity_W_m_K": 0.1,
+          "gas_solid_heat_transfer_W_m2_K": 80,
+          "heater_power_W": 2000,
+          "particle_diameter_m": 0.0015,
+          "wall_cooling_UA_W_K": 100,
+          "wall_heat_capacity_J_K": 12000,
+          "wall_loss_UA_W_K": 2
+        },
+        "initial_state": {
+          "basis": "clean_dry",
+          "cold_start": true
+        },
+        "label": "Matched TVSA baseline 48h ambient 30RH 116C regeneration 16kPa",
+        "operating_policy": {
+          "conditioner": {
+            "allocation": "conditioner_first_then_bed",
+            "line_holdup_mol": 0.0,
+            "phase_availability": [
+              "evacuation",
+              "desorption",
+              "cooling"
+            ],
+            "policy": "pump_inlet_cooler_knockout_v1",
+            "pressure_drop_Pa": 0.0
+          },
+          "hardware": {
+            "combined_cooling_power_W": 2000.0,
+            "conditioner_target_C": 55.0,
+            "cooling_cop": 3.0,
+            "heater_power_W": 2000.0,
+            "pump_running_input_W": 135.0
+          },
+          "phases": {
+            "adsorption": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "enabled",
+              "request": "setpoint",
+              "target": "current ambient temperature"
+            },
+            "cooling": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "disabled",
+              "request": "positive_sensible_cooling",
+              "target": "current ambient temperature"
+            },
+            "desorption": {
+              "cooler": "disabled",
+              "gain_W_K": 5000.0,
+              "heater": "enabled",
+              "request": "positive_setpoint",
+              "target": "regeneration temperature"
+            },
+            "evacuation": {
+              "cooler": "enabled",
+              "gain_W_K": null,
+              "heater": "enabled",
+              "request": "zero_net_bed_energy_imbalance",
+              "target": null
+            },
+            "repressurization": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "enabled",
+              "request": "setpoint",
+              "target": "current ambient temperature"
+            }
+          },
+          "representation_difference": {
+            "lumped": "phase requests act on one well-mixed bed temperature",
+            "pressure_control": "spatial retains its local-pressure valve control; lumped retains the reviewed target-inlet pressure control",
+            "spatial": "phase requests act through finite wall/heater transfer and local through-thickness states"
+          },
+          "schema": "mof-screening-shared-operating-policy/1",
+          "source": "Reviewed portable lumped phase requests, mapped to spatial wall and heater nodes with finite transfer."
+        },
+        "runtime_policy": {
+          "classification": "operational_runtime_control",
+          "mode": "manual_stop",
+          "physical_operating_condition": false,
+          "schema": "mof-screening-runtime-policy/1",
+          "time_limit_s": null
+        },
+        "schema": "mof-screening-case/1",
+        "solver": {
+          "cells": 16,
+          "max_step_s": 10,
+          "rtol": 1e-07,
+          "samples_per_phase": 31
+        },
+        "temperature_policy": {
+          "mode": "record_scenario_excursions",
+          "schema": "mof-screening-temperature-policy/1"
+        },
+        "weather": {
+          "co2_ppm_dry": 420,
+          "hours": 48,
+          "mode": "fixed",
+          "pressure_Pa": 100000,
+          "relative_humidity": 0.3,
+          "start_utc": "2023-01-15T00:00:00Z",
+          "temperature_C": 25
+        }
+      }
+    },
+    {
+      "id": "young2021_advisory_temperature_48h_rh0",
+      "label": "Young 2021 temperature-advisory RH0 48 h preview",
+      "material_id": "lewatit_vp_oc_1065_young2021_advisory_temperature_conditional",
+      "case_sha256": "c246e39357249046e9308bd53ef1478bb85aadda055ba0b806c820180e6bbe90",
+      "evidence_context": "Exact original 48 h dry baseline controls paired with the new temperature-advisory provider. Actual temperatures are recorded; the requested 116 C target and former 20-120 C range are not execution stops.",
+      "case": {
+        "collection": {
+          "knockout_model": "ideal_pump_inlet_55C",
+          "product_route": "all_desorption_and_cooling"
+        },
+        "cycle": {
+          "adsorption_s": 7200,
+          "cooling_max_s": 1800,
+          "desorption_s": 7200,
+          "evacuation_s": 300,
+          "purge_s": 0,
+          "regeneration_pressure_Pa": 16000,
+          "regeneration_temperature_C": 116,
+          "repressurization_max_s": 600
+        },
+        "engine": "spatial",
+        "equipment": {
+          "airflow_m3_s": 0.18,
+          "bed_face_area_m2": 1.7361111111111112,
+          "bed_thickness_m": 0.016,
+          "bed_void_fraction": 0.4,
+          "dry_shaped_mass_kg": 10,
+          "effective_bed_conductivity_W_m_K": 0.1,
+          "gas_solid_heat_transfer_W_m2_K": 80,
+          "heater_power_W": 2000,
+          "particle_diameter_m": 0.0015,
+          "wall_cooling_UA_W_K": 100,
+          "wall_heat_capacity_J_K": 12000,
+          "wall_loss_UA_W_K": 2
+        },
+        "initial_state": {
+          "basis": "clean_dry",
+          "cold_start": true
+        },
+        "label": "Matched TVSA baseline 48h 116C 16kPa",
+        "operating_policy": {
+          "conditioner": {
+            "allocation": "conditioner_first_then_bed",
+            "line_holdup_mol": 0.0,
+            "phase_availability": [
+              "evacuation",
+              "desorption",
+              "cooling"
+            ],
+            "policy": "pump_inlet_cooler_knockout_v1",
+            "pressure_drop_Pa": 0.0
+          },
+          "hardware": {
+            "combined_cooling_power_W": 2000.0,
+            "conditioner_target_C": 55.0,
+            "cooling_cop": 3.0,
+            "heater_power_W": 2000.0,
+            "pump_running_input_W": 135.0
+          },
+          "phases": {
+            "adsorption": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "enabled",
+              "request": "setpoint",
+              "target": "current ambient temperature"
+            },
+            "cooling": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "disabled",
+              "request": "positive_sensible_cooling",
+              "target": "current ambient temperature"
+            },
+            "desorption": {
+              "cooler": "disabled",
+              "gain_W_K": 5000.0,
+              "heater": "enabled",
+              "request": "positive_setpoint",
+              "target": "regeneration temperature"
+            },
+            "evacuation": {
+              "cooler": "enabled",
+              "gain_W_K": null,
+              "heater": "enabled",
+              "request": "zero_net_bed_energy_imbalance",
+              "target": null
+            },
+            "repressurization": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "enabled",
+              "request": "setpoint",
+              "target": "current ambient temperature"
+            }
+          },
+          "representation_difference": {
+            "lumped": "phase requests act on one well-mixed bed temperature",
+            "pressure_control": "spatial retains its local-pressure valve control; lumped retains the reviewed target-inlet pressure control",
+            "spatial": "phase requests act through finite wall/heater transfer and local through-thickness states"
+          },
+          "schema": "mof-screening-shared-operating-policy/1",
+          "source": "Reviewed portable lumped phase requests, mapped to spatial wall and heater nodes with finite transfer."
+        },
+        "runtime_policy": {
+          "classification": "operational_runtime_control",
+          "mode": "manual_stop",
+          "physical_operating_condition": false,
+          "schema": "mof-screening-runtime-policy/1",
+          "time_limit_s": null
+        },
+        "schema": "mof-screening-case/1",
+        "solver": {
+          "cells": 16,
+          "max_step_s": 10,
+          "rtol": 1e-07,
+          "samples_per_phase": 31
+        },
+        "temperature_policy": {
+          "mode": "record_scenario_excursions",
+          "schema": "mof-screening-temperature-policy/1"
+        },
+        "weather": {
+          "co2_ppm_dry": 420,
+          "hours": 48,
+          "mode": "fixed",
+          "pressure_Pa": 100000,
+          "relative_humidity": 0,
+          "start_utc": "2023-01-15T00:00:00Z",
+          "temperature_C": 25
+        }
+      }
+    },
+    {
+      "id": "young2021_advisory_temperature_48h_rh030",
+      "label": "Young 2021 temperature-advisory ambient 30% RH 48 h preview",
+      "material_id": "lewatit_vp_oc_1065_young2021_advisory_temperature_conditional",
+      "case_sha256": "e51b8491f932655a09adf9512494765bd46fa6c21cf9246e7c6c80a909292015",
+      "evidence_context": "Same-material RH0.30 companion to the temperature-advisory dry baseline. Ambient feed RH is distinct from local hot-bed RH. No temperature clamp is applied, while genuine equation and nonfinite failures remain rejections.",
+      "case": {
+        "collection": {
+          "knockout_model": "ideal_pump_inlet_55C",
+          "product_route": "all_desorption_and_cooling"
+        },
+        "cycle": {
+          "adsorption_s": 7200,
+          "cooling_max_s": 1800,
+          "desorption_s": 7200,
+          "evacuation_s": 300,
+          "purge_s": 0,
+          "regeneration_pressure_Pa": 16000,
+          "regeneration_temperature_C": 116,
+          "repressurization_max_s": 600
+        },
+        "engine": "spatial",
+        "equipment": {
+          "airflow_m3_s": 0.18,
+          "bed_face_area_m2": 1.7361111111111112,
+          "bed_thickness_m": 0.016,
+          "bed_void_fraction": 0.4,
+          "dry_shaped_mass_kg": 10,
+          "effective_bed_conductivity_W_m_K": 0.1,
+          "gas_solid_heat_transfer_W_m2_K": 80,
+          "heater_power_W": 2000,
+          "particle_diameter_m": 0.0015,
+          "wall_cooling_UA_W_K": 100,
+          "wall_heat_capacity_J_K": 12000,
+          "wall_loss_UA_W_K": 2
+        },
+        "initial_state": {
+          "basis": "clean_dry",
+          "cold_start": true
+        },
+        "label": "Matched TVSA baseline 48h ambient 30RH 116C regeneration 16kPa",
+        "operating_policy": {
+          "conditioner": {
+            "allocation": "conditioner_first_then_bed",
+            "line_holdup_mol": 0.0,
+            "phase_availability": [
+              "evacuation",
+              "desorption",
+              "cooling"
+            ],
+            "policy": "pump_inlet_cooler_knockout_v1",
+            "pressure_drop_Pa": 0.0
+          },
+          "hardware": {
+            "combined_cooling_power_W": 2000.0,
+            "conditioner_target_C": 55.0,
+            "cooling_cop": 3.0,
+            "heater_power_W": 2000.0,
+            "pump_running_input_W": 135.0
+          },
+          "phases": {
+            "adsorption": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "enabled",
+              "request": "setpoint",
+              "target": "current ambient temperature"
+            },
+            "cooling": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "disabled",
+              "request": "positive_sensible_cooling",
+              "target": "current ambient temperature"
+            },
+            "desorption": {
+              "cooler": "disabled",
+              "gain_W_K": 5000.0,
+              "heater": "enabled",
+              "request": "positive_setpoint",
+              "target": "regeneration temperature"
+            },
+            "evacuation": {
+              "cooler": "enabled",
+              "gain_W_K": null,
+              "heater": "enabled",
+              "request": "zero_net_bed_energy_imbalance",
+              "target": null
+            },
+            "repressurization": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "enabled",
+              "request": "setpoint",
+              "target": "current ambient temperature"
+            }
+          },
+          "representation_difference": {
+            "lumped": "phase requests act on one well-mixed bed temperature",
+            "pressure_control": "spatial retains its local-pressure valve control; lumped retains the reviewed target-inlet pressure control",
+            "spatial": "phase requests act through finite wall/heater transfer and local through-thickness states"
+          },
+          "schema": "mof-screening-shared-operating-policy/1",
+          "source": "Reviewed portable lumped phase requests, mapped to spatial wall and heater nodes with finite transfer."
+        },
+        "runtime_policy": {
+          "classification": "operational_runtime_control",
+          "mode": "manual_stop",
+          "physical_operating_condition": false,
+          "schema": "mof-screening-runtime-policy/1",
+          "time_limit_s": null
+        },
+        "schema": "mof-screening-case/1",
+        "solver": {
+          "cells": 16,
+          "max_step_s": 10,
+          "rtol": 1e-07,
+          "samples_per_phase": 31
+        },
+        "temperature_policy": {
+          "mode": "record_scenario_excursions",
+          "schema": "mof-screening-temperature-policy/1"
+        },
+        "weather": {
+          "co2_ppm_dry": 420,
+          "hours": 48,
+          "mode": "fixed",
+          "pressure_Pa": 100000,
+          "relative_humidity": 0.3,
+          "start_utc": "2023-01-15T00:00:00Z",
+          "temperature_C": 25
+        }
+      }
+    },
+    {
+      "id": "mmen_mcdonald2012_independent_humid_48h_rh0",
+      "label": "mmen independent-component RH0 48 h",
+      "material_id": "mmen_mg2_dobpdc_mcdonald2012_conditional",
+      "case_sha256": "c246e39357249046e9308bd53ef1478bb85aadda055ba0b806c820180e6bbe90",
+      "evidence_context": "Exact original 48 h dry baseline using the preserved McDonald reference-curve package. Water storage is zero at RH0; no humidity enhancement or competition of CO2 is represented.",
+      "case": {
+        "collection": {
+          "knockout_model": "ideal_pump_inlet_55C",
+          "product_route": "all_desorption_and_cooling"
+        },
+        "cycle": {
+          "adsorption_s": 7200,
+          "cooling_max_s": 1800,
+          "desorption_s": 7200,
+          "evacuation_s": 300,
+          "purge_s": 0,
+          "regeneration_pressure_Pa": 16000,
+          "regeneration_temperature_C": 116,
+          "repressurization_max_s": 600
+        },
+        "engine": "spatial",
+        "equipment": {
+          "airflow_m3_s": 0.18,
+          "bed_face_area_m2": 1.7361111111111112,
+          "bed_thickness_m": 0.016,
+          "bed_void_fraction": 0.4,
+          "dry_shaped_mass_kg": 10,
+          "effective_bed_conductivity_W_m_K": 0.1,
+          "gas_solid_heat_transfer_W_m2_K": 80,
+          "heater_power_W": 2000,
+          "particle_diameter_m": 0.0015,
+          "wall_cooling_UA_W_K": 100,
+          "wall_heat_capacity_J_K": 12000,
+          "wall_loss_UA_W_K": 2
+        },
+        "initial_state": {
+          "basis": "clean_dry",
+          "cold_start": true
+        },
+        "label": "Matched TVSA baseline 48h 116C 16kPa",
+        "operating_policy": {
+          "conditioner": {
+            "allocation": "conditioner_first_then_bed",
+            "line_holdup_mol": 0.0,
+            "phase_availability": [
+              "evacuation",
+              "desorption",
+              "cooling"
+            ],
+            "policy": "pump_inlet_cooler_knockout_v1",
+            "pressure_drop_Pa": 0.0
+          },
+          "hardware": {
+            "combined_cooling_power_W": 2000.0,
+            "conditioner_target_C": 55.0,
+            "cooling_cop": 3.0,
+            "heater_power_W": 2000.0,
+            "pump_running_input_W": 135.0
+          },
+          "phases": {
+            "adsorption": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "enabled",
+              "request": "setpoint",
+              "target": "current ambient temperature"
+            },
+            "cooling": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "disabled",
+              "request": "positive_sensible_cooling",
+              "target": "current ambient temperature"
+            },
+            "desorption": {
+              "cooler": "disabled",
+              "gain_W_K": 5000.0,
+              "heater": "enabled",
+              "request": "positive_setpoint",
+              "target": "regeneration temperature"
+            },
+            "evacuation": {
+              "cooler": "enabled",
+              "gain_W_K": null,
+              "heater": "enabled",
+              "request": "zero_net_bed_energy_imbalance",
+              "target": null
+            },
+            "repressurization": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "enabled",
+              "request": "setpoint",
+              "target": "current ambient temperature"
+            }
+          },
+          "representation_difference": {
+            "lumped": "phase requests act on one well-mixed bed temperature",
+            "pressure_control": "spatial retains its local-pressure valve control; lumped retains the reviewed target-inlet pressure control",
+            "spatial": "phase requests act through finite wall/heater transfer and local through-thickness states"
+          },
+          "schema": "mof-screening-shared-operating-policy/1",
+          "source": "Reviewed portable lumped phase requests, mapped to spatial wall and heater nodes with finite transfer."
+        },
+        "runtime_policy": {
+          "classification": "operational_runtime_control",
+          "mode": "manual_stop",
+          "physical_operating_condition": false,
+          "schema": "mof-screening-runtime-policy/1",
+          "time_limit_s": null
+        },
+        "schema": "mof-screening-case/1",
+        "solver": {
+          "cells": 16,
+          "max_step_s": 10,
+          "rtol": 1e-07,
+          "samples_per_phase": 31
+        },
+        "temperature_policy": {
+          "mode": "record_scenario_excursions",
+          "schema": "mof-screening-temperature-policy/1"
+        },
+        "weather": {
+          "co2_ppm_dry": 420,
+          "hours": 48,
+          "mode": "fixed",
+          "pressure_Pa": 100000,
+          "relative_humidity": 0,
+          "start_utc": "2023-01-15T00:00:00Z",
+          "temperature_C": 25
+        }
+      }
+    },
+    {
+      "id": "mmen_mcdonald2012_independent_humid_48h_rh030",
+      "label": "mmen independent-component ambient 30% RH 48 h",
+      "material_id": "mmen_mg2_dobpdc_mcdonald2012_conditional",
+      "case_sha256": "e51b8491f932655a09adf9512494765bd46fa6c21cf9246e7c6c80a909292015",
+      "evidence_context": "Exact 48 h RH0.30 companion using separate unary water storage. Moisture heat and gas/pumping burdens are included; direct humidity enhancement or competition of CO2 is absent. Water uses a separate Bose specimen and water/hot desorption rates are assumed.",
+      "case": {
+        "collection": {
+          "knockout_model": "ideal_pump_inlet_55C",
+          "product_route": "all_desorption_and_cooling"
+        },
+        "cycle": {
+          "adsorption_s": 7200,
+          "cooling_max_s": 1800,
+          "desorption_s": 7200,
+          "evacuation_s": 300,
+          "purge_s": 0,
+          "regeneration_pressure_Pa": 16000,
+          "regeneration_temperature_C": 116,
+          "repressurization_max_s": 600
+        },
+        "engine": "spatial",
+        "equipment": {
+          "airflow_m3_s": 0.18,
+          "bed_face_area_m2": 1.7361111111111112,
+          "bed_thickness_m": 0.016,
+          "bed_void_fraction": 0.4,
+          "dry_shaped_mass_kg": 10,
+          "effective_bed_conductivity_W_m_K": 0.1,
+          "gas_solid_heat_transfer_W_m2_K": 80,
+          "heater_power_W": 2000,
+          "particle_diameter_m": 0.0015,
+          "wall_cooling_UA_W_K": 100,
+          "wall_heat_capacity_J_K": 12000,
+          "wall_loss_UA_W_K": 2
+        },
+        "initial_state": {
+          "basis": "clean_dry",
+          "cold_start": true
+        },
+        "label": "Matched TVSA baseline 48h ambient 30RH 116C regeneration 16kPa",
+        "operating_policy": {
+          "conditioner": {
+            "allocation": "conditioner_first_then_bed",
+            "line_holdup_mol": 0.0,
+            "phase_availability": [
+              "evacuation",
+              "desorption",
+              "cooling"
+            ],
+            "policy": "pump_inlet_cooler_knockout_v1",
+            "pressure_drop_Pa": 0.0
+          },
+          "hardware": {
+            "combined_cooling_power_W": 2000.0,
+            "conditioner_target_C": 55.0,
+            "cooling_cop": 3.0,
+            "heater_power_W": 2000.0,
+            "pump_running_input_W": 135.0
+          },
+          "phases": {
+            "adsorption": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "enabled",
+              "request": "setpoint",
+              "target": "current ambient temperature"
+            },
+            "cooling": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "disabled",
+              "request": "positive_sensible_cooling",
+              "target": "current ambient temperature"
+            },
+            "desorption": {
+              "cooler": "disabled",
+              "gain_W_K": 5000.0,
+              "heater": "enabled",
+              "request": "positive_setpoint",
+              "target": "regeneration temperature"
+            },
+            "evacuation": {
+              "cooler": "enabled",
+              "gain_W_K": null,
+              "heater": "enabled",
+              "request": "zero_net_bed_energy_imbalance",
+              "target": null
+            },
+            "repressurization": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "enabled",
+              "request": "setpoint",
+              "target": "current ambient temperature"
+            }
+          },
+          "representation_difference": {
+            "lumped": "phase requests act on one well-mixed bed temperature",
+            "pressure_control": "spatial retains its local-pressure valve control; lumped retains the reviewed target-inlet pressure control",
+            "spatial": "phase requests act through finite wall/heater transfer and local through-thickness states"
+          },
+          "schema": "mof-screening-shared-operating-policy/1",
+          "source": "Reviewed portable lumped phase requests, mapped to spatial wall and heater nodes with finite transfer."
+        },
+        "runtime_policy": {
+          "classification": "operational_runtime_control",
+          "mode": "manual_stop",
+          "physical_operating_condition": false,
+          "schema": "mof-screening-runtime-policy/1",
+          "time_limit_s": null
+        },
+        "schema": "mof-screening-case/1",
+        "solver": {
+          "cells": 16,
+          "max_step_s": 10,
+          "rtol": 1e-07,
+          "samples_per_phase": 31
+        },
+        "temperature_policy": {
+          "mode": "record_scenario_excursions",
+          "schema": "mof-screening-temperature-policy/1"
+        },
+        "weather": {
+          "co2_ppm_dry": 420,
+          "hours": 48,
+          "mode": "fixed",
+          "pressure_Pa": 100000,
+          "relative_humidity": 0.3,
+          "start_utc": "2023-01-15T00:00:00Z",
+          "temperature_C": 25
+        }
+      }
+    },
+    {
+      "id": "humid_candidate_common_48h_rh050_exploratory",
+      "label": "Common humid candidate exploratory 48 h preview",
+      "case_sha256": "a172133089440818689d71e2b402b8edfee01b635845fdbde078179d9e91317a",
+      "evidence_context": "Shared 48 h, 25 C, RH 0.5, 100 kPa preview case for any selected opt-in humidity candidate. It retains the original hardware, cycle timings, clean-dry start, 116 C regeneration request and 16 kPa evacuation request. Contract readiness is not a qualified cycle or comparable performance result.",
+      "case": {
+        "schema": "mof-screening-case/1",
+        "label": "Common exploratory humid candidate 48h 25C RH50% 116C/16kPa",
+        "engine": "spatial",
+        "runtime_policy": {
+          "schema": "mof-screening-runtime-policy/1",
+          "mode": "manual_stop",
+          "time_limit_s": null,
+          "classification": "operational_runtime_control",
+          "physical_operating_condition": false
+        },
+        "temperature_policy": {
+          "schema": "mof-screening-temperature-policy/1",
+          "mode": "record_scenario_excursions"
+        },
+        "weather": {
+          "mode": "fixed",
+          "hours": 48,
+          "temperature_C": 25.0,
+          "relative_humidity": 0.5,
+          "pressure_Pa": 100000.0,
+          "co2_ppm_dry": 420.0,
+          "start_utc": "2023-01-15T00:00:00Z"
+        },
+        "equipment": {
+          "dry_shaped_mass_kg": 10.0,
+          "bed_thickness_m": 0.016,
+          "bed_face_area_m2": 1.7361111111111112,
+          "particle_diameter_m": 0.0015,
+          "bed_void_fraction": 0.4,
+          "airflow_m3_s": 0.18,
+          "heater_power_W": 2000.0,
+          "effective_bed_conductivity_W_m_K": 0.1,
+          "gas_solid_heat_transfer_W_m2_K": 80.0,
+          "wall_heat_capacity_J_K": 12000.0,
+          "wall_loss_UA_W_K": 2.0,
+          "wall_cooling_UA_W_K": 100.0
+        },
+        "cycle": {
+          "adsorption_s": 7200,
+          "evacuation_s": 300,
+          "desorption_s": 7200,
+          "cooling_max_s": 1800,
+          "repressurization_max_s": 600,
+          "regeneration_temperature_C": 116,
+          "regeneration_pressure_Pa": 16000,
+          "purge_s": 0.0
+        },
+        "solver": {
+          "cells": 16,
+          "rtol": 1e-07,
+          "max_step_s": 10,
+          "samples_per_phase": 31
+        },
+        "initial_state": {
+          "basis": "clean_dry",
+          "cold_start": true
+        },
+        "collection": {
+          "product_route": "all_desorption_and_cooling",
+          "knockout_model": "ideal_pump_inlet_55C"
+        }
+      }
+    },
+    {
+      "id": "reviewed_lewatit_humid_48h",
+      "label": "Reviewed Lewatit (humid, 65% RH, 48 h)",
+      "material_id": "lewatit_vp_oc_1065_young2021_dry_bdf_recovery_v1",
+      "case_sha256": "0810486b5b7d6b8fb955fe431f027ec897faa8949b39d92707af2b57706adc78",
+      "evidence_context": "Operating inputs from the saved humid Lewatit result. The current executable has its own source identity.",
+      "case": {
+        "collection": {
+          "knockout_model": "ideal_pump_inlet_55C",
+          "product_route": "all_desorption_and_cooling"
+        },
+        "cycle": {
+          "adsorption_s": 7200,
+          "cooling_max_s": 1800,
+          "desorption_s": 7200,
+          "evacuation_s": 300,
+          "purge_s": 0,
+          "regeneration_pressure_Pa": 16000,
+          "regeneration_temperature_C": 116,
+          "repressurization_max_s": 600
+        },
+        "engine": "spatial",
+        "equipment": {
+          "airflow_m3_s": 0.18,
+          "bed_face_area_m2": 1.7361111111111112,
+          "bed_thickness_m": 0.016,
+          "bed_void_fraction": 0.4,
+          "dry_shaped_mass_kg": 10,
+          "effective_bed_conductivity_W_m_K": 0.1,
+          "gas_solid_heat_transfer_W_m2_K": 80,
+          "heater_power_W": 2000,
+          "particle_diameter_m": 0.0015,
+          "wall_cooling_UA_W_K": 100,
+          "wall_heat_capacity_J_K": 12000,
+          "wall_loss_UA_W_K": 2
+        },
+        "initial_state": {
+          "basis": "clean_dry",
+          "cold_start": true
+        },
+        "label": "Lausanne humidity-only 48h RH0.65 25C 100kPa 116C 16kPa",
+        "operating_policy": {
+          "conditioner": {
+            "allocation": "conditioner_first_then_bed",
+            "line_holdup_mol": 0.0,
+            "phase_availability": [
+              "evacuation",
+              "desorption",
+              "cooling"
+            ],
+            "policy": "pump_inlet_cooler_knockout_v1",
+            "pressure_drop_Pa": 0.0
+          },
+          "hardware": {
+            "combined_cooling_power_W": 2000.0,
+            "conditioner_target_C": 55.0,
+            "cooling_cop": 3.0,
+            "heater_power_W": 2000.0,
+            "pump_running_input_W": 135.0
+          },
+          "phases": {
+            "adsorption": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "enabled",
+              "request": "setpoint",
+              "target": "current ambient temperature"
+            },
+            "cooling": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "disabled",
+              "request": "positive_sensible_cooling",
+              "target": "current ambient temperature"
+            },
+            "desorption": {
+              "cooler": "disabled",
+              "gain_W_K": 5000.0,
+              "heater": "enabled",
+              "request": "positive_setpoint",
+              "target": "regeneration temperature"
+            },
+            "evacuation": {
+              "cooler": "enabled",
+              "gain_W_K": null,
+              "heater": "enabled",
+              "request": "zero_net_bed_energy_imbalance",
+              "target": null
+            },
+            "repressurization": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "enabled",
+              "request": "setpoint",
+              "target": "current ambient temperature"
+            }
+          },
+          "representation_difference": {
+            "lumped": "phase requests act on one well-mixed bed temperature",
+            "pressure_control": "spatial retains its local-pressure valve control; lumped retains the reviewed target-inlet pressure control",
+            "spatial": "phase requests act through finite wall/heater transfer and local through-thickness states"
+          },
+          "schema": "mof-screening-shared-operating-policy/1",
+          "source": "Reviewed portable lumped phase requests, mapped to spatial wall and heater nodes with finite transfer."
+        },
+        "runtime_policy": {
+          "classification": "operational_runtime_control",
+          "mode": "manual_stop",
+          "physical_operating_condition": false,
+          "schema": "mof-screening-runtime-policy/1",
+          "time_limit_s": null
+        },
+        "schema": "mof-screening-case/1",
+        "solver": {
+          "cells": 16,
+          "max_step_s": 10,
+          "rtol": 1e-07,
+          "samples_per_phase": 31
+        },
+        "temperature_policy": {
+          "mode": "record_scenario_excursions",
+          "schema": "mof-screening-temperature-policy/1"
+        },
+        "weather": {
+          "co2_ppm_dry": 420,
+          "hours": 48,
+          "mode": "fixed",
+          "pressure_Pa": 100000,
+          "relative_humidity": 0.65,
+          "start_utc": "2023-01-15T00:00:00Z",
+          "temperature_C": 25
+        }
+      }
+    },
+    {
+      "id": "reviewed_lewatit_dry_48h",
+      "label": "Reviewed Lewatit (dry, 0% RH, 48 h)",
+      "material_id": "lewatit_vp_oc_1065_young2021_dry_bdf_recovery_v1",
+      "case_sha256": "c246e39357249046e9308bd53ef1478bb85aadda055ba0b806c820180e6bbe90",
+      "evidence_context": "Operating inputs from the saved dry Lewatit result. The current executable has its own source identity.",
+      "case": {
+        "collection": {
+          "knockout_model": "ideal_pump_inlet_55C",
+          "product_route": "all_desorption_and_cooling"
+        },
+        "cycle": {
+          "adsorption_s": 7200,
+          "cooling_max_s": 1800,
+          "desorption_s": 7200,
+          "evacuation_s": 300,
+          "purge_s": 0,
+          "regeneration_pressure_Pa": 16000,
+          "regeneration_temperature_C": 116,
+          "repressurization_max_s": 600
+        },
+        "engine": "spatial",
+        "equipment": {
+          "airflow_m3_s": 0.18,
+          "bed_face_area_m2": 1.7361111111111112,
+          "bed_thickness_m": 0.016,
+          "bed_void_fraction": 0.4,
+          "dry_shaped_mass_kg": 10,
+          "effective_bed_conductivity_W_m_K": 0.1,
+          "gas_solid_heat_transfer_W_m2_K": 80,
+          "heater_power_W": 2000,
+          "particle_diameter_m": 0.0015,
+          "wall_cooling_UA_W_K": 100,
+          "wall_heat_capacity_J_K": 12000,
+          "wall_loss_UA_W_K": 2
+        },
+        "initial_state": {
+          "basis": "clean_dry",
+          "cold_start": true
+        },
+        "label": "Matched TVSA baseline 48h 116C 16kPa",
+        "operating_policy": {
+          "conditioner": {
+            "allocation": "conditioner_first_then_bed",
+            "line_holdup_mol": 0.0,
+            "phase_availability": [
+              "evacuation",
+              "desorption",
+              "cooling"
+            ],
+            "policy": "pump_inlet_cooler_knockout_v1",
+            "pressure_drop_Pa": 0.0
+          },
+          "hardware": {
+            "combined_cooling_power_W": 2000.0,
+            "conditioner_target_C": 55.0,
+            "cooling_cop": 3.0,
+            "heater_power_W": 2000.0,
+            "pump_running_input_W": 135.0
+          },
+          "phases": {
+            "adsorption": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "enabled",
+              "request": "setpoint",
+              "target": "current ambient temperature"
+            },
+            "cooling": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "disabled",
+              "request": "positive_sensible_cooling",
+              "target": "current ambient temperature"
+            },
+            "desorption": {
+              "cooler": "disabled",
+              "gain_W_K": 5000.0,
+              "heater": "enabled",
+              "request": "positive_setpoint",
+              "target": "regeneration temperature"
+            },
+            "evacuation": {
+              "cooler": "enabled",
+              "gain_W_K": null,
+              "heater": "enabled",
+              "request": "zero_net_bed_energy_imbalance",
+              "target": null
+            },
+            "repressurization": {
+              "cooler": "enabled",
+              "gain_W_K": 1000.0,
+              "heater": "enabled",
+              "request": "setpoint",
+              "target": "current ambient temperature"
+            }
+          },
+          "representation_difference": {
+            "lumped": "phase requests act on one well-mixed bed temperature",
+            "pressure_control": "spatial retains its local-pressure valve control; lumped retains the reviewed target-inlet pressure control",
+            "spatial": "phase requests act through finite wall/heater transfer and local through-thickness states"
+          },
+          "schema": "mof-screening-shared-operating-policy/1",
+          "source": "Reviewed portable lumped phase requests, mapped to spatial wall and heater nodes with finite transfer."
+        },
+        "runtime_policy": {
+          "classification": "operational_runtime_control",
+          "mode": "manual_stop",
+          "physical_operating_condition": false,
+          "schema": "mof-screening-runtime-policy/1",
+          "time_limit_s": null
+        },
+        "schema": "mof-screening-case/1",
+        "solver": {
+          "cells": 16,
+          "max_step_s": 10,
+          "rtol": 1e-07,
+          "samples_per_phase": 31
+        },
+        "temperature_policy": {
+          "mode": "record_scenario_excursions",
+          "schema": "mof-screening-temperature-policy/1"
+        },
+        "weather": {
+          "co2_ppm_dry": 420,
+          "hours": 48,
+          "mode": "fixed",
+          "pressure_Pa": 100000,
+          "relative_humidity": 0,
+          "start_utc": "2023-01-15T00:00:00Z",
+          "temperature_C": 25
+        }
+      }
+    }
+  ],
+  "case": {
+    "schema": "mof-screening-case/1",
+    "label": "Spatial screening case",
+    "engine": "spatial",
+    "runtime_policy": {
+      "schema": "mof-screening-runtime-policy/1",
+      "mode": "manual_stop",
+      "time_limit_s": null,
+      "classification": "operational_runtime_control",
+      "physical_operating_condition": false
+    },
+    "temperature_policy": {
+      "schema": "mof-screening-temperature-policy/1",
+      "mode": "stop_at_scenario_guard"
+    },
+    "weather": {
+      "mode": "fixed",
+      "hours": 4,
+      "temperature_C": 25.0,
+      "relative_humidity": 0.5,
+      "pressure_Pa": 100000.0,
+      "co2_ppm_dry": 420.0,
+      "start_utc": "2023-01-15T00:00:00Z"
+    },
+    "equipment": {
+      "dry_shaped_mass_kg": 10.0,
+      "bed_thickness_m": 0.016,
+      "bed_face_area_m2": 1.7361111111111112,
+      "particle_diameter_m": 0.0015,
+      "bed_void_fraction": 0.4,
+      "airflow_m3_s": 0.18,
+      "heater_power_W": 2000.0,
+      "effective_bed_conductivity_W_m_K": 0.1,
+      "gas_solid_heat_transfer_W_m2_K": 80.0,
+      "wall_heat_capacity_J_K": 12000.0,
+      "wall_loss_UA_W_K": 2.0,
+      "wall_cooling_UA_W_K": 100.0
+    },
+    "cycle": {
+      "adsorption_s": 1800.0,
+      "evacuation_s": 1200.0,
+      "desorption_s": 5400.0,
+      "cooling_max_s": 2400.0,
+      "repressurization_max_s": 1200.0,
+      "regeneration_temperature_C": 99.85,
+      "regeneration_pressure_Pa": 20000.0,
+      "purge_s": 0.0
+    },
+    "solver": {
+      "cells": 4,
+      "rtol": 1e-07,
+      "max_step_s": 10.0,
+      "samples_per_phase": 31
+    },
+    "initial_state": {
+      "basis": "equilibrated_with_first_weather",
+      "cold_start": false
+    },
+    "collection": {
+      "product_route": "all_desorption_and_cooling",
+      "knockout_model": "ideal_pump_inlet_55C"
+    }
+  }
+}

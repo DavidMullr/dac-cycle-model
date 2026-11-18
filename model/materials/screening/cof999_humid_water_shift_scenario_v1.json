@@ -1,0 +1,627 @@
+{
+  "schema": "mof-screening-material/1",
+  "material_id": "cof999_humid_water_shift_scenario_v1",
+  "name": "COF-999 exploratory stored-water candidate v1",
+  "material_class": "COF",
+  "equilibrium_family": "activity_shift_reference_isotherm",
+  "synthetic": false,
+  "evidence": {
+    "status": "CONDITIONAL_LOW_LOADING_HEAT_NAMED_EXTRAPOLATION_DRY_ONLY_NOT_MODEL_READY",
+    "basis": "The 25 C publisher adsorption curve is measured. The executable one-pool reversible hot scenario keeps the 53 kJ/mol source estimate restricted below 1 mol/kg in provenance and applies it only as a named global extrapolation assumption.",
+    "not_for": "a globally measured heat law, branch hysteresis, humid coadsorption, hot CO2-rich vacuum equilibrium, shaped-device prediction, lifetime, CSS, annual production, hardware qualification or a measured winner."
+  },
+  "shaped_material": {
+    "basis": "Measured source mol/kg loading is mapped to the shared 10 kg complete dry shaped inventory under an explicit unity loading-retention and mass-transfer assumption; this is not a binder-free shaped-body claim.",
+    "binder_support": "No candidate-specific final binder, support fraction, shaped body or density is supplied; all remain missing.",
+    "particle_geometry": "The shared app geometry and transport are named transfers. COF-specific pellet geometry and effective transport are unavailable."
+  },
+  "reference_temperature_K": 298.15,
+  "maximum_bed_temperature_C": 120.0,
+  "solid_cp_J_kg_K": 1500.0,
+  "co2_water_penalty_per_mol_kg": 0.0,
+  "co2": {
+    "heat_J_mol": 53000.0,
+    "basis": "Measured 25 C adsorption curve plus a named global constant-heat scenario. The source Clausius-Clapeyron estimate is restricted below 1 mol/kg and does not establish a full-domain hot law.",
+    "reference_curve": {
+      "pressure_Pa": [
+        3.274,
+        5.914,
+        9.065,
+        12.91,
+        17.858,
+        23.727999999999998,
+        31.726,
+        43.16,
+        64.881,
+        99.942,
+        407.237,
+        656.317,
+        922.0179999999999,
+        3824.95,
+        6919.34,
+        9939.16,
+        14923.099999999999,
+        19890.5,
+        29901.5,
+        39878.8,
+        50006.9,
+        59921.7,
+        69955.9,
+        80008.2,
+        89912.2,
+        99989.70000000001
+      ],
+      "loading_mol_kg": [
+        0.1319,
+        0.25879,
+        0.38152,
+        0.50025,
+        0.61509,
+        0.72685,
+        0.83479,
+        0.93764,
+        1.08503,
+        1.21845,
+        1.59409,
+        1.70101,
+        1.77709,
+        2.06184,
+        2.18629,
+        2.26875,
+        2.3624,
+        2.42785,
+        2.52334,
+        2.59218,
+        2.65168,
+        2.70982,
+        2.76659,
+        2.8189,
+        2.86727,
+        2.91967
+      ],
+      "temperature_K": 298.15,
+      "class": "measured publisher 25 C adsorption branch; no smoothing",
+      "source_doi": "10.1038/s41586-024-08080-x",
+      "source_locator": "COF999_FIG3_SOURCE.xlsx Fig 3a and 3b rows 2-27",
+      "source_workbook_sha256": "75dd9ce231700242610530f6d4d1569891286b16c52f01cf47ba582ab20074ac",
+      "source_csv_sha256": "b14da14b3bac299b093a7ee00624ac662bcf5b266bcc6d02aa68e7a9982435d9",
+      "source_excel_rows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ]
+    },
+    "support": {
+      "policy": "named_extrapolation_scenario",
+      "scenario_name": "dry_CO2_hot_temperature_shift_not_validated",
+      "measured_temperature_range_K": [
+        298.15,
+        298.15
+      ],
+      "displayed_scenario_temperature_range_K": [
+        253.15,
+        393.15
+      ]
+    }
+  },
+  "water": {
+    "model": "dry_only",
+    "physical_storage_mol_kg": 0.0,
+    "solver_normalizer_mol_kg": 0.05,
+    "basis": "No defensible COF-999 coupled humid law or branch/hysteresis state is represented. Water storage, rates, heat and adsorbed Cp are zero; any nonzero RH is rejected."
+  },
+  "nitrogen": {
+    "henry_mol_kg_Pa_at_reference": 0.0,
+    "heat_J_mol": 0.0
+  },
+  "oxygen": {
+    "henry_mol_kg_Pa_at_reference": 0.0,
+    "heat_J_mol": 0.0
+  },
+  "adsorbed_phase_cp_J_kg_K": [
+    852.0887535645713,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "kinetics": {
+    "adsorption_rate_s_inv": [
+      0.0001,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "desorption_rate_s_inv": [
+      0.0001,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "evidence_status": "ASSUMED_LDF_SCREENING_SCALE: no defensible intrinsic COF-999 coefficients are claimed. Both directions use a named 1e-4 s^-1 scenario scale."
+  },
+  "missing_evidence": {
+    "candidate_specific_pellet_or_coating": null,
+    "candidate_specific_solid_heat_capacity": null,
+    "direct_humid_co2_equilibrium_closure": null,
+    "hot_co2_rich_vacuum_equilibrium": null,
+    "hot_desorption_kinetics": null,
+    "humid_coadsorption_kinetics": null,
+    "intrinsic_adsorption_kinetics": null,
+    "intrinsic_desorption_kinetics": null,
+    "measured_isosteric_heat_over_full_loading": null,
+    "measured_true_inert_gas_henry_coefficients": null,
+    "measured_true_inert_gas_isosteric_heats": null,
+    "measured_true_inert_gas_sorption_rates": null,
+    "shaped_bed_thermal_conductivity": null,
+    "shaped_density": null,
+    "shaped_particle_effective_diffusivity": null
+  },
+  "provenance": {
+    "sample_identity": {
+      "class": "measured",
+      "description": "COF-999 is classified as a COF, not a MOF."
+    },
+    "co2": {
+      "class": "measured adsorption curve plus assumed temperature shift",
+      "source_csv": "Research\\MOF_candidates_2026-11-03\\lead\\secondary_sources\\COF999_25C_adsorption_PUBLISHER.csv",
+      "source_workbook": "Research\\MOF_candidates_2026-11-03\\lead\\secondary_sources\\COF999_FIG3_SOURCE.xlsx"
+    },
+    "co2_reference_curve": {
+      "class": "measured publisher adsorption branch",
+      "source_asset": "Research\\MOF_candidates_2026-11-03\\lead\\secondary_sources\\COF999_25C_adsorption_PUBLISHER.csv",
+      "source_asset_sha256": "b14da14b3bac299b093a7ee00624ac662bcf5b266bcc6d02aa68e7a9982435d9",
+      "source_workbook_sha256": "75dd9ce231700242610530f6d4d1569891286b16c52f01cf47ba582ab20074ac",
+      "point_count": 26,
+      "source_excel_rows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ]
+    },
+    "raw_desorption_branch": {
+      "class": "measured publisher branch preserved separately; not merged",
+      "source_asset": "Research\\MOF_candidates_2026-11-03\\lead\\secondary_sources\\COF999_25C_desorption_PUBLISHER.csv",
+      "source_asset_sha256": "fe9d36308cd5e2940579f033a774cda2effa6bb1c5b3c76ebda05642a0445e42",
+      "point_count": 17,
+      "rows": [
+        {
+          "source_sheet": "Fig 3a and 3b",
+          "source_excel_row": 2,
+          "pressure_Pa": 99989.70000000001,
+          "loading_mol_kg": 2.91967
+        },
+        {
+          "source_sheet": "Fig 3a and 3b",
+          "source_excel_row": 3,
+          "pressure_Pa": 90054.1,
+          "loading_mol_kg": 2.93714
+        },
+        {
+          "source_sheet": "Fig 3a and 3b",
+          "source_excel_row": 4,
+          "pressure_Pa": 80074.59999999999,
+          "loading_mol_kg": 2.94393
+        },
+        {
+          "source_sheet": "Fig 3a and 3b",
+          "source_excel_row": 5,
+          "pressure_Pa": 70094.2,
+          "loading_mol_kg": 2.93789
+        },
+        {
+          "source_sheet": "Fig 3a and 3b",
+          "source_excel_row": 6,
+          "pressure_Pa": 60128.0,
+          "loading_mol_kg": 2.92281
+        },
+        {
+          "source_sheet": "Fig 3a and 3b",
+          "source_excel_row": 7,
+          "pressure_Pa": 50092.1,
+          "loading_mol_kg": 2.89801
+        },
+        {
+          "source_sheet": "Fig 3a and 3b",
+          "source_excel_row": 8,
+          "pressure_Pa": 39949.0,
+          "loading_mol_kg": 2.86717
+        },
+        {
+          "source_sheet": "Fig 3a and 3b",
+          "source_excel_row": 9,
+          "pressure_Pa": 30003.300000000003,
+          "loading_mol_kg": 2.82819
+        },
+        {
+          "source_sheet": "Fig 3a and 3b",
+          "source_excel_row": 10,
+          "pressure_Pa": 20216.399999999998,
+          "loading_mol_kg": 2.76971
+        },
+        {
+          "source_sheet": "Fig 3a and 3b",
+          "source_excel_row": 11,
+          "pressure_Pa": 15034.800000000001,
+          "loading_mol_kg": 2.71262
+        },
+        {
+          "source_sheet": "Fig 3a and 3b",
+          "source_excel_row": 12,
+          "pressure_Pa": 10189.0,
+          "loading_mol_kg": 2.6351
+        },
+        {
+          "source_sheet": "Fig 3a and 3b",
+          "source_excel_row": 13,
+          "pressure_Pa": 7047.17,
+          "loading_mol_kg": 2.55368
+        },
+        {
+          "source_sheet": "Fig 3a and 3b",
+          "source_excel_row": 14,
+          "pressure_Pa": 4081.44,
+          "loading_mol_kg": 2.42049
+        },
+        {
+          "source_sheet": "Fig 3a and 3b",
+          "source_excel_row": 15,
+          "pressure_Pa": 1037.04,
+          "loading_mol_kg": 2.06061
+        },
+        {
+          "source_sheet": "Fig 3a and 3b",
+          "source_excel_row": 16,
+          "pressure_Pa": 716.7869999999999,
+          "loading_mol_kg": 1.96485
+        },
+        {
+          "source_sheet": "Fig 3a and 3b",
+          "source_excel_row": 17,
+          "pressure_Pa": 432.397,
+          "loading_mol_kg": 1.81871
+        },
+        {
+          "source_sheet": "Fig 3a and 3b",
+          "source_excel_row": 18,
+          "pressure_Pa": 106.69999999999999,
+          "loading_mol_kg": 1.32196
+        }
+      ],
+      "nonmonotone_observations_retained": true
+    },
+    "co2_temperature_shift": {
+      "class": "source estimate restricted in loading plus global named scenario assumption",
+      "source_estimate_J_mol": 53000.0,
+      "source_estimate_loading_limit_mol_kg": 1.0,
+      "global_executable_constant_heat_J_mol": 53000.0,
+      "global_use_is_assumption": true,
+      "source_locator": "Supporting Information Figures 5-6, printed pages 12-15",
+      "gate_pass": null
+    },
+    "solid_cp": {
+      "class": "estimated from similar structures",
+      "value_J_kg_K": 1500.0,
+      "candidate_specific_measurement": false,
+      "source_locator": "Supporting Information printed page 42"
+    },
+    "thermal": {
+      "class": "assumption",
+      "statement": "Estimated 1500 J/kg/K dry solid Cp and transferred shared shaped thermal basis."
+    },
+    "kinetics": {
+      "class": "assumed screening scale",
+      "adsorption_rate_s_inv": 0.0001,
+      "desorption_rate_s_inv": 0.0001,
+      "intrinsic_coefficients_available": false
+    },
+    "inert_gases": {
+      "class": "assumed executable zero",
+      "nitrogen_henry_mol_kg_Pa_at_reference": 0.0,
+      "nitrogen_heat_J_mol": 0.0,
+      "nitrogen_rate_s_inv": 0.0,
+      "oxygen_henry_mol_kg_Pa_at_reference": 0.0,
+      "oxygen_heat_J_mol": 0.0,
+      "oxygen_rate_s_inv": 0.0,
+      "basis": "No candidate-specific N2/O2 equilibrium, calorimetry or rates are available. The executable zeros are assumptions affecting gas retention and pumping; true values remain null."
+    },
+    "water": {
+      "class": "numerical structural mode; no physical coefficients",
+      "physical_storage_mol_kg": 0.0,
+      "solver_normalizer_mol_kg": 0.05
+    },
+    "figure4_workbook": {
+      "path": "Research\\MOF_candidates_2026-11-03\\lead\\secondary_sources\\COF999_FIG4_SOURCE.xlsx",
+      "sha256": "c066dacabe0c99c3a93c60df0d3781f7db81710b68cd431ad76bdb95dffb9df5",
+      "note": "Preserved independently; no repeated Fig5b points treated as validation."
+    },
+    "mass_mapping": {
+      "class": "assumed",
+      "source_loading_basis": "per kg dry COF sample",
+      "executable_inventory_basis": "per kg complete dry shaped inventory",
+      "unity_loading_retention_and_mass_transfer": true,
+      "final_binder_mass_fraction": null,
+      "shaped_density": null,
+      "shaped_effective_transport": null
+    }
+  },
+  "assumptions": [
+    "Only the adsorption branch is used; the separately preserved desorption branch and hysteresis remain unrepresented.",
+    "The 53 kJ/mol source estimate below 1 mol/kg is applied as a global named scenario assumption, not as a measured full-domain heat law.",
+    "The 1500 J/kg/K solid Cp is estimated from similar structures and is not measured for COF-999.",
+    "A 1e-4 s^-1 LDF rate in both directions is a named scenario assumption.",
+    "N2 and O2 Henry coefficients, heats and rates are exact executable zero assumptions because candidate-specific values are unavailable; true properties remain null.",
+    "Dry-only water handling has zero physical water storage, rates, heat and adsorbed Cp; nonzero RH is rejected."
+  ],
+  "uncertainty": {
+    "classification": "CONDITIONAL_LOW_LOADING_HEAT_NAMED_EXTRAPOLATION",
+    "statement": "The mean heat represents only a low-loading source regime. Its global use, hot desorption kinetics, branch dependence and shaped transport remain assumptions or missing evidence."
+  },
+  "validity": {
+    "co2": "Conditional 25 C measured dry adsorption shape with a named global hot-transfer assumption.",
+    "kinetics": "Both-direction LDF rates are assumptions; no intrinsic kinetics are claimed.",
+    "thermal": "The Cp is an estimate from similar structures and shaped transport is transferred.",
+    "water": "Dry-only; any nonzero RH is rejected."
+  },
+  "humidity_candidate": {
+    "schema": "mof-screening-humidity-candidate/1",
+    "candidate_id": "cof999_humid_water_shift_scenario_v1",
+    "evidence_tier": "BOUNDED_EXPLORATORY_STORED_WATER_CHEMICAL_POTENTIAL",
+    "dry_origin_material_id": "cof999_2024_25c_dry_conditional",
+    "dry_origin_package_sha256": "3dda8ca4b19379888481e5f2be53a9c2bd8fdc17723172c7e347b4a4a44fb81a",
+    "dry_origin_package_canonical_sha256": "23965fa47bbd0cc5fa1df1062cf7bae9e8519ca50879a9319f12285ef7b528bb",
+    "dry_limit": {
+      "definition": "EXACT_NATIVE_DELEGATION_REQUIRES_ZERO_STORED_AND_EXTERNAL_WATER",
+      "stored_water_mol_kg": 0.0,
+      "external_water_partial_pressure_Pa": 0.0
+    },
+    "storage": {
+      "contract": "CO2, H2O, N2, O2",
+      "labels": [
+        "CO2",
+        "H2O",
+        "N2",
+        "O2"
+      ]
+    },
+    "water_law": {
+      "kind": "pchip_nodes",
+      "source_id": "cof999_unary_water_adsorption",
+      "reference_temperature_K": 298.15,
+      "heat_J_mol": 44000.0,
+      "adsorbed_cp_J_kg_K": 4180.0,
+      "adsorption_rate_s_inv": 0.0001,
+      "desorption_rate_s_inv": 0.0001,
+      "extrapolation_policy": "linear_extension_from_last_two_nodes",
+      "assumptions": [
+        "The labelled adsorption branch is used; the desorption branch is not mixed into it.",
+        "Water activity above the last measured node is extended linearly only for exploratory simulation and is visibly marked unvalidated.",
+        "Water heat and rate are inherited exploratory process assumptions."
+      ],
+      "provenance": {
+        "source": {
+          "name": "cof999_fig3_workbook",
+          "path": "Research/MOF_candidates_2026-11-03/lead/secondary_sources/COF999_FIG3_SOURCE.xlsx",
+          "sha256": "75dd9ce231700242610530f6d4d1569891286b16c52f01cf47ba582ab20074ac"
+        },
+        "evidence_class": "measured unary adsorption branch",
+        "sheet": "Fig 3c",
+        "accepted_source_file": "Research\\next_stage_2026-11-08\\material_humidity_closures\\data\\cof_humidity_model.json",
+        "accepted_source_sha256": "55e4671017a3af4c83757dae2b77977ba02ff2fffc5d1734ebd57b08bea3ec75",
+        "branch": "adsorption",
+        "loading_multiplier": 1.0,
+        "materialized_nodes": 23
+      },
+      "activity_nodes": [
+        0.0,
+        0.03537,
+        0.06907,
+        0.13367,
+        0.16189,
+        0.21819,
+        0.27041,
+        0.32429,
+        0.37331,
+        0.42744,
+        0.47101,
+        0.52524,
+        0.56543,
+        0.61483,
+        0.6635,
+        0.71603,
+        0.76946,
+        0.80672,
+        0.86215,
+        0.90249,
+        0.92814,
+        0.9405,
+        0.95224
+      ],
+      "loading_nodes_mol_kg": [
+        0.0,
+        0.28864386232131833,
+        0.5867241586031413,
+        1.2073084625939758,
+        1.49706249361653,
+        2.1026595201406804,
+        2.6960446909512368,
+        3.333836609811227,
+        3.9538658294514435,
+        4.534484060197787,
+        5.156178532889858,
+        5.861135658174616,
+        6.502258083138313,
+        7.577456470285224,
+        8.530536300296193,
+        9.320976415576112,
+        10.286823185651292,
+        11.60847902447256,
+        12.96399500868152,
+        14.284540678801552,
+        15.400260223543569,
+        16.812949895866176,
+        18.2200887246826
+      ],
+      "support_activity": [
+        0.0,
+        0.95224
+      ],
+      "evidence_class": "MEASURED_UNARY_WATER_MATERIALIZED_PCHIP"
+    },
+    "co2_coupling": {
+      "kind": "water_fraction_quadratic",
+      "temperature_exponent": 0.0,
+      "qualification": "EXPLORATORY_ONE_WAY",
+      "assumptions": [
+        "Stored water shifts the chemical potential of the existing measured dry CO2 curve.",
+        "The quadratic water-fraction law is a phenomenological candidate selected against three positive-RH nodes.",
+        "Reciprocal thermodynamics and interaction enthalpy remain unclosed.",
+        "Only 3 eligible positive-RH capacity nodes identify the fitted coefficients.",
+        "Pressure-dependent form is a chemical-potential candidate, not a fitted binary isotherm."
+      ],
+      "provenance": {
+        "capacity_nodes": "COF999 Fig3 retained 25 C 400 ppm RH nodes",
+        "class": "underidentified exploratory calibration",
+        "dry_curve": "COF999 measured 25 C adsorption reference curve"
+      },
+      "calibration_status": "IN_SAMPLE_EXPLORATORY_UNDERIDENTIFIED",
+      "coefficients": [
+        23.281347648232014,
+        -27.019588105464187
+      ],
+      "holdout_status": "LEAVE_ONE_OUT_FAILED_RETAINED",
+      "normalizer_mol_kg": 18.2200887246826,
+      "reference_temperature_K": 298.15
+    },
+    "parameter_ranges": {
+      "water_activity": [
+        0.0,
+        1.0
+      ],
+      "saturation_temperature_K": [
+        255.9,
+        647.096
+      ]
+    },
+    "support_envelope": {
+      "saturation_pressure_law": {
+        "ambient_cold": "Antoine, 255.9-373.0 K",
+        "hot": "IAPWS SR1-86(1992), 373.0-647.096 K"
+      },
+      "water_activity": [
+        0.0,
+        1.0
+      ],
+      "source_support": [
+        0.0,
+        0.95224
+      ],
+      "named_extrapolation_policy": "linear_extension_from_last_two_nodes",
+      "hot_co2_rich_vacuum_isotherm": "unsupported"
+    },
+    "assumptions": [
+      "The labelled adsorption branch is used; the desorption branch is not mixed into it.",
+      "Water activity above the last measured node is extended linearly only for exploratory simulation and is visibly marked unvalidated.",
+      "Water heat and rate are inherited exploratory process assumptions.",
+      "Stored water shifts the chemical potential of the existing measured dry CO2 curve.",
+      "The quadratic water-fraction law is a phenomenological candidate selected against three positive-RH nodes.",
+      "Reciprocal thermodynamics and interaction enthalpy remain unclosed.",
+      "Only 3 eligible positive-RH capacity nodes identify the fitted coefficients.",
+      "Pressure-dependent form is a chemical-potential candidate, not a fitted binary isotherm.",
+      "This candidate is exploratory and is not a validated humid-cycle or reciprocal thermodynamic model."
+    ],
+    "limitations": [
+      "The retained 75% RH capacity holdout fails under the simple capacity fit and remains failed.",
+      "The one-way affinity candidate is not a validated coupled isotherm.",
+      "Hot CO2-rich vacuum behavior remains unsupported."
+    ],
+    "missing_evidence": [
+      "validated reciprocal CO2-water equilibrium",
+      "hot CO2-rich vacuum equilibrium",
+      "candidate-specific shaped transport",
+      "experimental humid-cycle validation",
+      "The retained 75% RH capacity holdout fails under the simple capacity fit and remains failed.",
+      "The one-way affinity candidate is not a validated coupled isotherm.",
+      "Hot CO2-rich vacuum behavior remains unsupported."
+    ],
+    "provenance": {
+      "class": "accepted bounded evidence plus named exploratory adapter",
+      "dry_origin_material_id": "cof999_2024_25c_dry_conditional",
+      "dry_origin_package": "Initial_screening_model\\model\\materials\\screening\\cof999_2024_25c_dry_conditional.json",
+      "staging_candidate_config": "Research\\next_stage_2026-11-08\\humid_cycle_readiness\\config\\humid_candidates.json",
+      "staging_config_sha256": "b22491f44b36d98e98a71b467218e18d10a95a366e5095cb03db6702262ee212",
+      "coupling_calibration": "Research\\next_stage_2026-11-08\\humid_cycle_readiness\\data\\cof_coupling_calibration.json",
+      "coupling_calibration_sha256": "e0153f6c05b83055a4b1660f9fb27b7de5e2a01da170d67f9979f231ea66d3e8",
+      "lead_native_scope": "Research/next_stage_2026-11-08/humid_cycle_lead/NATIVE_IMPLEMENTATION_SCOPE.md",
+      "protocol_anchors": {
+        "source": "material_humidity_closures/data/cof_humidity_model.json",
+        "ambient_co2_nodes": [
+          {
+            "rh_fraction": 0.0,
+            "loading_mol_kg": 0.96
+          },
+          {
+            "rh_fraction": 0.25,
+            "loading_mol_kg": 1.69
+          },
+          {
+            "rh_fraction": 0.5,
+            "loading_mol_kg": 2.05
+          },
+          {
+            "rh_fraction": 0.75,
+            "loading_mol_kg": 2.09
+          }
+        ],
+        "evidence_class": "measured finite 400 ppm breakthrough capacity"
+      }
+    },
+    "reciprocal_thermodynamics": false,
+    "validated_humid_cycle": false
+  }
+}

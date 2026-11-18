@@ -1,0 +1,74 @@
+[
+  {
+    "sample": "Lys",
+    "rows": 34,
+    "q_at40Pa_mol_kg": 0.614289940806174,
+    "csv": "MOF808_Lys_25C_DIGITIZED.csv",
+    "source_embedded_raster": "MOF808_page52_Im95.png",
+    "pixel_calibration": {
+      "x_ticks": [
+        576.5,
+        1014.5,
+        1451.5,
+        1889.5,
+        2327.5,
+        2765.5
+      ],
+      "log10_pressure_mbar": [
+        -2,
+        -1,
+        0,
+        1,
+        2,
+        3
+      ],
+      "q_zero_y": 2053.5,
+      "q_3_y": 286.5,
+      "center_uncertainty_px": 3
+    },
+    "pressure_relative_digitization_uncertainty": 0.015904514862035368,
+    "loading_digitization_uncertainty_mol_kg": 0.0050933786078098476,
+    "experimental_uncertainty": null,
+    "completeness": "Detected filled symbols only; highest-pressure symbols obscured by open desorption markers are missing. Multiple maxima within 10 pixels of one symbol are merged; raw maxima retained. Original complete rasters retained. Not an author numeric dataset.",
+    "visual_review": "Overlay reviewed: detected symbols lie on adsorption branch; no desorption point or legend included. Highest-pressure symbols not recovered. Do not claim complete numerical extraction.",
+    "source_table_DAC_loading_mol_kg": 0.612,
+    "DAC_discrepancy_mol_kg": 0.0022899408061740623,
+    "DAC_discrepancy_policy": "Retain table and curve separately; do not scale data to force agreement. TAPA difference exceeds pixel uncertainty.",
+    "decreasing_loadings": 0
+  },
+  {
+    "sample": "TAPA",
+    "rows": 35,
+    "q_at40Pa_mol_kg": 0.47498845810672735,
+    "csv": "MOF808_TAPA_25C_DIGITIZED.csv",
+    "source_embedded_raster": "MOF808_page57_Im105.png",
+    "pixel_calibration": {
+      "x_ticks": [
+        774.5,
+        1271.5,
+        1769.5,
+        2267.5,
+        2764.5
+      ],
+      "log10_pressure_mbar": [
+        -1,
+        0,
+        1,
+        2,
+        3
+      ],
+      "q_zero_y": 2053.5,
+      "q_3_y": 286.5,
+      "center_uncertainty_px": 3
+    },
+    "pressure_relative_digitization_uncertainty": 0.013978946984389173,
+    "loading_digitization_uncertainty_mol_kg": 0.0050933786078098476,
+    "experimental_uncertainty": null,
+    "completeness": "Detected filled symbols only; highest-pressure symbols obscured by open desorption markers are missing. Multiple maxima within 10 pixels of one symbol are merged; raw maxima retained. Original complete rasters retained. Not an author numeric dataset.",
+    "visual_review": "Overlay reviewed: detected symbols lie on adsorption branch; no desorption point or legend included. Highest-pressure symbols not recovered. Do not claim complete numerical extraction.",
+    "source_table_DAC_loading_mol_kg": 0.498,
+    "DAC_discrepancy_mol_kg": -0.023011541893272647,
+    "DAC_discrepancy_policy": "Retain table and curve separately; do not scale data to force agreement. TAPA difference exceeds pixel uncertainty.",
+    "decreasing_loadings": 0
+  }
+]

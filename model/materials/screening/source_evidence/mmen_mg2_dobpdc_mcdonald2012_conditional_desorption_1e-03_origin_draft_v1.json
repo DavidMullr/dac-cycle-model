@@ -1,0 +1,351 @@
+{
+  "adsorbed_phase_cp_J_kg_K": [
+    852.0887535645713,
+    4180.0,
+    1040.0,
+    920.0
+  ],
+  "assumptions": [
+    "The 75 C measured reference curve is used with the source paper's constant 71 kJ/mol shift.",
+    "The Bose water curve is a separate unary approximation from another sample and does not supply direct humid coadsorption.",
+    "The 2012 solid heat capacity and inert Henry coefficients apply to this same McDonald sample package.",
+    "The Darunte kinetic magnitude is transferred only as a bounded first-order approximation; hot desorption is not validated.",
+    "The shared case supplies dry shaped geometry and transport; no candidate-specific pellet or coating is represented.",
+    "The material identity, sample/shaping declaration or one or more physical coefficients were edited after loading a built-in package; results no longer inherit that package's source evidence status."
+  ],
+  "co2": {
+    "basis": "Measured-shape reference curve at 75 C with the paper's constant-isosteric-heat activity shift; source defines excess adsorption without an absolute-adsorption correction.",
+    "heat_J_mol": 71000.0,
+    "reference_curve": {
+      "loading_mol_kg": [
+        0.00448,
+        0.01553,
+        0.0297,
+        0.03758,
+        0.04422,
+        0.04726,
+        0.05466,
+        0.06252,
+        0.06818,
+        0.09686,
+        0.11425,
+        0.13473,
+        0.15989,
+        0.16931,
+        0.1901,
+        0.21732,
+        0.22845,
+        0.26239,
+        0.47472,
+        0.65018,
+        1.01337,
+        1.22148,
+        1.71096,
+        2.01439,
+        2.23896,
+        2.4366,
+        2.58102,
+        2.63613,
+        2.68712,
+        2.73043,
+        2.76682,
+        2.79527,
+        2.87445,
+        2.9366,
+        2.99042,
+        3.04084,
+        3.08927,
+        3.13637,
+        3.1783,
+        3.22269,
+        3.26559
+      ],
+      "pressure_Pa": [
+        5.742,
+        9.963,
+        21.091,
+        31.617,
+        43.002,
+        48.455,
+        63.701,
+        84.691,
+        100.789,
+        209.581,
+        297.815,
+        383.228,
+        528.017,
+        586.216,
+        787.05,
+        949.118,
+        1010.264,
+        1119.873,
+        1193.207,
+        1256.071,
+        1369.57,
+        1472.252,
+        1915.949,
+        2466.098,
+        3379.363,
+        5206.572,
+        8235.123,
+        10014.469,
+        12657.272,
+        15160.942,
+        17693.202,
+        20244.541,
+        29969.861,
+        40299.08,
+        49998.593,
+        60063.751,
+        70074.869,
+        80056.749,
+        90077.761,
+        100021.127,
+        110060.392
+      ],
+      "source_doi": "10.1021/ja300034j",
+      "source_locator": "McDonald et al. 2012 supporting information Table S5, printed S14; P@348 column is measured, other columns were generated with the paper's constant 71 kJ/mol Clausius-Clapeyron shift",
+      "source_sha256": "9bea5f9708eea81664d03158f9528195bc52c2593b6a5fd14cb2bb787c30b678",
+      "temperature_K": 348.15,
+      "temperature_convention": "The table labels 348 K; the adapter uses 348.15 K for the stated 75 C measurement. This 0.15 K convention difference is retained as a source transcription note."
+    },
+    "support": {
+      "measured_temperature_range_K": [
+        298.15,
+        393.15
+      ],
+      "policy": "strict"
+    }
+  },
+  "co2_water_penalty_per_mol_kg": 0.0,
+  "equilibrium_family": "activity_shift_reference_isotherm",
+  "evidence": {
+    "basis": "The physical coefficients differ from the loaded built-in package. This preview is an explicitly user-edited assumption, not the original source-transfer or hypothetical evidence.",
+    "edit_detected": true,
+    "edited_baseline_sha256": "653f4fe97fe11e99e8c33ac7260debd22bd544925ccf5b028eafe48251e7ad44",
+    "edited_physical_sha256": "079150368494d35b5690dbd4bc4913379022f5d9f5cd0ea030d53195c1ccb214",
+    "loaded_baseline_sha256": "eb8e75ff733f30e8348232a7f6af1980303987851bbf2e4056336004face8c10",
+    "loaded_physical_sha256": "205901f2518ea0bd6c4b680d0577fe5fb0099ee26f993cf4508ceb1aa6a023f2",
+    "original_evidence": {
+      "basis": "Copy of the exact dry physical origin. Only CO2 desorption-rate entries are replaced by the named sensitivity value; adsorption and all other fields remain.",
+      "status": "DRAFT_NAMED_DIRECTIONAL_RATE_SENSITIVITY_NOT_MEASURED"
+    },
+    "status": "USER_EDITED_ASSUMPTION"
+  },
+  "kinetics": {
+    "adsorption_rate_s_inv": [
+      4.36e-05,
+      0.0001,
+      0.0,
+      0.0
+    ],
+    "desorption_rate_s_inv": [
+      0.001,
+      0.0001,
+      0.0,
+      0.0
+    ],
+    "evidence_status": "CO2 magnitude is a transferred order-of-magnitude approximation from Darunte Avrami k at 0.4 mbar, not an LDF fit; hot desorption and water kinetics are unmeasured assumptions. Inert rates are disabled."
+  },
+  "material_id": "mmen_mg2_dobpdc_mcdonald2012_conditional_desorption_1e-03_origin_draft_v1",
+  "maximum_bed_temperature_C": 150.0,
+  "missing_evidence": {
+    "candidate_specific_pellet_or_coating": null,
+    "direct_humid_co2_equilibrium_closure": null,
+    "hot_desorption_kinetics": null,
+    "humid_coadsorption_kinetics": null,
+    "reversible_cycle_water_heat": null,
+    "shaped_bed_thermal_conductivity": null,
+    "shaped_particle_effective_diffusivity": null
+  },
+  "name": "mmen-Mg2(dobpdc), McDonald 2012 dry curve conditional / draft directional-rate origin k_CO2,des=1e-03 s^-1",
+  "nitrogen": {
+    "heat_J_mol": 18000.0,
+    "henry_mol_kg_Pa_at_reference": 1.0375e-06,
+    "source_locator": "McDonald et al. 2012 Table 1: 0.083 mol/kg at 800 mbar and 25 C"
+  },
+  "oxygen": {
+    "heat_J_mol": 18000.0,
+    "henry_mol_kg_Pa_at_reference": 1.9e-06,
+    "source_locator": "McDonald et al. 2012 Table 1: 0.038 mol/kg at 200 mbar and 25 C"
+  },
+  "provenance": {
+    "co2_25C_anchor": {
+      "class": "measured source-consistency check",
+      "note": "The 25 C Table S5 points are model reconstructions from the measured 75 C curve, so this is not independent withheld-temperature validation.",
+      "partial_pressure_Pa": 39.0,
+      "source_doi": "10.1021/ja300034j",
+      "value_mol_kg": 2.0
+    },
+    "co2_kinetics": {
+      "class": "transferred approximation",
+      "locator": "supporting information Table S4, 0.4 mbar Avrami k",
+      "source_doi": "10.1021/acs.iecr.8b05042",
+      "value_s_inv": 4.36e-05
+    },
+    "co2_reference_curve": {
+      "class": "measured 75 C reference curve",
+      "locator": "supporting information Table S5, P@348 column and q column",
+      "source_doi": "10.1021/ja300034j"
+    },
+    "co2_temperature_shift": {
+      "class": "published fit/approximation",
+      "locator": "main text Model CO2 Isotherms and supporting information Table S5",
+      "source_doi": "10.1021/ja300034j",
+      "value_J_mol": 71000.0
+    },
+    "desorption_kinetics": {
+      "basis": "mirrored adsorption rate because hot desorption kinetics are not measured",
+      "class": "assumed"
+    },
+    "draft_directional_rate_origin": {
+      "co2_desorption_rate_s_inv": 0.001,
+      "named_sensitivity_not_measurement": true,
+      "schema": "directional-rate-origin-draft/1",
+      "source_dry_origin_sha256": "f4a7387ddd13da66fc3be7121a2924b2c785aa7fda415289df4d75c057eca7ac",
+      "source_material_id": "mmen_mg2_dobpdc_mcdonald2012_conditional",
+      "source_material_sha256": "9ce20e51924f4d61add1665815e87e870f2b6c275f0d1e19a66e36c785daeae1"
+    },
+    "input_edit": {
+      "class": "user-edited assumption",
+      "edited_baseline_sha256": "653f4fe97fe11e99e8c33ac7260debd22bd544925ccf5b028eafe48251e7ad44",
+      "edited_physical_sha256": "079150368494d35b5690dbd4bc4913379022f5d9f5cd0ea030d53195c1ccb214",
+      "loaded_baseline_material_id": "mmen_mg2_dobpdc_mcdonald2012_conditional",
+      "loaded_baseline_name": "mmen-Mg2(dobpdc), McDonald 2012 dry curve conditional",
+      "loaded_baseline_sha256": "eb8e75ff733f30e8348232a7f6af1980303987851bbf2e4056336004face8c10",
+      "loaded_physical_sha256": "205901f2518ea0bd6c4b680d0577fe5fb0099ee26f993cf4508ceb1aa6a023f2",
+      "original_evidence_preserved_under": "material.evidence.original_evidence"
+    },
+    "lead_exploratory_hot_check": {
+      "class": "exploratory independent digitized spot check; no acceptance gate",
+      "evidence_path": "Research/MOF_candidates_2026-11-03/lead/MMEN_FIG5_EXPLORATORY.json",
+      "locator": "Fig. 5 printed page 7061; 13 isolated colored-square points",
+      "note": "The constant-71-kJ dry closure remains an approximation. Figure 3 shows loading-dependent isosteric heat outside approximately 0.3-2.4 mol/kg.",
+      "pixel_loading_uncertainty_approx_mol_kg": 0.0165,
+      "source_doi": "10.1021/ja300034j",
+      "temperature_100C_difference_mol_kg_range": [
+        -0.0825,
+        -0.0476
+      ],
+      "temperature_120C_difference_mol_kg_range": [
+        -0.038,
+        0.212
+      ]
+    },
+    "loaded_builtin": {
+      "baseline_sha256": "eb8e75ff733f30e8348232a7f6af1980303987851bbf2e4056336004face8c10",
+      "material_id": "mmen_mg2_dobpdc_mcdonald2012_conditional",
+      "name": "mmen-Mg2(dobpdc), McDonald 2012 dry curve conditional",
+      "package_file": "mmen_mg2_dobpdc_mcdonald2012_conditional.json",
+      "schema": "mof-screening-loaded-builtin/1"
+    },
+    "shaped_transport": {
+      "basis": "source powder measurements transferred to the shared shaped-bed case geometry",
+      "class": "assumed"
+    },
+    "solid_cp": {
+      "class": "measured",
+      "locator": "main text DSC discussion and Fig. 8",
+      "source_doi": "10.1021/ja300034j",
+      "value_J_kg_K": 1300.0
+    },
+    "water_curve": {
+      "class": "fitted to visually digitized measured curve on a different sample",
+      "digitized_points": [
+        [
+          0.05,
+          2.0
+        ],
+        [
+          0.1,
+          4.0
+        ],
+        [
+          0.15,
+          6.0
+        ],
+        [
+          0.2,
+          9.0
+        ],
+        [
+          0.25,
+          12.0
+        ],
+        [
+          0.3,
+          14.0
+        ],
+        [
+          0.35,
+          17.0
+        ],
+        [
+          0.4,
+          25.0
+        ],
+        [
+          0.45,
+          28.0
+        ],
+        [
+          0.5,
+          30.0
+        ],
+        [
+          0.6,
+          31.5
+        ],
+        [
+          0.7,
+          34.0
+        ],
+        [
+          0.8,
+          37.0
+        ],
+        [
+          0.9,
+          40.0
+        ]
+      ],
+      "fit_max_abs_error_mol_kg": 2.7302296097596823,
+      "fit_rmse_mol_kg": 1.535104294847334,
+      "locator": "main text Fig. 5c",
+      "source_doi": "10.1039/D3SC02554C"
+    },
+    "water_heat": {
+      "basis": "water condensation enthalpy scale; no material-specific reversible-cycle heat is available",
+      "class": "assumed",
+      "value_J_mol": 44000.0
+    }
+  },
+  "reference_temperature_K": 298.15,
+  "schema": "mof-screening-material/1",
+  "shaped_material": {
+    "basis": "The webapp case supplies 10 kg complete dry shaped material.",
+    "binder_support": "No candidate-specific binder or support formulation is represented.",
+    "particle_geometry": "No measured pellet or coating is represented; shared case geometry is an explicit transfer assumption."
+  },
+  "solid_cp_J_kg_K": 1300.0,
+  "synthetic": false,
+  "uncertainty": {
+    "classification": "CONDITIONAL",
+    "statement": "Source point uncertainty and digitization uncertainty are not propagated. Missing mixture and shaped-device uncertainty is not zero."
+  },
+  "validity": {
+    "co2_dry_equilibrium": "Measured reference curve at 75 C; 25 C source-consistency reconstruction is conditional and not independent validation. The paper reports excess adsorption.",
+    "co2_hot_mixed_gas": "The constant-shift extrapolation and hot mixture closure are not measured validation. An exploratory 100/120 C digitized spot check retains up to 0.212 mol/kg absolute difference and no pass gate.",
+    "initial_state_interpretation": "The app's declared initial state is a scenario, not CSS.",
+    "kinetics": "Only an order-of-magnitude CO2 adsorption anchor is transferred; desorption and water rates are assumptions.",
+    "water": "Unary fit to an approximate digitized curve on another sample; no competitive/cooperative humid-mixture law."
+  },
+  "water": {
+    "basis": "Sips fit to approximate digitized unary water points. This is not a direct CO2-water coadsorption law.",
+    "half_loading_relative_humidity_at_reference": 0.41125141,
+    "heat_J_mol": 44000.0,
+    "saturation_mol_kg": 47.19637392,
+    "sips_exponent": 2.05121175,
+    "source_locator": "Bose et al. 2023 Fig. 5c adsorption branch, visually digitized at 25 C"
+  }
+}

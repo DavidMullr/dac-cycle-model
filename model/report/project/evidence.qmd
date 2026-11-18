@@ -1,0 +1,43 @@
+---
+title: "Evidence and validation"
+subtitle: "How far the present results can be trusted"
+---
+
+The model is a research screening tool. Its equations, input checks and accounting can be tested independently of whether a particular material package predicts a physical prototype. That distinction governs the interpretation of the results.
+
+## What has been checked
+
+| Evidence | What it supports | What it does not establish |
+|---|---|---|
+| Material parsing and source hashes | Complete inputs and traceable executable source | Correct coefficients |
+| Derivative, balance and solver tests | Implementation consistency and bounded numerical behavior | Device accuracy |
+| Saved-result audits | Product/energy accounting and coverage of the recorded horizon | CSS or mesh independence |
+| COF protocol holdouts | Predictions of specific excluded curve portions or conditions | Intrinsic vacuum-desorption kinetics |
+| Manufacturer curves | A stated pump reference condition | Simultaneous vacuum inlet and 3 bar delivery duty |
+| 3D playback | Inspection of retained temperatures, loading and meters | A measured flow field or manufacturing drawing |
+
+## Material evidence
+
+Lewatit has a multi-temperature property and humidity-model basis, but the hot humid cycle remains conditional. The saved 116°C request and local temperature around 120°C are outside what should be assumed acceptable for the planned prototype without checking the actual material limits.
+
+For COF-1000 and COF-999, the fresh protocol analysis withheld chronological tails, a whole humidity condition and a temperature condition. Both retained failed RH75 capacity checks. COF-999 also retained a failed 100°C temperature-extrapolation check. A passing temporal fit is not proof that an empirical rate transfers to CO₂-rich vacuum regeneration.
+
+The HOB temperature-shift representation needs further work. Source-curve irregularities and the large hot PVDF loading discrepancy remain visible. A replacement must use consistent specimen data and connect equilibrium temperature dependence to adsorption energy; a better loading fit alone is insufficient.
+
+TEPA, MOF-808 derivatives, MIL/PEI and the other humid scenarios have differing combinations of measured unary data, protocol fits and transferred water or kinetic assumptions. These differences limit cross-material interpretation even with the same operating case.
+
+## Current result boundary
+
+The [review dataset](../../../docs/data/submission/results.json) contains ten humid baseline results, one matched dry Lewatit result and five completed desorption-rate sensitivities. HOB/PVDF and COF-999 sensitivities are incomplete after worker exits. Their partial calculations are not performance estimates.
+
+All primary operating cases match after removing labels. Executable source releases remain identified per case. CALF-20 and COF-1000 use the accepted re-audits of their existing results, with the original trace-coverage audit failures retained in the evidence record. A re-audit changes the accounting verdict, not the simulated output.
+
+Model output uncertainty has not been quantified. Source uncertainty, parameter uncertainty, model discrepancy and numerical error must remain separate. Neither material-family spread nor a successful conservation check is a confidence interval.
+
+## Validation needed before a prototype prediction
+
+Measure shaped-material adsorption/desorption under the intended humid cycle, including hot states and repeated operation. Check bed pressure drop and packing, internal temperature gradients and heater transfer, leaks and delivered pump flow. Then compare complete-cycle product and electrical input against the model. Refit only on declared training data and reserve independent conditions for testing.
+
+The software verification record is in [Review checks](../../../docs/REVIEW_CHECKS.html). It states which portable checks ran, what still needs an independent computer or physical measurement.
+
+[Main report](index.html) · [Technical reference](model_reference.html) · [Protocol validation results](../../../docs/data/submission/protocol_validation.json)

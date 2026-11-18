@@ -1,0 +1,40 @@
+{
+  "scope": "Exact reviewed numerical extension used by mmen and TAPA sensitivity exports. Not a new global default.",
+  "policies": [
+    "branch-aware-admissible-fd/v1",
+    "radau-same-rhs-jac/v1",
+    "exact-cell-evaluation-cache/v1"
+  ],
+  "files": [
+    {
+      "path": "docs/data/submission/solver_source/screening/mof_screening/manager.py",
+      "sha256": "82108c5af214bf9199daabf9ef645f871384c90da87b113050300af3f5c77774",
+      "native_path": "screening/mof_screening/manager.py",
+      "default_source_sha256": "d238d8a386916e14f6fb4d5fd9a5a4db5b89c2c5e373a86729f75b24635fdc0e"
+    },
+    {
+      "path": "docs/data/submission/solver_source/screening/mof_screening/runtime.py",
+      "sha256": "1cedd0ef0636d2545bac5e757bfdafab4b4e858b50114759d74677dd17e5e410",
+      "native_path": "screening/mof_screening/runtime.py",
+      "default_source_sha256": "e6776416379badbb18abba12c8a15d0e4cc4ced17486f7d784a19146c38fcb15"
+    },
+    {
+      "path": "docs/data/submission/solver_source/screening/mof_screening/spatial_jacobian.py",
+      "sha256": "1f59e705a5942b9145d2fdd695a0d16ed2a12c954609b581c468fd8bcb5991d4",
+      "native_path": "screening/mof_screening/spatial_jacobian.py",
+      "default_source_sha256": "b4ba4818756943c30c954f46740298d5874f40182e3ac095c7f0c8c3ae2bea2f"
+    },
+    {
+      "path": "docs/data/submission/solver_source/screening/mof_screening/spatial_v1.py",
+      "sha256": "6b8a679393bc13692d9fac17262cb347baa32c7c3cd236db7b0ae694e12371b7",
+      "native_path": "screening/mof_screening/spatial_v1.py",
+      "default_source_sha256": "20ae227a17bc131a8c58216519170a8440d4da9bd19843588f1bccb13ec8269e"
+    },
+    {
+      "path": "docs/data/submission/solver_source/screening/mof_screening/stored_water_shift.py",
+      "sha256": "8b335eb919ebd369e623e753c2521d06ac2a66c2431676ab03c5ba69f7eb683c",
+      "native_path": "screening/mof_screening/stored_water_shift.py",
+      "default_source_sha256": "f4fd4146f5030af205219c61c91d9cb1d5d56ea9b1b931584dec2e1b764e20ca"
+    }
+  ]
+}

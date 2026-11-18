@@ -1,0 +1,35 @@
+# Local environments, generated files and private run state
+**/.venv*/
+**/venv/
+**/env/
+**/__pycache__/
+**/.pytest_cache/
+**/.quarto/
+**/.mypy_cache/
+**/.ruff_cache/
+model/outputs/
+model/config/mof_screening/runtime/
+**/node_modules/
+model/report/project/*_files/
+dist/
+*.py[cod]
+*.log
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
+Desktop.ini
+# Credentials and machine-local settings
+.env
+.env.*
+*.key
+*.pem
+*.pfx
+*.zip
+credentials*
+secrets*
+# Private workspace material is outside the source package
+Archive/
+Research/
+AGENTS.md
+SKILL.md

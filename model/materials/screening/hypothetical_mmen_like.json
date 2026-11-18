@@ -1,0 +1,83 @@
+{
+  "schema": "mof-screening-material/1",
+  "material_id": "hypothetical_mmen_like",
+  "name": "Hypothetical mmen-inspired material",
+  "equilibrium_family": "independent_langmuir_sips",
+  "synthetic": false,
+  "evidence": {
+    "status": "HYPOTHETICAL",
+    "basis": "literature-anchored capacity and enthalpy with explicit unvalidated isotherm, water, kinetics and thermal assumptions",
+    "not_for": "measured MOF ranking, lifetime, humid-mixture validation or hardware qualification"
+  },
+  "shaped_material": {
+    "basis": "10 kg is a case input on a complete dry shaped-material basis",
+    "binder_support": "No specific binder or support formulation is represented by this hypothetical package.",
+    "particle_geometry": "Case input; not a measured pellet or coating."
+  },
+  "reference_temperature_K": 298.15,
+  "maximum_bed_temperature_C": 180.0,
+  "solid_cp_J_kg_K": 1300.0,
+  "co2": {
+    "saturation_mol_kg": 3.46,
+    "reference_loading_mol_kg": 2.0,
+    "reference_partial_pressure_Pa": 39.0,
+    "heat_J_mol": 71000.0,
+    "basis": "single-site dry Langmuir anchored at one literature point"
+  },
+  "water": {
+    "saturation_mol_kg": 40.0,
+    "half_loading_relative_humidity_at_reference": 0.45,
+    "sips_exponent": 8.0,
+    "heat_J_mol": 45000.0,
+    "basis": "unvalidated independent unary humidity stress law"
+  },
+  "nitrogen": {
+    "henry_mol_kg_Pa_at_reference": 0.0000010375,
+    "heat_J_mol": 18000.0
+  },
+  "oxygen": {
+    "henry_mol_kg_Pa_at_reference": 0.0000019,
+    "heat_J_mol": 18000.0
+  },
+  "adsorbed_phase_cp_J_kg_K": [
+    850.0,
+    4180.0,
+    1040.0,
+    920.0
+  ],
+  "kinetics": {
+    "adsorption_rate_s_inv": [0.0005, 0.0001, 0.01, 0.01],
+    "desorption_rate_s_inv": [0.001, 0.0002, 0.01, 0.01],
+    "evidence_status": "illustrative LDF assumptions"
+  },
+  "provenance": {
+    "co2_anchor": {
+      "class": "measured point",
+      "source": "https://doi.org/10.1021/ja300034j",
+      "conditions": "2.0 mmol/g at 25 C and 39 Pa CO2; not a cyclic working capacity"
+    },
+    "capacity_scale": {
+      "class": "borrowed fitted scale",
+      "source": "https://doi.org/10.1021/acs.iecr.8b05042.s001"
+    },
+    "water_scale": {
+      "class": "literature uptake scale plus assumption",
+      "source": "https://doi.org/10.1039/D3SC02554C"
+    }
+  },
+  "assumptions": [
+    "Single-site dry CO2 Langmuir behavior is assumed.",
+    "Independent unary water uptake is not a validated competitive humid-mixture law.",
+    "Illustrative LDF kinetics apply to all species.",
+    "Constituent and shaped-material thermal properties are engineering assumptions."
+  ],
+  "validity": {
+    "temperature_C": "No measured continuous range is claimed; model use is bounded by the package temperature limit.",
+    "water": "Fixed weather and official weather use the same gas forcing record.",
+    "initial_state_interpretation": "Equilibrated warm-start or clean-dry initial state is an explicit scenario basis and is not CSS."
+  },
+  "uncertainty": {
+    "classification": "UNQUANTIFIED",
+    "statement": "The missing uncertainty and material-specific validation are limitations, not zero uncertainty."
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "schema": "mof-screening-material/1",
+  "material_id": "lewatit_vp_oc_1065_young2021_cold_hot116_conditional",
+  "name": "Lewatit VP OC 1065, Young 2021 cold-transient + hot numerical extrapolation",
+  "equilibrium_family": "young2021_cold_hot_wadst_gab_extrapolated",
+  "synthetic": false,
+  "evidence": {
+    "status": "CONDITIONAL_COLD_TRANSIENT_AND_HOT_NUMERICAL_EXTRAPOLATION_NOT_VALIDATED",
+    "basis": "The original Young 2021 Toth and GAB coefficients, LDF rates and process heats are evaluated unchanged with IAPWS saturation in a named 20-120 C scenario. Measured coupled support remains 25-70 C. The 20 C side is an assumed continuation motivated by physically observed evacuation cooling, not cold-data validation, and it does not transfer the Low sample to Young or fit a cold correction.",
+    "not_for": "validated 20 C equilibrium or coupling, validated 116 C equilibrium or coupling, hot adsorption/desorption rate prediction, hot-vacuum energy validation, measured humid-cycle accuracy, hardware qualification, cyclic steady state, lifetime or annual production."
+  },
+  "shaped_material": {
+    "basis": "The app case supplies a dry shaped resin mass; the source measured resin sample is not a shaped device.",
+    "binder_support": "Commercial resin beads are represented as the dry resin solid; no binder or support is added.",
+    "particle_geometry": "The case particle diameter remains a transfer assumption."
+  },
+  "reference_temperature_K": 298.15,
+  "maximum_bed_temperature_C": 120.0,
+  "solid_cp_J_kg_K": 1580.0,
+  "co2_water_penalty_per_mol_kg": 0.0,
+  "co2": {
+    "heat_J_mol": 70000.0,
+    "support": {
+      "temperature_K": [
+        298.15,
+        343.15
+      ],
+      "relative_humidity": [
+        0.0,
+        0.55
+      ],
+      "co2_partial_pressure_Pa": [
+        0.0,
+        100000.0
+      ],
+      "relative_humidity_basis": "local p_H2O / p_sat(T_bed)"
+    },
+    "evaluation_envelope": {
+      "temperature_K": [
+        293.15,
+        393.15
+      ],
+      "relative_humidity": [
+        0.0,
+        0.55
+      ],
+      "co2_partial_pressure_Pa": [
+        0.0,
+        100000.0
+      ],
+      "classification": "explicit unvalidated cold-transient and hot numerical continuation"
+    },
+    "source_locator": "Young et al. 2021 DOI 10.1039/D1EE01272J Tables 2 and 4; process heat from SI Table S9"
+  },
+  "water": {
+    "model": "young2021_gab_iapws_cold_hot_extrapolated",
+    "heat_J_mol": 46000.0,
+    "source_locator": "Young et al. 2021 DOI 10.1039/D1EE01272J equations 5-8 and 25-26; process heat from SI Table S9",
+    "basis": "Unchanged Young GAB coefficients evaluated with local p_H2O / IAPWS saturation. The measured water evidence is not spliced into the Young specimen."
+  },
+  "water_evaluation_policy": {
+    "original_implementation_cap_mol_kg": 4.131251972115188,
+    "original_cap_basis": "GAB(0.55, 298.15 K) in the original implementation; not a directly measured experimental loading maximum",
+    "gab_envelope_max_temperature_K": 302.7029459003439,
+    "gab_envelope_max_mol_kg": 4.135780869459574,
+    "evaluation_cap_mol_kg": 4.136,
+    "evaluation_cap_basis": "round-up of the self-consistent unchanged-GAB maximum over 20-120 C and RH<=0.55",
+    "evaluation_lower_tolerance_mol_kg": -1e-9,
+    "evaluation_upper_tolerance_mol_kg": 1e-9,
+    "normalization_scope": "CO2 target/helper evaluation only; raw ODE inventory, delta and energy remain unchanged",
+    "inventory_mutation": false
+  },
+  "nitrogen": {
+    "henry_mol_kg_Pa_at_reference": 0.0,
+    "heat_J_mol": 0.0
+  },
+  "oxygen": {
+    "henry_mol_kg_Pa_at_reference": 0.0,
+    "heat_J_mol": 0.0
+  },
+  "adsorbed_phase_cp_J_kg_K": [
+    852.0887535645713,
+    1887.2867921009274
+  ],
+  "kinetics": {
+    "adsorption_rate_s_inv": [
+      0.003,
+      0.0086
+    ],
+    "desorption_rate_s_inv": [
+      0.003,
+      0.0086
+    ],
+    "evidence_status": "Unchanged Young 2021 SI Table S9 process constants. Warm, humid transfer and hot-vacuum transfer remain assumptions, not measured validation."
+  },
+  "provenance": {
+    "equilibrium": {
+      "class": "unchanged source-reproduced Young fit outside its measured coupled domain",
+      "source_doi": "10.1039/D1EE01272J",
+      "source_sha256": "e9f81c1a9fab6fd6e66fa6fffaa6ce5d463467230473456c5453ddd41a34374f"
+    },
+    "old_hot_package": {
+      "material_id": "lewatit_vp_oc_1065_young2021_hot116_conditional",
+      "sha256": "dab461624cf213e964fe340648b418cc729392b239ab342608881b750a995105",
+      "policy": "preserved byte-identical; this new scenario does not alter its defaults"
+    },
+    "strict_young_package": {
+      "material_id": "lewatit_vp_oc_1065_young2021_wadst_conditional",
+      "sha256": "086fa9f34d3bc79ece8e422d37ab4e01817593adf3eeb2b5b0ef55873a125ec3",
+      "policy": "preserved byte-identical"
+    },
+    "low_package": {
+      "material_id": "lewatit_vp_oc_1065_low2023_conditional",
+      "sha256": "c428faa8a0d6749b64b7bdd01d33e995f9fb6ef8ff65472bf765f1b2f2df6d11",
+      "policy": "preserved byte-identical; no Low-to-Young sample transfer"
+    },
+    "saturation_pressure": {
+      "class": "IAPWS SR1-86(1992) liquid-vapour correlation",
+      "reason": "The original Buck implementation has no declared hot-validity interval; IAPWS is used only by this named extrapolation scenario."
+    },
+    "measured_constraint": {
+      "class": "separate-specimen diagnostic",
+      "source_doi": "10.1021/acs.jced.3c00697",
+      "p_H2O_range_Pa": [
+        15700.0,
+        92700.0
+      ],
+      "status": "not spliced into the Young coefficient set"
+    },
+    "cycle_kinetics": {
+      "class": "unchanged conditional process-model assumptions",
+      "source_locator": "Supporting Information Table S9"
+    },
+    "adsorbed_energy": {
+      "class": "native energy-closure assumption",
+      "basis": "Constant CP_GAS and 70/46 kJ/mol process heats preserve the original convention."
+    }
+  },
+  "assumptions": [
+    "The measured coupled support remains 25-70 C and RH 0-0.55.",
+    "The 20 C lower boundary is an explicitly assumed continuation of the published correlations, motivated by the saved physical evacuation cooling trend; it is not cold-data validation.",
+    "All Young Toth and GAB coefficients are evaluated unchanged through the named 20-120 C numerical envelope.",
+    "IAPWS saturation replaces only the saturation correlation inside this separate scenario provider.",
+    "The actual evolving stored-water inventory drives the Young WADST CO2 target.",
+    "Negative stored water within the existing 1e-9 evaluation tolerance may be normalized only at the CO2-helper boundary; the raw state, delta and energy use the original value.",
+    "The corrected upper evaluation cap is derived from the unchanged GAB formula and does not alter the original implementation cap or source coefficients.",
+    "Cold-transient coupling, hot binary coupling, adsorption/desorption rates and energy transfer are unvalidated transfers.",
+    "Wilkins 110 C and Low 2023 measurements are diagnostic constraints, not fitted corrections or same-specimen validation."
+  ],
+  "validity": {
+    "equilibrium": "Measured coupled support ends at 25-70 C; the 20-25 C and 70-120 C outputs are conditional numerical continuations.",
+    "water": "Local IAPWS RH is constrained to 0-0.55; no cold or hot cross-temperature fit is adopted.",
+    "cycle": "Numerical scenario only; cold/hot rates, caloric closure, drainage and thermal lag are unvalidated.",
+    "initial_state_interpretation": "Equilibrated initialization is a numerical scenario state, not cyclic steady state."
+  },
+  "missing_evidence": {
+    "cold_transient_validation": null,
+    "binary_116c": null,
+    "hot_vacuum_kinetics": null,
+    "hot_energy_transfer": null,
+    "residual_water_drainage": null,
+    "hot_accuracy_bound": null
+  },
+  "uncertainty": {
+    "classification": "UNVALIDATED_COLD_TRANSIENT_AND_HOT_NUMERICAL_EXTRAPOLATION",
+    "statement": "The calculation is authorized as a transparent named conditional scenario. No percentage accuracy statement, measured cold validation or measured 116 C validation follows."
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "schema": "mof-screening-material/1",
+  "material_id": "synthetic_independent_demo",
+  "name": "Synthetic independent-family fixture",
+  "equilibrium_family": "independent_langmuir_sips",
+  "synthetic": true,
+  "evidence": {
+    "status": "SYNTHETIC",
+    "basis": "Data-only insertion demonstration for an existing family",
+    "not_for": "Any claim about a real material"
+  },
+  "shaped_material": {
+    "basis": "Complete dry shaped mass supplied by the screening case",
+    "binder_support": "Synthetic binder assumption only",
+    "particle_geometry": "Case input"
+  },
+  "reference_temperature_K": 298.15,
+  "maximum_bed_temperature_C": 140.0,
+  "solid_cp_J_kg_K": 1150.0,
+  "co2": {
+    "saturation_mol_kg": 2.8,
+    "reference_loading_mol_kg": 1.2,
+    "reference_partial_pressure_Pa": 40.0,
+    "heat_J_mol": 62000.0
+  },
+  "water": {
+    "saturation_mol_kg": 18.0,
+    "half_loading_relative_humidity_at_reference": 0.55,
+    "sips_exponent": 5.0,
+    "heat_J_mol": 42000.0
+  },
+  "nitrogen": {
+    "henry_mol_kg_Pa_at_reference": 0.0000004,
+    "heat_J_mol": 15000.0
+  },
+  "oxygen": {
+    "henry_mol_kg_Pa_at_reference": 0.0000007,
+    "heat_J_mol": 15000.0
+  },
+  "adsorbed_phase_cp_J_kg_K": [900.0, 3600.0, 1000.0, 900.0],
+  "kinetics": {
+    "adsorption_rate_s_inv": [0.001, 0.0002, 0.01, 0.01],
+    "desorption_rate_s_inv": [0.002, 0.0004, 0.01, 0.01],
+    "evidence_status": "synthetic fixture"
+  },
+  "provenance": {
+    "all_fields": {
+      "class": "synthetic"
+    }
+  },
+  "assumptions": [
+    "All values are synthetic and exist only to prove that an additional package in the independent family runs without source changes."
+  ],
+  "validity": {
+    "material": "Synthetic interface fixture only."
+  },
+  "uncertainty": {
+    "classification": "NOT_APPLICABLE_SYNTHETIC"
+  }
+}

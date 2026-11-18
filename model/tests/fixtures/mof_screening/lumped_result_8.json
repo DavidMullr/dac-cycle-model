@@ -1,0 +1,3210 @@
+{
+  "assumptions": {
+    "collection": "All desorption and cooling product after zero initial purge.",
+    "electricity": "Upstream drying and downstream compression are outside this boundary.",
+    "engine": "Portable attribution-preserving port of the accepted matched_weather finite-cycle lumped engine with hourly forcing segmented inside phases.",
+    "hardware": "KNF N922 50 Hz reference curve, 135 W running input, 2 kW heater, combined 2 kW cooling at COP 3 and ideal 55 C pump-inlet knockout.",
+    "pressure_control": "Accepted pressure-regulated target-inlet control with adaptive cooling to ambient plus 0.5 K.",
+    "transport": "Well-mixed gas and solid state; no spatial gradient.",
+    "weather": "constant hourly intervals"
+  },
+  "case": {
+    "collection": {
+      "knockout_model": "ideal_pump_inlet_55C",
+      "product_route": "all_desorption_and_cooling"
+    },
+    "cycle": {
+      "adsorption_s": 1800.0,
+      "cooling_max_s": 2400.0,
+      "desorption_s": 5400.0,
+      "evacuation_s": 1200.0,
+      "purge_s": 0.0,
+      "regeneration_pressure_Pa": 20000.0,
+      "regeneration_temperature_C": 99.85,
+      "repressurization_max_s": 1200.0
+    },
+    "engine": "lumped",
+    "equipment": {
+      "airflow_m3_s": 0.18,
+      "bed_face_area_m2": 1.7361111111111112,
+      "bed_thickness_m": 0.016,
+      "bed_void_fraction": 0.4,
+      "dry_shaped_mass_kg": 10.0,
+      "effective_bed_conductivity_W_m_K": 0.1,
+      "gas_solid_heat_transfer_W_m2_K": 80.0,
+      "heater_power_W": 2000.0,
+      "particle_diameter_m": 0.0015,
+      "wall_cooling_UA_W_K": 100.0,
+      "wall_heat_capacity_J_K": 12000.0,
+      "wall_loss_UA_W_K": 2.0
+    },
+    "initial_state": {
+      "basis": "clean_dry",
+      "cold_start": true
+    },
+    "label": "Verification 08 · fresh_lumped_calf",
+    "operating_policy": {
+      "conditioner": {
+        "allocation": "conditioner_first_then_bed",
+        "line_holdup_mol": 0.0,
+        "phase_availability": [
+          "evacuation",
+          "desorption",
+          "cooling"
+        ],
+        "policy": "pump_inlet_cooler_knockout_v1",
+        "pressure_drop_Pa": 0.0
+      },
+      "hardware": {
+        "combined_cooling_power_W": 2000.0,
+        "conditioner_target_C": 55.0,
+        "cooling_cop": 3.0,
+        "heater_power_W": 2000.0,
+        "pump_running_input_W": 135.0
+      },
+      "phases": {
+        "adsorption": {
+          "cooler": "enabled",
+          "gain_W_K": 1000.0,
+          "heater": "enabled",
+          "request": "setpoint",
+          "target": "current ambient temperature"
+        },
+        "cooling": {
+          "cooler": "enabled",
+          "gain_W_K": 1000.0,
+          "heater": "disabled",
+          "request": "positive_sensible_cooling",
+          "target": "current ambient temperature"
+        },
+        "desorption": {
+          "cooler": "disabled",
+          "gain_W_K": 5000.0,
+          "heater": "enabled",
+          "request": "positive_setpoint",
+          "target": "regeneration temperature"
+        },
+        "evacuation": {
+          "cooler": "enabled",
+          "gain_W_K": null,
+          "heater": "enabled",
+          "request": "zero_net_bed_energy_imbalance",
+          "target": null
+        },
+        "repressurization": {
+          "cooler": "enabled",
+          "gain_W_K": 1000.0,
+          "heater": "enabled",
+          "request": "setpoint",
+          "target": "current ambient temperature"
+        }
+      },
+      "representation_difference": {
+        "lumped": "phase requests act on one well-mixed bed temperature",
+        "pressure_control": "spatial retains its local-pressure valve control; lumped retains the reviewed target-inlet pressure control",
+        "spatial": "phase requests act through finite wall/heater transfer and local through-thickness states"
+      },
+      "schema": "mof-screening-shared-operating-policy/1",
+      "source": "Reviewed portable lumped phase requests, mapped to spatial wall and heater nodes with finite transfer."
+    },
+    "schema": "mof-screening-case/1",
+    "solver": {
+      "cells": 1,
+      "max_step_s": 10.0,
+      "rtol": 1e-07,
+      "samples_per_phase": 31
+    },
+    "weather": {
+      "co2_ppm_dry": 420.0,
+      "hours": 4,
+      "mode": "fixed",
+      "pressure_Pa": 100000.0,
+      "relative_humidity": 0.5,
+      "start_utc": "2023-01-15T00:00:00Z",
+      "temperature_C": 25.0
+    }
+  },
+  "case_label": "Verification 08 · fresh_lumped_calf",
+  "checks": {
+    "energy_closure_pass": true,
+    "energy_relative_residual": 2.5030226427977492e-11,
+    "energy_residual_J": -0.00021045980975031853,
+    "finite_observations": true,
+    "mass_closure_pass": true,
+    "mass_relative_residual_by_species": 2.9203628474112495e-15,
+    "temperature_limit_pass": true
+  },
+  "cycles": [
+    {
+      "cycle": 1,
+      "duration_s": 1800.0,
+      "end_elapsed_s": 1800.0,
+      "endpoint": {
+        "endpoint_ok": true,
+        "pressure_end_Pa": 99999.9999999999,
+        "pressure_error_Pa": 1.0186340659856796e-10,
+        "pressure_ok": true,
+        "pressure_target_Pa": 100000.0,
+        "temperature_end_K": 298.15,
+        "temperature_error_K": 0.0,
+        "temperature_ok": true,
+        "temperature_target_K": 298.15
+      },
+      "energy_closure_relative_error": 7.392351283493105e-13,
+      "phase": "adsorption",
+      "start_elapsed_s": 0.0
+    },
+    {
+      "cycle": 1,
+      "duration_s": 96.35706001402345,
+      "end_elapsed_s": 1896.3570600140235,
+      "endpoint": {
+        "endpoint_ok": true,
+        "pressure_end_Pa": 20000.0,
+        "pressure_error_Pa": 0.0,
+        "pressure_ok": true,
+        "pressure_target_Pa": 20000.0
+      },
+      "energy_closure_relative_error": 1.769584984744081e-11,
+      "phase": "evacuation",
+      "start_elapsed_s": 1800.0
+    },
+    {
+      "cycle": 1,
+      "duration_s": 5400.0,
+      "end_elapsed_s": 7296.357060014024,
+      "endpoint": {
+        "endpoint_ok": true,
+        "temperature_end_K": 372.9700724152217,
+        "temperature_error_K": 0.029927584778306482,
+        "temperature_ok": true,
+        "temperature_target_K": 373.0
+      },
+      "energy_closure_relative_error": 2.600099128641294e-13,
+      "phase": "desorption",
+      "start_elapsed_s": 1896.3570600140235
+    },
+    {
+      "cycle": 1,
+      "duration_s": 942.0595502210247,
+      "end_elapsed_s": 8238.416610235048,
+      "endpoint": {
+        "cooling_event_ok": true,
+        "cooling_event_target_K": 298.65,
+        "endpoint_ok": true,
+        "temperature_end_K": 298.65,
+        "temperature_error_K": 0.5,
+        "temperature_ok": true,
+        "temperature_target_K": 299.15
+      },
+      "energy_closure_relative_error": 1.3943891478183126e-14,
+      "phase": "cooling",
+      "start_elapsed_s": 7296.357060014024
+    },
+    {
+      "cycle": 1,
+      "duration_s": 0.0540823435444965,
+      "end_elapsed_s": 8238.470692578592,
+      "endpoint": {
+        "endpoint_ok": true,
+        "pressure_end_Pa": 99499.9999999997,
+        "pressure_error_Pa": 499.9999999996944,
+        "pressure_ok": true,
+        "pressure_target_Pa": 99000.0
+      },
+      "energy_closure_relative_error": 1.7130585852142448e-07,
+      "phase": "repressurization",
+      "start_elapsed_s": 8238.416610235048
+    },
+    {
+      "cycle": 2,
+      "duration_s": 1800.0,
+      "end_elapsed_s": 10038.470692578592,
+      "endpoint": {
+        "endpoint_ok": true,
+        "pressure_end_Pa": 100000.00000000004,
+        "pressure_error_Pa": 4.3655745685100555e-11,
+        "pressure_ok": true,
+        "pressure_target_Pa": 100000.0,
+        "temperature_end_K": 298.15000000000003,
+        "temperature_error_K": 5.684341886080802e-14,
+        "temperature_ok": true,
+        "temperature_target_K": 298.15
+      },
+      "energy_closure_relative_error": 2.7404169479094154e-09,
+      "phase": "adsorption",
+      "start_elapsed_s": 8238.470692578592
+    },
+    {
+      "cycle": 2,
+      "duration_s": 96.47149233187605,
+      "end_elapsed_s": 10134.942184910467,
+      "endpoint": {
+        "endpoint_ok": true,
+        "pressure_end_Pa": 20000.0,
+        "pressure_error_Pa": 0.0,
+        "pressure_ok": true,
+        "pressure_target_Pa": 20000.0
+      },
+      "energy_closure_relative_error": 1.3934455917316108e-11,
+      "phase": "evacuation",
+      "start_elapsed_s": 10038.470692578592
+    }
+  ],
+  "elapsed_utc": "2026-11-03T11:40:18.998757+00:00",
+  "endpoint": {
+    "all_pass": true,
+    "pressure_violation_count": 0,
+    "temperature_violation_count": 0,
+    "violations": []
+  },
+  "engine": "lumped",
+  "engine_identity": "mof-screening-lumped-reviewed-port-v1",
+  "failure": null,
+  "geometry": {
+    "axial_resolution": "not applicable",
+    "bulk_density_kg_m3": 360.0,
+    "manifold_redistribution": "not resolved",
+    "pellet_density_kg_m3": 600.0,
+    "representation": "well_mixed_finite_cycle_lumped",
+    "volume_m3": 0.02777777777777778
+  },
+  "horizon": {
+    "cold_start": true,
+    "complete": true,
+    "css_established": false,
+    "cycles_completed": 1,
+    "cycles_started": 2,
+    "initial_state": "clean_dry",
+    "partial_final_cycle": true,
+    "requested_s": 14400.0,
+    "simulated_s": 14400.0,
+    "whole_cycle_basis": false
+  },
+  "input_identity": {
+    "case_sha256": "e50c89c1b14ffddf51acd92dceacaadbe34adacb137d337a343129e4a98177e1",
+    "combined_sha256": "d2472a4e6b99635555f1d20609c0bf6460e36b277551fc9779f83a0091cf00ba",
+    "material_sha256": "4671d1f803b1aa51fff20ccd80f0ab4d097f332b69dcfac6cf06ac793ee76a78"
+  },
+  "job_id": "aeaa960cfbe148a5a45e87da26984459",
+  "material": {
+    "adapter": {
+      "adapter": "site_resolved_concentration_langmuir_portable",
+      "caloric_closure": "site inventories and measured/reference-shifted water share one energy inventory",
+      "co2_states": 2,
+      "runtime_research_imports": false,
+      "site_internal_energy_J_mol": [
+        -35060.0,
+        -28950.0
+      ],
+      "source_family": "site_resolved_concentration_langmuir",
+      "water_mixture": "single-temperature PCHIP activity transfer; conditional water model",
+      "water_outside_domain_calls": 102
+    },
+    "assumptions": [
+      "The two published concentration-basis sites are retained independently; CALF is not refit as one Langmuir site.",
+      "Site internal energies define the CO2 energy inventory exactly.",
+      "Water uses a named single-temperature PCHIP activity transfer with a borrowed sorption heat.",
+      "LDF kinetics and pellet or coating transfer remain unvalidated."
+    ],
+    "evidence": {
+      "basis": "80 wt% CALF-20 crystal and 20 wt% polymeric binder, with published author-site parameters and shaped water measurements",
+      "loaded_source_sha256": "e59eef98e5ff987ed01f7cd9e8aa1cb2417778bfa566b7463a7a9d0ecc31753d",
+      "not_for": "universal humid coadsorption, lifetime, powder-to-shape transfer, annual output or measured device ranking",
+      "status": "CONDITIONAL_SOURCE_TRANSFER"
+    },
+    "material_id": "calf20_nguyen2024_80_20_shaped",
+    "name": "CALF-20 80/20 shaped source-transfer",
+    "provenance": {
+      "co2_sites": {
+        "class": "published author fit",
+        "doi": "10.1038/s41467-024-48136-0",
+        "source_sha256": "e3127785637f4c4b54de855b4935a5f5afdb1032b2188f5c0bda106f461026f8"
+      },
+      "loaded_builtin": {
+        "baseline_sha256": "d0f8c7de7f87d8accfe03f27dad9b528e3ac82096db87ab5b21c4aad4a37d49e",
+        "material_id": "calf20_nguyen2024_80_20_shaped",
+        "name": "CALF-20 80/20 shaped source-transfer",
+        "package_file": "calf20_shaped.json",
+        "schema": "mof-screening-loaded-builtin/1"
+      },
+      "sorption_heat": {
+        "class": "borrowed screening assumption",
+        "value_J_mol": 52964.9232
+      },
+      "water_curve": {
+        "class": "published tabulated shaped-material measurements",
+        "doi": "10.1021/acs.iecr.3c04266",
+        "source_sha256": "e3127785637f4c4b54de855b4935a5f5afdb1032b2188f5c0bda106f461026f8"
+      }
+    },
+    "shaped_material": {
+      "basis": "Complete dry shaped material containing 80 wt% crystals and 20 wt% binder",
+      "binder_support": "20 wt% polymeric binder as named in the source-transfer scenario",
+      "particle_geometry": "Case input; no transfer to a specific pellet or coating is established."
+    },
+    "synthetic": false,
+    "uncertainty": {
+      "classification": "CONDITIONAL",
+      "statement": "No transferred uncertainty distribution or measured shaped-device error exists in this package."
+    },
+    "validity": {
+      "co2": "Low-pressure DAC transfer remains conditional.",
+      "initial_state_interpretation": "Initial loading is a declared screening basis and does not establish cyclic steady state.",
+      "water": "The water table is unary and temperature-shifted; it is not a validated competitive humid-mixture model."
+    }
+  },
+  "material_package": {
+    "adsorbed_phase_cp_J_kg_K": [
+      663.1644845317488,
+      663.1644845317488,
+      1887.2867921009274
+    ],
+    "assumptions": [
+      "The two published concentration-basis sites are retained independently; CALF is not refit as one Langmuir site.",
+      "Site internal energies define the CO2 energy inventory exactly.",
+      "Water uses a named single-temperature PCHIP activity transfer with a borrowed sorption heat.",
+      "LDF kinetics and pellet or coating transfer remain unvalidated."
+    ],
+    "co2": {
+      "basis": "two independent concentration-basis Langmuir sites",
+      "site_affinity_m3_mol": [
+        5.519e-07,
+        5.187e-08
+      ],
+      "site_capacity_mol_kg": [
+        2.387,
+        3.271
+      ],
+      "site_internal_energy_J_mol": [
+        -35060.0,
+        -28950.0
+      ],
+      "source_locator": "Nguyen et al. supporting information pS6 Eq and Table S2"
+    },
+    "equilibrium_family": "site_resolved_concentration_langmuir",
+    "evidence": {
+      "basis": "80 wt% CALF-20 crystal and 20 wt% polymeric binder, with published author-site parameters and shaped water measurements",
+      "loaded_source_sha256": "e59eef98e5ff987ed01f7cd9e8aa1cb2417778bfa566b7463a7a9d0ecc31753d",
+      "not_for": "universal humid coadsorption, lifetime, powder-to-shape transfer, annual output or measured device ranking",
+      "status": "CONDITIONAL_SOURCE_TRANSFER"
+    },
+    "kinetics": {
+      "adsorption_rate_s_inv": [
+        0.0005,
+        0.0005,
+        0.0001
+      ],
+      "desorption_rate_s_inv": [
+        0.001,
+        0.001,
+        0.0002
+      ],
+      "evidence_status": "shared illustrative LDF assumptions for both source sites and water"
+    },
+    "material_id": "calf20_nguyen2024_80_20_shaped",
+    "maximum_bed_temperature_C": 160.0,
+    "name": "CALF-20 80/20 shaped source-transfer",
+    "provenance": {
+      "co2_sites": {
+        "class": "published author fit",
+        "doi": "10.1038/s41467-024-48136-0",
+        "source_sha256": "e3127785637f4c4b54de855b4935a5f5afdb1032b2188f5c0bda106f461026f8"
+      },
+      "loaded_builtin": {
+        "baseline_sha256": "d0f8c7de7f87d8accfe03f27dad9b528e3ac82096db87ab5b21c4aad4a37d49e",
+        "material_id": "calf20_nguyen2024_80_20_shaped",
+        "name": "CALF-20 80/20 shaped source-transfer",
+        "package_file": "calf20_shaped.json",
+        "schema": "mof-screening-loaded-builtin/1"
+      },
+      "sorption_heat": {
+        "class": "borrowed screening assumption",
+        "value_J_mol": 52964.9232
+      },
+      "water_curve": {
+        "class": "published tabulated shaped-material measurements",
+        "doi": "10.1021/acs.iecr.3c04266",
+        "source_sha256": "e3127785637f4c4b54de855b4935a5f5afdb1032b2188f5c0bda106f461026f8"
+      }
+    },
+    "reference_temperature_K": 298.15,
+    "schema": "mof-screening-material/1",
+    "shaped_material": {
+      "basis": "Complete dry shaped material containing 80 wt% crystals and 20 wt% binder",
+      "binder_support": "20 wt% polymeric binder as named in the source-transfer scenario",
+      "particle_geometry": "Case input; no transfer to a specific pellet or coating is established."
+    },
+    "solid_cp_J_kg_K": 1371.0,
+    "synthetic": false,
+    "uncertainty": {
+      "classification": "CONDITIONAL",
+      "statement": "No transferred uncertainty distribution or measured shaped-device error exists in this package."
+    },
+    "validity": {
+      "co2": "Low-pressure DAC transfer remains conditional.",
+      "initial_state_interpretation": "Initial loading is a declared screening basis and does not establish cyclic steady state.",
+      "water": "The water table is unary and temperature-shifted; it is not a validated competitive humid-mixture model."
+    },
+    "water": {
+      "basis": "temperature-activity transfer of the published shaped-material unary water curve",
+      "measurement_temperature_K": 295.15,
+      "model": "temperature_activity_pchip",
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.08,
+          0.68
+        ],
+        [
+          0.153,
+          2.27
+        ],
+        [
+          0.32,
+          5.74
+        ],
+        [
+          0.5,
+          6.91
+        ],
+        [
+          0.75,
+          7.65
+        ],
+        [
+          0.79,
+          7.7
+        ],
+        [
+          1.0,
+          8.3
+        ]
+      ],
+      "reference_temperature_K": 298.15,
+      "sorption_heat_J_mol": 52964.9232,
+      "source_locator": "Nguyen et al. supporting information pS8 Table S4, 22 C block"
+    }
+  },
+  "metrics": {
+    "collected_CO2_kg": 1.8582198481931363e-05,
+    "collected_CO2_kg_day": 0.00011149319089158818,
+    "dry_product_CO2_fraction": 0.010196365316263943,
+    "electricity_components_kWh": {
+      "cooling": 0.1733112954253745,
+      "fan": 0.004482817091515605,
+      "heater": 1.435093382774119,
+      "pump": 0.40499797191211717
+    },
+    "electricity_kWh": 2.017885467203126,
+    "electricity_kWh_day": 12.107312803218756,
+    "electricity_kWh_kg_CO2": 108592.3965974878,
+    "peak_bed_temperature_K": 372.9700724152217,
+    "water_condensed_mol": 0.0,
+    "water_in_product_mol": 0.0006311893056677531,
+    "water_vented_mol": 0.011887983055456781,
+    "wet_product_CO2_fraction": 0.01004328125206286
+  },
+  "numerical_qualification": {
+    "family_gate_relative": 0.002,
+    "statement": "The reviewed lumped engine is its own representation; no spatial equivalence or CSS qualification is inferred.",
+    "status": "not_established_for_this_run"
+  },
+  "operating_policy": {
+    "conditioner": {
+      "allocation": "conditioner_first_then_bed",
+      "line_holdup_mol": 0.0,
+      "phase_availability": [
+        "evacuation",
+        "desorption",
+        "cooling"
+      ],
+      "policy": "pump_inlet_cooler_knockout_v1",
+      "pressure_drop_Pa": 0.0
+    },
+    "hardware": {
+      "combined_cooling_power_W": 2000.0,
+      "conditioner_target_C": 55.0,
+      "cooling_cop": 3.0,
+      "heater_power_W": 2000.0,
+      "pump_running_input_W": 135.0
+    },
+    "phases": {
+      "adsorption": {
+        "cooler": "enabled",
+        "gain_W_K": 1000.0,
+        "heater": "enabled",
+        "request": "setpoint",
+        "target": "current ambient temperature"
+      },
+      "cooling": {
+        "cooler": "enabled",
+        "gain_W_K": 1000.0,
+        "heater": "disabled",
+        "request": "positive_sensible_cooling",
+        "target": "current ambient temperature"
+      },
+      "desorption": {
+        "cooler": "disabled",
+        "gain_W_K": 5000.0,
+        "heater": "enabled",
+        "request": "positive_setpoint",
+        "target": "regeneration temperature"
+      },
+      "evacuation": {
+        "cooler": "enabled",
+        "gain_W_K": null,
+        "heater": "enabled",
+        "request": "zero_net_bed_energy_imbalance",
+        "target": null
+      },
+      "repressurization": {
+        "cooler": "enabled",
+        "gain_W_K": 1000.0,
+        "heater": "enabled",
+        "request": "setpoint",
+        "target": "current ambient temperature"
+      }
+    },
+    "representation_difference": {
+      "lumped": "phase requests act on one well-mixed bed temperature",
+      "pressure_control": "spatial retains its local-pressure valve control; lumped retains the reviewed target-inlet pressure control",
+      "spatial": "phase requests act through finite wall/heater transfer and local through-thickness states"
+    },
+    "schema": "mof-screening-shared-operating-policy/1",
+    "source": "Reviewed portable lumped phase requests, mapped to spatial wall and heater nodes with finite transfer."
+  },
+  "preview_case_sha256": "e50c89c1b14ffddf51acd92dceacaadbe34adacb137d337a343129e4a98177e1",
+  "preview_id": "18aa653456f54296a968566f9ba7f7fb",
+  "preview_material_sha256": "4671d1f803b1aa51fff20ccd80f0ab4d097f332b69dcfac6cf06ac793ee76a78",
+  "raw_model_evidence": {
+    "checkpoint_path": "Initial_screening_model\\model\\outputs\\mof_screening\\jobs\\aeaa960cfbe148a5a45e87da26984459\\lumped_checkpoint.json",
+    "checkpoint_sha256": "216f73b9c9c397040879bf0fcae133619419ceac1d2060d30986ed2d2580e655",
+    "summary": {
+      "adsorption_control": "pressure_regulated_target_inlet",
+      "annual_estimate": null,
+      "attempt_id": "1b4264fd13084fe79e52859c0a5ed315",
+      "bed_outlet_h_J": 64804310.54879937,
+      "bounded_jacobian": false,
+      "checkpoint_path": "Initial_screening_model\\model\\outputs\\mof_screening\\jobs\\aeaa960cfbe148a5a45e87da26984459\\lumped_checkpoint.json",
+      "checkpoint_schema": "matched-material-weather-checkpoint/3",
+      "checkpoint_sha256": "216f73b9c9c397040879bf0fcae133619419ceac1d2060d30986ed2d2580e655",
+      "chunk_records": [
+        {
+          "diagnostics": {
+            "accepted_state_count": 233,
+            "conditioner_connected": false,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": null,
+            "maximum_conditioning_cooling_W": 0.0,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 100000.00000000007,
+            "maximum_pump_inlet_temperature_K": 298.15,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 100000.00000000007,
+            "maximum_temperature_K": 298.15,
+            "maximum_water_saturation_ratio": 0.5000031823064304,
+            "maximum_water_support_fraction": 5.870838258905935e-05,
+            "minimum_conditioned_pump_inlet_temperature_K": null,
+            "minimum_pressure_Pa": 99999.99999999975,
+            "minimum_pump_inlet_temperature_K": 298.15,
+            "minimum_pump_pressure_Pa": 99999.99999999975,
+            "minimum_temperature_K": 298.15,
+            "minimum_water_saturation_ratio": 0.49999999999999994,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 1800.0,
+          "elapsed_end_s": 1800.0,
+          "elapsed_start_s": 0.0,
+          "energy_closure_relative_error": 7.392351283493105e-13,
+          "energy_residual_J": -5.251422408036888e-09,
+          "energy_transfer_scale_J": 7103.8593901282175,
+          "event_terminated": false,
+          "phase": "adsorption",
+          "weather_index": 0,
+          "weather_interval_end_utc": "2000-01-01T01:00:00+00:00"
+        },
+        {
+          "diagnostics": {
+            "accepted_state_count": 182,
+            "conditioner_connected": true,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": 298.15,
+            "maximum_conditioning_cooling_W": 0.0,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 99999.9999999999,
+            "maximum_pump_inlet_temperature_K": 298.15,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 99999.9999999999,
+            "maximum_temperature_K": 298.15,
+            "maximum_water_saturation_ratio": 0.500001349522559,
+            "maximum_water_support_fraction": 5.872948310614691e-05,
+            "minimum_conditioned_pump_inlet_temperature_K": 298.15,
+            "minimum_pressure_Pa": 20000.0,
+            "minimum_pump_inlet_temperature_K": 298.15,
+            "minimum_pump_pressure_Pa": 20000.0,
+            "minimum_temperature_K": 298.15,
+            "minimum_water_saturation_ratio": 0.10001165219990102,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 96.35706001402345,
+          "elapsed_end_s": 1896.3570600140235,
+          "elapsed_start_s": 1800.0,
+          "energy_closure_relative_error": 1.769584984744081e-11,
+          "energy_residual_J": 3.29473550664261e-08,
+          "energy_transfer_scale_J": 1861.869045593816,
+          "event_terminated": true,
+          "phase": "evacuation",
+          "weather_index": 0,
+          "weather_interval_end_utc": "2000-01-01T01:00:00+00:00"
+        },
+        {
+          "diagnostics": {
+            "accepted_state_count": 275,
+            "conditioner_connected": true,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": 328.15,
+            "maximum_conditioning_cooling_W": 0.023860924534242663,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 20000.0,
+            "maximum_pump_inlet_temperature_K": 328.15,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 20000.0,
+            "maximum_temperature_K": 372.9700758558173,
+            "maximum_water_saturation_ratio": 0.10001165219990102,
+            "maximum_water_support_fraction": 7.429484658338571e-05,
+            "minimum_conditioned_pump_inlet_temperature_K": 298.15,
+            "minimum_pressure_Pa": 19891.98454896478,
+            "minimum_pump_inlet_temperature_K": 298.15,
+            "minimum_pump_pressure_Pa": 19891.984548964785,
+            "minimum_temperature_K": 298.15,
+            "minimum_water_saturation_ratio": 0.0017979788923953555,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 1703.6429399859765,
+          "elapsed_end_s": 3600.0,
+          "elapsed_start_s": 1896.3570600140235,
+          "energy_closure_relative_error": 3.8311903700929e-13,
+          "energy_residual_J": 8.791685104370117e-07,
+          "energy_transfer_scale_J": 2294765.9226228776,
+          "event_terminated": false,
+          "phase": "desorption",
+          "weather_index": 0,
+          "weather_interval_end_utc": "2000-01-01T01:00:00+00:00"
+        },
+        {
+          "diagnostics": {
+            "accepted_state_count": 363,
+            "conditioner_connected": true,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": 328.15,
+            "maximum_conditioning_cooling_W": 0.0,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 19891.984548964785,
+            "maximum_pump_inlet_temperature_K": 328.15,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 19891.984548964785,
+            "maximum_temperature_K": 372.9700748370067,
+            "maximum_water_saturation_ratio": 0.001797978892395356,
+            "maximum_water_support_fraction": 9.080429585912922e-05,
+            "minimum_conditioned_pump_inlet_temperature_K": 328.15,
+            "minimum_pressure_Pa": 19746.97535935263,
+            "minimum_pump_inlet_temperature_K": 328.15,
+            "minimum_pump_pressure_Pa": 19746.97535935263,
+            "minimum_temperature_K": 372.97007243733583,
+            "minimum_water_saturation_ratio": 0.00034302462690094824,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 3600.0,
+          "elapsed_end_s": 7200.0,
+          "elapsed_start_s": 3600.0,
+          "energy_closure_relative_error": 1.2966428169783937e-15,
+          "energy_residual_J": 1.3969838619232178e-09,
+          "energy_transfer_scale_J": 1077385.262642068,
+          "event_terminated": false,
+          "phase": "desorption",
+          "weather_index": 1,
+          "weather_interval_end_utc": "2000-01-01T02:00:00+00:00"
+        },
+        {
+          "diagnostics": {
+            "accepted_state_count": 12,
+            "conditioner_connected": true,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": 328.15,
+            "maximum_conditioning_cooling_W": 0.0,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 19746.97535935263,
+            "maximum_pump_inlet_temperature_K": 328.15,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 19746.97535935263,
+            "maximum_temperature_K": 372.97007243733583,
+            "maximum_water_saturation_ratio": 0.00034302462690094824,
+            "maximum_water_support_fraction": 9.095643846119567e-05,
+            "minimum_conditioned_pump_inlet_temperature_K": 328.15,
+            "minimum_pressure_Pa": 19745.63902925617,
+            "minimum_pump_inlet_temperature_K": 328.15,
+            "minimum_pump_pressure_Pa": 19745.63902925617,
+            "minimum_temperature_K": 372.9700724152217,
+            "minimum_water_saturation_ratio": 0.0003296165148939042,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 96.35706001402377,
+          "elapsed_end_s": 7296.357060014024,
+          "elapsed_start_s": 7200.0,
+          "energy_closure_relative_error": 0.0,
+          "energy_residual_J": 0.0,
+          "energy_transfer_scale_J": 28837.549574141973,
+          "event_terminated": false,
+          "phase": "desorption",
+          "weather_index": 2,
+          "weather_interval_end_utc": "2000-01-01T03:00:00+00:00"
+        },
+        {
+          "diagnostics": {
+            "accepted_state_count": 151,
+            "conditioner_connected": true,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": 328.15,
+            "maximum_conditioning_cooling_W": 0.0,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 19745.63902925617,
+            "maximum_pump_inlet_temperature_K": 328.15,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 19745.63902925617,
+            "maximum_temperature_K": 372.9700724152217,
+            "maximum_water_saturation_ratio": 0.029549173167284202,
+            "maximum_water_support_fraction": 9.124262037753181e-05,
+            "minimum_conditioned_pump_inlet_temperature_K": 298.65,
+            "minimum_pressure_Pa": 15508.438388758235,
+            "minimum_pump_inlet_temperature_K": 298.65,
+            "minimum_pump_pressure_Pa": 15508.438388758235,
+            "minimum_temperature_K": 298.65,
+            "minimum_water_saturation_ratio": 0.0003296165148939042,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 942.0595502210247,
+          "elapsed_end_s": 8238.416610235048,
+          "elapsed_start_s": 7296.357060014024,
+          "energy_closure_relative_error": 1.3943891478183126e-14,
+          "energy_residual_J": -2.6775524020195007e-08,
+          "energy_transfer_scale_J": 1920233.2478052124,
+          "event_terminated": true,
+          "phase": "cooling",
+          "weather_index": 2,
+          "weather_interval_end_utc": "2000-01-01T03:00:00+00:00"
+        },
+        {
+          "diagnostics": {
+            "accepted_state_count": 12,
+            "conditioner_connected": false,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": null,
+            "maximum_conditioning_cooling_W": 0.0,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 99499.9999999997,
+            "maximum_pump_inlet_temperature_K": 298.6833238497781,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 99499.9999999997,
+            "maximum_temperature_K": 298.6833238497781,
+            "maximum_water_saturation_ratio": 0.43633037387831775,
+            "maximum_water_support_fraction": 8.090848071705712e-05,
+            "minimum_conditioned_pump_inlet_temperature_K": null,
+            "minimum_pressure_Pa": 15508.438388758235,
+            "minimum_pump_inlet_temperature_K": 298.65,
+            "minimum_pump_pressure_Pa": 15508.438388758235,
+            "minimum_temperature_K": 298.65,
+            "minimum_water_saturation_ratio": 0.029549173167284202,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 0.0540823435444965,
+          "elapsed_end_s": 8238.470692578592,
+          "elapsed_start_s": 8238.416610235048,
+          "energy_closure_relative_error": 1.7130585852142448e-07,
+          "energy_residual_J": -0.00018530201941757696,
+          "energy_transfer_scale_J": 1081.7027567939367,
+          "event_terminated": true,
+          "phase": "repressurization",
+          "weather_index": 2,
+          "weather_interval_end_utc": "2000-01-01T03:00:00+00:00"
+        },
+        {
+          "diagnostics": {
+            "accepted_state_count": 278,
+            "conditioner_connected": false,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": null,
+            "maximum_conditioning_cooling_W": 0.0,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 100000.00189885689,
+            "maximum_pump_inlet_temperature_K": 298.6833238497781,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 100000.00189885689,
+            "maximum_temperature_K": 298.6833238497781,
+            "maximum_water_saturation_ratio": 0.5000024355577127,
+            "maximum_water_support_fraction": 9.264976439296661e-05,
+            "minimum_conditioned_pump_inlet_temperature_K": null,
+            "minimum_pressure_Pa": 99499.9999999997,
+            "minimum_pump_inlet_temperature_K": 298.15,
+            "minimum_pump_pressure_Pa": 99499.9999999997,
+            "minimum_temperature_K": 298.15,
+            "minimum_water_saturation_ratio": 0.43633037387831775,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 1800.0,
+          "elapsed_end_s": 10038.470692578592,
+          "elapsed_start_s": 8238.470692578592,
+          "energy_closure_relative_error": 2.7404169479094154e-09,
+          "energy_residual_J": -4.497263580560684e-05,
+          "energy_transfer_scale_J": 16410.873476722278,
+          "event_terminated": false,
+          "phase": "adsorption",
+          "weather_index": 2,
+          "weather_interval_end_utc": "2000-01-01T03:00:00+00:00"
+        },
+        {
+          "diagnostics": {
+            "accepted_state_count": 159,
+            "conditioner_connected": true,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": 298.15000000000003,
+            "maximum_conditioning_cooling_W": 0.0,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 100000.00000000004,
+            "maximum_pump_inlet_temperature_K": 298.15000000000003,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 100000.00000000004,
+            "maximum_temperature_K": 298.15000000000003,
+            "maximum_water_saturation_ratio": 0.5000012078847799,
+            "maximum_water_support_fraction": 9.265101533971559e-05,
+            "minimum_conditioned_pump_inlet_temperature_K": 298.15000000000003,
+            "minimum_pressure_Pa": 20000.0,
+            "minimum_pump_inlet_temperature_K": 298.15000000000003,
+            "minimum_pump_pressure_Pa": 20000.0,
+            "minimum_temperature_K": 298.15000000000003,
+            "minimum_water_saturation_ratio": 0.10111945702640909,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 96.47149233187605,
+          "elapsed_end_s": 10134.942184910467,
+          "elapsed_start_s": 10038.470692578592,
+          "energy_closure_relative_error": 1.3934455917316108e-11,
+          "energy_residual_J": -2.6029738364741206e-08,
+          "energy_transfer_scale_J": 1868.0125380707905,
+          "event_terminated": true,
+          "phase": "evacuation",
+          "weather_index": 2,
+          "weather_interval_end_utc": "2000-01-01T03:00:00+00:00"
+        },
+        {
+          "diagnostics": {
+            "accepted_state_count": 108,
+            "conditioner_connected": true,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": 328.15,
+            "maximum_conditioning_cooling_W": 0.011782304920643768,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 20000.0,
+            "maximum_pump_inlet_temperature_K": 328.15,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 20000.0,
+            "maximum_temperature_K": 348.3213827657983,
+            "maximum_water_saturation_ratio": 0.10111945702640909,
+            "maximum_water_support_fraction": 9.410515621989566e-05,
+            "minimum_conditioned_pump_inlet_temperature_K": 298.15000000000003,
+            "minimum_pressure_Pa": 19993.920622052075,
+            "minimum_pump_inlet_temperature_K": 298.15000000000003,
+            "minimum_pump_pressure_Pa": 19993.92062205208,
+            "minimum_temperature_K": 298.15000000000003,
+            "minimum_water_saturation_ratio": 0.0076218623267329914,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 665.0578150895326,
+          "elapsed_end_s": 10800.0,
+          "elapsed_start_s": 10134.942184910467,
+          "energy_closure_relative_error": 2.448808611434229e-12,
+          "energy_residual_J": 3.339722752571106e-06,
+          "energy_transfer_scale_J": 1363815.341459079,
+          "event_terminated": false,
+          "phase": "desorption",
+          "weather_index": 2,
+          "weather_interval_end_utc": "2000-01-01T03:00:00+00:00"
+        },
+        {
+          "diagnostics": {
+            "accepted_state_count": 417,
+            "conditioner_connected": true,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": 328.15,
+            "maximum_conditioning_cooling_W": 0.026204112664332913,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 19994.064183919665,
+            "maximum_pump_inlet_temperature_K": 328.15,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 19994.064183919665,
+            "maximum_temperature_K": 372.97007686093286,
+            "maximum_water_saturation_ratio": 0.007621862326732993,
+            "maximum_water_support_fraction": 0.00012733608116921686,
+            "minimum_conditioned_pump_inlet_temperature_K": 328.15,
+            "minimum_pressure_Pa": 19715.95989269623,
+            "minimum_pump_inlet_temperature_K": 328.15,
+            "minimum_pump_pressure_Pa": 19715.95989269623,
+            "minimum_temperature_K": 348.3213827657983,
+            "minimum_water_saturation_ratio": 2.718102858546808e-05,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 3600.0,
+          "elapsed_end_s": 14400.0,
+          "elapsed_start_s": 10800.0,
+          "energy_closure_relative_error": 9.204948708855238e-12,
+          "energy_residual_J": 1.5627127140760422e-05,
+          "energy_transfer_scale_J": 1697687.5846931112,
+          "event_terminated": false,
+          "phase": "desorption",
+          "weather_index": 3,
+          "weather_interval_end_utc": "2000-01-01T04:00:00+00:00"
+        }
+      ],
+      "completed_cycles": 1,
+      "conditioned_pump_inlet_mol": [
+        0.0004222315291455564,
+        0.0006311893056677531,
+        0.0324008341857818,
+        0.008586938345251462
+      ],
+      "conditioned_vent_mol": [
+        0.00043116569907356505,
+        0.011887983055456781,
+        0.5829546348918833,
+        0.15449588363042313
+      ],
+      "conditioner_cooling_removed_J": 16.05168886081818,
+      "conditioner_energy_boundary_residual_J": -2.636071627648562e-08,
+      "conservation_pass": true,
+      "control_identity": {
+        "adsorption_control": "pressure_regulated_target_inlet",
+        "cooling_max_s": 2400.0,
+        "cooling_stop_offset_K": 0.5,
+        "pressure_response_tau_s": 0.5,
+        "pressure_target": "current_inlet_pressure",
+        "schema": "matched-material-pressure-control/1"
+      },
+      "control_variant": "pressure_regulated_adaptive_cooling_v1",
+      "cooling_policy": {
+        "completed_cooling_durations_s": [
+          942.0595502210247
+        ],
+        "max_duration_s": 2400.0,
+        "stop_offset_K": 0.5
+      },
+      "cooling_removed_J": 1871745.9389051837,
+      "cursor": {
+        "active_phase_duration_s": 5400.0,
+        "completed_cycles": 1,
+        "elapsed_s": 14400.0,
+        "phase": "desorption",
+        "phase_elapsed_s": 4265.057815089533,
+        "phase_index": 2,
+        "phase_start_elapsed_s": 10134.942184910467,
+        "phase_weather_index_start": 2,
+        "weather_index": 3
+      },
+      "declared_horizon_s": 14400.0,
+      "delivered_heat_J": 5166336.177986829,
+      "direct_adsorption_vent_mol": [
+        10.555366066436573,
+        414.1244072432612,
+        20327.779171306094,
+        5387.311494482772
+      ],
+      "dry_purity": 0.010196365316263943,
+      "elapsed_s": 14400.0,
+      "electricity_J": 7264387.681931254,
+      "endpoint_violations": [],
+      "energy_closure_relative_error": 2.5030226427977492e-11,
+      "energy_residual_J": -0.00021045980975031853,
+      "energy_transfer_scale_J": 8408226.364068262,
+      "external_outlet_h_J": 64804294.497110486,
+      "fan_electric_J": 16138.141529456178,
+      "final_state": [
+        0.02421970435558827,
+        0.0004165163215045083,
+        0.0004165163215045083,
+        0.0,
+        0.0,
+        372.9700729642996,
+        0.0026514384201332094,
+        1.0088570693506628e-05,
+        0.05625204881949495,
+        0.014908038238689672,
+        10.805039502946107,
+        414.133681173656,
+        20328.08653788942,
+        5387.392953431759,
+        0.0004222315291455564,
+        0.0006311893056677531,
+        0.0324008341857818,
+        0.008586938345251462,
+        10.555797232135632,
+        414.1362952263167,
+        20328.362125940977,
+        5387.465990366407,
+        5166336.177986829,
+        1457992.6988836217,
+        16138.141529456178,
+        1871745.9389051837,
+        64800973.48218376,
+        64804310.54879937,
+        1366807.1805606398,
+        0.0004222315291455564,
+        0.0006311893056677531,
+        0.0324008341857818,
+        0.008586938345251462,
+        0.00043116569907356505,
+        0.011887983055456781,
+        0.5829546348918833,
+        0.15449588363042313,
+        10.555366066436573,
+        414.1244072432612,
+        20327.779171306094,
+        5387.311494482772,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        16.05168886081818,
+        64804294.497110486
+      ],
+      "flags": {
+        "actual_supersaturation_excursion": false,
+        "conditioned_pump_media_temperature_excursion": false,
+        "conditioner_hardware_qualified": false,
+        "conditioner_liquid_drain_present": false,
+        "correlation_domain_violation": false,
+        "frost_model_absent": true,
+        "nonfinite_accepted_state": false,
+        "pump_curve_upper_domain_exceeded": false,
+        "pump_media_temperature_excursion": false,
+        "subfreezing_bed_state_observed": false,
+        "temperature_support_excursion": false,
+        "water_support_excursion": false
+      },
+      "full_physical_qualification": false,
+      "gross_collected_co2_kg": 1.8582198481931363e-05,
+      "gross_collected_co2_kg_day": 0.00011149319089158818,
+      "gross_collected_co2_mol": 0.0004222315291455564,
+      "initial_state": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        298.15,
+        0.0001936059097370587,
+        0.007420493749654646,
+        0.36424093464060264,
+        0.096531911204562,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "initial_step_identity": {
+        "first_step_default": null,
+        "gas_depletion_fraction": 0.1,
+        "maximum_first_step_s": 5.0,
+        "policy": "positive_gas_depletion_bound_v1"
+      },
+      "initial_step_records": [
+        {
+          "accepted_gas_mol": [
+            0.0001936059097370587,
+            0.007420493749654646,
+            0.36424093464060264,
+            0.096531911204562
+          ],
+          "cycle": 1,
+          "default_h0_s": 5.372206923295797e-07,
+          "default_trial_gas_positive": true,
+          "depletion_bound_s": 0.12730539927455534,
+          "depletion_fraction": 0.1,
+          "elapsed_s": 0.0,
+          "first_step_s": 0.12730539927455534,
+          "gas_derivative_mol_s": [
+            -0.0001520798888659194,
+            7.680570529034974e-07,
+            0.00011961200304710928,
+            3.169982876460864e-05
+          ],
+          "interval_s": 1800.0,
+          "limiting_gas_index": 6,
+          "max_step_s": 10.0,
+          "maximum_first_step_s": 5.0,
+          "minimum_gas_depletion_s": 1.2730539927455533,
+          "phase": "adsorption",
+          "policy": "positive_gas_depletion_bound_v1",
+          "selected_trial_gas_admissible": true,
+          "selected_trial_gas_positive": true,
+          "selected_trial_rhs_finite": true,
+          "selected_trial_state_sha256": "c8ffec7c15b190f2c673f8437fe986bd7d11207c8fee6993a2a0ccd18af2710d",
+          "starting_rhs_sha256": "a2d0b05c1bddb2c5931c1e95394755e5a0a7b290845def0b9c41a88f991af6c3",
+          "stationary_zero_mask": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "trial_gas_mol": [
+            0.00017424531876335283,
+            0.007420591527464431,
+            0.36425616189440857,
+            0.09653594676391981
+          ],
+          "weather_index": 0
+        },
+        {
+          "accepted_gas_mol": [
+            0.00018964087174247072,
+            0.007420513777902076,
+            0.3642440531708075,
+            0.09653273768410396
+          ],
+          "cycle": 1,
+          "default_h0_s": 0.00031620460261349117,
+          "default_trial_gas_positive": true,
+          "depletion_bound_s": 0.28220310420781775,
+          "depletion_fraction": 0.1,
+          "elapsed_s": 1800.0,
+          "first_step_s": 0.28220310420781775,
+          "gas_derivative_mol_s": [
+            -6.720013667986336e-05,
+            -0.00022407451589737812,
+            -0.010965840114566531,
+            -0.0029061903908939764
+          ],
+          "interval_s": 1200.0,
+          "limiting_gas_index": 6,
+          "max_step_s": 10.0,
+          "maximum_first_step_s": 5.0,
+          "minimum_gas_depletion_s": 2.8220310420781773,
+          "phase": "evacuation",
+          "policy": "positive_gas_depletion_bound_v1",
+          "selected_trial_gas_admissible": true,
+          "selected_trial_gas_positive": true,
+          "selected_trial_rhs_finite": true,
+          "selected_trial_state_sha256": "044d0b11fc564ac3654d8812919a40f784816444e37f0b44c239b52802887816",
+          "starting_rhs_sha256": "a6f2b5751d3bd9c98afc718232065524c90a4a0b0a8f1255d91d407025ca8f17",
+          "stationary_zero_mask": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "trial_gas_mol": [
+            0.00017067678456822365,
+            0.007357279253941972,
+            0.3611494590502302,
+            0.09571260173437475
+          ],
+          "weather_index": 0
+        },
+        {
+          "accepted_gas_mol": [
+            0.00011076183411548575,
+            0.0014842716800840003,
+            0.07279110209129572,
+            0.019291253495416102
+          ],
+          "cycle": 1,
+          "default_h0_s": 0.02133588616110362,
+          "default_trial_gas_positive": true,
+          "depletion_bound_s": 363.4916626491273,
+          "depletion_fraction": 0.1,
+          "elapsed_s": 1896.3570600140235,
+          "first_step_s": 5.0,
+          "gas_derivative_mol_s": [
+            2.910498749359769e-09,
+            -3.993825717520585e-07,
+            -2.002552178523e-05,
+            -5.30720659583261e-06
+          ],
+          "interval_s": 1703.6429399859765,
+          "limiting_gas_index": 8,
+          "max_step_s": 10.0,
+          "maximum_first_step_s": 5.0,
+          "minimum_gas_depletion_s": 3634.916626491273,
+          "phase": "desorption",
+          "policy": "positive_gas_depletion_bound_v1",
+          "selected_trial_gas_admissible": true,
+          "selected_trial_gas_positive": true,
+          "selected_trial_rhs_finite": true,
+          "selected_trial_state_sha256": "777bcb9d4ad948167af0d131a3abedc6db9c09c123d38442b78f339d73b1741e",
+          "starting_rhs_sha256": "e988e21304a282c0501e8781539196f85e1497173b194b1fc18f53eb0aa8335d",
+          "stationary_zero_mask": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "trial_gas_mol": [
+            0.00011077638660923255,
+            0.00148227476722524,
+            0.07269097448236957,
+            0.01926471746243694
+          ],
+          "weather_index": 0
+        },
+        {
+          "accepted_gas_mol": [
+            0.0018604251852421755,
+            0.0006673418629360612,
+            0.05687878967699219,
+            0.01507413844064495
+          ],
+          "cycle": 1,
+          "default_h0_s": 46.96455087430128,
+          "default_trial_gas_positive": true,
+          "depletion_bound_s": 205.1121716355498,
+          "depletion_fraction": 0.1,
+          "elapsed_s": 3600.0,
+          "first_step_s": 5.0,
+          "gas_derivative_mol_s": [
+            -1.7635190666421607e-09,
+            -3.253545889620908e-07,
+            -0.0,
+            -0.0
+          ],
+          "interval_s": 3600.0,
+          "limiting_gas_index": 7,
+          "max_step_s": 10.0,
+          "maximum_first_step_s": 5.0,
+          "minimum_gas_depletion_s": 2051.121716355498,
+          "phase": "desorption",
+          "policy": "positive_gas_depletion_bound_v1",
+          "selected_trial_gas_admissible": true,
+          "selected_trial_gas_positive": true,
+          "selected_trial_rhs_finite": true,
+          "selected_trial_state_sha256": "9397b4393d7f1242122097102a1822f089d2ddfcfdcd0f3486d78b271f13f5a2",
+          "starting_rhs_sha256": "6ea24d055bbd45c89f81ccf0a3aa6b26f4ec5e16c31b5107d78c7243ffdd2800",
+          "stationary_zero_mask": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "trial_gas_mol": [
+            0.0018604163676468424,
+            0.0006657150899912507,
+            0.05687878967699219,
+            0.01507413844064495
+          ],
+          "weather_index": 1
+        },
+        {
+          "accepted_gas_mol": [
+            0.0018574981261668116,
+            0.00012731777712648803,
+            0.05687878967699219,
+            0.01507413844064495
+          ],
+          "cycle": 1,
+          "default_h0_s": 96.35706001402377,
+          "default_trial_gas_positive": true,
+          "depletion_bound_s": 240.58883196294943,
+          "depletion_fraction": 0.1,
+          "elapsed_s": 7200.0,
+          "first_step_s": 5.0,
+          "gas_derivative_mol_s": [
+            -2.8683165275822015e-10,
+            -5.291923822386523e-08,
+            -0.0,
+            -0.0
+          ],
+          "interval_s": 96.35706001402377,
+          "limiting_gas_index": 7,
+          "max_step_s": 10.0,
+          "maximum_first_step_s": 5.0,
+          "minimum_gas_depletion_s": 2405.888319629494,
+          "phase": "desorption",
+          "policy": "positive_gas_depletion_bound_v1",
+          "selected_trial_gas_admissible": true,
+          "selected_trial_gas_positive": true,
+          "selected_trial_rhs_finite": true,
+          "selected_trial_state_sha256": "48f83025b289c83ffc74c6a34ded1d66fceeba6099888a2a4cc0c37db2973fdb",
+          "starting_rhs_sha256": "a6f766c82eca37c393c0de9d06e5fc83e0100d851579e3017eb459092b5c0839",
+          "stationary_zero_mask": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "trial_gas_mol": [
+            0.0018574966920085478,
+            0.0001270531809353687,
+            0.05687878967699219,
+            0.01507413844064495
+          ],
+          "weather_index": 2
+        },
+        {
+          "accepted_gas_mol": [
+            0.0018574711521992663,
+            0.000122341192612894,
+            0.05687878967699219,
+            0.01507413844064495
+          ],
+          "cycle": 1,
+          "default_h0_s": 0.15889811441512897,
+          "default_trial_gas_positive": true,
+          "depletion_bound_s": 242.6989799681334,
+          "depletion_fraction": 0.1,
+          "elapsed_s": 7296.357060014024,
+          "first_step_s": 5.0,
+          "gas_derivative_mol_s": [
+            -2.7322356952537617e-10,
+            -5.0408614254974415e-08,
+            -0.0,
+            -0.0
+          ],
+          "interval_s": 2400.0,
+          "limiting_gas_index": 7,
+          "max_step_s": 10.0,
+          "maximum_first_step_s": 5.0,
+          "minimum_gas_depletion_s": 2426.989799681334,
+          "phase": "cooling",
+          "policy": "positive_gas_depletion_bound_v1",
+          "selected_trial_gas_admissible": true,
+          "selected_trial_gas_positive": true,
+          "selected_trial_rhs_finite": true,
+          "selected_trial_state_sha256": "caecb0ba7c21368db1ac9e4beec1233f29a14637ffb32af1d8a91c2d10337484",
+          "starting_rhs_sha256": "b14e274641a118f23ade267c2f1e2c56e5ccf8b1b3f0c09200c0df18d32e2012",
+          "stationary_zero_mask": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "trial_gas_mol": [
+            0.0018574697860814188,
+            0.0001220891495416191,
+            0.05687878967699219,
+            0.01507413844064495
+          ],
+          "weather_index": 2
+        },
+        {
+          "accepted_gas_mol": [
+            0.00011393458948988557,
+            0.00045102506373781806,
+            0.05687878967699219,
+            0.01507413844064495
+          ],
+          "cycle": 1,
+          "default_h0_s": 0.00037642139094520854,
+          "default_trial_gas_positive": true,
+          "depletion_bound_s": null,
+          "depletion_fraction": 0.1,
+          "elapsed_s": 8238.416610235048,
+          "first_step_s": 5.0,
+          "gas_derivative_mol_s": [
+            0.0030012447084547074,
+            0.11503612588265227,
+            5.646605876725132,
+            1.4964755612573248
+          ],
+          "interval_s": 1200.0,
+          "limiting_gas_index": null,
+          "max_step_s": 10.0,
+          "maximum_first_step_s": 5.0,
+          "minimum_gas_depletion_s": null,
+          "phase": "repressurization",
+          "policy": "positive_gas_depletion_bound_v1",
+          "selected_trial_gas_admissible": true,
+          "selected_trial_gas_positive": true,
+          "selected_trial_rhs_finite": true,
+          "selected_trial_state_sha256": "c6a7144a6612846cfe88d963a9f3208d8d3ae9e171169c727efd960c116d07b0",
+          "starting_rhs_sha256": "cc314b57bacbce265ff59361d52f3df5e69e7669752b8b215c11f40ea1320df1",
+          "stationary_zero_mask": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "trial_gas_mol": [
+            0.015120158131763423,
+            0.5756316544769992,
+            28.289908173302653,
+            7.49745194472727
+          ],
+          "weather_index": 2
+        },
+        {
+          "accepted_gas_mol": [
+            0.0002729421297913331,
+            0.006672394210294965,
+            0.3622604685624136,
+            0.09600704385050679
+          ],
+          "cycle": 2,
+          "default_h0_s": 0.026845804983913948,
+          "default_trial_gas_positive": true,
+          "depletion_bound_s": 0.019826196139940716,
+          "depletion_fraction": 0.1,
+          "elapsed_s": 8238.470692578592,
+          "first_step_s": 0.019826196139940716,
+          "gas_derivative_mol_s": [
+            -0.001376674213574835,
+            0.010959871082995948,
+            -0.003854126169257732,
+            -0.0010214287570633473
+          ],
+          "interval_s": 1800.0,
+          "limiting_gas_index": 6,
+          "max_step_s": 10.0,
+          "maximum_first_step_s": 5.0,
+          "minimum_gas_depletion_s": 0.19826196139940713,
+          "phase": "adsorption",
+          "policy": "positive_gas_depletion_bound_v1",
+          "selected_trial_gas_admissible": true,
+          "selected_trial_gas_positive": true,
+          "selected_trial_rhs_finite": true,
+          "selected_trial_state_sha256": "2fbefbd4268007e20bd5952ec66029f20c8da5c1940ddd8bb96942456f69add5",
+          "starting_rhs_sha256": "b17bc7128091157eb44d0f050ba38a20db8e8cfbf927656b2f068a3dabe7fdd7",
+          "stationary_zero_mask": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "trial_gas_mol": [
+            0.00024564791681219977,
+            0.006889686764054908,
+            0.36218405590103386,
+            0.09598679280362628
+          ],
+          "weather_index": 2
+        },
+        {
+          "accepted_gas_mol": [
+            0.00019191845444905007,
+            0.0074205116758575915,
+            0.36424225440334457,
+            0.09653226097090536
+          ],
+          "cycle": 2,
+          "default_h0_s": 0.9902807580580363,
+          "default_trial_gas_positive": true,
+          "depletion_bound_s": 0.6007322670022474,
+          "depletion_fraction": 0.1,
+          "elapsed_s": 10038.470692578592,
+          "first_step_s": 0.6007322670022474,
+          "gas_derivative_mol_s": [
+            -3.19474190069321e-05,
+            -0.00022353897041517095,
+            -0.010965785961324411,
+            -0.002906176039085977
+          ],
+          "interval_s": 761.5293074214078,
+          "limiting_gas_index": 6,
+          "max_step_s": 10.0,
+          "maximum_first_step_s": 5.0,
+          "minimum_gas_depletion_s": 6.007322670022473,
+          "phase": "evacuation",
+          "policy": "positive_gas_depletion_bound_v1",
+          "selected_trial_gas_admissible": true,
+          "selected_trial_gas_positive": true,
+          "selected_trial_rhs_finite": true,
+          "selected_trial_state_sha256": "1f48ae07f234412bfcbe2e6d5555a02c6414d7afa1a4f5ecf7f3536b14047551",
+          "starting_rhs_sha256": "aef9bc815eda018d85c36e51ac188dbded7a2ff30cf310d3b083fd935a7e96ed",
+          "stationary_zero_mask": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "trial_gas_mol": [
+            0.00017272660900414507,
+            0.007286224603396738,
+            0.35765475294333676,
+            0.09478642725063763
+          ],
+          "weather_index": 2
+        },
+        {
+          "accepted_gas_mol": [
+            0.0001582443831022349,
+            0.0015007125976658864,
+            0.07274057059097319,
+            0.019277861529169982
+          ],
+          "cycle": 2,
+          "default_h0_s": 56.479323306711464,
+          "default_trial_gas_positive": true,
+          "depletion_bound_s": 363.4916626491274,
+          "depletion_fraction": 0.1,
+          "elapsed_s": 10134.942184910467,
+          "first_step_s": 5.0,
+          "gas_derivative_mol_s": [
+            8.784157023236564e-09,
+            -1.4022743252464578e-07,
+            -2.001162009077179e-05,
+            -5.303522339047042e-06
+          ],
+          "interval_s": 665.0578150895326,
+          "limiting_gas_index": 8,
+          "max_step_s": 10.0,
+          "maximum_first_step_s": 5.0,
+          "minimum_gas_depletion_s": 3634.9166264912737,
+          "phase": "desorption",
+          "policy": "positive_gas_depletion_bound_v1",
+          "selected_trial_gas_admissible": true,
+          "selected_trial_gas_positive": true,
+          "selected_trial_rhs_finite": true,
+          "selected_trial_state_sha256": "75edabb42d393bdaeefd76f70cf27d958cd2eb67087928bf55a029f198d3b581",
+          "starting_rhs_sha256": "20e7a7f9513c19097981b451baca1fe82fb6b98b1caa67062852bfb6daa87917",
+          "stationary_zero_mask": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "trial_gas_mol": [
+            0.00015828830388735107,
+            0.0015000114605032632,
+            0.07264051249051934,
+            0.019251343917474746
+          ],
+          "weather_index": 2
+        },
+        {
+          "accepted_gas_mol": [
+            0.0011872823097404642,
+            0.0011920255952332741,
+            0.06148559555396528,
+            0.016295043982992693
+          ],
+          "cycle": 2,
+          "default_h0_s": 25.48127028398485,
+          "default_trial_gas_positive": true,
+          "depletion_bound_s": 180.8286316347436,
+          "depletion_fraction": 0.1,
+          "elapsed_s": 10800.0,
+          "first_step_s": 5.0,
+          "gas_derivative_mol_s": [
+            2.9794635245176653e-06,
+            -6.592018003216719e-07,
+            -1.5221131976767963e-05,
+            -4.03393693754951e-06
+          ],
+          "interval_s": 3600.0,
+          "limiting_gas_index": 7,
+          "max_step_s": 10.0,
+          "maximum_first_step_s": 5.0,
+          "minimum_gas_depletion_s": 1808.286316347436,
+          "phase": "desorption",
+          "policy": "positive_gas_depletion_bound_v1",
+          "selected_trial_gas_admissible": true,
+          "selected_trial_gas_positive": true,
+          "selected_trial_rhs_finite": true,
+          "selected_trial_state_sha256": "248c5edc5f3fb3a10462c7a340e806f3b12be68cf7a74624b96ab50521329f6c",
+          "starting_rhs_sha256": "5331a6ac3d573256f51c9dff862991a5b7551782db8925274120fe5b8c4a5d1a",
+          "stationary_zero_mask": [
+            false,
+            false,
+            false,
+            false
+          ],
+          "trial_gas_mol": [
+            0.0012021796273630526,
+            0.0011887295862316658,
+            0.06140948989408144,
+            0.016274874298304945
+          ],
+          "weather_index": 3
+        }
+      ],
+      "inlet_mol": [
+        10.805039502946107,
+        414.133681173656,
+        20328.08653788942,
+        5387.392953431759
+      ],
+      "jacobian_audit": null,
+      "job_id": "145e6573dfcd489b93cfc5a59b93fa6e",
+      "ledger_columns": 37,
+      "liquid_drain_mol": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mass_closure_relative_error": 2.9203628474112495e-15,
+      "mass_residual_mol": [
+        7.99414787838737e-15,
+        2.4188507100064705e-12,
+        -7.193264733862392e-11,
+        2.2373193575564443e-11
+      ],
+      "material_id": "calf20_nguyen2024_80_20_shaped",
+      "material_winner": null,
+      "max_step_s": 10.0,
+      "maximum_pressure_Pa": 100000.00189885689,
+      "milestone_3h": {
+        "path": null,
+        "saved": false,
+        "sha256": null,
+        "target_s": null
+      },
+      "minimum_pressure_Pa": 15508.438388758235,
+      "p_water_mode": "buck_explicit",
+      "phase_history": [
+        {
+          "completion_reason": "fixed_duration",
+          "cycle": 1,
+          "diagnostics": {
+            "accepted_state_count": 233,
+            "conditioner_connected": false,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": null,
+            "maximum_conditioning_cooling_W": 0.0,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 100000.00000000007,
+            "maximum_pump_inlet_temperature_K": 298.15,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 100000.00000000007,
+            "maximum_temperature_K": 298.15,
+            "maximum_water_saturation_ratio": 0.5000031823064304,
+            "maximum_water_support_fraction": 5.870838258905935e-05,
+            "minimum_conditioned_pump_inlet_temperature_K": null,
+            "minimum_pressure_Pa": 99999.99999999975,
+            "minimum_pump_inlet_temperature_K": 298.15,
+            "minimum_pump_pressure_Pa": 99999.99999999975,
+            "minimum_temperature_K": 298.15,
+            "minimum_water_saturation_ratio": 0.49999999999999994,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 1800.0,
+          "end_elapsed_s": 1800.0,
+          "endpoint": {
+            "endpoint_ok": true,
+            "pressure_end_Pa": 99999.9999999999,
+            "pressure_error_Pa": 1.0186340659856796e-10,
+            "pressure_ok": true,
+            "pressure_target_Pa": 100000.0,
+            "temperature_end_K": 298.15,
+            "temperature_error_K": 0.0,
+            "temperature_ok": true,
+            "temperature_target_K": 298.15
+          },
+          "energy_closure_relative_error": 7.392351283493105e-13,
+          "energy_residual_J": -5.251422408036888e-09,
+          "energy_transfer_scale_J": 7103.8593901282175,
+          "phase": "adsorption",
+          "pressure_end_Pa": 99999.9999999999,
+          "start_elapsed_s": 0.0,
+          "temperature_end_K": 298.15,
+          "weather_hour_index_end": 0,
+          "weather_hour_index_start": 0,
+          "weather_interval_end_utc": "2000-01-01T01:00:00+00:00"
+        },
+        {
+          "completion_reason": "physical_event",
+          "cycle": 1,
+          "diagnostics": {
+            "accepted_state_count": 182,
+            "conditioner_connected": true,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": 298.15,
+            "maximum_conditioning_cooling_W": 0.0,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 99999.9999999999,
+            "maximum_pump_inlet_temperature_K": 298.15,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 99999.9999999999,
+            "maximum_temperature_K": 298.15,
+            "maximum_water_saturation_ratio": 0.500001349522559,
+            "maximum_water_support_fraction": 5.872948310614691e-05,
+            "minimum_conditioned_pump_inlet_temperature_K": 298.15,
+            "minimum_pressure_Pa": 20000.0,
+            "minimum_pump_inlet_temperature_K": 298.15,
+            "minimum_pump_pressure_Pa": 20000.0,
+            "minimum_temperature_K": 298.15,
+            "minimum_water_saturation_ratio": 0.10001165219990102,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 96.35706001402345,
+          "end_elapsed_s": 1896.3570600140235,
+          "endpoint": {
+            "endpoint_ok": true,
+            "pressure_end_Pa": 20000.0,
+            "pressure_error_Pa": 0.0,
+            "pressure_ok": true,
+            "pressure_target_Pa": 20000.0
+          },
+          "energy_closure_relative_error": 1.769584984744081e-11,
+          "energy_residual_J": 3.29473550664261e-08,
+          "energy_transfer_scale_J": 1861.869045593816,
+          "phase": "evacuation",
+          "pressure_end_Pa": 20000.0,
+          "start_elapsed_s": 1800.0,
+          "temperature_end_K": 298.15,
+          "weather_hour_index_end": 0,
+          "weather_hour_index_start": 0,
+          "weather_interval_end_utc": "2000-01-01T01:00:00+00:00"
+        },
+        {
+          "completion_reason": "fixed_duration",
+          "cycle": 1,
+          "diagnostics": {
+            "accepted_state_count": 650,
+            "conditioner_connected": true,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": 328.15,
+            "maximum_conditioning_cooling_W": 0.023860924534242663,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 20000.0,
+            "maximum_pump_inlet_temperature_K": 328.15,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 20000.0,
+            "maximum_temperature_K": 372.9700758558173,
+            "maximum_water_saturation_ratio": 0.10001165219990102,
+            "maximum_water_support_fraction": 9.095643846119567e-05,
+            "minimum_conditioned_pump_inlet_temperature_K": 298.15,
+            "minimum_pressure_Pa": 19745.63902925617,
+            "minimum_pump_inlet_temperature_K": 298.15,
+            "minimum_pump_pressure_Pa": 19745.63902925617,
+            "minimum_temperature_K": 298.15,
+            "minimum_water_saturation_ratio": 0.0003296165148939042,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 5400.0,
+          "end_elapsed_s": 7296.357060014024,
+          "endpoint": {
+            "endpoint_ok": true,
+            "temperature_end_K": 372.9700724152217,
+            "temperature_error_K": 0.029927584778306482,
+            "temperature_ok": true,
+            "temperature_target_K": 373.0
+          },
+          "energy_closure_relative_error": 2.600099128641294e-13,
+          "energy_residual_J": 8.842907845973969e-07,
+          "energy_transfer_scale_J": 3400988.734839088,
+          "phase": "desorption",
+          "pressure_end_Pa": 19745.63902925617,
+          "start_elapsed_s": 1896.3570600140235,
+          "temperature_end_K": 372.9700724152217,
+          "weather_hour_index_end": 2,
+          "weather_hour_index_start": 0,
+          "weather_interval_end_utc": "2000-01-01T03:00:00+00:00"
+        },
+        {
+          "completion_reason": "physical_event",
+          "cycle": 1,
+          "diagnostics": {
+            "accepted_state_count": 151,
+            "conditioner_connected": true,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": 328.15,
+            "maximum_conditioning_cooling_W": 0.0,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 19745.63902925617,
+            "maximum_pump_inlet_temperature_K": 328.15,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 19745.63902925617,
+            "maximum_temperature_K": 372.9700724152217,
+            "maximum_water_saturation_ratio": 0.029549173167284202,
+            "maximum_water_support_fraction": 9.124262037753181e-05,
+            "minimum_conditioned_pump_inlet_temperature_K": 298.65,
+            "minimum_pressure_Pa": 15508.438388758235,
+            "minimum_pump_inlet_temperature_K": 298.65,
+            "minimum_pump_pressure_Pa": 15508.438388758235,
+            "minimum_temperature_K": 298.65,
+            "minimum_water_saturation_ratio": 0.0003296165148939042,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 942.0595502210247,
+          "end_elapsed_s": 8238.416610235048,
+          "endpoint": {
+            "cooling_event_ok": true,
+            "cooling_event_target_K": 298.65,
+            "endpoint_ok": true,
+            "temperature_end_K": 298.65,
+            "temperature_error_K": 0.5,
+            "temperature_ok": true,
+            "temperature_target_K": 299.15
+          },
+          "energy_closure_relative_error": 1.3943891478183126e-14,
+          "energy_residual_J": -2.6775524020195007e-08,
+          "energy_transfer_scale_J": 1920233.2478052124,
+          "phase": "cooling",
+          "pressure_end_Pa": 15508.438388758235,
+          "start_elapsed_s": 7296.357060014024,
+          "temperature_end_K": 298.65,
+          "weather_hour_index_end": 2,
+          "weather_hour_index_start": 2,
+          "weather_interval_end_utc": "2000-01-01T03:00:00+00:00"
+        },
+        {
+          "completion_reason": "physical_event",
+          "cycle": 1,
+          "diagnostics": {
+            "accepted_state_count": 12,
+            "conditioner_connected": false,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": null,
+            "maximum_conditioning_cooling_W": 0.0,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 99499.9999999997,
+            "maximum_pump_inlet_temperature_K": 298.6833238497781,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 99499.9999999997,
+            "maximum_temperature_K": 298.6833238497781,
+            "maximum_water_saturation_ratio": 0.43633037387831775,
+            "maximum_water_support_fraction": 8.090848071705712e-05,
+            "minimum_conditioned_pump_inlet_temperature_K": null,
+            "minimum_pressure_Pa": 15508.438388758235,
+            "minimum_pump_inlet_temperature_K": 298.65,
+            "minimum_pump_pressure_Pa": 15508.438388758235,
+            "minimum_temperature_K": 298.65,
+            "minimum_water_saturation_ratio": 0.029549173167284202,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 0.0540823435444965,
+          "end_elapsed_s": 8238.470692578592,
+          "endpoint": {
+            "endpoint_ok": true,
+            "pressure_end_Pa": 99499.9999999997,
+            "pressure_error_Pa": 499.9999999996944,
+            "pressure_ok": true,
+            "pressure_target_Pa": 99000.0
+          },
+          "energy_closure_relative_error": 1.7130585852142448e-07,
+          "energy_residual_J": -0.00018530201941757696,
+          "energy_transfer_scale_J": 1081.7027567939367,
+          "phase": "repressurization",
+          "pressure_end_Pa": 99499.9999999997,
+          "start_elapsed_s": 8238.416610235048,
+          "temperature_end_K": 298.6833238497781,
+          "weather_hour_index_end": 2,
+          "weather_hour_index_start": 2,
+          "weather_interval_end_utc": "2000-01-01T03:00:00+00:00"
+        },
+        {
+          "completion_reason": "fixed_duration",
+          "cycle": 2,
+          "diagnostics": {
+            "accepted_state_count": 278,
+            "conditioner_connected": false,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": null,
+            "maximum_conditioning_cooling_W": 0.0,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 100000.00189885689,
+            "maximum_pump_inlet_temperature_K": 298.6833238497781,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 100000.00189885689,
+            "maximum_temperature_K": 298.6833238497781,
+            "maximum_water_saturation_ratio": 0.5000024355577127,
+            "maximum_water_support_fraction": 9.264976439296661e-05,
+            "minimum_conditioned_pump_inlet_temperature_K": null,
+            "minimum_pressure_Pa": 99499.9999999997,
+            "minimum_pump_inlet_temperature_K": 298.15,
+            "minimum_pump_pressure_Pa": 99499.9999999997,
+            "minimum_temperature_K": 298.15,
+            "minimum_water_saturation_ratio": 0.43633037387831775,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 1800.0,
+          "end_elapsed_s": 10038.470692578592,
+          "endpoint": {
+            "endpoint_ok": true,
+            "pressure_end_Pa": 100000.00000000004,
+            "pressure_error_Pa": 4.3655745685100555e-11,
+            "pressure_ok": true,
+            "pressure_target_Pa": 100000.0,
+            "temperature_end_K": 298.15000000000003,
+            "temperature_error_K": 5.684341886080802e-14,
+            "temperature_ok": true,
+            "temperature_target_K": 298.15
+          },
+          "energy_closure_relative_error": 2.7404169479094154e-09,
+          "energy_residual_J": -4.497263580560684e-05,
+          "energy_transfer_scale_J": 16410.873476722278,
+          "phase": "adsorption",
+          "pressure_end_Pa": 100000.00000000004,
+          "start_elapsed_s": 8238.470692578592,
+          "temperature_end_K": 298.15000000000003,
+          "weather_hour_index_end": 2,
+          "weather_hour_index_start": 2,
+          "weather_interval_end_utc": "2000-01-01T03:00:00+00:00"
+        },
+        {
+          "completion_reason": "physical_event",
+          "cycle": 2,
+          "diagnostics": {
+            "accepted_state_count": 159,
+            "conditioner_connected": true,
+            "conditioner_identity": {
+              "cooling_allocation": "conditioner_first_then_bed",
+              "cooling_cop": 3.0,
+              "dissolved_co2_modeled": false,
+              "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+              "hardware_qualification": false,
+              "line_holdup_mol": 0.0,
+              "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+              "liquid_water_cp_J_mol_K": 75.351,
+              "policy": "pump_inlet_cooler_knockout_v1",
+              "pressure_drop_Pa": 0.0,
+              "pump_bank_count": 1,
+              "pump_capacity_temperature": "conditioned_inlet_Tout",
+              "pump_rated_input_W": 135.0,
+              "schema": "pump-conditioner-identity/1",
+              "target_rule": "Tout=min(Tbed,328.15K); never heat",
+              "target_temperature_C": 55.0,
+              "total_cooling_power_W": 2000.0
+            },
+            "flags": {
+              "actual_supersaturation_excursion": false,
+              "conditioned_pump_media_temperature_excursion": false,
+              "conditioner_hardware_qualified": false,
+              "conditioner_liquid_drain_present": false,
+              "correlation_domain_violation": false,
+              "frost_model_absent": true,
+              "nonfinite_accepted_state": false,
+              "pump_curve_upper_domain_exceeded": false,
+              "pump_media_temperature_excursion": false,
+              "subfreezing_bed_state_observed": false,
+              "temperature_support_excursion": false,
+              "water_support_excursion": false
+            },
+            "maximum_conditioned_pump_inlet_temperature_K": 298.15000000000003,
+            "maximum_conditioning_cooling_W": 0.0,
+            "maximum_liquid_flow_mol_s": 0.0,
+            "maximum_liquid_fraction": 0.0,
+            "maximum_pressure_Pa": 100000.00000000004,
+            "maximum_pump_inlet_temperature_K": 298.15000000000003,
+            "maximum_pump_media_temperature_overrun_K": 0.0,
+            "maximum_pump_pressure_Pa": 100000.00000000004,
+            "maximum_temperature_K": 298.15000000000003,
+            "maximum_water_saturation_ratio": 0.5000012078847799,
+            "maximum_water_support_fraction": 9.265101533971559e-05,
+            "minimum_conditioned_pump_inlet_temperature_K": 298.15000000000003,
+            "minimum_pressure_Pa": 20000.0,
+            "minimum_pump_inlet_temperature_K": 298.15000000000003,
+            "minimum_pump_pressure_Pa": 20000.0,
+            "minimum_temperature_K": 298.15000000000003,
+            "minimum_water_saturation_ratio": 0.10111945702640909,
+            "pump_assumptions": {
+              "bank_count": 1,
+              "below_or_at_ultimate_observed": false,
+              "flow_basis": "reference_fixed_inlet_speed",
+              "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+              "media_temperature_limit_C": 60.0,
+              "pressure_regime_seen": [
+                "inside_curve"
+              ],
+              "profile_name": "knf_n922_ste_50hz",
+              "ultimate_pressure_Pa": 11000.0
+            },
+            "saturation_diagnostic_law": "Buck 1996 at T<=50C; frozen NIST/Stull above 50C"
+          },
+          "duration_s": 96.47149233187605,
+          "end_elapsed_s": 10134.942184910467,
+          "endpoint": {
+            "endpoint_ok": true,
+            "pressure_end_Pa": 20000.0,
+            "pressure_error_Pa": 0.0,
+            "pressure_ok": true,
+            "pressure_target_Pa": 20000.0
+          },
+          "energy_closure_relative_error": 1.3934455917316108e-11,
+          "energy_residual_J": -2.6029738364741206e-08,
+          "energy_transfer_scale_J": 1868.0125380707905,
+          "phase": "evacuation",
+          "pressure_end_Pa": 20000.0,
+          "start_elapsed_s": 10038.470692578592,
+          "temperature_end_K": 298.15000000000003,
+          "weather_hour_index_end": 2,
+          "weather_hour_index_start": 2,
+          "weather_interval_end_utc": "2000-01-01T03:00:00+00:00"
+        }
+      ],
+      "physical_columns": 10,
+      "physical_endpoint_violation_count": 0,
+      "pressure_endpoint_violation_count": 0,
+      "pressure_response_tau_s": 0.5,
+      "product_mol": [
+        0.0004222315291455564,
+        0.0006311893056677531,
+        0.0324008341857818,
+        0.008586938345251462
+      ],
+      "pump_conditioner_identity": {
+        "cooling_allocation": "conditioner_first_then_bed",
+        "cooling_cop": 3.0,
+        "dissolved_co2_modeled": false,
+        "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+        "hardware_qualification": false,
+        "line_holdup_mol": 0.0,
+        "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+        "liquid_water_cp_J_mol_K": 75.351,
+        "policy": "pump_inlet_cooler_knockout_v1",
+        "pressure_drop_Pa": 0.0,
+        "pump_bank_count": 1,
+        "pump_capacity_temperature": "conditioned_inlet_Tout",
+        "pump_rated_input_W": 135.0,
+        "schema": "pump-conditioner-identity/1",
+        "target_rule": "Tout=min(Tbed,328.15K); never heat",
+        "target_temperature_C": 55.0,
+        "total_cooling_power_W": 2000.0
+      },
+      "pump_electric_J": 1457992.6988836217,
+      "pump_envelope": {
+        "assumptions": {
+          "bank_count": 1,
+          "below_or_at_ultimate_observed": false,
+          "flow_basis": "reference_fixed_inlet_speed",
+          "inlet_temperature_basis": "conditioned gas entering the pump at Tout=min(Tbed,328.15K); negligible pressure drop and line holdup",
+          "media_temperature_limit_C": 60.0,
+          "pressure_regime_seen": [
+            "inside_curve"
+          ],
+          "profile_name": "knf_n922_ste_50hz",
+          "ultimate_pressure_Pa": 11000.0
+        },
+        "below_or_at_ultimate_observed": false,
+        "conditioned_media_temperature_excursion": false,
+        "conditioner": {
+          "cooling_allocation": "conditioner_first_then_bed",
+          "cooling_cop": 3.0,
+          "dissolved_co2_modeled": false,
+          "gas_enthalpy_reference_J_mol": "Cp_gas*(T-298.15)+R*298.15",
+          "hardware_qualification": false,
+          "line_holdup_mol": 0.0,
+          "liquid_enthalpy_anchor": "h_liq(298.15)=h_gas_existing(298.15)-44004 J/mol",
+          "liquid_water_cp_J_mol_K": 75.351,
+          "policy": "pump_inlet_cooler_knockout_v1",
+          "pressure_drop_Pa": 0.0,
+          "pump_bank_count": 1,
+          "pump_capacity_temperature": "conditioned_inlet_Tout",
+          "pump_rated_input_W": 135.0,
+          "schema": "pump-conditioner-identity/1",
+          "target_rule": "Tout=min(Tbed,328.15K); never heat",
+          "target_temperature_C": 55.0,
+          "total_cooling_power_W": 2000.0
+        },
+        "conditioner_liquid_drain_present": false,
+        "curve_pressure_regimes": [
+          "inside_curve"
+        ],
+        "curve_upper_domain_exceeded": false,
+        "hardware_qualified": false,
+        "maximum_conditioned_pump_inlet_temperature_K": 328.15,
+        "maximum_conditioning_cooling_W": 0.026204112664332913,
+        "maximum_inlet_temperature_K": 328.15,
+        "maximum_liquid_flow_mol_s": 0.0,
+        "maximum_liquid_fraction": 0.0,
+        "maximum_media_temperature_overrun_K": 0.0,
+        "maximum_pressure_Pa": 100000.00189885689,
+        "media_temperature_excursion": false,
+        "minimum_conditioned_pump_inlet_temperature_K": 298.15,
+        "minimum_inlet_temperature_K": 298.15,
+        "minimum_pressure_Pa": 15508.438388758235
+      },
+      "raw_preconditioning_product_mol": [
+        0.0004222315291455564,
+        0.0006311893056677531,
+        0.0324008341857818,
+        0.008586938345251462
+      ],
+      "raw_preconditioning_vent_mol": [
+        10.555797232135632,
+        414.1362952263167,
+        20328.362125940977,
+        5387.465990366407
+      ],
+      "restart_of_attempt_id": null,
+      "rtol": 1e-07,
+      "schema": "matched-material-weather-result/2",
+      "solver_method": "BDF",
+      "source_assumptions": {
+        "CALF_source_transfer_conditional": true,
+        "adaptive_cooling_offset_present": true,
+        "conditioner_hardware_qualified": false,
+        "fan_helper_uses_core_RH_composition_not_Buck_override": true,
+        "measured_T_RH_QFE_passed_directly": true,
+        "no_inlet_cooler_or_condenser_modeled": false,
+        "prepared_Buck_p_water_used_for_bed_feed": true,
+        "pressure_regulated_adsorption": true,
+        "pump_inlet_cooler_knockout_modeled": true
+      },
+      "source_hashes": {
+        "screening/mof_screening/lumped_port/engine.py": "f35efe76039fe93dec896d734ebfeb5c7f5ed2684cf32e55ba4a48213f81e17f",
+        "screening/mof_screening/lumped_port/pressure_control.py": "cffc5703f4496263e63f2b3fddeaf593e50e7f6d474a2f679062572599565049",
+        "screening/mof_screening/lumped_port/pump_conditioner.py": "58bdba8696e0e2b848d16d5b5f3c41c8dc90a6d8e93c9a71c5f9530ea3172de6",
+        "screening/mof_screening/lumped_port/weather_driver.py": "e484f75c90f59f9ab95bac06c9766f7da506cc3580b59f84172af38e5d105ca5",
+        "screening/mof_screening/materials.py": "dbb894a634699a749cce15a41e1029340966ebc94eb6f88d0e0e3a9531fb1a5f",
+        "screening/mof_screening/runtime.py": "4287c9b79d8ff40c8e28ac1e0694fca7cd1ef3a57ae27908e4c1274f1df98d45"
+      },
+      "source_migration": null,
+      "source_release_sha256": "624c5a445c7d4436293ae3bc23ece4865009fcd3d616a63438562f3f3df2bc70",
+      "state_size": 47,
+      "status": "integration_complete",
+      "temperature_endpoint_violation_count": 0,
+      "total_cooling_removed_J": 1871761.9905940446,
+      "vent_mol": [
+        10.555797232135632,
+        414.1362952263167,
+        20328.362125940977,
+        5387.465990366407
+      ],
+      "weather_rows": [
+        {
+          "co2_ppm_dry": 420.0,
+          "interval_end_utc": "2000-01-01T01:00:00+00:00",
+          "interval_start_utc": "2000-01-01T00:00:00+00:00",
+          "prepared_buck_water_vapour_partial_Pa": 1584.2657061377174,
+          "prepared_law": "Buck 1996",
+          "pressure_Pa": 100000.0,
+          "relative_humidity": 0.5,
+          "temperature_C": 25.0,
+          "water_mole_fraction": 0.015842657061377174
+        },
+        {
+          "co2_ppm_dry": 420.0,
+          "interval_end_utc": "2000-01-01T02:00:00+00:00",
+          "interval_start_utc": "2000-01-01T01:00:00+00:00",
+          "prepared_buck_water_vapour_partial_Pa": 1584.2657061377174,
+          "prepared_law": "Buck 1996",
+          "pressure_Pa": 100000.0,
+          "relative_humidity": 0.5,
+          "temperature_C": 25.0,
+          "water_mole_fraction": 0.015842657061377174
+        },
+        {
+          "co2_ppm_dry": 420.0,
+          "interval_end_utc": "2000-01-01T03:00:00+00:00",
+          "interval_start_utc": "2000-01-01T02:00:00+00:00",
+          "prepared_buck_water_vapour_partial_Pa": 1584.2657061377174,
+          "prepared_law": "Buck 1996",
+          "pressure_Pa": 100000.0,
+          "relative_humidity": 0.5,
+          "temperature_C": 25.0,
+          "water_mole_fraction": 0.015842657061377174
+        },
+        {
+          "co2_ppm_dry": 420.0,
+          "interval_end_utc": "2000-01-01T04:00:00+00:00",
+          "interval_start_utc": "2000-01-01T03:00:00+00:00",
+          "prepared_buck_water_vapour_partial_Pa": 1584.2657061377174,
+          "prepared_law": "Buck 1996",
+          "pressure_Pa": 100000.0,
+          "relative_humidity": 0.5,
+          "temperature_C": 25.0,
+          "water_mole_fraction": 0.015842657061377174
+        }
+      ],
+      "weather_rows_sha256": "394370bb76316c05fe1665927c149e7bfadc333befe770b06ba42b3bfaa6f61b",
+      "wet_basis_co2_fraction": 0.01004328125206286
+    }
+  },
+  "recorded_utc": "2026-11-03T11:40:18.997756+00:00",
+  "schema": "mof-screening-result/1",
+  "shared_equipment": {
+    "airflow_m3_s": 0.18,
+    "combined_cooling_power_full_W": 2000.0,
+    "conditioner_target_C": 55.0,
+    "cooling_cop": 3.0,
+    "dry_shaped_mass_kg": 10.0,
+    "heater_power_full_W": 2000.0,
+    "lumped_applicability": {
+      "effective_bed_conductivity_W_m_K": "not applicable to the well-mixed lumped representation",
+      "gas_solid_heat_transfer_W_m2_K": "not applicable to the well-mixed lumped representation",
+      "wall_cooling_UA_full_W_K": "not applicable; the lumped representation uses the reviewed phase-level cooling request and shared 2 kW capacity"
+    },
+    "pump_running_input_W": 135.0,
+    "schema": "mof-screening-shared-equipment/1",
+    "spatial_only": {
+      "effective_bed_conductivity_W_m_K": 0.1,
+      "gas_solid_heat_transfer_W_m2_K": 80.0
+    },
+    "wall_cooling_UA_full_W_K": 100.0,
+    "wall_heat_capacity_full_J_K": 12000.0,
+    "wall_loss_UA_full_W_K": 2.0
+  },
+  "source_identity": {
+    "frozen_closure": {
+      "file_count": 62,
+      "path": "config/parameter_study_v21/RUNTIME_SOURCE_CLOSURE.json",
+      "sha256": "9cd09c31d28f120208d4562146caa0b6ec3c0df2b71a9c82a481fd4fd2087397",
+      "valid": true
+    },
+    "release_sha256": "15f9ae850b889a5c4adf2b96c345aef3e0d22753e016d16ac5436ac94b7b750d",
+    "schema": "mof-screening-source-identity/1",
+    "source_hashes": {
+      "app/mof_screening/routes.py": "497b0656a859d08b1e41529775dde23c6c48f07359a70c59affebd919ff17e08",
+      "config/mof_screening/defaults.json": "059d66033846e1def356e715a66ad1e2ea041cfccf585af6165f3aecf866b6b0",
+      "config/mof_screening/v21_spatial_profile.json": "fa8b52c5b0383f0e8e793e036b62faad0380a2da5cb3dcfaf7216ad7a39acaee",
+      "config/parameter_study_v21/RUNTIME_SOURCE_CLOSURE.json": "9cd09c31d28f120208d4562146caa0b6ec3c0df2b71a9c82a481fd4fd2087397",
+      "materials/screening/calf20_shaped.json": "f9883a0b4f643ded7268548566dde66ebcf69ca674e3b672f9263d57db8a6301",
+      "materials/screening/hypothetical_mmen_like.json": "ee7c939dee23baf28e5510c27b33509269cc6ec8473ce460b278024617044e29",
+      "materials/screening/pully_hourly_2023_2025_normalized.csv": "0b5fd7d38a10ce7ad6dd1c08a6ddad998c03385944afc3818980878061f1a906",
+      "materials/screening/synthetic_independent_demo.json": "8a9ccf82c7a02dacde9bb3fd311fd77f0e0db7b279d9766d66fc3e943ce2c02a",
+      "screening/mof_screening/contract.py": "2623d316e4071125a88c25b1a5b99e6ab1a449caa6cf29d75a15d1c63f4b01ba",
+      "screening/mof_screening/lumped_port/bounded_jacobian.py": "490a4a2f6c2ad761a05ffeafbc13e6418570aa91da0a2316c0dc831efcee58d2",
+      "screening/mof_screening/lumped_port/engine.py": "f35efe76039fe93dec896d734ebfeb5c7f5ed2684cf32e55ba4a48213f81e17f",
+      "screening/mof_screening/lumped_port/pressure_control.py": "cffc5703f4496263e63f2b3fddeaf593e50e7f6d474a2f679062572599565049",
+      "screening/mof_screening/lumped_port/pump_conditioner.py": "58bdba8696e0e2b848d16d5b5f3c41c8dc90a6d8e93c9a71c5f9530ea3172de6",
+      "screening/mof_screening/lumped_port/solver_start.py": "62426c3022afd27c03ed6f1aa117919ed22ef84a57f1389d70ea2c71fc2ee5fa",
+      "screening/mof_screening/lumped_port/water_properties.py": "85b9c168a6c63035ab87517ed8941808e697c264f63297038967e2f562781a90",
+      "screening/mof_screening/lumped_port/weather_driver.py": "e484f75c90f59f9ab95bac06c9766f7da506cc3580b59f84172af38e5d105ca5",
+      "screening/mof_screening/manager.py": "ef819752db7ae6c2fb45e3f0d6965d561609ff51f54d6e86ded6d1b53eff31a6",
+      "screening/mof_screening/materials.py": "dbb894a634699a749cce15a41e1029340966ebc94eb6f88d0e0e3a9531fb1a5f",
+      "screening/mof_screening/preflight.py": "ff4f94293eb1046fa749a4ba28ba2fc7c8a0b4c0f62370bc902f75f8df4907be",
+      "screening/mof_screening/runtime.py": "4287c9b79d8ff40c8e28ac1e0694fca7cd1ef3a57ae27908e4c1274f1df98d45",
+      "screening/mof_screening/spatial_postcore_v1.py": "be8b774b720a7e9d49c27df04647b8b9862aa163b8afbf4ceec82e3aef387caa",
+      "screening/mof_screening/spatial_v1.py": "1c540e2d4b778fcad5d0d72fd1d57208eb6fff27914ff86bd88f57a7af271060",
+      "screening/mof_screening/weather.py": "597ecafbda4f048397e2692595b445f42411ad2b471a9399058fd65a58e746d9"
+    }
+  },
+  "state_layout": {
+    "material_sites": 2,
+    "model": "reviewed_finite_cycle_lumped_port",
+    "state_size": 47,
+    "storage_states": [
+      "CO2_site_1",
+      "CO2_site_2",
+      "H2O"
+    ]
+  },
+  "traces": [
+    {
+      "bed_temperature_max_K": 298.15,
+      "bed_temperature_mean_K": 298.15,
+      "bed_temperature_min_K": 298.15,
+      "cycle": 1,
+      "elapsed_s": 1800.0,
+      "gas_temperature_mean_K": 298.15,
+      "min_pressure_Pa": 99999.9999999999,
+      "phase": "adsorption",
+      "phase_elapsed_s": 1800.0,
+      "pressure_Pa": 99999.9999999999,
+      "pressure_spread_Pa": 0.0,
+      "wall_temperature_K": 298.15
+    },
+    {
+      "bed_temperature_max_K": 298.15,
+      "bed_temperature_mean_K": 298.15,
+      "bed_temperature_min_K": 298.15,
+      "cycle": 1,
+      "elapsed_s": 1896.3570600140235,
+      "gas_temperature_mean_K": 298.15,
+      "min_pressure_Pa": 20000.0,
+      "phase": "evacuation",
+      "phase_elapsed_s": 96.35706001402345,
+      "pressure_Pa": 20000.0,
+      "pressure_spread_Pa": 0.0,
+      "wall_temperature_K": 298.15
+    },
+    {
+      "bed_temperature_max_K": 372.9700724152217,
+      "bed_temperature_mean_K": 372.9700724152217,
+      "bed_temperature_min_K": 372.9700724152217,
+      "cycle": 1,
+      "elapsed_s": 7296.357060014024,
+      "gas_temperature_mean_K": 372.9700724152217,
+      "min_pressure_Pa": 19745.63902925617,
+      "phase": "desorption",
+      "phase_elapsed_s": 5400.0,
+      "pressure_Pa": 19745.63902925617,
+      "pressure_spread_Pa": 0.0,
+      "wall_temperature_K": 372.9700724152217
+    },
+    {
+      "bed_temperature_max_K": 298.65,
+      "bed_temperature_mean_K": 298.65,
+      "bed_temperature_min_K": 298.65,
+      "cycle": 1,
+      "elapsed_s": 8238.416610235048,
+      "gas_temperature_mean_K": 298.65,
+      "min_pressure_Pa": 15508.438388758235,
+      "phase": "cooling",
+      "phase_elapsed_s": 942.0595502210247,
+      "pressure_Pa": 15508.438388758235,
+      "pressure_spread_Pa": 0.0,
+      "wall_temperature_K": 298.65
+    },
+    {
+      "bed_temperature_max_K": 298.6833238497781,
+      "bed_temperature_mean_K": 298.6833238497781,
+      "bed_temperature_min_K": 298.6833238497781,
+      "cycle": 1,
+      "elapsed_s": 8238.470692578592,
+      "gas_temperature_mean_K": 298.6833238497781,
+      "min_pressure_Pa": 99499.9999999997,
+      "phase": "repressurization",
+      "phase_elapsed_s": 0.0540823435444965,
+      "pressure_Pa": 99499.9999999997,
+      "pressure_spread_Pa": 0.0,
+      "wall_temperature_K": 298.6833238497781
+    },
+    {
+      "bed_temperature_max_K": 298.15000000000003,
+      "bed_temperature_mean_K": 298.15000000000003,
+      "bed_temperature_min_K": 298.15000000000003,
+      "cycle": 2,
+      "elapsed_s": 10038.470692578592,
+      "gas_temperature_mean_K": 298.15000000000003,
+      "min_pressure_Pa": 100000.00000000004,
+      "phase": "adsorption",
+      "phase_elapsed_s": 1800.0,
+      "pressure_Pa": 100000.00000000004,
+      "pressure_spread_Pa": 0.0,
+      "wall_temperature_K": 298.15000000000003
+    },
+    {
+      "bed_temperature_max_K": 298.15000000000003,
+      "bed_temperature_mean_K": 298.15000000000003,
+      "bed_temperature_min_K": 298.15000000000003,
+      "cycle": 2,
+      "elapsed_s": 10134.942184910467,
+      "gas_temperature_mean_K": 298.15000000000003,
+      "min_pressure_Pa": 20000.0,
+      "phase": "evacuation",
+      "phase_elapsed_s": 96.47149233187605,
+      "pressure_Pa": 20000.0,
+      "pressure_spread_Pa": 0.0,
+      "wall_temperature_K": 298.15000000000003
+    }
+  ],
+  "weather": {
+    "first_interval": {
+      "co2_ppm_dry": 420.0,
+      "interval_end_utc": "2000-01-01T01:00:00+00:00",
+      "interval_start_utc": "2000-01-01T00:00:00+00:00",
+      "prepared_buck_water_vapour_partial_Pa": 1584.2657061377174,
+      "prepared_law": "Buck 1996",
+      "pressure_Pa": 100000.0,
+      "relative_humidity": 0.5,
+      "temperature_C": 25.0,
+      "water_mole_fraction": 0.015842657061377174
+    },
+    "interval_semantics": "constant hourly intervals",
+    "last_interval": {
+      "co2_ppm_dry": 420.0,
+      "interval_end_utc": "2000-01-01T04:00:00+00:00",
+      "interval_start_utc": "2000-01-01T03:00:00+00:00",
+      "prepared_buck_water_vapour_partial_Pa": 1584.2657061377174,
+      "prepared_law": "Buck 1996",
+      "pressure_Pa": 100000.0,
+      "relative_humidity": 0.5,
+      "temperature_C": 25.0,
+      "water_mole_fraction": 0.015842657061377174
+    },
+    "mode": "fixed",
+    "rows": 4,
+    "source_path": null,
+    "source_sha256": null
+  }
+}

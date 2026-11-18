@@ -1,0 +1,63 @@
+{
+  "collection": {
+    "knockout_model": "ideal_pump_inlet_55C",
+    "product_route": "all_desorption_and_cooling"
+  },
+  "cycle": {
+    "adsorption_s": 7200,
+    "cooling_max_s": 1800,
+    "desorption_s": 7200,
+    "evacuation_s": 300,
+    "purge_s": 0.0,
+    "regeneration_pressure_Pa": 16000,
+    "regeneration_temperature_C": 116,
+    "repressurization_max_s": 600
+  },
+  "engine": "spatial",
+  "equipment": {
+    "airflow_m3_s": 0.18,
+    "bed_face_area_m2": 1.7361111111111112,
+    "bed_thickness_m": 0.016,
+    "bed_void_fraction": 0.4,
+    "dry_shaped_mass_kg": 10.0,
+    "effective_bed_conductivity_W_m_K": 0.1,
+    "gas_solid_heat_transfer_W_m2_K": 80.0,
+    "heater_power_W": 2000.0,
+    "particle_diameter_m": 0.0015,
+    "wall_cooling_UA_W_K": 100.0,
+    "wall_heat_capacity_J_K": 12000.0,
+    "wall_loss_UA_W_K": 2.0
+  },
+  "initial_state": {
+    "basis": "clean_dry",
+    "cold_start": true
+  },
+  "label": "Matched TVSA baseline 48h 116C 16kPa",
+  "schema": "mof-screening-case/1",
+  "solver": {
+    "cells": 16,
+    "max_step_s": 10,
+    "rtol": 1e-07,
+    "samples_per_phase": 31
+  },
+  "weather": {
+    "co2_ppm_dry": 420.0,
+    "hours": 48,
+    "mode": "fixed",
+    "pressure_Pa": 100000.0,
+    "relative_humidity": 0.0,
+    "start_utc": "2023-01-15T00:00:00Z",
+    "temperature_C": 25.0
+  },
+  "runtime_policy": {
+    "schema": "mof-screening-runtime-policy/1",
+    "mode": "manual_stop",
+    "time_limit_s": null,
+    "classification": "operational_runtime_control",
+    "physical_operating_condition": false
+  },
+  "temperature_policy": {
+    "schema": "mof-screening-temperature-policy/1",
+    "mode": "record_scenario_excursions"
+  }
+}

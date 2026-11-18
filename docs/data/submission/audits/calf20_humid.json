@@ -1,0 +1,63 @@
+{
+  "status": "pass",
+  "basis": "DERIVED_ORIGINAL_REAUDIT",
+  "original_audit": {
+    "csv_hash_matches": true,
+    "csv_sha256_declared": "d3b3e721606c530704ffec47ae170fc1a9e8d039afe5531f150fc7fc090958a7",
+    "failed_checks": [
+      "48h_raw_trace_coverage"
+    ],
+    "pass": false,
+    "path": "Research/next_stage_2026-11-08/humid_cycle_lead/matched_48h_campaign_2026-11-09/allocation/runs/calf20_lausanne_humidity_only_rh065_20261108/attempt_01/AUDIT.json",
+    "result_has_pass": true,
+    "result_hash_matches": true,
+    "result_sha256_declared": "1e14b9d86bc1bf2636265766e5475e2b2158b908eecb28aa9207f5628b546f25",
+    "sha256": "6c573b15d156617eecea7ebe41606c6fbe828098960531596626b5fce5623772"
+  },
+  "derived_audit": {
+    "basis": "DERIVED_ORIGINAL_REAUDIT",
+    "check_count": 60,
+    "classification": "BOUNDED_MATCHED_48H_NATIVE_CAMPAIGN_RAW_AUDIT",
+    "csv_hash_matches": true,
+    "original_audit_hash_matches": true,
+    "original_audit_path_matches": true,
+    "original_failed_flags_preserved": true,
+    "pass": true,
+    "receipt_canonical_sha256": "e3bb1af1c6d3883b69dc3b7ed4f07b3b53ba1141f741c0b1c5256c067809644c",
+    "result_hash_matches": true,
+    "result_sha256_declared": "1e14b9d86bc1bf2636265766e5475e2b2158b908eecb28aa9207f5628b546f25",
+    "source_manifest_path": "Research/next_stage_2026-11-08/humid_cycle_lead/recovery_lead_2026-11-09/release/MANIFEST.json",
+    "source_manifest_sha256": "8eda163bd31e57d0ad082620df77823ab92c59a5a059d076285a1a8fbd3827ba",
+    "terminal_review_audit_pass": true,
+    "terminal_review_path": "Research/next_stage_2026-11-08/humid_cycle_lead/recovery_lead_2026-11-09/terminal_review_20261109T150920Z/STATUS_AND_MATCHED_RESULTS.json",
+    "terminal_review_sha256": "dff078287118c4c9cfb72f38f0afbfb0109e572d5a7fcf2a9919ecef0b9260c9"
+  },
+  "independent_checks": {
+    "48h_horizon": true,
+    "CO2_horizon_balance": true,
+    "audit_csv_hash": true,
+    "audit_result_hash": true,
+    "case_input_match": true,
+    "clean_dry_cold_start": true,
+    "csv_contract": true,
+    "dry_mass_10kg": true,
+    "endpoint_definitions_match_saved_flags": true,
+    "endpoint_pressure_reproduction": true,
+    "energy_arithmetic": true,
+    "gross_energy_checks": true,
+    "mass_checks": true,
+    "mass_identity": true,
+    "material_input_match": true,
+    "phase_continuity": true,
+    "product_mass_identity": true,
+    "result_schema": true,
+    "spatial_engine": true,
+    "terminal_success": true,
+    "water_condensate_identity": true,
+    "water_horizon_balance": true,
+    "water_product_identity": true,
+    "water_vent_identity": true
+  },
+  "source_analysis_sha256": "56ce44c0e197eae30443538e1ae28134f92220fbd4725a6eb1de6a5b78b7d801",
+  "scope": "Saved-result accounting and coverage; no material, mesh or CSS qualification."
+}

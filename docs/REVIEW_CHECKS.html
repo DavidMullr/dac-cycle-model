@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Review checks | Carbon Team</title>
+<link rel="stylesheet" href="style.css">
+<script src="assets/ui/theme-init.js"></script>
+<link rel="stylesheet" href="assets/ui/app.css">
+<script src="assets/ui/app-shell.js" defer></script>
+<style>main{max-width:1100px}main table{width:100%;border-collapse:collapse;margin:1.5rem 0}th,td{text-align:left;padding:.65rem;border-bottom:1px solid var(--border,#dce3e8)}main p,main li{max-width:85ch;line-height:1.65}pre{overflow-x:auto;padding:1rem;border-radius:8px;background:var(--surface-2,#eef3f5)}@media(max-width:650px){table{display:block;overflow-x:auto}}@media print{.ct-sidebar,.ct-topbar,.ct-skip{display:none!important}.ct-workspace{margin:0!important}}</style>
+</head><body class="ct-app">
+<header><div class="eyebrow">Carbon Team &middot; 17 November 2026</div><h1>Review checks</h1></header>
+<main><p>The standalone review used 64-bit CPython 3.12.3 with the 17 pinned
+packages. Run from the repository root:</p>
+<pre class="text"><code>python -B -m pytest -c pytest.ini -q
+python -B tools/check_javascript.py
+python -B tools/check_submission.py
+python -B tools/check_reports.py
+python -B tools/release.py verify</code></pre>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th>What was checked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python and JavaScript</td>
+<td>Material laws, phase derivatives, mass and energy accounting, input
+validation, worker state, result export, worksheets and replay</td>
+</tr>
+<tr>
+<td>Saved comparison</td>
+<td>All 16 complete exports, independent half-bed product and electrical
+meter sums, source identities, summaries, and the two incomplete
+sensitivity entries</td>
+</tr>
+<tr>
+<td>Bounded execution</td>
+<td>One hour of simulated time on each engine through preview, worker,
+monitoring, JSON and CSV export, and the engineering endpoint</td>
+</tr>
+<tr>
+<td>Reports</td>
+<td>Four report pages, four supporting guides, local links, anchors,
+equations and the four-page PDF</td>
+</tr>
+</tbody>
+</table>
+<p>The <a href="data/submission/review_checks.json">verification
+record</a> records the observed counts. The <a
+href="../model/report/project/model_reference.html#reading-saved-diagnostics">technical
+reference</a> explains the two-site loading correction and the scope of
+historical humidity diagnostics. Reviewed exports keep their original
+bytes. The bounded runs did not replace any published case.</p>
+<p>The independent raw-energy helper handles constant-heat laws.
+Material-specific historical energy audits accompany the corresponding
+exports. Hosted CI, a second computer, mesh convergence, cyclic steady
+state, hardware limits and physical performance require separate
+evidence.</p>
+<p><a href="../model/report/project/index.html">Model and results</a> &middot; <a href="../model/report/project/model_and_results.pdf">Four-page PDF</a> &middot; <a href="REVIEW_CHECKS.md">Markdown source</a></p></main>
+</body></html>

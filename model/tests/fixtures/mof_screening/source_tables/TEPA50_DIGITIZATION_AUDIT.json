@@ -1,0 +1,19 @@
+{
+  "sample": "TEPA(50)-Mg2(dobpdc)",
+  "source": "TEPA_SI.pdf p20 FigS7b,d",
+  "rows": 21,
+  "original_embedded_raster": "TEPA_S7_X7.jp2",
+  "curve_type": "Finite-time apparent adsorption; source explicitly reports mass-transfer restriction",
+  "processing": "Red filled symbols from low-pressure panel and resolvable full-range high-pressure panel; no smoothing or point exclusion based on loading",
+  "completeness": "Low-pressure overlap at full-range origin excluded in favor of magnified panel. Unresolved source symbols remain in original image; extraction is incomplete.",
+  "visual_review": "Overlay reviewed: six low-pressure and fifteen high-pressure red filled TEPA(50) symbols; other samples and legends excluded.",
+  "experimental_uncertainty": null,
+  "model_eligibility": "Not true-equilibrium/multi-temperature/enthalpy evidence. Any reversible law, monotonic fit, thermal shift and desorption rates are conditional assumptions.",
+  "decreases_preserved": [
+    [
+      75710.58748943363,
+      90666.44562334218,
+      -0.0004968339258077936
+    ]
+  ]
+}

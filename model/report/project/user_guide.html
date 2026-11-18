@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Using the DAC model</title>
+  <style>
+
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">:root { --carbon-ink: #17353e; --carbon-accent: #24756c; }body { max-width: 55rem; margin: 2rem auto 5rem; padding: 0 1.25rem; font-family: system-ui, sans-serif; color: #243c44; font-size: 1.02rem; line-height: 1.65; }h1,h2,h3 { color: var(--carbon-ink); }h2 { margin-top: 2.4rem; border-bottom: 1px solid #d9e5e4; padding-bottom: .4rem; }a { color: #176e68; }.report-nav { display: flex; flex-wrap: wrap; gap: .65rem 1.3rem; margin: 1rem auto 2rem; padding: 1rem 1.3rem; border: 1px solid #d2e2df; border-radius: .4rem; background: #f0f6f5; max-width: 1180px; font-size: .92rem; }.report-nav span { font-weight: 700; color: var(--carbon-ink); }#title-block-header .title { font-weight: 650; }.subtitle { max-width: 54rem; color: #546b72; }.quarto-figure { margin: 1.6rem 0 2rem; }figure img { display: block; max-width: 100%; height: auto; margin-inline: auto; }figcaption { font-size: .9rem; color: #4f666e; line-height: 1.5; }table { font-size: .92rem; }.table-responsive { overflow-x: auto; }.source-note { font-size: .85rem; color: #5d7076; }math[display="block"] { overflow-x: auto; padding: .7rem 0; }code { overflow-wrap: anywhere; }@media print { .report-nav, #TOC { display: none; } body { font-size: 10pt; } h2 { break-after: avoid; } figure, table { break-inside: avoid; } }#TOC { padding: .7rem 1.2rem; border-left: .25rem solid #55938b; background: #f4f8f7; }#TOC > ul { margin: .5rem 0; }table { display: block; overflow-x: auto; border-collapse: collapse; margin: 1rem 0; }th, td { padding: .4rem .7rem; vertical-align: top; border-bottom: 1px solid #d9e5e4; }th { background: #edf5f2; }#refs > div { margin-bottom: .5rem; }</style>
+</head>
+<body>
+<nav class="report-nav" aria-label="Project documentation">
+<span>Carbon Team · Astérix</span>
+<a href="index.html">Model and results</a>
+<a href="model_reference.html">Equations</a>
+<a href="evidence.html">Evidence and validation</a>
+<a href="user_guide.html">User guide</a>
+</nav>
+<header id="title-block-header">
+<h1 class="title">Using the DAC model</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#start-with-a-reviewed-result" id="toc-start-with-a-reviewed-result">Start with a reviewed
+result</a></li>
+<li><a href="#set-up-a-calculation" id="toc-set-up-a-calculation">Set up
+a calculation</a></li>
+<li><a href="#what-the-model-calculates" id="toc-what-the-model-calculates">What the model calculates</a></li>
+<li><a href="#read-the-result" id="toc-read-the-result">Read the
+result</a></li>
+<li><a href="#engineering-and-the-next-prototype" id="toc-engineering-and-the-next-prototype">Engineering and the next
+prototype</a></li>
+</ul>
+</nav>
+<h2 id="start-with-a-reviewed-result">Start with a reviewed result</h2>
+<p>From the repository root on Windows, run <code>INSTALL.cmd</code>
+once and launch with <code>START.cmd</code>. Open <a href="http://127.0.0.1:8772/" class="uri">http://127.0.0.1:8772/</a>. If
+the background launcher reports that it cannot check process identity,
+start the foreground server in PowerShell:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\model\<span class="op">.</span><span class="fu">venv</span>\Scripts\python<span class="op">.</span><span class="fu">exe</span> <span class="op">-</span>B model<span class="op">/</span>run<span class="op">.</span><span class="fu">py</span> serve</span></code></pre></div>
+<p>On macOS or Linux, install <code>model/requirements-lock.txt</code>
+in a Python 3.12 virtual environment and run
+<code>python -B model/run.py serve</code>. Stop a foreground server with
+Ctrl+C. <a href="../../../docs/quickstart.html">Installation and launch
+details</a></p>
+<p>Open <strong>Results &amp; comparison</strong> and find the Lewatit
+VP OC 1065 humid row. <strong>Engineering</strong> opens its worksheet.
+<strong>JSON</strong> downloads the complete export, including
+<code>case</code>, <code>material_package</code>, <code>traces</code>,
+<code>cycles</code> and <code>metrics</code>. At 10 kg dry shaped mass
+this case averages 2.570 kg CO₂/day and 5.47 kWh/kg CO₂ over 48 hours.
+All 16 completed exports include the material and case that produced
+them. Two further sensitivities stopped before the requested
+horizon.</p>
+<h2 id="set-up-a-calculation">Set up a calculation</h2>
+<p>Go to <strong>Materials &amp; simulations</strong>. The material
+package defines adsorption and water laws, rate coefficients, thermal
+properties and their evidence. The case defines the device and how it
+operates. Keep that distinction when comparing runs.</p>
+<ol type="1">
+<li><strong>Choose the material.</strong> The selector has 29 records,
+including dry and humid scenarios for the same adsorbent and two
+examples. Check the selected record’s evidence, humidity model and
+temperature range. Use Import JSON or Create material for a custom
+package. The default hypothetical package is an interface example, not
+the reported Lewatit case.</li>
+<li><strong>Choose the representation.</strong> Spatial resolves
+temperature and loading through the bed thickness. Lumped companion
+treats the bed as well mixed. Use Spatial for comparison with the
+reported results.</li>
+<li><strong>Set the operating case.</strong> Give it a useful label,
+choose weather and horizon, then check the equipment, cycle, initial
+state and collection settings.</li>
+<li><strong>Preview exact case.</strong> Review the interpreted inputs,
+limits and warnings. Preview validates the setup but does not integrate
+the equations. Any input edit invalidates it.</li>
+<li><strong>Start screening.</strong> Follow progress through
+<strong>Monitor runs</strong>. <strong>Cancel job</strong> retains
+partial diagnostics; it does not turn an interrupted horizon into a
+complete result. Simultaneous-run limits affect computer use, not model
+physics.</li>
+</ol>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Input group</th>
+<th>What to check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Weather and horizon</td>
+<td>Temperature, pressure, humidity, dry CO₂ concentration and elapsed
+hours; fixed conditions or the supplied Pully series</td>
+</tr>
+<tr>
+<td>Equipment and geometry</td>
+<td>Complete dry shaped mass, thickness, face area, particles, void
+fraction, airflow, heating and heat transfer</td>
+</tr>
+<tr>
+<td>Cycle and initial state</td>
+<td>Phase durations, regeneration temperature and pressure requests,
+clean/dry or equilibrated start</td>
+</tr>
+<tr>
+<td>Collection</td>
+<td>Which portions of the cycle count as collected product</td>
+</tr>
+<tr>
+<td>Numerical resolution</td>
+<td>Spatial cells, tolerances and time-step controls; changing these
+requires a numerical comparison</td>
+</tr>
+</tbody>
+</table>
+<p>To reproduce the inputs shown in the report, select <strong>Reviewed
+Lewatit (65% RH, 48 h)</strong> or <strong>Reviewed Lewatit (dry, 48
+h)</strong>. Either button fills both the material and the case. Use
+<strong>Load 1-hour coupled-humidity diagnostic</strong> for a short
+first run. The exact <code>material_package</code> and <code>case</code>
+are embedded in each result JSON, together with its source and
+numerical-policy identities.</p>
+<h2 id="what-the-model-calculates">What the model calculates</h2>
+<p>The cycle advances through <strong>adsorption, evacuation, heated
+desorption, cooling and repressurization</strong>. At each step, the
+material law gives equilibrium loading at the local temperature and gas
+composition. Rate laws determine how quickly loading approaches that
+state. Gas and adsorbed inventories change together, while heat transfer
+and adsorption energies change temperatures and pressures.</p>
+<p>The spatial model divides a symmetric half-bed into cells. It
+resolves heat conduction through the thickness with parallel gas paths,
+plus heater and wall states. It does not resolve an axial breakthrough
+front or manifold flow maldistribution. The lumped model uses the same
+material interface and case inputs with a well-mixed transport
+description.</p>
+<p>Pump withdrawal, pressure control, heating and the shared cooling
+budget act through the cycle. An ideal inlet cooler and knockout account
+for water removal before the pump. Product, water and electricity meters
+accumulate over the requested horizon. Requested temperature and
+pressure are control targets; inspect the achieved values. The <a href="model_reference.html">technical reference</a> gives the equations
+and boundaries.</p>
+<h2 id="read-the-result">Read the result</h2>
+<p>Check horizon completion first, then the material-domain,
+conservation and numerical diagnostics. A solver failure is not evidence
+that a material performs poorly. A completed run can still miss
+operating targets or use uncertain inputs.</p>
+<p>Read collected CO₂/day together with kWh/kg CO₂, the electricity
+components, achieved temperatures and pressures, and water behavior. Wet
+and dry product purities use different denominators. The reported daily
+rate is a finite-horizon average; the 48-hour comparison includes the
+clean-start transient and collection from the final partial cycle. It
+does not establish cyclic steady state or mesh independence.</p>
+<p>For comparisons, keep mass, weather, horizon, initial state and
+operating policy consistent. Differences in material evidence still
+limit the conclusions. The modeled electricity excludes upstream drying
+and downstream compression. Under <strong>Monitor runs</strong>, open
+the completed local job. <strong>Export JSON</strong> includes the exact
+inputs and full accounting. <strong>Export CSV traces</strong> gives
+sampled observations. For the reviewed comparison, use its <a href="../../../docs/data/submission/results.csv">summary CSV</a> and the
+individual JSON exports on the Results page.</p>
+<p>Before plotting saved COF-1000 or CALF-20 loadings, or interpreting
+the saved Lewatit local humidity traces, see <a href="model_reference.html#reading-saved-diagnostics">Reading saved
+diagnostics</a>.</p>
+<h2 id="engineering-and-the-next-prototype">Engineering and the next
+prototype</h2>
+<p><strong>Engineering &amp; costs</strong> reads one complete result
+and derives geometry, pressure loss, heating, cooling, vacuum, water and
+electricity duties. It does not run another cycle or select hardware.
+Enter prices with a quote or assumption; missing prices remain unknown.
+<strong>Update calculation</strong> previews the worksheet, <strong>Save
+worksheet</strong> keeps it for that exact result, and JSON/CSV exports
+include its assumptions.</p>
+<p><strong>3D DAC setup</strong> opens cycle 10 of the reviewed Lewatit
+case at 65% RH. Select <strong>Play cycle</strong> or drag the time
+slider. <strong>CO₂ adsorbed in the bed</strong> shows the total mass on
+the 10 kg of dry sorbent at the displayed sample time. Click its graph
+or use the arrow keys on the graph to inspect individual samples.
+<strong>Collected in this cycle</strong> is the cumulative product at
+the last saved phase boundary. Three dry replays are also available.
+Equipment geometry is illustrative.</p>
+<p><strong>To replay your own run</strong>, open <strong>3D DAC setup →
+Add run</strong>. Choose a completed local run and select <strong>Open
+run</strong>, or use the file chooser to open a colleague’s native
+result JSON from <strong>Materials &amp; simulations</strong>. Added
+runs appear under <strong>Saved case</strong> in this browser. Select
+<strong>Cycle in run</strong> to inspect any cycle, including a partial
+final cycle. <strong>Remove from replay list</strong> removes the
+browser copy. Share the original result JSON to give another colleague
+the same replay.</p>
+<p>For added runs, bed colour shows mean solid CO₂ loading. Spatial runs
+show inventory at the saved trace times. Lumped runs show the initial
+state, completed phase endpoints and the final state. The readout holds
+its last recorded value between samples. Collected CO₂ and electricity
+are totals for the entire exported run.</p>
+<p>The small prototype should be a named case in this model, using its
+measured geometry and material/component properties. Keep the full-size
+reference for comparison. The saved peak near 120°C does not establish a
+safe operating limit. Use <a href="../../../docs/DATA_NEEDED.html">Data
+needed</a> to prepare the case, <a href="../../../docs/project_map.html">Project map</a> to follow the
+code, and <a href="../../../docs/REVIEW_CHECKS.html">Review checks</a>
+when changing it.</p>
+</body>
+</html>

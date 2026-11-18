@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project map | Carbon Team</title>
+<link rel="stylesheet" href="style.css">
+<script src="assets/ui/theme-init.js"></script>
+<link rel="stylesheet" href="assets/ui/app.css">
+<script src="assets/ui/app-shell.js" defer></script>
+<style>main{max-width:1100px}main table{width:100%;border-collapse:collapse;margin:1.5rem 0}th,td{text-align:left;padding:.65rem;border-bottom:1px solid var(--border,#dce3e8)}main p,main li{max-width:85ch;line-height:1.65}pre{overflow-x:auto;padding:1rem;border-radius:8px;background:var(--surface-2,#eef3f5)}@media(max-width:650px){table{display:block;overflow-x:auto}}@media print{.ct-sidebar,.ct-topbar,.ct-skip{display:none!important}.ct-workspace{margin:0!important}}</style>
+</head><body class="ct-app">
+<header><div class="eyebrow">Carbon Team &middot; 17 November 2026</div><h1>Project map</h1></header>
+<main><p>This directory is a complete working project. Its app and solver do
+not need the surrounding research archive.</p>
+<p>Read <a href="../model/report/project/user_guide.html">Using the DAC
+model</a> for the user workflow. This page maps that workflow to the
+code.</p>
+<h2 id="follow-one-calculation">Follow one calculation</h2>
+<p>Start with <strong>Reviewed Lewatit (65% RH, 48 h)</strong> under
+<strong>Comparison presets</strong>. The table follows the working app
+from that button to a result. Python paths below are relative to
+<code>model/</code>. The physics reference derives the <a
+href="../model/report/project/model_reference.html">balances and
+material laws</a>.</p>
+<img src="assets/model_call_flow.svg" alt="Preview validates the material and case. Start launches a worker that runs either the spatial or the lumped solver. Both write a completed result for export and Engineering. Engineering can also read a saved reviewed result." width="680" style="max-width:100%;height:auto">
+
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>What calls what</th>
+<th>Data passed or saved</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Launch and material selection</td>
+<td><code>run.py serve</code> calls <code>app.server.main</code>.
+<code>build_server</code> installs the concurrent screening manager.
+Browser function <code>loadMaterial</code> in
+<code>app/mof_screening/static/app.js</code> requests
+<code>/api/mof-screening/materials/&lt;id&gt;</code>.
+<code>routes.get</code> calls
+<code>contract.load_builtin_material</code>.</td>
+<td>A selectable material JSON with its units, equilibrium family,
+source and operating limits. Case presets come from
+<code>config/mof_screening/defaults.json</code>.</td>
+</tr>
+<tr>
+<td>Preview</td>
+<td><code>app.js: previewCase</code> reads the form and posts the
+material and case to <code>/api/mof-screening/preview</code>.
+<code>routes.post</code> calls <code>manager.preview</code>, which calls
+<code>contract.build_case</code> and
+<code>contract.preview_payload</code>.</td>
+<td>The server validates the material, case and their compatibility,
+computes their hashes and saves a preview ID. Editing an input
+invalidates the browser preview. No time integration occurs.</td>
+</tr>
+<tr>
+<td>Start</td>
+<td><code>app.js: startJob</code> posts that preview ID to
+<code>/api/mof-screening/start</code>.
+<code>ConcurrentMofScreeningManager.start</code> in
+<code>parallel_manager.py</code> checks readiness and executable
+identity, consumes the preview and calls
+<code>launch_worker</code>.</td>
+<td>A job ID, <code>input_material.json</code>,
+<code>input_case.json</code> and <code>STATE.json</code> in the job
+directory. The independent worker reads these saved inputs.</td>
+</tr>
+<tr>
+<td>Choose the engine</td>
+<td><code>process_worker.execute_job</code> calls
+<code>MofScreeningManager._run_job</code> in <code>manager.py</code>. It
+dispatches on <code>case.engine</code> to
+<code>runtime.run_spatial</code> or <code>runtime.run_lumped</code>.
+Both build the material adapter and load the weather window.</td>
+<td>Normalized material, operating case, initial state, weather, solver
+controls and progress/cancellation callbacks. The representation is
+chosen once for the job.</td>
+</tr>
+<tr>
+<td>Spatial calculation</td>
+<td><code>run_spatial</code> builds the geometry and half-bed, then
+calls <code>spatial.one_cycle</code>. It constructs
+<code>spatial.cycle_rhs</code> for each phase and passes the resulting
+derivative function to SciPy. At each evaluation the local gas state
+supplies partial pressures, and the material adapter supplies rates and
+energy derivatives.</td>
+<td>Gas moles, site loadings, gas and solid temperatures, wall and
+heater temperatures, and boundary meters. Accepted states are sampled
+for traces and phase endpoints.</td>
+</tr>
+<tr>
+<td>Lumped calculation</td>
+<td><code>run_lumped</code> calls
+<code>lumped_port.weather_driver.run_weather_session</code>. Its
+<code>core_closure</code> calls
+<code>lumped_port.engine.run_cycle(rhs_only=True)</code> to obtain phase
+derivatives. The weather driver invokes <code>solve_ivp</code> with
+those derivatives.</td>
+<td>One well-mixed bed state, phase/weather boundaries, integrated
+meters and a checkpoint. The weather driver owns the integration
+loop.</td>
+</tr>
+<tr>
+<td>Monitor and finish</td>
+<td><code>app.js: pollJob</code> reads job status. Worker callbacks
+update progress during integration. Both runtime branches call
+<code>evaluation.annotate_result</code>. On success
+<code>manager._run_job</code> writes <code>RESULT.json</code> and marks
+the job completed.</td>
+<td>Completion, material support, target attainment, numerical
+diagnostics and conservation are separate fields. Interrupted jobs
+retain available diagnostics.</td>
+</tr>
+<tr>
+<td>Read or export</td>
+<td><code>routes.get</code> dispatches a job's
+<code>/export?format=json</code> or <code>/export?format=csv</code>
+request to <code>manager.export</code>. For a reviewed result,
+<code>/api/result?result=reviewed:&lt;name&gt;</code> reads the indexed
+saved file.</td>
+<td>JSON retains inputs, states, traces, metrics and source identities.
+The job CSV contains sampled traces. A trace sample is distinct from an
+integrated product or energy meter.</td>
+</tr>
+<tr>
+<td>Engineering</td>
+<td><code>app.server.Handler</code> sends the selected result ID to
+<code>engineering.calculate</code>. It calls <code>load_result</code>,
+<code>read_worksheet</code> and <code>assess</code>.
+<code>engineering.save</code> binds the worksheet to the result SHA-256
+and checks its revision.</td>
+<td><code>reviewed:&lt;name&gt;</code> selects a hash-checked archived
+result and <code>job:&lt;id&gt;</code> selects a completed local run.
+Unpriced components stay unknown. Opening or pricing a worksheet does
+not start a simulation.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="trace-a-reported-number">Trace a reported number</h3>
+<p>For the humid Lewatit example,
+<code>case.weather.relative_humidity = 0.65</code> becomes inlet water
+partial pressure in <code>weather.WeatherHour</code>. In the spatial
+derivative, the <strong>local</strong> water partial pressure sets the
+water uptake target; stored water then changes the CO₂ target.
+<code>material.rates</code> returns the gas species sink, and withdrawal
+during the collection portions feeds the product meter.
+<code>runtime.run_spatial</code> combines the symmetry-scaled meter
+increments across the 48-hour horizon. The saved
+<code>metrics.collected_CO2_kg</code> is 5.140642 kg. Results and
+Engineering report its daily equivalent of 2.570321 kg/day. This chain
+can be checked against the <a
+href="data/submission/results/lewatit_humid.json">saved export</a> and
+the <a
+href="../model/report/project/model_reference.html#component-conservation-and-a-worked-export">worked
+mass and electricity calculation</a>.</p>
+<p>For a new case, edit the equipment, weather or phase settings. For a
+material of an existing equilibrium family, follow its JSON inputs into
+<code>materials.build_material_adapter</code>. When reviewing a
+genuinely new constitutive law, check its equilibrium target,
+directional rates, map from storage sites to gas species and energy
+derivatives together. The <strong>3D DAC setup</strong> follows a
+separate path through <code>docs/assets/geometry/</code> and
+<code>docs/data/</code>. The default replay reads
+<code>lewatit_humid_cycle.json</code>, extracted from the reviewed humid
+Lewatit export by <code>tools/build_lewatit_replay.py</code>. Three dry
+cases use <code>process_saved_cycles_v1.json</code>. <strong>Add
+run</strong> reads a local completed job or a native result JSON through
+<code>add-run.js</code>. <code>native-result.mjs</code> maps the saved
+phase records and bed states into cycle-relative samples for the same
+playback controls. Browser storage keeps the compact replay.</p>
+<h2 id="files-and-directories">Files and directories</h2>
+<table>
+<thead>
+<tr>
+<th>Location</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model/run.py</code></td>
+<td>Portable app launch and environment check</td>
+</tr>
+<tr>
+<td><code>model/launcher.py</code>, <code>START.cmd</code>,
+<code>STOP.cmd</code></td>
+<td>Windows launch, ownership checks and shutdown</td>
+</tr>
+<tr>
+<td><code>model/app/server.py</code>, <code>engineering.py</code></td>
+<td>Local pages, reviewed results and result-bound engineering</td>
+</tr>
+<tr>
+<td><code>model/app/mof_screening/</code></td>
+<td>Material, case, preview and simulation interface</td>
+</tr>
+<tr>
+<td><code>model/screening/mof_screening/</code></td>
+<td>Current material laws, spatial engine, lumped companion and run
+management</td>
+</tr>
+<tr>
+<td><code>model/screening/</code></td>
+<td>Shared geometry, airflow, heat, pressure, pump and water
+functions</td>
+</tr>
+<tr>
+<td><code>model/materials/screening/</code></td>
+<td>Material packages and normalized weather</td>
+</tr>
+<tr>
+<td><code>model/materials/screening/source_evidence/</code></td>
+<td>Exact dry inputs required to verify saved sensitivity packages</td>
+</tr>
+<tr>
+<td><code>model/config/mof_screening/</code></td>
+<td>Defaults, spatial settings, limits and execution identity</td>
+</tr>
+<tr>
+<td><code>model/equipment/</code></td>
+<td>Pump reference data</td>
+</tr>
+<tr>
+<td><code>docs/data/submission/</code></td>
+<td>Reviewed exports, audits, summary tables and source evidence</td>
+</tr>
+<tr>
+<td><code>model/report/project/</code></td>
+<td>Main report, equations, evidence, user guide and PDF</td>
+</tr>
+<tr>
+<td><code>docs/assets/geometry/</code></td>
+<td>3D viewer and saved cycle playback</td>
+</tr>
+<tr>
+<td><code>model/tests/</code>, <code>tests/</code></td>
+<td>Current numerical, application and viewer checks</td>
+</tr>
+<tr>
+<td><code>tools/</code></td>
+<td>Installation, report rendering, result audit and release
+packaging</td>
+</tr>
+</tbody>
+</table>
+<h2 id="why-supporting-files-remain">Why supporting files remain</h2>
+<p>The <code>.qmd</code> and Markdown files are editable documentation
+sources; their HTML and PDF outputs let reviewers read them without a
+renderer. JSON exports preserve the full calculation, while CSV tables
+provide summaries or traces. Tests and their fixtures reproduce specific
+numerical and application behavior; repeated case inputs inside distinct
+fixture jobs preserve each test's recorded context.</p>
+<p>The license, third-party notices, dependency lock, source identities
+and release manifest support sharing and verification. The
+<code>.venv/</code> environment, Python caches and
+<code>model/outputs/</code> are local runtime files and are excluded
+from the review ZIP and Git. They are not additional model versions.</p>
+<p>New jobs and cost worksheets go under <code>model/outputs/</code>,
+which is local and excluded from the repository. The 3D replay uses
+illustrative equipment geometry and saved simulation output.</p>
+<p>Saved result identities are preserved. The small source snapshot
+under <code>docs/data/submission/solver_source/</code> documents the
+numerical extension used by certain reviewed sensitivities; it is
+evidence, not another runnable app.</p>
+<p>The material selector is defined in
+<code>model/config/mof_screening/defaults.json</code>. It includes
+exploratory scenarios, dry parent laws and synthetic examples. Each case
+records the exact material package. Historical source-path strings
+inside saved provenance identify original evidence. The standalone tests
+resolve the required tables and fixtures locally.</p>
+<p><a href="../model/report/project/index.html">Model and results</a> &middot; <a href="../model/report/project/model_and_results.pdf">Four-page PDF</a> &middot; <a href="PROJECT_MAP.md">Markdown source</a></p></main>
+</body></html>

@@ -1,0 +1,19 @@
+name: Review checks
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: python -m pip install -r model/requirements-lock.txt
+      - run: python -B -m pytest -c pytest.ini -q
+      - run: python -B tools/check_javascript.py
+      - run: python -B tools/check_submission.py
+      - run: python -B tools/check_reports.py
+      - run: python -B tools/release.py verify

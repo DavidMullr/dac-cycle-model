@@ -1,0 +1,720 @@
+{
+  "interpretation": "Temporal, cross-temperature and RH75 outcomes are freshly recomputed from bound raw/source nodes. Coupling LOO is an explicit historical replay. Passing temporal gates do not identify intrinsic rates.",
+  "materials": [
+    {
+      "capacity_rh75_holdout": {
+        "basis": "Fresh linear fit to the first three bound 25 C 400 ppm RH capacity nodes with RH75 withheld; not an equilibrium-isotherm validation.",
+        "checks": {
+          "absolute_error_mol_kg": 0.20000000000000018,
+          "computed_value": 0.20000000000000018,
+          "tolerance": 0.1,
+          "within_tolerance": false
+        },
+        "holdout_type": "WHOLE_CONDITION_RH75",
+        "id": "historic_ambient_rh75_response_fit",
+        "model": "linear_capacity_vs_RH",
+        "observed_mol_kg": 2.19,
+        "passes_gate": false,
+        "predicted_mol_kg": 2.39,
+        "sources": [
+          {
+            "path": "Research\\next_stage_2026-11-08\\humid_cycle_readiness\\config\\humid_candidates.json",
+            "relative_path": "Research/next_stage_2026-11-08/humid_cycle_readiness/config/humid_candidates.json",
+            "sha256": "b22491f44b36d98e98a71b467218e18d10a95a366e5095cb03db6702262ee212"
+          },
+          {
+            "path": "Research\\next_stage_2026-11-08\\material_humidity_closures\\data\\cof_humidity_model.json",
+            "relative_path": "Research/next_stage_2026-11-08/material_humidity_closures/data/cof_humidity_model.json",
+            "sha256": "55e4671017a3af4c83757dae2b77977ba02ff2fffc5d1734ebd57b08bea3ec75"
+          }
+        ],
+        "status": "FAIL",
+        "train_rh_fraction": [
+          0.0,
+          0.25,
+          0.5
+        ],
+        "withheld_rh_fraction": 0.75
+      },
+      "claim_boundary": "N2-flow release after 50% RH loading; not CO2-rich vacuum product collection and not an equilibrium desorption branch",
+      "coupling_holdout": {
+        "basis": "HISTORICAL REPLAY ONLY: stored whole-RH-node leave-one-out error fields are re-evaluated against the named tolerance. They were not recomputed in this build and are not a fresh validation claim.",
+        "fresh_execution": false,
+        "id": "historical_replay_current_stored_water_coupling_leave_one_out",
+        "passes_all_points": true,
+        "points": [
+          {
+            "absolute_error_mol_kg": 0.009886431443904442,
+            "heldout_rh_fraction": 0.25,
+            "observed_mol_kg": 1.71,
+            "passes_gate": true,
+            "predicted_mol_kg": 1.7001135685560955,
+            "replayed_status": "PASS",
+            "status": "PASS"
+          },
+          {
+            "absolute_error_mol_kg": 0.004146706985161508,
+            "heldout_rh_fraction": 0.5,
+            "observed_mol_kg": 2.02,
+            "passes_gate": true,
+            "predicted_mol_kg": 2.0241467069851615,
+            "replayed_status": "PASS",
+            "status": "PASS"
+          },
+          {
+            "absolute_error_mol_kg": 0.0069513384350865515,
+            "heldout_rh_fraction": 0.75,
+            "observed_mol_kg": 2.19,
+            "passes_gate": true,
+            "predicted_mol_kg": 2.1830486615649134,
+            "replayed_status": "PASS",
+            "status": "PASS"
+          }
+        ],
+        "recorded_status": "LEAVE_ONE_OUT_PASSES_CAPACITY_TOLERANCE",
+        "source": {
+          "path": "Research\\next_stage_2026-11-08\\humid_cycle_readiness\\data\\cof_coupling_calibration.json",
+          "relative_path": "Research/next_stage_2026-11-08/humid_cycle_readiness/data/cof_coupling_calibration.json",
+          "sha256": "b570043e9aef03319d96c41dc3235ea920ec81fe11e7efba027bd18bd51973a9"
+        },
+        "status": "HISTORICAL_REPLAY_PASS",
+        "tolerance_mol_kg": 0.1,
+        "validation_claim": false
+      },
+      "display_name": "COF-1000",
+      "key": "cof1000",
+      "raw_curve_refit": true,
+      "retained_failures": [
+        "historic_ambient_rh75_response_fit",
+        "temperature_extrapolation_100C",
+        "parameter_bound_hit"
+      ],
+      "source": {
+        "ambient": {
+          "name": "cof1000_adsorption_csv",
+          "path": "Research/MOF_candidates_2026-11-03/lead/secondary_sources/COF1000_25C_adsorption_PUBLISHER.csv",
+          "sha256": "e17a559482f8cbb6d17368119e7c45e179ac14a97aa1b378010c1d0f3c614ec9"
+        },
+        "rh": {
+          "name": "cof1000_workbook",
+          "path": "Research/MOF_candidates_2026-11-03/lead/secondary_sources/COF1000_SOURCE.xlsx",
+          "sha256": "a34adab01f037461f92c02b9fefaa579bf49578befc4777d7742a8e0b691daf6"
+        }
+      },
+      "source_integrity": {
+        "curve": {
+          "curve_length_at_least_three": true,
+          "curve_point_count": 36,
+          "curve_source_single_adsorption_branch": true,
+          "loading_finite": true,
+          "loading_finite_nonnegative": true,
+          "nonempty_source_set": true,
+          "pressure_finite": true,
+          "pressure_strictly_increasing": true,
+          "specimen_label": "COF-1000",
+          "specimen_matches_package_family": true
+        },
+        "curve_pass": true,
+        "pass": true,
+        "source_files": {
+          "ambient": {
+            "expected_sha256": "e17a559482f8cbb6d17368119e7c45e179ac14a97aa1b378010c1d0f3c614ec9",
+            "hash_match": true,
+            "observed_sha256": "e17a559482f8cbb6d17368119e7c45e179ac14a97aa1b378010c1d0f3c614ec9",
+            "path": "Research\\MOF_candidates_2026-11-03\\lead\\secondary_sources\\COF1000_25C_adsorption_PUBLISHER.csv",
+            "present": true
+          },
+          "cof_gap_table": {
+            "expected_sha256": "8e7fb5129df6234bec341c346e61d7bbe529e5c46c73d02c82b90115942c0332",
+            "hash_match": true,
+            "observed_sha256": "8e7fb5129df6234bec341c346e61d7bbe529e5c46c73d02c82b90115942c0332",
+            "path": "Research\\next_stage_2026-11-08\\other_material_humidity\\data\\tepa_lys_cof_humidity_gap_table.json",
+            "present": true
+          },
+          "cof_humidity_model": {
+            "expected_sha256": "55e4671017a3af4c83757dae2b77977ba02ff2fffc5d1734ebd57b08bea3ec75",
+            "hash_match": true,
+            "observed_sha256": "55e4671017a3af4c83757dae2b77977ba02ff2fffc5d1734ebd57b08bea3ec75",
+            "path": "Research\\next_stage_2026-11-08\\material_humidity_closures\\data\\cof_humidity_model.json",
+            "present": true
+          },
+          "revision_analysis": {
+            "expected_sha256": "8929eaf5bcd676a39a9df3476ff77ac700deea71e7b6735840a3a8c713855a56",
+            "hash_match": true,
+            "observed_sha256": "8929eaf5bcd676a39a9df3476ff77ac700deea71e7b6735840a3a8c713855a56",
+            "path": "Research\\next_stage_2026-11-10\\desorption_and_hot_equilibrium\\implementation\\revision_analysis.py",
+            "present": true
+          },
+          "rh": {
+            "expected_sha256": "a34adab01f037461f92c02b9fefaa579bf49578befc4777d7742a8e0b691daf6",
+            "hash_match": true,
+            "observed_sha256": "a34adab01f037461f92c02b9fefaa579bf49578befc4777d7742a8e0b691daf6",
+            "path": "Research\\MOF_candidates_2026-11-03\\lead\\secondary_sources\\COF1000_SOURCE.xlsx",
+            "present": true
+          }
+        },
+        "source_files_pass": true
+      },
+      "specimen": "COF-1000",
+      "temperature_holdout": {
+        "checks": {
+          "computed_value": 0.22998996076856495,
+          "recomputed_prediction_reproduction_abs_error": 4.336808689942018e-18,
+          "recorded_relative_error_reproduction_abs_error": 3.3861802251067274e-15,
+          "tolerance": 0.2,
+          "training_temperatures_C": [
+            60.0,
+            80.0
+          ],
+          "withheld_temperature_C": 100.0,
+          "within_tolerance": false
+        },
+        "holdout_type": "TEMPERATURE_EXTRAPOLATION",
+        "id": "temperature_extrapolation_100C",
+        "interpretation": "Temperature extrapolation learned from 60/80 C into the withheld 100 C curve. This is not interpolation and not intrinsic activation.",
+        "model": "ln(fitted_protocol_rate)=intercept+slope*T",
+        "observed_rate_s_inv": 0.0012831116362551995,
+        "observed_source": "refit of withheld raw 100 C release curve",
+        "passes_gate": false,
+        "predicted_rate_s_inv": 0.001578214431139222,
+        "recorded_status": "WITHHELD_TEMPERATURE_FAILED",
+        "relative_error": 0.22998996076856495,
+        "status": "FAIL",
+        "training_conditions_C": [
+          60.0,
+          80.0
+        ],
+        "withheld_condition_C": 100.0
+      },
+      "temporal_holdouts": [
+        {
+          "basis": "Fresh refit from the bound raw curve. The first 70% of chronological points fit the model and the final 30% were withheld; this is not whole-condition exclusion.",
+          "bound_hits_retained": [
+            {
+              "bound": "lower",
+              "parameter": "baseline",
+              "value": -0.019999999999999993
+            }
+          ],
+          "chronological_70_30_integrity": true,
+          "count_integrity": true,
+          "direction": "adsorption",
+          "historical_metric_absolute_difference": 0.0,
+          "historical_parameter_set_unique": false,
+          "historical_reference_validation_rmse_mol_kg": 0.05582478074733697,
+          "holdout_type": "CHRONOLOGICAL_FINAL_30_PERCENT_TAIL",
+          "id": "adsorption_RH0.00",
+          "identifiability_scope": "LOCAL_JACOBIAN_RANK_AND_BOUND_DIAGNOSTIC_ONLY; NOT_GLOBAL_IDENTIFIABILITY_AND_NOT_COVARIANCE",
+          "intrinsic_rate_claim": false,
+          "normalized_validation_rmse": 0.047102306923231724,
+          "recorded_raw_rows": null,
+          "refit_method": "raw_curve_refit",
+          "replayed_status": "WITHHELD_TEMPORAL_FIT_SUPPORTED",
+          "rh_fraction": 0.0,
+          "temperature_K": null,
+          "train_count": 5014,
+          "validation_count": 2149,
+          "whole_condition_excluded": false
+        },
+        {
+          "basis": "Fresh refit from the bound raw curve. The first 70% of chronological points fit the model and the final 30% were withheld; this is not whole-condition exclusion.",
+          "bound_hits_retained": [
+            {
+              "bound": "lower",
+              "parameter": "baseline",
+              "value": -0.019999999999999088
+            }
+          ],
+          "chronological_70_30_integrity": true,
+          "count_integrity": true,
+          "direction": "adsorption",
+          "historical_metric_absolute_difference": 0.0,
+          "historical_parameter_set_unique": false,
+          "historical_reference_validation_rmse_mol_kg": 0.045755465476136674,
+          "holdout_type": "CHRONOLOGICAL_FINAL_30_PERCENT_TAIL",
+          "id": "adsorption_RH0.25",
+          "identifiability_scope": "LOCAL_JACOBIAN_RANK_AND_BOUND_DIAGNOSTIC_ONLY; NOT_GLOBAL_IDENTIFIABILITY_AND_NOT_COVARIANCE",
+          "intrinsic_rate_claim": false,
+          "normalized_validation_rmse": 0.027725880139210724,
+          "recorded_raw_rows": null,
+          "refit_method": "raw_curve_refit",
+          "replayed_status": "WITHHELD_TEMPORAL_FIT_SUPPORTED",
+          "rh_fraction": 0.25,
+          "temperature_K": null,
+          "train_count": 5014,
+          "validation_count": 2149,
+          "whole_condition_excluded": false
+        },
+        {
+          "basis": "Fresh refit from the bound raw curve. The first 70% of chronological points fit the model and the final 30% were withheld; this is not whole-condition exclusion.",
+          "bound_hits_retained": [
+            {
+              "bound": "lower",
+              "parameter": "baseline",
+              "value": -0.019999999999999997
+            }
+          ],
+          "chronological_70_30_integrity": true,
+          "count_integrity": true,
+          "direction": "adsorption",
+          "historical_metric_absolute_difference": 0.0,
+          "historical_parameter_set_unique": false,
+          "historical_reference_validation_rmse_mol_kg": 0.04647639707364249,
+          "holdout_type": "CHRONOLOGICAL_FINAL_30_PERCENT_TAIL",
+          "id": "adsorption_RH0.50",
+          "identifiability_scope": "LOCAL_JACOBIAN_RANK_AND_BOUND_DIAGNOSTIC_ONLY; NOT_GLOBAL_IDENTIFIABILITY_AND_NOT_COVARIANCE",
+          "intrinsic_rate_claim": false,
+          "normalized_validation_rmse": 0.0232587825593863,
+          "recorded_raw_rows": null,
+          "refit_method": "raw_curve_refit",
+          "replayed_status": "WITHHELD_TEMPORAL_FIT_SUPPORTED",
+          "rh_fraction": 0.5,
+          "temperature_K": null,
+          "train_count": 5014,
+          "validation_count": 2149,
+          "whole_condition_excluded": false
+        },
+        {
+          "basis": "Fresh refit from the bound raw curve. The first 70% of chronological points fit the model and the final 30% were withheld; this is not whole-condition exclusion.",
+          "bound_hits_retained": [
+            {
+              "bound": "lower",
+              "parameter": "baseline",
+              "value": -0.019999999999999997
+            }
+          ],
+          "chronological_70_30_integrity": true,
+          "count_integrity": true,
+          "direction": "adsorption",
+          "historical_metric_absolute_difference": 0.0,
+          "historical_parameter_set_unique": false,
+          "historical_reference_validation_rmse_mol_kg": 0.04065543625041199,
+          "holdout_type": "CHRONOLOGICAL_FINAL_30_PERCENT_TAIL",
+          "id": "adsorption_RH0.75",
+          "identifiability_scope": "LOCAL_JACOBIAN_RANK_AND_BOUND_DIAGNOSTIC_ONLY; NOT_GLOBAL_IDENTIFIABILITY_AND_NOT_COVARIANCE",
+          "intrinsic_rate_claim": false,
+          "normalized_validation_rmse": 0.018747319123126438,
+          "recorded_raw_rows": null,
+          "refit_method": "raw_curve_refit",
+          "replayed_status": "WITHHELD_TEMPORAL_FIT_SUPPORTED",
+          "rh_fraction": 0.75,
+          "temperature_K": null,
+          "train_count": 5014,
+          "validation_count": 2149,
+          "whole_condition_excluded": false
+        },
+        {
+          "basis": "Fresh refit from the bound raw curve. The first 70% of chronological points fit the model and the final 30% were withheld; this is not whole-condition exclusion.",
+          "bound_hits_retained": [],
+          "chronological_70_30_integrity": true,
+          "count_integrity": true,
+          "direction": "release",
+          "historical_metric_absolute_difference": 0.0,
+          "historical_parameter_set_unique": true,
+          "historical_reference_validation_rmse_mol_kg": 0.03936412565744224,
+          "holdout_type": "CHRONOLOGICAL_FINAL_30_PERCENT_TAIL",
+          "id": "N2_release_60C",
+          "identifiability_scope": "LOCAL_JACOBIAN_RANK_AND_BOUND_DIAGNOSTIC_ONLY; NOT_GLOBAL_IDENTIFIABILITY_AND_NOT_COVARIANCE",
+          "intrinsic_rate_claim": false,
+          "normalized_validation_rmse": 0.020983344966839682,
+          "recorded_raw_rows": null,
+          "refit_method": "raw_curve_refit",
+          "replayed_status": "WITHHELD_TEMPORAL_FIT_SUPPORTED",
+          "rh_fraction": null,
+          "temperature_K": 333.15,
+          "train_count": 5040,
+          "validation_count": 2160,
+          "whole_condition_excluded": false
+        },
+        {
+          "basis": "Fresh refit from the bound raw curve. The first 70% of chronological points fit the model and the final 30% were withheld; this is not whole-condition exclusion.",
+          "bound_hits_retained": [],
+          "chronological_70_30_integrity": true,
+          "count_integrity": true,
+          "direction": "release",
+          "historical_metric_absolute_difference": 0.0,
+          "historical_parameter_set_unique": true,
+          "historical_reference_validation_rmse_mol_kg": 0.01114705375642728,
+          "holdout_type": "CHRONOLOGICAL_FINAL_30_PERCENT_TAIL",
+          "id": "N2_release_80C",
+          "identifiability_scope": "LOCAL_JACOBIAN_RANK_AND_BOUND_DIAGNOSTIC_ONLY; NOT_GLOBAL_IDENTIFIABILITY_AND_NOT_COVARIANCE",
+          "intrinsic_rate_claim": false,
+          "normalized_validation_rmse": 0.0056715886459012725,
+          "recorded_raw_rows": null,
+          "refit_method": "raw_curve_refit",
+          "replayed_status": "WITHHELD_TEMPORAL_FIT_SUPPORTED",
+          "rh_fraction": null,
+          "temperature_K": 353.15,
+          "train_count": 5040,
+          "validation_count": 2160,
+          "whole_condition_excluded": false
+        },
+        {
+          "basis": "Fresh refit from the bound raw curve. The first 70% of chronological points fit the model and the final 30% were withheld; this is not whole-condition exclusion.",
+          "bound_hits_retained": [],
+          "chronological_70_30_integrity": true,
+          "count_integrity": true,
+          "direction": "release",
+          "historical_metric_absolute_difference": 0.0,
+          "historical_parameter_set_unique": true,
+          "historical_reference_validation_rmse_mol_kg": 0.005207489782077237,
+          "holdout_type": "CHRONOLOGICAL_FINAL_30_PERCENT_TAIL",
+          "id": "N2_release_100C",
+          "identifiability_scope": "LOCAL_JACOBIAN_RANK_AND_BOUND_DIAGNOSTIC_ONLY; NOT_GLOBAL_IDENTIFIABILITY_AND_NOT_COVARIANCE",
+          "intrinsic_rate_claim": false,
+          "normalized_validation_rmse": 0.002572227620082462,
+          "recorded_raw_rows": null,
+          "refit_method": "raw_curve_refit",
+          "replayed_status": "WITHHELD_TEMPORAL_FIT_SUPPORTED",
+          "rh_fraction": null,
+          "temperature_K": 373.15,
+          "train_count": 5040,
+          "validation_count": 2160,
+          "whole_condition_excluded": false
+        }
+      ]
+    },
+    {
+      "capacity_rh75_holdout": {
+        "basis": "Fresh linear fit to the first three bound 25 C 400 ppm RH capacity nodes with RH75 withheld; not an equilibrium-isotherm validation.",
+        "checks": {
+          "absolute_error_mol_kg": 0.5666666666666664,
+          "computed_value": 0.5666666666666664,
+          "tolerance": 0.1,
+          "within_tolerance": false
+        },
+        "holdout_type": "WHOLE_CONDITION_RH75",
+        "id": "historic_ambient_rh75_response_fit",
+        "model": "linear_capacity_vs_RH",
+        "observed_mol_kg": 2.09,
+        "passes_gate": false,
+        "predicted_mol_kg": 2.6566666666666663,
+        "sources": [
+          {
+            "path": "Research\\next_stage_2026-11-08\\humid_cycle_readiness\\config\\humid_candidates.json",
+            "relative_path": "Research/next_stage_2026-11-08/humid_cycle_readiness/config/humid_candidates.json",
+            "sha256": "b22491f44b36d98e98a71b467218e18d10a95a366e5095cb03db6702262ee212"
+          },
+          {
+            "path": "Research\\next_stage_2026-11-08\\material_humidity_closures\\data\\cof_humidity_model.json",
+            "relative_path": "Research/next_stage_2026-11-08/material_humidity_closures/data/cof_humidity_model.json",
+            "sha256": "55e4671017a3af4c83757dae2b77977ba02ff2fffc5d1734ebd57b08bea3ec75"
+          }
+        ],
+        "status": "FAIL",
+        "train_rh_fraction": [
+          0.0,
+          0.25,
+          0.5
+        ],
+        "withheld_rh_fraction": 0.75
+      },
+      "claim_boundary": "N2-flow release after 50% RH loading; not CO2-rich vacuum product collection and not an equilibrium desorption branch",
+      "coupling_holdout": {
+        "basis": "HISTORICAL REPLAY ONLY: stored whole-RH-node leave-one-out error fields are re-evaluated against the named tolerance. They were not recomputed in this build and are not a fresh validation claim.",
+        "fresh_execution": false,
+        "id": "historical_replay_current_stored_water_coupling_leave_one_out",
+        "passes_all_points": false,
+        "points": [
+          {
+            "absolute_error_mol_kg": 0.034064987805979774,
+            "heldout_rh_fraction": 0.25,
+            "observed_mol_kg": 1.69,
+            "passes_gate": true,
+            "predicted_mol_kg": 1.6559350121940202,
+            "replayed_status": "PASS",
+            "status": "PASS"
+          },
+          {
+            "absolute_error_mol_kg": 0.04205705191136122,
+            "heldout_rh_fraction": 0.5,
+            "observed_mol_kg": 2.05,
+            "passes_gate": true,
+            "predicted_mol_kg": 2.092057051911361,
+            "replayed_status": "PASS",
+            "status": "PASS"
+          },
+          {
+            "absolute_error_mol_kg": 0.1762745573746456,
+            "heldout_rh_fraction": 0.75,
+            "observed_mol_kg": 2.09,
+            "passes_gate": false,
+            "predicted_mol_kg": 1.9137254426253543,
+            "replayed_status": "FAIL",
+            "status": "FAIL"
+          }
+        ],
+        "recorded_status": "LEAVE_ONE_OUT_FAILED_RETAINED",
+        "source": {
+          "path": "Research\\next_stage_2026-11-08\\humid_cycle_readiness\\data\\cof_coupling_calibration.json",
+          "relative_path": "Research/next_stage_2026-11-08/humid_cycle_readiness/data/cof_coupling_calibration.json",
+          "sha256": "b570043e9aef03319d96c41dc3235ea920ec81fe11e7efba027bd18bd51973a9"
+        },
+        "status": "HISTORICAL_REPLAY_FAIL",
+        "tolerance_mol_kg": 0.1,
+        "validation_claim": false
+      },
+      "display_name": "COF-999",
+      "key": "cof999",
+      "raw_curve_refit": true,
+      "retained_failures": [
+        "current_stored_water_coupling_leave_one_out",
+        "historic_ambient_rh75_response_fit",
+        "temperature_extrapolation_100C",
+        "parameter_bound_hit"
+      ],
+      "source": {
+        "ambient": {
+          "name": "cof999_adsorption_csv",
+          "path": "Research/MOF_candidates_2026-11-03/lead/secondary_sources/COF999_25C_adsorption_PUBLISHER.csv",
+          "sha256": "b14da14b3bac299b093a7ee00624ac662bcf5b266bcc6d02aa68e7a9982435d9"
+        },
+        "rh": {
+          "name": "cof999_fig3_workbook",
+          "path": "Research/MOF_candidates_2026-11-03/lead/secondary_sources/COF999_FIG3_SOURCE.xlsx",
+          "sha256": "75dd9ce231700242610530f6d4d1569891286b16c52f01cf47ba582ab20074ac"
+        }
+      },
+      "source_integrity": {
+        "curve": {
+          "curve_length_at_least_three": true,
+          "curve_point_count": 26,
+          "curve_source_single_adsorption_branch": true,
+          "loading_finite": true,
+          "loading_finite_nonnegative": true,
+          "nonempty_source_set": true,
+          "pressure_finite": true,
+          "pressure_strictly_increasing": true,
+          "specimen_label": "COF-999",
+          "specimen_matches_package_family": true
+        },
+        "curve_pass": true,
+        "pass": true,
+        "source_files": {
+          "ambient": {
+            "expected_sha256": "b14da14b3bac299b093a7ee00624ac662bcf5b266bcc6d02aa68e7a9982435d9",
+            "hash_match": true,
+            "observed_sha256": "b14da14b3bac299b093a7ee00624ac662bcf5b266bcc6d02aa68e7a9982435d9",
+            "path": "Research\\MOF_candidates_2026-11-03\\lead\\secondary_sources\\COF999_25C_adsorption_PUBLISHER.csv",
+            "present": true
+          },
+          "cof_gap_table": {
+            "expected_sha256": "8e7fb5129df6234bec341c346e61d7bbe529e5c46c73d02c82b90115942c0332",
+            "hash_match": true,
+            "observed_sha256": "8e7fb5129df6234bec341c346e61d7bbe529e5c46c73d02c82b90115942c0332",
+            "path": "Research\\next_stage_2026-11-08\\other_material_humidity\\data\\tepa_lys_cof_humidity_gap_table.json",
+            "present": true
+          },
+          "cof_humidity_model": {
+            "expected_sha256": "55e4671017a3af4c83757dae2b77977ba02ff2fffc5d1734ebd57b08bea3ec75",
+            "hash_match": true,
+            "observed_sha256": "55e4671017a3af4c83757dae2b77977ba02ff2fffc5d1734ebd57b08bea3ec75",
+            "path": "Research\\next_stage_2026-11-08\\material_humidity_closures\\data\\cof_humidity_model.json",
+            "present": true
+          },
+          "revision_analysis": {
+            "expected_sha256": "8929eaf5bcd676a39a9df3476ff77ac700deea71e7b6735840a3a8c713855a56",
+            "hash_match": true,
+            "observed_sha256": "8929eaf5bcd676a39a9df3476ff77ac700deea71e7b6735840a3a8c713855a56",
+            "path": "Research\\next_stage_2026-11-10\\desorption_and_hot_equilibrium\\implementation\\revision_analysis.py",
+            "present": true
+          },
+          "rh": {
+            "expected_sha256": "75dd9ce231700242610530f6d4d1569891286b16c52f01cf47ba582ab20074ac",
+            "hash_match": true,
+            "observed_sha256": "75dd9ce231700242610530f6d4d1569891286b16c52f01cf47ba582ab20074ac",
+            "path": "Research\\MOF_candidates_2026-11-03\\lead\\secondary_sources\\COF999_FIG3_SOURCE.xlsx",
+            "present": true
+          }
+        },
+        "source_files_pass": true
+      },
+      "specimen": "COF-999",
+      "temperature_holdout": {
+        "checks": {
+          "computed_value": 0.20960337544859425,
+          "recomputed_prediction_reproduction_abs_error": 2.6020852139652106e-18,
+          "recorded_relative_error_reproduction_abs_error": 2.1649348980190553e-15,
+          "tolerance": 0.2,
+          "training_temperatures_C": [
+            60.0,
+            80.0
+          ],
+          "withheld_temperature_C": 100.0,
+          "within_tolerance": false
+        },
+        "holdout_type": "TEMPERATURE_EXTRAPOLATION",
+        "id": "temperature_extrapolation_100C",
+        "interpretation": "Temperature extrapolation learned from 60/80 C into the withheld 100 C curve. This is not interpolation and not intrinsic activation.",
+        "model": "ln(fitted_protocol_rate)=intercept+slope*T",
+        "observed_rate_s_inv": 0.0012010167509579803,
+        "observed_source": "refit of withheld raw 100 C release curve",
+        "passes_gate": false,
+        "predicted_rate_s_inv": 0.0014527539159290767,
+        "recorded_status": "WITHHELD_TEMPERATURE_FAILED",
+        "relative_error": 0.20960337544859425,
+        "status": "FAIL",
+        "training_conditions_C": [
+          60.0,
+          80.0
+        ],
+        "withheld_condition_C": 100.0
+      },
+      "temporal_holdouts": [
+        {
+          "basis": "Fresh refit from the bound raw curve. The first 70% of chronological points fit the model and the final 30% were withheld; this is not whole-condition exclusion.",
+          "bound_hits_retained": [
+            {
+              "bound": "lower",
+              "parameter": "baseline",
+              "value": -0.019999999999999987
+            }
+          ],
+          "chronological_70_30_integrity": true,
+          "count_integrity": true,
+          "direction": "adsorption",
+          "historical_metric_absolute_difference": 0.0,
+          "historical_parameter_set_unique": false,
+          "historical_reference_validation_rmse_mol_kg": 0.030694426363799848,
+          "holdout_type": "CHRONOLOGICAL_FINAL_30_PERCENT_TAIL",
+          "id": "adsorption_RH0.50",
+          "identifiability_scope": "LOCAL_JACOBIAN_RANK_AND_BOUND_DIAGNOSTIC_ONLY; NOT_GLOBAL_IDENTIFIABILITY_AND_NOT_COVARIANCE",
+          "intrinsic_rate_claim": false,
+          "normalized_validation_rmse": 0.01579980206462665,
+          "recorded_raw_rows": null,
+          "refit_method": "raw_curve_refit",
+          "replayed_status": "WITHHELD_TEMPORAL_FIT_SUPPORTED",
+          "rh_fraction": 0.5,
+          "temperature_K": null,
+          "train_count": 7779,
+          "validation_count": 3334,
+          "whole_condition_excluded": false
+        },
+        {
+          "basis": "Fresh refit from the bound raw curve. The first 70% of chronological points fit the model and the final 30% were withheld; this is not whole-condition exclusion.",
+          "bound_hits_retained": [],
+          "chronological_70_30_integrity": true,
+          "count_integrity": true,
+          "direction": "release",
+          "historical_metric_absolute_difference": 0.0,
+          "historical_parameter_set_unique": true,
+          "historical_reference_validation_rmse_mol_kg": 0.044566885622624286,
+          "holdout_type": "CHRONOLOGICAL_FINAL_30_PERCENT_TAIL",
+          "id": "N2_release_60C",
+          "identifiability_scope": "LOCAL_JACOBIAN_RANK_AND_BOUND_DIAGNOSTIC_ONLY; NOT_GLOBAL_IDENTIFIABILITY_AND_NOT_COVARIANCE",
+          "intrinsic_rate_claim": false,
+          "normalized_validation_rmse": 0.022667774935340845,
+          "recorded_raw_rows": null,
+          "refit_method": "raw_curve_refit",
+          "replayed_status": "WITHHELD_TEMPORAL_FIT_SUPPORTED",
+          "rh_fraction": null,
+          "temperature_K": 333.15,
+          "train_count": 7739,
+          "validation_count": 3317,
+          "whole_condition_excluded": false
+        },
+        {
+          "basis": "Fresh refit from the bound raw curve. The first 70% of chronological points fit the model and the final 30% were withheld; this is not whole-condition exclusion.",
+          "bound_hits_retained": [],
+          "chronological_70_30_integrity": true,
+          "count_integrity": true,
+          "direction": "release",
+          "historical_metric_absolute_difference": 0.0,
+          "historical_parameter_set_unique": true,
+          "historical_reference_validation_rmse_mol_kg": 0.010538601784840946,
+          "holdout_type": "CHRONOLOGICAL_FINAL_30_PERCENT_TAIL",
+          "id": "N2_release_80C",
+          "identifiability_scope": "LOCAL_JACOBIAN_RANK_AND_BOUND_DIAGNOSTIC_ONLY; NOT_GLOBAL_IDENTIFIABILITY_AND_NOT_COVARIANCE",
+          "intrinsic_rate_claim": false,
+          "normalized_validation_rmse": 0.005177304710097701,
+          "recorded_raw_rows": null,
+          "refit_method": "raw_curve_refit",
+          "replayed_status": "WITHHELD_TEMPORAL_FIT_SUPPORTED",
+          "rh_fraction": null,
+          "temperature_K": 353.15,
+          "train_count": 7739,
+          "validation_count": 3317,
+          "whole_condition_excluded": false
+        },
+        {
+          "basis": "Fresh refit from the bound raw curve. The first 70% of chronological points fit the model and the final 30% were withheld; this is not whole-condition exclusion.",
+          "bound_hits_retained": [
+            {
+              "bound": "upper",
+              "parameter": "stretched_exponent",
+              "value": 2.9999999999999996
+            }
+          ],
+          "chronological_70_30_integrity": true,
+          "count_integrity": true,
+          "direction": "release",
+          "historical_metric_absolute_difference": 0.0,
+          "historical_parameter_set_unique": false,
+          "historical_reference_validation_rmse_mol_kg": 0.005562180712587718,
+          "holdout_type": "CHRONOLOGICAL_FINAL_30_PERCENT_TAIL",
+          "id": "N2_release_100C",
+          "identifiability_scope": "LOCAL_JACOBIAN_RANK_AND_BOUND_DIAGNOSTIC_ONLY; NOT_GLOBAL_IDENTIFIABILITY_AND_NOT_COVARIANCE",
+          "intrinsic_rate_claim": false,
+          "normalized_validation_rmse": 0.0027325383283590514,
+          "recorded_raw_rows": null,
+          "refit_method": "raw_curve_refit",
+          "replayed_status": "WITHHELD_TEMPORAL_FIT_SUPPORTED",
+          "rh_fraction": null,
+          "temperature_K": 373.15,
+          "train_count": 7739,
+          "validation_count": 3317,
+          "whole_condition_excluded": false
+        }
+      ]
+    }
+  ],
+  "ode_integrations": 0,
+  "schema": "predictive-validation-holdout-results/1",
+  "sources": [
+    {
+      "path": "Research\\next_stage_2026-11-10\\desorption_and_hot_equilibrium\\implementation\\kinetics_results.json",
+      "relative_path": "Research/next_stage_2026-11-10/desorption_and_hot_equilibrium/implementation/kinetics_results.json",
+      "sha256": "70753901f0579cdea7bbdbc3faeb6136ad55c01beb120553256e55baaeb733e2"
+    },
+    {
+      "path": "Research\\next_stage_2026-11-08\\humid_cycle_readiness\\data\\cof_coupling_calibration.json",
+      "relative_path": "Research/next_stage_2026-11-08/humid_cycle_readiness/data/cof_coupling_calibration.json",
+      "sha256": "b570043e9aef03319d96c41dc3235ea920ec81fe11e7efba027bd18bd51973a9"
+    },
+    {
+      "path": "Research\\next_stage_2026-11-08\\humid_cycle_readiness\\config\\humid_candidates.json",
+      "relative_path": "Research/next_stage_2026-11-08/humid_cycle_readiness/config/humid_candidates.json",
+      "sha256": "b22491f44b36d98e98a71b467218e18d10a95a366e5095cb03db6702262ee212"
+    },
+    {
+      "path": "Research\\next_stage_2026-11-08\\material_humidity_closures\\data\\cof_humidity_model.json",
+      "relative_path": "Research/next_stage_2026-11-08/material_humidity_closures/data/cof_humidity_model.json",
+      "sha256": "55e4671017a3af4c83757dae2b77977ba02ff2fffc5d1734ebd57b08bea3ec75"
+    },
+    {
+      "path": "Research\\next_stage_2026-11-08\\other_material_humidity\\data\\tepa_lys_cof_humidity_gap_table.json",
+      "relative_path": "Research/next_stage_2026-11-08/other_material_humidity/data/tepa_lys_cof_humidity_gap_table.json",
+      "sha256": "8e7fb5129df6234bec341c346e61d7bbe529e5c46c73d02c82b90115942c0332"
+    },
+    {
+      "path": "Research\\next_stage_2026-11-10\\desorption_and_hot_equilibrium\\implementation\\revision_analysis.py",
+      "relative_path": "Research/next_stage_2026-11-10/desorption_and_hot_equilibrium/implementation/revision_analysis.py",
+      "sha256": "8929eaf5bcd676a39a9df3476ff77ac700deea71e7b6735840a3a8c713855a56"
+    }
+  ],
+  "split_integrity": {
+    "curve_points_treated_as_independent_replicates": false,
+    "simulation_as_experiment": false,
+    "simulation_source_paths": [],
+    "source_hashes_bound": true,
+    "specimen_labels_checked": true,
+    "temporal_holdout_type": "CHRONOLOGICAL_FINAL_30_PERCENT_TAIL",
+    "whole_condition_exclusion_types": [
+      "TEMPERATURE_EXTRAPOLATION",
+      "WHOLE_CONDITION_RH75"
+    ],
+    "whole_curves_held_out_by_condition": true
+  },
+  "status": "FRESH_REFITS_WITH_HISTORICAL_REPLAY",
+  "training_from_simulations": false
+}

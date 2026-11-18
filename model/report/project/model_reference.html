@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Model equations and assumptions</title>
+  <style>
+
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+}
+.hanging-indent div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+} </style>
+  <style type="text/css">:root { --carbon-ink: #17353e; --carbon-accent: #24756c; }body { max-width: 55rem; margin: 2rem auto 5rem; padding: 0 1.25rem; font-family: system-ui, sans-serif; color: #243c44; font-size: 1.02rem; line-height: 1.65; }h1,h2,h3 { color: var(--carbon-ink); }h2 { margin-top: 2.4rem; border-bottom: 1px solid #d9e5e4; padding-bottom: .4rem; }a { color: #176e68; }.report-nav { display: flex; flex-wrap: wrap; gap: .65rem 1.3rem; margin: 1rem auto 2rem; padding: 1rem 1.3rem; border: 1px solid #d2e2df; border-radius: .4rem; background: #f0f6f5; max-width: 1180px; font-size: .92rem; }.report-nav span { font-weight: 700; color: var(--carbon-ink); }#title-block-header .title { font-weight: 650; }.subtitle { max-width: 54rem; color: #546b72; }.quarto-figure { margin: 1.6rem 0 2rem; }figure img { display: block; max-width: 100%; height: auto; margin-inline: auto; }figcaption { font-size: .9rem; color: #4f666e; line-height: 1.5; }table { font-size: .92rem; }.table-responsive { overflow-x: auto; }.source-note { font-size: .85rem; color: #5d7076; }math[display="block"] { overflow-x: auto; padding: .7rem 0; }code { overflow-wrap: anywhere; }@media print { .report-nav, #TOC { display: none; } body { font-size: 10pt; } h2 { break-after: avoid; } figure, table { break-inside: avoid; } }#TOC { padding: .7rem 1.2rem; border-left: .25rem solid #55938b; background: #f4f8f7; }#TOC > ul { margin: .5rem 0; }table { display: block; overflow-x: auto; border-collapse: collapse; margin: 1rem 0; }th, td { padding: .4rem .7rem; vertical-align: top; border-bottom: 1px solid #d9e5e4; }th { background: #edf5f2; }#refs > div { margin-bottom: .5rem; }</style>
+</head>
+<body>
+<nav class="report-nav" aria-label="Project documentation">
+<span>Carbon Team · Astérix</span>
+<a href="index.html">Model and results</a>
+<a href="model_reference.html">Equations</a>
+<a href="evidence.html">Evidence and validation</a>
+<a href="user_guide.html">User guide</a>
+</nav>
+<header id="title-block-header">
+<h1 class="title">Model equations and assumptions</h1>
+<p class="subtitle">Technical reference for the material-specific TVSA
+calculation</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#domain-and-state-variables" id="toc-domain-and-state-variables">Domain and state variables</a>
+<ul>
+<li><a href="#geometry-inventory-and-initial-conditions" id="toc-geometry-inventory-and-initial-conditions">Geometry, inventory
+and initial conditions</a></li>
+<li><a href="#weather-and-local-partial-pressures" id="toc-weather-and-local-partial-pressures">Weather and local partial
+pressures</a></li>
+</ul></li>
+<li><a href="#adsorption-and-component-balance" id="toc-adsorption-and-component-balance">Adsorption and component
+balance</a>
+<ul>
+<li><a href="#selecting-a-material-law" id="toc-selecting-a-material-law">Selecting a material law</a></li>
+<li><a href="#langmuir-sips-and-reference-curve-models" id="toc-langmuir-sips-and-reference-curve-models">Langmuir, Sips and
+reference-curve models</a></li>
+<li><a href="#how-humidity-changes-the-reviewed-lewatit-result" id="toc-how-humidity-changes-the-reviewed-lewatit-result">How humidity
+changes the reviewed Lewatit result</a></li>
+<li><a href="#other-stored-water-scenarios" id="toc-other-stored-water-scenarios">Other stored-water
+scenarios</a></li>
+</ul></li>
+<li><a href="#energy-and-heat-transfer" id="toc-energy-and-heat-transfer">Energy and heat transfer</a>
+<ul>
+<li><a href="#balances-actually-integrated-in-a-spatial-cell" id="toc-balances-actually-integrated-in-a-spatial-cell">Balances
+actually integrated in a spatial cell</a></li>
+<li><a href="#wall-heater-and-cooling-boundary" id="toc-wall-heater-and-cooling-boundary">Wall, heater and cooling
+boundary</a></li>
+<li><a href="#well-mixed-companion" id="toc-well-mixed-companion">Well-mixed companion</a></li>
+</ul></li>
+<li><a href="#airflow-vacuum-and-collection" id="toc-airflow-vacuum-and-collection">Airflow, vacuum and
+collection</a>
+<ul>
+<li><a href="#from-bed-outlet-to-pump-and-product" id="toc-from-bed-outlet-to-pump-and-product">From bed outlet to pump and
+product</a></li>
+</ul></li>
+<li><a href="#cycle-and-reporting-basis" id="toc-cycle-and-reporting-basis">Cycle and reporting basis</a>
+<ul>
+<li><a href="#switching-conditions" id="toc-switching-conditions">Switching conditions</a></li>
+<li><a href="#component-conservation-and-a-worked-export" id="toc-component-conservation-and-a-worked-export">Component
+conservation and a worked export</a></li>
+<li><a href="#reading-saved-diagnostics" id="toc-reading-saved-diagnostics">Reading saved diagnostics</a></li>
+</ul></li>
+<li><a href="#numerical-solution-and-qualification" id="toc-numerical-solution-and-qualification">Numerical solution and
+qualification</a>
+<ul>
+<li><a href="#integration-and-evidence-to-inspect" id="toc-integration-and-evidence-to-inspect">Integration and evidence to
+inspect</a></li>
+</ul></li>
+</ul>
+</nav>
+<h2 id="domain-and-state-variables">Domain and state variables</h2>
+<p>The spatial engine is
+<code>screening/mof_screening/spatial.py</code>. It resolves the
+<strong>transverse thermal thickness</strong> of a symmetric bed, with
+parallel gas paths. It is not an axial breakthrough model. In the
+reported case the full bed is 16 mm thick and the half-domain has 16
+cells. Gas and solid temperatures, gas species inventories and adsorbate
+storage are local states. Heater, wall and cumulative boundary meters
+complete the state vector.</p>
+<p>The gas species are CO₂, H₂O, N₂ and O₂. Adsorbate storage can have
+extra CO₂ reservoirs or sites; a fixed species mapping sums their
+gas-phase contributions. All loadings refer to the complete dry shaped
+material. The full-device dry mass is split once for the half-domain.
+Reported device totals apply the symmetry factor once.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>L</mi><mrow><mn>1</mn><mi>/</mi><mn>2</mn></mrow></msub><mo>=</mo><mi>L</mi><mi>/</mi><mn>2</mn><mo>,</mo><mspace width="2.0em"></mspace><mi mathvariant="normal">Δ</mi><mi>x</mi><mo>=</mo><mi>L</mi><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>N</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>m</mi><mrow><mi>s</mi><mo>,</mo><mn>1</mn><mi>/</mi><mn>2</mn></mrow></msub><mo>=</mo><msub><mi>m</mi><mrow><mi>s</mi><mo>,</mo><mrow><mi mathvariant="normal">d</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">v</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">e</mi></mrow></mrow></msub><mi>/</mi><mn>2</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">
+L_{1/2}=L/2,\qquad \Delta x=L/(2N),\qquad
+m_{s,1/2}=m_{s,\mathrm{device}}/2.
+</annotation></semantics></math></p>
+<p>For cell gas volume
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>V</mi><mrow><mi>g</mi><mo>,</mo><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">V_{g,j}</annotation></semantics></math>
+and gas temperature
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mrow><mi>g</mi><mo>,</mo><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">T_{g,j}</annotation></semantics></math>,
+ideal-gas closure gives</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mi>j</mi></msub><mo>=</mo><mfrac><mrow><mi>R</mi><msub><mi>T</mi><mrow><mi>g</mi><mo>,</mo><mi>j</mi></mrow></msub></mrow><msub><mi>V</mi><mrow><mi>g</mi><mo>,</mo><mi>j</mi></mrow></msub></mfrac><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>n</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>n</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><mrow><munder><mo>∑</mo><mi>k</mi></munder><msub><mi>n</mi><mrow><mi>k</mi><mo>,</mo><mi>j</mi></mrow></msub></mrow></mfrac><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>p</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>=</mo><msub><mi>y</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><msub><mi>P</mi><mi>j</mi></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+P_j=\frac{RT_{g,j}}{V_{g,j}}\sum_i n_{i,j},\qquad
+y_{i,j}=\frac{n_{i,j}}{\sum_k n_{k,j}},\qquad p_{i,j}=y_{i,j}P_j.
+</annotation></semantics></math></p>
+<p>Feed moisture is set by relative humidity at the ambient temperature,
+not at the regeneration setpoint:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mrow><mi>w</mi><mo>,</mo><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi></mrow></mrow></msub><mo>=</mo><mfrac><mrow><mrow><mi mathvariant="normal">R</mi><mi mathvariant="normal">H</mi></mrow><mspace width="0.167em"></mspace><msub><mi>p</mi><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">t</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>a</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><msub><mi>P</mi><mi>a</mi></msub></mfrac><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>y</mi><mrow><mi>c</mi><mo>,</mo><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi></mrow></mrow></msub><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>y</mi><mrow><mi>w</mi><mo>,</mo><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi></mrow></mrow></msub><mo stretchy="false" form="postfix">)</mo><msub><mi>z</mi><mrow><mi>c</mi><mo>,</mo><mrow><mi mathvariant="normal">d</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">y</mi></mrow></mrow></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+y_{w,\mathrm{in}}=\frac{\mathrm{RH}\,p_{\mathrm{sat}}(T_a)}{P_a},\qquad
+y_{c,\mathrm{in}}=(1-y_{w,\mathrm{in}})z_{c,\mathrm{dry}}.
+</annotation></semantics></math></p>
+<p>The implementation checks the domain of its saturation correlation. A
+declared hot-state humidity diagnostic is not a new high-temperature
+water-property fit.</p>
+<h3 id="geometry-inventory-and-initial-conditions">Geometry, inventory
+and initial conditions</h3>
+<p>The case specifies dry shaped mass
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>s</mi></msub><annotation encoding="application/x-tex">m_s</annotation></semantics></math>,
+full thickness
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>,
+face area
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+and bed void fraction
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ε</mi><annotation encoding="application/x-tex">\varepsilon</annotation></semantics></math>.
+The runtime derives the volume and densities from these four inputs. The
+gas volume includes the interparticle void and the specified dead
+volume.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>b</mi></msub><mo>=</mo><mi>A</mi><mi>L</mi><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>ρ</mi><mi>b</mi></msub><mo>=</mo><msub><mi>m</mi><mi>s</mi></msub><mi>/</mi><msub><mi>V</mi><mi>b</mi></msub><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>ρ</mi><mi>p</mi></msub><mo>=</mo><msub><mi>ρ</mi><mi>b</mi></msub><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>ε</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>V</mi><mi>g</mi></msub><mo>=</mo><mi>ε</mi><msub><mi>V</mi><mi>b</mi></msub><mo>+</mo><msub><mi>V</mi><mrow><mi mathvariant="normal">d</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">d</mi></mrow></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+V_b=AL,\qquad \rho_b=m_s/V_b,\qquad
+\rho_p=\rho_b/(1-\varepsilon),\qquad V_g=\varepsilon V_b+V_{\mathrm{dead}}.
+</annotation></semantics></math></p>
+<p>In the reviewed 10 kg case,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mn>1.73611</mn></mrow><annotation encoding="application/x-tex">A=1.73611</annotation></semantics></math>
+m² and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><mn>0.016</mn></mrow><annotation encoding="application/x-tex">L=0.016</annotation></semantics></math>
+m, giving
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>b</mi></msub><mo>=</mo><mn>0.02778</mn></mrow><annotation encoding="application/x-tex">V_b=0.02778</annotation></semantics></math>
+m³,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ρ</mi><mi>b</mi></msub><mo>=</mo><mn>360</mn></mrow><annotation encoding="application/x-tex">\rho_b=360</annotation></semantics></math>
+kg/m³ and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ρ</mi><mi>p</mi></msub><mo>=</mo><mn>600</mn></mrow><annotation encoding="application/x-tex">\rho_p=600</annotation></semantics></math>
+kg/m³. With
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ε</mi><mo>=</mo><mn>0.40</mn></mrow><annotation encoding="application/x-tex">\varepsilon=0.40</annotation></semantics></math>
+and 0.0005 m³ of dead volume, the full-device gas volume is 0.01161 m³.
+Each of the 16 equal half-bed cells has 0.3125 kg dry material and is
+0.5 mm thick. The hydraulic path in the pressure-loss estimate is the
+full 16 mm. The conduction path from the wall to the centre plane is 8
+mm.</p>
+<figure>
+<img role="img" aria-label="Half-bed with parallel gas channels, gas-to-solid exchange within each cell, conduction between solid cells and a wall connected to the heater." src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMTAwIiBoZWlnaHQ9IjQ3NSIgdmlld0JveD0iMCAwIDExMDAgNDc1IiByb2xlPSJpbWciIGFyaWEtbGFiZWxsZWRieT0idGl0bGUgZGVzYyI+Cjx0aXRsZSBpZD0idGl0bGUiPkN1cnJlbnQgY291cGxlZCBoYWxmLWJlZCBtb2RlbDwvdGl0bGU+PGRlc2MgaWQ9ImRlc2MiPkZvdXIgcmVwcmVzZW50YXRpdmUgcGFyYWxsZWwgZ2FzIGNoYW5uZWxzIGhhdmUgc2VwYXJhdGUgZ2FzIGFuZCBzb2xpZCBzdGF0ZXMuIExvY2FsIGdhcy1zb2xpZCBleGNoYW5nZSBjb3VwbGVzIGVhY2ggcGFpcjsgdHJhbnN2ZXJzZSBjb25kdWN0aW9uIGNvbm5lY3RzIG9ubHkgc29saWQgY2VsbHMuIEEgd2FsbCBhbmQgaGVhdGVyIGV4Y2hhbmdlIGhlYXQgYXQgdGhlIG91dGVyIGJvdW5kYXJ5LiBUaGUgY2VudHJlIGJvdW5kYXJ5IGlzIHN5bW1ldHJpYy48L2Rlc2M+CjxkZWZzPjxtYXJrZXIgaWQ9ImdhcyIgbWFya2VyV2lkdGg9IjkiIG1hcmtlckhlaWdodD0iOSIgcmVmWD0iNyIgcmVmWT0iNCIgb3JpZW50PSJhdXRvIj48cGF0aCBkPSJNMCAwTDggNEwwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJjNmI5OCIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48L21hcmtlcj48bWFya2VyIGlkPSJoZWF0IiBtYXJrZXJXaWR0aD0iOSIgbWFya2VySGVpZ2h0PSI5IiByZWZYPSI3IiByZWZZPSI0IiBvcmllbnQ9ImF1dG8tc3RhcnQtcmV2ZXJzZSI+PHBhdGggZD0iTTAgMEw4IDRMMCA4IiBmaWxsPSJub25lIiBzdHJva2U9IiMyYTgwNzAiIHN0cm9rZS13aWR0aD0iMS41Ii8+PC9tYXJrZXI+PC9kZWZzPgo8cmVjdCB3aWR0aD0iMTEwMCIgaGVpZ2h0PSI0NzUiIGZpbGw9IiNmZmYiLz48ZyBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZpbGw9IiMxOTM5NDIiPgo8dGV4dCB4PSIzMCIgeT0iMzQiIGZvbnQtc2l6ZT0iMjMiIGZvbnQtd2VpZ2h0PSJib2xkIj5Mb2NhbCBnYXMgYW5kIHNvbGlkIHN0YXRlcyBhY3Jvc3MgdGhlIHRoZXJtYWwgdGhpY2tuZXNzPC90ZXh0Pgo8dGV4dCB4PSIzMCIgeT0iNjMiIGZvbnQtc2l6ZT0iMTUiPlN5bW1ldHJpYyBoYWxmLWRvbWFpbiDCtyByZXByZXNlbnRhdGl2ZSBjZWxscyBvbmx5IMK3IG5vIHRyYW5zdmVyc2UgZ2FzIGV4Y2hhbmdlPC90ZXh0Pgo8cGF0aCBkPSJNMTAwIDk4VjM5MCIgc3Ryb2tlPSIjNjg3YTgxIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjcgNiIvPgo8dGV4dCB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2OSAzNDUpIHJvdGF0ZSgtOTApIiBmb250LXNpemU9IjE1Ij5DZW50cmUtcGxhbmUgc3ltbWV0cnk8L3RleHQ+CjxnIGZpbGw9IiNlYWYzZmEiIHN0cm9rZT0iIzJjNmI5OCIgc3Ryb2tlLXdpZHRoPSIxLjUiPjxyZWN0IHg9IjEzMCIgeT0iMTQ1IiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjgyIiByeD0iNyIvPjxyZWN0IHg9IjMwMCIgeT0iMTQ1IiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjgyIiByeD0iNyIvPjxyZWN0IHg9IjQ3MCIgeT0iMTQ1IiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjgyIiByeD0iNyIvPjxyZWN0IHg9IjY0MCIgeT0iMTQ1IiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjgyIiByeD0iNyIvPjwvZz4KPGcgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNyI+PHRleHQgeD0iMjAwIiB5PSIxNzgiPkdhcyBjZWxsIDE8L3RleHQ+PHRleHQgeD0iMzcwIiB5PSIxNzgiPkdhcyBjZWxsIDI8L3RleHQ+PHRleHQgeD0iNTQwIiB5PSIxNzgiPuKApjwvdGV4dD48dGV4dCB4PSI3MTAiIHk9IjE3OCI+R2FzIGNlbGwgTjwvdGV4dD48dGV4dCB4PSIyMDAiIHk9IjIwNiI+VGcsIG7htaIsIFA8L3RleHQ+PHRleHQgeD0iMzcwIiB5PSIyMDYiPlRnLCBu4bWiLCBQPC90ZXh0Pjx0ZXh0IHg9IjU0MCIgeT0iMjA2Ij5UZywgbuG1oiwgUDwvdGV4dD48dGV4dCB4PSI3MTAiIHk9IjIwNiI+VGcsIG7htaIsIFA8L3RleHQ+PC9nPgo8ZyBzdHJva2U9IiMyYzZiOTgiIHN0cm9rZS13aWR0aD0iMiIgbWFya2VyLWVuZD0idXJsKCNnYXMpIj48cGF0aCBkPSJNMjAwIDEwMFYxMzciLz48cGF0aCBkPSJNMzcwIDEwMFYxMzciLz48cGF0aCBkPSJNNTQwIDEwMFYxMzciLz48cGF0aCBkPSJNNzEwIDEwMFYxMzciLz48L2c+Cjx0ZXh0IHg9IjgyMiIgeT0iMTExIiBmb250LXNpemU9IjE1Ij5QYXJhbGxlbCBnYXMgcGF0aHM8L3RleHQ+CjxnIGZpbGw9IiNlOGYzZWUiIHN0cm9rZT0iIzJhODA3MCIgc3Ryb2tlLXdpZHRoPSIxLjUiPjxyZWN0IHg9IjEzMCIgeT0iMjg3IiB3aWR0aD0iMTQwIiBoZWlnaHQ9Ijc0IiByeD0iNyIvPjxyZWN0IHg9IjMwMCIgeT0iMjg3IiB3aWR0aD0iMTQwIiBoZWlnaHQ9Ijc0IiByeD0iNyIvPjxyZWN0IHg9IjQ3MCIgeT0iMjg3IiB3aWR0aD0iMTQwIiBoZWlnaHQ9Ijc0IiByeD0iNyIvPjxyZWN0IHg9IjY0MCIgeT0iMjg3IiB3aWR0aD0iMTQwIiBoZWlnaHQ9Ijc0IiByeD0iNyIvPjwvZz4KPGcgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNyI+PHRleHQgeD0iMjAwIiB5PSIzMTgiPlNvbGlkIGNlbGwgMTwvdGV4dD48dGV4dCB4PSIzNzAiIHk9IjMxOCI+U29saWQgY2VsbCAyPC90ZXh0Pjx0ZXh0IHg9IjU0MCIgeT0iMzE4Ij7igKY8L3RleHQ+PHRleHQgeD0iNzEwIiB5PSIzMTgiPlNvbGlkIGNlbGwgTjwvdGV4dD48dGV4dCB4PSIyMDAiIHk9IjM0NSI+VHMsIHHhtaI8L3RleHQ+PHRleHQgeD0iMzcwIiB5PSIzNDUiPlRzLCBx4bWiPC90ZXh0Pjx0ZXh0IHg9IjU0MCIgeT0iMzQ1Ij5UcywgceG1ojwvdGV4dD48dGV4dCB4PSI3MTAiIHk9IjM0NSI+VHMsIHHhtaI8L3RleHQ+PC9nPgo8ZyBzdHJva2U9IiMyYTgwNzAiIHN0cm9rZS13aWR0aD0iMiIgbWFya2VyLXN0YXJ0PSJ1cmwoI2hlYXQpIiBtYXJrZXItZW5kPSJ1cmwoI2hlYXQpIj48cGF0aCBkPSJNMjAwIDIzN1YyNzYiLz48cGF0aCBkPSJNMzcwIDIzN1YyNzYiLz48cGF0aCBkPSJNNTQwIDIzN1YyNzYiLz48cGF0aCBkPSJNNzEwIDIzN1YyNzYiLz48cGF0aCBkPSJNMjc4IDMyNEgyOTIiLz48cGF0aCBkPSJNNDQ4IDMyNEg0NjIiLz48cGF0aCBkPSJNNjE4IDMyNEg2MzIiLz48cGF0aCBkPSJNNzg5IDMyNEg4MjIiLz48L2c+Cjx0ZXh0IHg9IjgyMCIgeT0iMjYxIiBmb250LXNpemU9IjE0Ij5Mb2NhbCBnYXPigJNzb2xpZDwvdGV4dD48dGV4dCB4PSI4MjAiIHk9IjI4MCIgZm9udC1zaXplPSIxNCI+aGVhdCBhbmQgbWFzcyBleGNoYW5nZTwvdGV4dD4KPHJlY3QgeD0iODMyIiB5PSIyODciIHdpZHRoPSI5NSIgaGVpZ2h0PSI3NCIgcng9IjciIGZpbGw9IiNmZmYwZGMiIHN0cm9rZT0iI2I3ODMzYyIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48dGV4dCB4PSI4NzkiIHk9IjMxOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNyI+V2FsbDwvdGV4dD48dGV4dCB4PSI4NzkiIHk9IjM0NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNyI+VHc8L3RleHQ+CjxyZWN0IHg9Ijk3NCIgeT0iMjg3IiB3aWR0aD0iMTAwIiBoZWlnaHQ9Ijc0IiByeD0iNyIgZmlsbD0iI2Y4ZTllNiIgc3Ryb2tlPSIjYjY2YjU0IiBzdHJva2Utd2lkdGg9IjEuNSIvPjx0ZXh0IHg9IjEwMjQiIHk9IjMxOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNyI+SGVhdGVyPC90ZXh0Pjx0ZXh0IHg9IjEwMjQiIHk9IjM0NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNyI+VGg8L3RleHQ+PHBhdGggZD0iTTkzNiAzMjRIOTY1IiBzdHJva2U9IiMyYTgwNzAiIHN0cm9rZS13aWR0aD0iMiIgbWFya2VyLXN0YXJ0PSJ1cmwoI2hlYXQpIiBtYXJrZXItZW5kPSJ1cmwoI2hlYXQpIi8+CjxwYXRoIGQ9Ik0yMDAgMzk3SDc2MCIgc3Ryb2tlPSIjMmE4MDcwIiBzdHJva2Utd2lkdGg9IjIiIG1hcmtlci1lbmQ9InVybCgjaGVhdCkiLz48dGV4dCB4PSIyNjAiIHk9IjQyNiIgZm9udC1zaXplPSIxNiI+VHJhbnN2ZXJzZSBzb2xpZCBjb25kdWN0aW9uIHRvd2FyZCB0aGUgd2FsbDwvdGV4dD48dGV4dCB4PSIzMCIgeT0iNDYyIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNTI2YTcxIj5TY2hlbWF0aWMgb2YgdGhlIGltcGxlbWVudGVkIGVxdWF0aW9ucywgbm90IGFuIGF4aWFsLWZsb3cgb3IgbWFuaWZvbGQgY2FsY3VsYXRpb24uPC90ZXh0Pgo8L2c+PC9zdmc+Cg==" alt="Half-bed with parallel gas channels, gas-to-solid exchange within each cell, conduction between solid cells and a wall connected to the heater." />
+<figcaption aria-hidden="true">Half-bed with parallel gas channels,
+gas-to-solid exchange within each cell, conduction between solid cells
+and a wall connected to the heater.</figcaption>
+</figure>
+<p><code>clean_dry</code> initializes all adsorbed loadings to zero. The
+gas spaces still contain the chosen ambient mixture at the initial
+pressure and temperature. <code>equilibrated_with_first_weather</code>
+initializes the solid at the material’s equilibrium with that mixture.
+Subsequent phases inherit the preceding inventories and temperatures.
+Restarting every adsorption phase with an empty bed would give a
+different production estimate.</p>
+<h3 id="weather-and-local-partial-pressures">Weather and local partial
+pressures</h3>
+<p>For a fixed case, the same forcing is applied across the horizon.
+With Pully weather, the model reads the normalized hourly observations
+in chronological order. <code>WeatherWindow.at</code> selects the hourly
+interval for the elapsed simulation time. The feed water mole fraction
+uses Buck saturation pressure at the ambient temperature. The remaining
+dry fraction contains the specified CO₂ and the balance of N₂ and O₂ in
+the proportions 0.7905 and 0.2095.</p>
+<p>For a check on units, the reviewed humid feed at 25 °C, 100,000 Pa
+and 65% RH gives
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>w</mi><mo>,</mo><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi></mrow></mrow></msub><mo>=</mo><mn>2059.55</mn></mrow><annotation encoding="application/x-tex">p_{w,\mathrm{in}}=2059.55</annotation></semantics></math>
+Pa. At 420 ppm CO₂ on a dry basis, the wet-feed CO₂ partial pressure is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100000</mn><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mn>0.02059545</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mn>420</mn><mo>×</mo><msup><mn>10</mn><mrow><mi>−</mi><mn>6</mn></mrow></msup><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>41.13</mn></mrow><annotation encoding="application/x-tex">100000(1-0.02059545)(420\times10^{-6})=41.13</annotation></semantics></math>
+Pa. Inside each cell, the solver uses its current <strong>gas</strong>
+temperature to calculate
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>p</mi><mi>i</mi></msub><annotation encoding="application/x-tex">p_i</annotation></semantics></math>
+and evaluates the material law at its current <strong>solid</strong>
+temperature. In particular, local water activity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>w</mi></msub><mo>=</mo><msub><mi>p</mi><mi>w</mi></msub><mi>/</mi><msub><mi>p</mi><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">t</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>s</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">a_w=p_w/p_{\mathrm{sat}}(T_s)</annotation></semantics></math>
+can change during regeneration even at constant inlet RH. The selected
+material specifies the local saturation correlation.</p>
+<p>The following functions construct the geometry, weather and initial
+state: <code>runtime.derived_geometry</code>,
+<code>geometry.build_bare_geometry</code>,
+<code>weather.WeatherHour</code>, <code>spatial.build_model</code> and
+<code>spatial.initial_state</code>.</p>
+<h2 id="adsorption-and-component-balance">Adsorption and component
+balance</h2>
+<p>The material adapter supplies equilibrium loading
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>q</mi><mi>a</mi><mo>*</mo></msubsup><annotation encoding="application/x-tex">q_a^*</annotation></semantics></math>,
+rates
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>k</mi><mi>a</mi></msub><annotation encoding="application/x-tex">k_a</annotation></semantics></math>,
+storage energy and its derivatives. Each storage state follows a linear
+driving force law:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>q</mi><mo accent="true">̇</mo></mover><mrow><mi>a</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>=</mo><msub><mi>k</mi><mrow><mi>a</mi><mo>,</mo><mi>j</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><msubsup><mi>q</mi><mrow><mi>a</mi><mo>,</mo><mi>j</mi></mrow><mo>*</mo></msubsup><mo>−</mo><msub><mi>q</mi><mrow><mi>a</mi><mo>,</mo><mi>j</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\dot q_{a,j}=k_{a,j}(q^*_{a,j}-q_{a,j}).
+</annotation></semantics></math></p>
+<p>For a species-to-storage map
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>S</mi><mrow><mi>i</mi><mi>a</mi></mrow></msub><annotation encoding="application/x-tex">S_{ia}</annotation></semantics></math>,
+the local gas balance is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>n</mi><mo accent="true">̇</mo></mover><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>=</mo><msubsup><mover><mi>n</mi><mo accent="true">̇</mo></mover><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi></mrow></msubsup><mo>−</mo><msubsup><mover><mi>n</mi><mo accent="true">̇</mo></mover><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">t</mi></mrow></msubsup><mo>+</mo><msubsup><mover><mi>n</mi><mo accent="true">̇</mo></mover><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow><mrow><mi mathvariant="normal">l</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">k</mi></mrow></msubsup><mo>−</mo><msub><mi>m</mi><mrow><mi>s</mi><mo>,</mo><mi>j</mi></mrow></msub><munder><mo>∑</mo><mi>a</mi></munder><msub><mi>S</mi><mrow><mi>i</mi><mi>a</mi></mrow></msub><msub><mover><mi>q</mi><mo accent="true">̇</mo></mover><mrow><mi>a</mi><mo>,</mo><mi>j</mi></mrow></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\dot n_{i,j}=\dot n_{i,j}^{\mathrm{in}}-\dot n_{i,j}^{\mathrm{out}}
++\dot n_{i,j}^{\mathrm{leak}}-m_{s,j}\sum_a S_{ia}\dot q_{a,j}.
+</annotation></semantics></math></p>
+<p>The material package determines which equilibrium expression is used.
+The supported families include independent Langmuir/Sips laws,
+reference-curve temperature shifts, split-rate reservoirs with shared
+thermodynamics, explicit two-site CO₂ storage and the Lewatit
+water-dependent treatment. These families are not interchangeable
+descriptions of the same specimen.</p>
+<p>A split-rate empirical response uses two storage reservoirs with
+nonnegative fractions that sum to one:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mi>c</mi></msub><mo>=</mo><msub><mi>q</mi><mi>f</mi></msub><mo>+</mo><msub><mi>q</mi><mi>s</mi></msub><mo>,</mo><mspace width="2.0em"></mspace><msubsup><mi>q</mi><mi>f</mi><mo>*</mo></msubsup><mo>=</mo><mi>f</mi><msubsup><mi>q</mi><mi>c</mi><mo>*</mo></msubsup><mo>,</mo><mspace width="2.0em"></mspace><msubsup><mi>q</mi><mi>s</mi><mo>*</mo></msubsup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>f</mi><mo stretchy="false" form="postfix">)</mo><msubsup><mi>q</mi><mi>c</mi><mo>*</mo></msubsup><mo>,</mo><mspace width="2.0em"></mspace><mn>0</mn><mo>≤</mo><mi>f</mi><mo>≤</mo><mn>1</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">
+q_c=q_f+q_s,\qquad q_f^*=f q_c^*,\qquad q_s^*=(1-f)q_c^*,\qquad 0\le f\le1.
+</annotation></semantics></math></p>
+<p>It can represent more than one protocol timescale without
+establishing two independently measured thermodynamic sites.
+Stored-water scenarios make the CO₂ target depend on current adsorbed
+water. Their humid coupling and transfer assumptions remain part of the
+material evidence. An unwrapped <code>dry_only</code> package has
+exactly zero water storage, rate and adsorption energy and requires
+exactly zero feed RH.</p>
+<p>The material records identify pressure and temperature support
+separately from the numerical extension of a curve. Named extrapolation
+scenarios retain the evidence limits. The temperature registry
+distinguishes a scenario guard from a demonstrated physical material
+limit.</p>
+<h3 id="selecting-a-material-law">Selecting a material law</h3>
+<p><code>materials.build_material_adapter</code> dispatches on
+<code>equilibrium_family</code>. For a material with a
+<code>humidity_candidate</code> section, it first resolves the recorded
+dry parent, then wraps that adapter with the candidate’s water law. The
+resulting adapter supplies site rates, the mapping to gas species and
+the stored-energy derivatives to both engines. The following table
+identifies the dry/reference calculation beneath any humid
+extension.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Material record</th>
+<th>CO₂ calculation</th>
+<th>Inputs that determine the result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hypothetical mmen-inspired and synthetic examples</td>
+<td>Independent Langmuir CO₂ and Sips water</td>
+<td>Reference loading and pressure, capacities, heats and directional
+rate coefficients</td>
+</tr>
+<tr>
+<td>mmen-Mg₂(dobpdc), HOB powder and PVDF, MOF-808-Lys and TAPA,
+TEPA(50), both PEI/MIL-101 variants, COF-999, Low et al. Lewatit</td>
+<td>Reference isotherm shifted in pressure</td>
+<td>Recorded curve, its measurement temperature, assumed or fitted heat
+and rates</td>
+</tr>
+<tr>
+<td>COF-1000</td>
+<td>Two rates sharing one shifted isotherm</td>
+<td>One equilibrium curve, capacity fractions and separate fast/slow
+rate coefficients</td>
+</tr>
+<tr>
+<td>Shaped CALF-20</td>
+<td>Two concentration-based Langmuir sites</td>
+<td>Separate capacities, affinities and energies, with a tabulated water
+relation</td>
+</tr>
+<tr>
+<td>Young et al. Lewatit</td>
+<td>Water-weighted dry and wet Toth curves, plus GAB water</td>
+<td>Published parameter sets, evolving stored water, kinetic
+coefficients and the record’s temperature policy</td>
+</tr>
+</tbody>
+</table>
+<h3 id="langmuir-sips-and-reference-curve-models">Langmuir, Sips and
+reference-curve models</h3>
+<p>In the independent family,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mi>r</mi></msub><annotation encoding="application/x-tex">q_r</annotation></semantics></math>
+at partial pressure
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>p</mi><mi>r</mi></msub><annotation encoding="application/x-tex">p_r</annotation></semantics></math>
+anchors CO₂ affinity at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi>r</mi></msub><annotation encoding="application/x-tex">T_r</annotation></semantics></math>.
+Water has a Sips exponent
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ν</mi><annotation encoding="application/x-tex">\nu</annotation></semantics></math>
+and a half-loading affinity. The optional penalty
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+links the two equilibrium targets. Nitrogen and oxygen follow Henry laws
+in this family.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mrow><mi>c</mi><mo>,</mo><mi>r</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>q</mi><mi>r</mi></msub><mrow><msub><mi>p</mi><mi>r</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>q</mi><mrow><mi>s</mi><mo>,</mo><mi>c</mi></mrow></msub><mo>−</mo><msub><mi>q</mi><mi>r</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mo>,</mo><mspace width="1.0em"></mspace><msubsup><mi>q</mi><mi>w</mi><mo>*</mo></msubsup><mo>=</mo><msub><mi>q</mi><mrow><mi>s</mi><mo>,</mo><mi>w</mi></mrow></msub><mfrac><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>b</mi><mi>w</mi></msub><msub><mi>p</mi><mi>w</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mi>ν</mi></msup></mrow><mrow><mn>1</mn><mo>+</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>b</mi><mi>w</mi></msub><msub><mi>p</mi><mi>w</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mi>ν</mi></msup></mrow></mfrac><mo>,</mo><mspace width="1.0em"></mspace><msubsup><mi>q</mi><mi>c</mi><mo>*</mo></msubsup><mo>=</mo><mfrac><mrow><msub><mi>q</mi><mrow><mi>s</mi><mo>,</mo><mi>c</mi></mrow></msub><msub><mi>b</mi><mi>c</mi></msub><msub><mi>p</mi><mi>c</mi></msub></mrow><mrow><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>+</mo><msub><mi>b</mi><mi>c</mi></msub><msub><mi>p</mi><mi>c</mi></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>α</mi><msubsup><mi>q</mi><mi>w</mi><mo>*</mo></msubsup><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+b_{c,r}=\frac{q_r}{p_r(q_{s,c}-q_r)},\quad
+q_w^*=q_{s,w}\frac{(b_wp_w)^\nu}{1+(b_wp_w)^\nu},\quad
+q_c^*=\frac{q_{s,c}b_cp_c}{(1+b_cp_c)(1+\alpha q_w^*)}.
+</annotation></semantics></math></p>
+<p>With positive reference heat magnitude
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Q</mi><mrow><mi>i</mi><mo>,</mo><mi>r</mi></mrow></msub><annotation encoding="application/x-tex">Q_{i,r}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><msub><mi>C</mi><mrow><mi>p</mi><mo>,</mo><mi>i</mi></mrow></msub><mo>=</mo><msub><mi>C</mi><mrow><mi>p</mi><mo>,</mo><mi>g</mi><mo>,</mo><mi>i</mi></mrow></msub><mo>−</mo><msub><mi>C</mi><mrow><mi>p</mi><mo>,</mo><mi>a</mi><mo>,</mo><mi>i</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\Delta C_{p,i}=C_{p,g,i}-C_{p,a,i}</annotation></semantics></math>
+in J/(mol K), the affinity factor used for these species is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">ln</mi><mo>⁡</mo></mrow><mfrac><mrow><msub><mi>b</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo stretchy="false" form="postfix">)</mo></mrow><mrow><msub><mi>b</mi><mi>i</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>r</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mo>=</mo><mfrac><msub><mi>Q</mi><mrow><mi>i</mi><mo>,</mo><mi>r</mi></mrow></msub><mi>R</mi></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><mi>T</mi></mfrac><mo>−</mo><mfrac><mn>1</mn><msub><mi>T</mi><mi>r</mi></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mfrac><mrow><mi mathvariant="normal">Δ</mi><msub><mi>C</mi><mrow><mi>p</mi><mo>,</mo><mi>i</mi></mrow></msub></mrow><mi>R</mi></mfrac><mrow><mo stretchy="true" form="prefix">[</mo><mn>1</mn><mo>−</mo><mfrac><msub><mi>T</mi><mi>r</mi></msub><mi>T</mi></mfrac><mo>−</mo><mi mathvariant="normal">ln</mi><mfrac><mi>T</mi><msub><mi>T</mi><mi>r</mi></msub></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\ln\frac{b_i(T)}{b_i(T_r)}
+=\frac{Q_{i,r}}{R}\left(\frac1T-\frac1{T_r}\right)
++\frac{\Delta C_{p,i}}{R}\left[1-\frac{T_r}{T}-\ln\frac{T}{T_r}\right].
+</annotation></semantics></math></p>
+<p>For a measured reference curve at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi>m</mi></msub><annotation encoding="application/x-tex">T_m</annotation></semantics></math>,
+the CO₂ target instead comes from mapping the current pressure back to
+the reference temperature:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">p</mi></mrow></msub><mo>=</mo><msub><mi>p</mi><mi>c</mi></msub><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mrow><mo stretchy="true" form="prefix">[</mo><mfrac><msub><mi>Q</mi><mi>c</mi></msub><mi>R</mi></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><msub><mi>T</mi><mi>s</mi></msub></mfrac><mo>−</mo><mfrac><mn>1</mn><msub><mi>T</mi><mi>m</mi></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mo>,</mo><mspace width="2.0em"></mspace><msubsup><mi>q</mi><mi>c</mi><mo>*</mo></msubsup><mo>=</mo><msub><mi>q</mi><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">v</mi><mi mathvariant="normal">e</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>p</mi><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">p</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+p_{\mathrm{map}}=p_c\exp\left[\frac{Q_c}{R}\left(\frac1{T_s}-\frac1{T_m}\right)\right],
+\qquad q_c^*=q_{\mathrm{curve}}(p_{\mathrm{map}}).
+</annotation></semantics></math></p>
+<p><code>DryActivityShiftReferenceEvaluator</code> interpolates loading
+in log pressure with a shape-preserving piecewise cubic (PCHIP). Below
+the first positive point it uses a straight line to the origin. Above
+the final point it holds the final loading. The material record
+identifies the measured range and the evidence for temperature transfer.
+COF-1000 partitions this target between two reservoirs. Shaped CALF-20
+instead evaluates each site
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><msub><mi>p</mi><mi>c</mi></msub><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mi>R</mi><msub><mi>T</mi><mi>s</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">c=p_c/(RT_s)</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mi>a</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>s</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>b</mi><mrow><mn>0</mn><mo>,</mo><mi>a</mi></mrow></msub><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">[</mo><mi>−</mi><msub><mi>u</mi><mi>a</mi></msub><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mi>R</mi><msub><mi>T</mi><mi>s</mi></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo><mo>,</mo><mspace width="2.0em"></mspace><msubsup><mi>q</mi><mi>a</mi><mo>*</mo></msubsup><mo>=</mo><msub><mi>q</mi><mrow><mi>s</mi><mo>,</mo><mi>a</mi></mrow></msub><mfrac><mrow><msub><mi>b</mi><mi>a</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>s</mi></msub><mo stretchy="false" form="postfix">)</mo><mi>c</mi></mrow><mrow><mn>1</mn><mo>+</mo><msub><mi>b</mi><mi>a</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>s</mi></msub><mo stretchy="false" form="postfix">)</mo><mi>c</mi></mrow></mfrac><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>q</mi><mi>c</mi></msub><mo>=</mo><msub><mi>q</mi><mn>1</mn></msub><mo>+</mo><msub><mi>q</mi><mn>2</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+b_a(T_s)=b_{0,a}\exp[-u_a/(RT_s)],\qquad
+q_a^*=q_{s,a}\frac{b_a(T_s)c}{1+b_a(T_s)c},\qquad q_c=q_1+q_2 .
+</annotation></semantics></math></p>
+<p>Here
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>u</mi><mi>a</mi></msub><annotation encoding="application/x-tex">u_a</annotation></semantics></math>
+is the signed energy parameter stored for that site. In the native
+shaped CALF-20 record, the separate water curve is evaluated at a
+temperature-shifted reference activity. The exploratory humid record
+declares its own water treatment. Numerical interpolation between
+observations does not establish hot, dilute or humid behavior beyond
+their support.</p>
+<h3 id="how-humidity-changes-the-reviewed-lewatit-result">How humidity
+changes the reviewed Lewatit result</h3>
+<p>In the matched 48-hour Lewatit runs the gas supplies local
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>p</mi><mi>c</mi></msub><annotation encoding="application/x-tex">p_c</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>p</mi><mi>w</mi></msub><annotation encoding="application/x-tex">p_w</annotation></semantics></math>.
+At the solid temperature the Young et al. adapter evaluates a
+Guggenheim–Anderson–de Boer (GAB) water target and a weighted average of
+two Toth CO₂ targets <span class="citation" data-cites="young2021">(<span class="nocase">Young et al.</span>
+2021)</span>. With
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>w</mi></msub><mo>=</mo><msub><mi>p</mi><mi>w</mi></msub><mi>/</mi><msub><mi>p</mi><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">t</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>s</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">a_w=p_w/p_{\mathrm{sat}}(T_s)</annotation></semantics></math>,
+monolayer loading
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mi>m</mi></msub><annotation encoding="application/x-tex">q_m</annotation></semantics></math>,
+and temperature-dependent GAB coefficients
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>,</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">C,K</annotation></semantics></math>,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>q</mi><mi>w</mi><mo>*</mo></msubsup><mo>=</mo><mfrac><mrow><msub><mi>q</mi><mi>m</mi></msub><mi>C</mi><mi>K</mi><msub><mi>a</mi><mi>w</mi></msub></mrow><mrow><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>K</mi><msub><mi>a</mi><mi>w</mi></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">[</mo><mn>1</mn><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mi>C</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mi>K</mi><msub><mi>a</mi><mi>w</mi></msub><mo stretchy="false" form="postfix">]</mo></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+q_w^*=\frac{q_m C K a_w}
+{(1-Ka_w)[1+(C-1)Ka_w]} .
+</annotation></semantics></math></p>
+<p>For each of the dry and wet CO₂ branches,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mi>b</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo>,</mo><msub><mi>p</mi><mi>c</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>q</mi><mrow><mi>∞</mi><mo>,</mo><mi>b</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo stretchy="false" form="postfix">)</mo><mfrac><mrow><msub><mi>b</mi><mi>b</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo stretchy="false" form="postfix">)</mo><msub><mi>p</mi><mi>c</mi></msub></mrow><mrow><mo stretchy="false" form="prefix">[</mo><mn>1</mn><mo>+</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>b</mi><mi>b</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo stretchy="false" form="postfix">)</mo><msub><mi>p</mi><mi>c</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mrow><msub><mi>τ</mi><mi>b</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo stretchy="false" form="postfix">)</mo></mrow></msup><msup><mo stretchy="false" form="postfix">]</mo><mrow><mn>1</mn><mi>/</mi><msub><mi>τ</mi><mi>b</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo stretchy="false" form="postfix">)</mo></mrow></msup></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+q_b(T,p_c)=q_{\infty,b}(T)
+  \frac{b_b(T)p_c}{[1+(b_b(T)p_c)^{\tau_b(T)}]^{1/\tau_b(T)}} .
+</annotation></semantics></math></p>
+<p>The implemented parameter convention is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mi>b</mi></msub><mo>=</mo><msub><mi>b</mi><mrow><mn>0</mn><mo>,</mo><mi>b</mi></mrow></msub><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">[</mo><msub><mi>Q</mi><mrow><mn>0</mn><mo>,</mo><mi>b</mi></mrow></msub><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mi>R</mi><mi>T</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">b_b=b_{0,b}\exp[Q_{0,b}/(RT)]</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mrow><mi>∞</mi><mo>,</mo><mi>b</mi></mrow></msub><mo>=</mo><msub><mi>q</mi><mrow><mi>∞</mi><mo>,</mo><mn>0</mn><mo>,</mo><mi>b</mi></mrow></msub><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">[</mo><msub><mi>χ</mi><mi>b</mi></msub><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>T</mi><mi>/</mi><msub><mi>T</mi><mi>r</mi></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">q_{\infty,b}=q_{\infty,0,b}\exp[\chi_b(1-T/T_r)]</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>τ</mi><mi>b</mi></msub><mo>=</mo><msub><mi>τ</mi><mrow><mn>0</mn><mo>,</mo><mi>b</mi></mrow></msub><mo>+</mo><msub><mi>α</mi><mi>b</mi></msub><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>T</mi><mi>r</mi></msub><mi>/</mi><mi>T</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\tau_b=\tau_{0,b}+\alpha_b(1-T_r/T)</annotation></semantics></math>.
+<code>young2021.py</code> gives the separate dry and wet coefficients
+and the GAB temperature functions. The fraction assigned to wet sites
+depends on the <strong>current stored</strong> water
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mi>w</mi></msub><annotation encoding="application/x-tex">q_w</annotation></semantics></math>,
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">t</mi></mrow></msub><mo>=</mo><mn>1.532</mn></mrow><annotation encoding="application/x-tex">q_{\mathrm{crit}}=1.532</annotation></semantics></math>
+mol/kg. It is zero at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mi>w</mi></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">q_w=0</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>=</mo><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>−</mi><msub><mi>q</mi><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">t</mi></mrow></msub><mi>/</mi><msub><mi>q</mi><mi>w</mi></msub><mo stretchy="false" form="postfix">)</mo><mspace width="1.0em"></mspace><mo stretchy="false" form="prefix">(</mo><msub><mi>q</mi><mi>w</mi></msub><mo>&gt;</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="2.0em"></mspace><msubsup><mi>q</mi><mi>c</mi><mo>*</mo></msubsup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>w</mi><mo stretchy="false" form="postfix">)</mo><msub><mi>q</mi><mrow><mi mathvariant="normal">d</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">y</mi></mrow></msub><mo>+</mo><mi>w</mi><msub><mi>q</mi><mrow><mi mathvariant="normal">w</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">t</mi></mrow></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+w=\exp(-q_{\mathrm{crit}}/q_w)\quad(q_w&gt;0),\qquad
+q_c^*=(1-w)q_{\mathrm{dry}}+w q_{\mathrm{wet}}.
+</annotation></semantics></math></p>
+<p>Water therefore affects CO₂ after it has loaded onto the material. An
+instantaneous change in inlet RH does not immediately impose a new
+wet-site fraction. Both loadings approach their targets with the
+applicable directional rates. The matched exports use the
+advisory-temperature material with the named BDF trial-recovery policy.
+Its identifier contains <code>dry_bdf_recovery</code> in both exports.
+Feed humidity is defined in <code>case.weather</code>. The material’s
+measured coupled temperature range is 25–70 °C. At the 116 °C
+regeneration request the model extrapolates the equations. The advisory
+implementation uses IAPWS for local saturation pressure, while the
+original strict Young implementation uses Buck. The saved RH trace has a
+separate diagnostic convention described <a href="#reading-saved-diagnostics">below</a>.</p>
+<h3 id="other-stored-water-scenarios">Other stored-water scenarios</h3>
+<p>For the COFs, MOF-808 variants and PEI/MIL variants that specify a
+chemical-potential shift, the wrapper evaluates the dry CO₂ law with an
+effective pressure. With
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><msub><mi>q</mi><mi>w</mi></msub><mi>/</mi><msub><mi>q</mi><mrow><mi mathvariant="normal">n</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">m</mi></mrow></msub></mrow><annotation encoding="application/x-tex">x=q_w/q_{\mathrm{norm}}</annotation></semantics></math>,
+the record’s coefficients
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>a</mi><mi>k</mi></msub><annotation encoding="application/x-tex">a_k</annotation></semantics></math>
+and temperature exponent
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>η</mi><annotation encoding="application/x-tex">\eta</annotation></semantics></math>
+give</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi>c</mi><mo>,</mo><mrow><mi mathvariant="normal">e</mi><mi mathvariant="normal">f</mi><mi mathvariant="normal">f</mi></mrow></mrow></msub><mo>=</mo><msub><mi>p</mi><mi>c</mi></msub><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mrow><mo stretchy="true" form="prefix">[</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>r</mi></msub><mi>/</mi><msub><mi>T</mi><mi>s</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mi>η</mi></msup><munder><mo>∑</mo><mrow><mi>k</mi><mo>≥</mo><mn>1</mn></mrow></munder><msub><mi>a</mi><mi>k</mi></msub><msup><mi>x</mi><mi>k</mi></msup><mo stretchy="true" form="postfix">]</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+p_{c,\mathrm{eff}}=p_c\exp\left[(T_r/T_s)^\eta\sum_{k\ge1} a_k x^k\right].
+</annotation></semantics></math></p>
+<p>The TEPA proxy instead adds a bounded loading
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mrow><mi mathvariant="normal">a</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">d</mi></mrow></msub><mo stretchy="false" form="prefix">[</mo><mn>1</mn><mo>−</mo><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>−</mi><msup><mi>x</mi><mi>m</mi></msup><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo><mspace width="0.167em"></mspace><mi>b</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>s</mi></msub><mo stretchy="false" form="postfix">)</mo><msub><mi>p</mi><mi>c</mi></msub><mi>/</mi><mo stretchy="false" form="prefix">[</mo><mn>1</mn><mo>+</mo><mi>b</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>s</mi></msub><mo stretchy="false" form="postfix">)</mo><msub><mi>p</mi><mi>c</mi></msub><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">q_{\mathrm{add}}[1-\exp(-x^m)]\,b(T_s)p_c/[1+b(T_s)p_c]</annotation></semantics></math>
+to the dry target. For independent-water candidates such as HOB/PVDF or
+mmen, water still adds inventory, sorption heat and pump load while the
+direct CO₂ target follows the dry law. Depending on the record, the
+water target comes from a Sips anchor, a line through one measured node,
+a PCHIP curve, a temperature/activity table or the native water
+relation. The package identifies which coefficients were measured,
+fitted, transferred or assumed.</p>
+<p>In each reservoir the model uses the adsorption coefficient when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>q</mi><mi>a</mi><mo>*</mo></msubsup><mo>≥</mo><msub><mi>q</mi><mi>a</mi></msub></mrow><annotation encoding="application/x-tex">q_a^*\ge q_a</annotation></semantics></math>
+and the desorption coefficient when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>q</mi><mi>a</mi><mo>*</mo></msubsup><mo>&lt;</mo><msub><mi>q</mi><mi>a</mi></msub></mrow><annotation encoding="application/x-tex">q_a^*&lt;q_a</annotation></semantics></math>.
+Thus a cell can still adsorb during a nominal desorption phase if its
+local target exceeds its current loading. The gas sees the sum of rates
+for all reservoirs assigned to its species.</p>
+<h2 id="energy-and-heat-transfer">Energy and heat transfer</h2>
+<p>The gas uses constant species heat capacities and an explicit
+internal-energy/enthalpy reference. Stored energy includes gas, dry
+solid, adsorbed material, wall and heater contributions. Loading-energy
+derivatives are supplied by the material law, avoiding a second
+independent addition of adsorption heat.</p>
+<p>The solid energy derivative has the general form</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi>d</mi><msub><mi>U</mi><mi>s</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>s</mi></msub><mo>,</mo><mi mathvariant="bold-italic">𝒒</mi><mo stretchy="false" form="postfix">)</mo></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><msub><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mi>∂</mi><msub><mi>U</mi><mi>s</mi></msub></mrow><mrow><mi>∂</mi><msub><mi>T</mi><mi>s</mi></msub></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi mathvariant="bold-italic">𝒒</mi></msub><msub><mover><mi>T</mi><mo accent="true">̇</mo></mover><mi>s</mi></msub><mo>+</mo><munder><mo>∑</mo><mi>a</mi></munder><msub><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mrow><mi>∂</mi><msub><mi>U</mi><mi>s</mi></msub></mrow><mrow><mi>∂</mi><msub><mi>q</mi><mi>a</mi></msub></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><msub><mi>T</mi><mi>s</mi></msub></msub><msub><mover><mi>q</mi><mo accent="true">̇</mo></mover><mi>a</mi></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\frac{dU_s(T_s,\boldsymbol q)}{dt}
+=\left(\frac{\partial U_s}{\partial T_s}\right)_{\boldsymbol q}\dot T_s
++\sum_a\left(\frac{\partial U_s}{\partial q_a}\right)_{T_s}\dot q_a.
+</annotation></semantics></math></p>
+<p>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>E</mi><mo accent="true">̇</mo></mover><mi>s</mi></msub><annotation encoding="application/x-tex">\dot E_s</annotation></semantics></math>
+include heat received and the internal energy carried by gas entering
+storage. Subtracting the energy stored through loading changes gives the
+solid temperature rate.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>T</mi><mo accent="true">̇</mo></mover><mi>s</mi></msub><mo>=</mo><mfrac><mrow><msub><mover><mi>E</mi><mo accent="true">̇</mo></mover><mi>s</mi></msub><mo>−</mo><munder><mo>∑</mo><mi>a</mi></munder><msub><mi>U</mi><msub><mi>q</mi><mi>a</mi></msub></msub><msub><mover><mi>q</mi><mo accent="true">̇</mo></mover><mi>a</mi></msub></mrow><msub><mi>U</mi><mi>T</mi></msub></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\dot T_s=\frac{\dot E_s-\sum_a U_{q_a}\dot q_a}{U_T}.
+</annotation></semantics></math></p>
+<p>The spatial case uses an assumed gas–solid interfacial area of 2,400
+m² per m³ of bed. This stays fixed when particle diameter changes. A
+geometry or particle-size sensitivity must review that assumption.
+Finite gas-to-solid heat exchange uses</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>Q</mi><mo accent="true">̇</mo></mover><mrow><mi>g</mi><mi>s</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>=</mo><msub><mi>h</mi><mrow><mi>g</mi><mi>s</mi></mrow></msub><msub><mi>A</mi><mrow><mi>g</mi><mi>s</mi><mo>,</mo><mi>j</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mrow><mi>g</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>s</mi><mo>,</mo><mi>j</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\dot Q_{gs,j}=h_{gs}A_{gs,j}(T_{g,j}-T_{s,j}).
+</annotation></semantics></math></p>
+<p>Neighboring solid cells exchange heat through the specified effective
+conductivity:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>Q</mi><mo accent="true">̇</mo></mover><mrow><mi>j</mi><mo>→</mo><mi>j</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mfrac><mrow><msub><mi>k</mi><mrow><mi mathvariant="normal">e</mi><mi mathvariant="normal">f</mi><mi mathvariant="normal">f</mi></mrow></msub><mi>A</mi></mrow><mrow><mi mathvariant="normal">Δ</mi><mi>x</mi></mrow></mfrac><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mrow><mi>s</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>s</mi><mo>,</mo><mi>j</mi><mo>+</mo><mn>1</mn></mrow></msub><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\dot Q_{j\rightarrow j+1}=\frac{k_{\mathrm{eff}}A}{\Delta x}
+(T_{s,j}-T_{s,j+1}).
+</annotation></semantics></math></p>
+<p>There is no extra transverse gas-conduction term on top of that
+effective bulk conductivity. The symmetry plane has zero normal heat
+flux. Wall/heater heat capacities, transfer conductances, ambient losses
+and bounded actuator requests determine the boundary behavior. Heater
+power is an electrical input, not an imposed uniform bed temperature. A
+resistance wire inside a real bed needs its own transfer representation
+and temperature measurements.</p>
+<h3 id="balances-actually-integrated-in-a-spatial-cell">Balances
+actually integrated in a spatial cell</h3>
+<p>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>F</mi><mi>j</mi></msub><annotation encoding="application/x-tex">F_j</annotation></semantics></math>
+be feed,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>B</mi><mi>j</mi></msub><annotation encoding="application/x-tex">B_j</annotation></semantics></math>
+leakage and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>W</mi><mi>j</mi></msub><annotation encoding="application/x-tex">W_j</annotation></semantics></math>
+withdrawal in mol/s for one half-domain cell. Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ϕ</mi><mi>j</mi></msub><mo>=</mo><msub><mi>h</mi><mrow><mi>g</mi><mi>s</mi></mrow></msub><msub><mi>A</mi><mrow><mi>g</mi><mi>s</mi><mo>,</mo><mi>j</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mrow><mi>g</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>s</mi><mo>,</mo><mi>j</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\phi_j=h_{gs}A_{gs,j}(T_{g,j}-T_{s,j})</annotation></semantics></math>
+be heat flowing <strong>into</strong> the solid. The spatial engine
+integrates the gas temperature together with the species inventories.
+For inlet and leak gas at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi>a</mi></msub><annotation encoding="application/x-tex">T_a</annotation></semantics></math>
+its gas temperature equation is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mi>j</mi></msub><msub><mover><mi>C</mi><mo accent="true">‾</mo></mover><mrow><mi>v</mi><mo>,</mo><mi>j</mi></mrow></msub><msub><mover><mi>T</mi><mo accent="true">̇</mo></mover><mrow><mi>g</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>F</mi><mi>j</mi></msub><msub><mover><mi>C</mi><mo accent="true">‾</mo></mover><mrow><mi>p</mi><mo>,</mo><mi>F</mi></mrow></msub><mo>+</mo><msub><mi>B</mi><mi>j</mi></msub><msub><mover><mi>C</mi><mo accent="true">‾</mo></mover><mrow><mi>p</mi><mo>,</mo><mi>B</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>a</mi></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>g</mi><mo>,</mo><mi>j</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>R</mi><msub><mi>T</mi><mrow><mi>g</mi><mo>,</mo><mi>j</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>F</mi><mi>j</mi></msub><mo>+</mo><msub><mi>B</mi><mi>j</mi></msub><mo>−</mo><msub><mi>W</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>−</mo><msub><mi>ϕ</mi><mi>j</mi></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+n_j\bar C_{v,j}\dot T_{g,j}
+=(F_j\bar C_{p,F}+B_j\bar C_{p,B})(T_a-T_{g,j})
++RT_{g,j}(F_j+B_j-W_j)-\phi_j .
+</annotation></semantics></math></p>
+<p>Here
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mi>j</mi></msub><mo>=</mo><msub><mo>∑</mo><mi>i</mi></msub><msub><mi>n</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">n_j=\sum_i n_{i,j}</annotation></semantics></math>
+and the barred heat capacities are mole-fraction weighted. Uptake
+already removes gas internal energy with the transferred moles. With
+reference temperature
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi>r</mi></msub><annotation encoding="application/x-tex">T_r</annotation></semantics></math>
+the code uses
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>u</mi><mi>i</mi><mi>g</mi></msubsup><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>C</mi><mrow><mi>p</mi><mo>,</mo><mi>i</mi></mrow></msub><mo>−</mo><mi>R</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>g</mi></msub><mo>−</mo><msub><mi>T</mi><mi>r</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">u_i^g=(C_{p,i}-R)(T_g-T_r)</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>h</mi><mi>i</mi><mi>g</mi></msubsup><mo>=</mo><msub><mi>C</mi><mrow><mi>p</mi><mo>,</mo><mi>i</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>g</mi></msub><mo>−</mo><msub><mi>T</mi><mi>r</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>R</mi><msub><mi>T</mi><mi>r</mi></msub></mrow><annotation encoding="application/x-tex">h_i^g=C_{p,i}(T_g-T_r)+RT_r</annotation></semantics></math>.
+Thus
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>h</mi><mi>i</mi><mi>g</mi></msubsup><mo>−</mo><msubsup><mi>u</mi><mi>i</mi><mi>g</mi></msubsup><mo>=</mo><mi>R</mi><msub><mi>T</mi><mi>g</mi></msub></mrow><annotation encoding="application/x-tex">h_i^g-u_i^g=RT_g</annotation></semantics></math>
+at the same temperature. The cell’s conservative <strong>solid</strong>
+equation is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mi>j</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>c</mi><mrow><mi>p</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>+</mo><mfrac><mrow><mi>∂</mi><msub><mi>e</mi><mi>a</mi></msub></mrow><mrow><mi>∂</mi><msub><mi>T</mi><mi>s</mi></msub></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><msub><mover><mi>T</mi><mo accent="true">̇</mo></mover><mrow><mi>s</mi><mo>,</mo><mi>j</mi></mrow></msub><mo>=</mo><msub><mover><mi>Q</mi><mo accent="true">̇</mo></mover><mrow><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow><mo>,</mo><mi>j</mi></mrow></msub><mo>+</mo><msub><mi>ϕ</mi><mi>j</mi></msub><mo>+</mo><msub><mi>m</mi><mi>j</mi></msub><munder><mo>∑</mo><mi>a</mi></munder><msub><mover><mi>q</mi><mo accent="true">̇</mo></mover><mrow><mi>a</mi><mo>,</mo><mi>j</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">[</mo><msubsup><mi>u</mi><mrow><mi>i</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo></mrow><mi>g</mi></msubsup><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mrow><mi>g</mi><mo>,</mo><mi>j</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mfrac><mrow><mi>∂</mi><msub><mi>e</mi><mi>a</mi></msub></mrow><mrow><mi>∂</mi><msub><mi>q</mi><mi>a</mi></msub></mrow></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+m_j\left(c_{p,s}+\frac{\partial e_a}{\partial T_s}\right)\dot T_{s,j}
+=\dot Q_{\mathrm{cond},j}+\phi_j+
+m_j\sum_a\dot q_{a,j}
+\left[u^g_{i(a)}(T_{g,j})-\frac{\partial e_a}{\partial q_a}\right].
+</annotation></semantics></math></p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><mi>a</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>s</mi></msub><mo>,</mo><mi mathvariant="bold-italic">𝒒</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">e_a(T_s,\boldsymbol q)</annotation></semantics></math>
+is stored adsorbate energy in J per kg dry shaped material. The
+difference in brackets is the energy transferred per mole taken up.
+Using both this term and a separately added heat of adsorption would
+count the same transfer twice. This is why a new material law must
+supply its caloric terms as well as its isotherm.</p>
+<h3 id="wall-heater-and-cooling-boundary">Wall, heater and cooling
+boundary</h3>
+<p>Cell 1 lies at the symmetry plane. The last cell touches the wall
+through a contact resistance and half of the boundary cell’s conduction
+resistance. For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">N&gt;1</annotation></semantics></math>,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>G</mi><mrow><mi>s</mi><mi>s</mi></mrow></msub><mo>=</mo><msub><mi>k</mi><mrow><mi mathvariant="normal">e</mi><mi mathvariant="normal">f</mi><mi mathvariant="normal">f</mi></mrow></msub><mi>A</mi><mi>/</mi><mi mathvariant="normal">Δ</mi><mi>x</mi><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>R</mi><mrow><mi>w</mi><mi>s</mi></mrow></msub><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>h</mi><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">t</mi></mrow></msub><mi>A</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>−</mi><mn>1</mn></mrow></msup><mo>+</mo><mi mathvariant="normal">Δ</mi><mi>x</mi><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>2</mn><msub><mi>k</mi><mrow><mi mathvariant="normal">e</mi><mi mathvariant="normal">f</mi><mi mathvariant="normal">f</mi></mrow></msub><mi>A</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="2.0em"></mspace><msub><mover><mi>Q</mi><mo accent="true">̇</mo></mover><mrow><mi>w</mi><mi>s</mi></mrow></msub><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>w</mi></msub><mo>−</mo><msub><mi>T</mi><mrow><mi>s</mi><mo>,</mo><mi>N</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mi>/</mi><msub><mi>R</mi><mrow><mi>w</mi><mi>s</mi></mrow></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+G_{ss}=k_{\mathrm{eff}}A/\Delta x,\qquad
+R_{ws}=(h_{\mathrm{contact}}A)^{-1}+\Delta x/(2k_{\mathrm{eff}}A),\qquad
+\dot Q_{ws}=(T_w-T_{s,N})/R_{ws}.
+</annotation></semantics></math></p>
+<p>For a one-cell <strong>spatial</strong> calculation the code uses the
+full half-thickness in the wall conduction resistance. It still has
+distinct gas, solid, wall and heater temperatures. For the reviewed
+electric heater, the two boundary-node balances, written with
+half-device powers and capacities, are</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mi>h</mi></msub><msub><mover><mi>T</mi><mo accent="true">̇</mo></mover><mi>h</mi></msub><mo>=</mo><msub><mi>P</mi><mi>h</mi></msub><mo>−</mo><msub><mi>G</mi><mrow><mi>h</mi><mi>w</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>h</mi></msub><mo>−</mo><msub><mi>T</mi><mi>w</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>C</mi><mi>w</mi></msub><msub><mover><mi>T</mi><mo accent="true">̇</mo></mover><mi>w</mi></msub><mo>=</mo><msub><mi>G</mi><mrow><mi>h</mi><mi>w</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>h</mi></msub><mo>−</mo><msub><mi>T</mi><mi>w</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>−</mo><msub><mover><mi>Q</mi><mo accent="true">̇</mo></mover><mrow><mi>w</mi><mi>s</mi></mrow></msub><mo>−</mo><msub><mi>U</mi><mrow><mi mathvariant="normal">l</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">s</mi></mrow></msub><mi>A</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>w</mi></msub><mo>−</mo><msub><mi>T</mi><mi>a</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>−</mo><msub><mover><mi>Q</mi><mo accent="true">̇</mo></mover><mrow><mrow><mi mathvariant="normal">w</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">l</mi></mrow><mo>,</mo><mi>c</mi><mi>o</mi><mi>o</mi><mi>l</mi></mrow></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+C_h\dot T_h=P_h-G_{hw}(T_h-T_w),\qquad
+C_w\dot T_w=G_{hw}(T_h-T_w)-\dot Q_{ws}-U_{\mathrm{loss}}A(T_w-T_a)-\dot Q_{\mathrm{wall},cool}.
+</annotation></semantics></math></p>
+<p>The coldest solid cell supplies the spatial feedback temperature. The
+heater command is capped at rated power and tapers as the heater
+approaches its own temperature ceiling. Wall cooling also requires a
+temperature difference, finite wall conductance and capacity left over
+after the pump-inlet cooler. The hottest bed cell is checked against any
+active material guard. Control temperature, local peak and requested
+setpoint therefore refer to three different quantities.</p>
+<h3 id="well-mixed-companion">Well-mixed companion</h3>
+<p>The lumped engine carries one temperature
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>
+for gas, sorbent, represented metal and heater. Pressure follows
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>R</mi><mi>T</mi><mi>/</mi><msub><mi>V</mi><mi>g</mi></msub></mrow><annotation encoding="application/x-tex">nRT/V_g</annotation></semantics></math>.
+Adsorption uses a fixed-total-moles control policy and limits positive
+uptake demand by available feed for each species. The common material
+interface still calculates the target and directional rates. The lumped
+first law can be written</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mrow><mi mathvariant="normal">e</mi><mi mathvariant="normal">f</mi><mi mathvariant="normal">f</mi></mrow></msub><mover><mi>T</mi><mo accent="true">̇</mo></mover><mo>=</mo><msub><mover><mi>Q</mi><mo accent="true">̇</mo></mover><mi>h</mi></msub><mo>−</mo><msub><mover><mi>Q</mi><mo accent="true">̇</mo></mover><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">l</mi></mrow></msub><mo>−</mo><msub><mover><mi>Q</mi><mo accent="true">̇</mo></mover><mrow><mi mathvariant="normal">l</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">s</mi></mrow></msub><mo>+</mo><msub><mover><mi>H</mi><mo accent="true">̇</mo></mover><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi></mrow></msub><mo>−</mo><msub><mover><mi>H</mi><mo accent="true">̇</mo></mover><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">t</mi></mrow></msub><mo>−</mo><munder><mo>∑</mo><mi>i</mi></munder><msubsup><mi>u</mi><mi>i</mi><mi>g</mi></msubsup><msub><mover><mi>n</mi><mo accent="true">̇</mo></mover><mi>i</mi></msub><mo>−</mo><msub><mi>m</mi><mi>s</mi></msub><munder><mo>∑</mo><mi>a</mi></munder><mfrac><mrow><mi>∂</mi><msub><mi>e</mi><mi>a</mi></msub></mrow><mrow><mi>∂</mi><msub><mi>q</mi><mi>a</mi></msub></mrow></mfrac><msub><mover><mi>q</mi><mo accent="true">̇</mo></mover><mi>a</mi></msub><mo>,</mo></mrow><annotation encoding="application/x-tex">
+C_{\mathrm{eff}}\dot T=\dot Q_h-\dot Q_{\mathrm{cool}}-\dot Q_{\mathrm{loss}}
++\dot H_{\mathrm{in}}-\dot H_{\mathrm{out}}
+-\sum_i u_i^g\dot n_i - m_s\sum_a
+       \frac{\partial e_a}{\partial q_a}\dot q_a,
+</annotation></semantics></math></p>
+<p>with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mrow><mi mathvariant="normal">e</mi><mi mathvariant="normal">f</mi><mi mathvariant="normal">f</mi></mrow></msub><mo>=</mo><msub><mi>m</mi><mi>s</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>c</mi><mrow><mi>p</mi><mo>,</mo><mi>s</mi></mrow></msub><mo>+</mo><mi>∂</mi><msub><mi>e</mi><mi>a</mi></msub><mi>/</mi><mi>∂</mi><mi>T</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><msub><mi>C</mi><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">l</mi></mrow></msub><mo>+</mo><msub><mi>C</mi><mi>h</mi></msub><mo>+</mo><msub><mo>∑</mo><mi>i</mi></msub><msub><mi>n</mi><mi>i</mi></msub><msub><mi>C</mi><mrow><mi>v</mi><mo>,</mo><mi>i</mi></mrow></msub></mrow><annotation encoding="application/x-tex">C_{\mathrm{eff}}=m_s(c_{p,s}+\partial e_a/\partial T)+C_{\mathrm{metal}}+C_h+\sum_i n_i C_{v,i}</annotation></semantics></math>.
+Heating and cooling act at the mixed temperature. Gas–solid exchange,
+transverse conduction and wall-to-bed temperature lags have no
+independent states here. A spatial mesh refinement and a spatial/lumped
+comparison consequently answer different questions.</p>
+<p>The whole-device first-law check compares inventory change with
+integrated boundary enthalpy and heat:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mi>E</mi></msub><mo>=</mo><mi mathvariant="normal">Δ</mi><mi>U</mi><mo>−</mo><mo>∫</mo><mo stretchy="false" form="prefix">(</mo><msub><mover><mi>H</mi><mo accent="true">̇</mo></mover><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi></mrow></msub><mo>−</mo><msub><mover><mi>H</mi><mo accent="true">̇</mo></mover><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">t</mi></mrow></msub><mo>+</mo><msub><mover><mi>Q</mi><mo accent="true">̇</mo></mover><mrow><mi mathvariant="normal">n</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">t</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mi>d</mi><mi>t</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">
+r_E=\Delta U-\int(\dot H_{\mathrm{in}}-\dot H_{\mathrm{out}}+\dot Q_{\mathrm{net}})\,dt.
+</annotation></semantics></math></p>
+<p>The reported relative residual uses gross boundary exchange, so
+cancellation between large inward and outward terms does not create a
+misleading denominator:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ϵ</mi><mi>E</mi></msub><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>r</mi><mi>E</mi></msub><mo stretchy="false" form="prefix">|</mo></mrow><mrow><mrow><mi mathvariant="normal">max</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">|</mo><mi mathvariant="normal">Δ</mi><mi>U</mi><mo stretchy="false" form="prefix">|</mo><mo>,</mo><msub><mi>E</mi><mrow><mi mathvariant="normal">g</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">s</mi></mrow></msub><mo>,</mo><mn>1</mn><mspace width="0.222em"></mspace><mi mathvariant="normal">J</mi><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\epsilon_E=\frac{|r_E|}{\max(|\Delta U|,E_{\mathrm{gross}},1\ \mathrm J)}.
+</annotation></semantics></math></p>
+<p><code>energy_balance.py</code> retains the older net-exchange
+diagnostic alongside this value. The gross criterion is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mi>−</mi><mn>6</mn></mrow></msup><annotation encoding="application/x-tex">10^{-6}</annotation></semantics></math>;
+it is an accounting threshold, not a prediction-error estimate. The raw
+species balances and absolute residuals remain necessary evidence.</p>
+<h2 id="airflow-vacuum-and-collection">Airflow, vacuum and
+collection</h2>
+<p>For a packed-bed hydraulic estimate the model uses the Ergun
+relationship <span class="citation" data-cites="ergun1952">(Ergun
+1952)</span> with declared particle diameter
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mi>p</mi></msub><annotation encoding="application/x-tex">d_p</annotation></semantics></math>,
+porosity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ε</mi><annotation encoding="application/x-tex">\varepsilon</annotation></semantics></math>
+and superficial velocity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi mathvariant="normal">Δ</mi><mi>P</mi></mrow><mi>L</mi></mfrac><mo>=</mo><mn>150</mn><mfrac><mrow><mi>μ</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>ε</mi><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow><mrow><msup><mi>ε</mi><mn>3</mn></msup><msubsup><mi>d</mi><mi>p</mi><mn>2</mn></msubsup></mrow></mfrac><mi>u</mi><mo>+</mo><mn>1.75</mn><mfrac><mrow><mi>ρ</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>ε</mi><mo stretchy="false" form="postfix">)</mo></mrow><mrow><msup><mi>ε</mi><mn>3</mn></msup><msub><mi>d</mi><mi>p</mi></msub></mrow></mfrac><mi>u</mi><mo stretchy="false" form="prefix">|</mo><mi>u</mi><mo stretchy="false" form="prefix">|</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\frac{\Delta P}{L}=150\frac{\mu(1-\varepsilon)^2}{\varepsilon^3d_p^2}u
++1.75\frac{\rho(1-\varepsilon)}{\varepsilon^3d_p}u|u|.
+</annotation></semantics></math></p>
+<p>The fan work follows the imposed flow and modeled pressure loss:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mrow><mi mathvariant="normal">f</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">n</mi></mrow></msub><mo>=</mo><mi>Q</mi><mi mathvariant="normal">Δ</mi><mi>P</mi><mi>/</mi><msub><mi>η</mi><mrow><mi mathvariant="normal">f</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">n</mi></mrow></msub><mo>,</mo><mspace width="2.0em"></mspace><mi>Q</mi><mo>=</mo><mi>u</mi><mi>A</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">
+P_{\mathrm{fan}}=Q\Delta P/\eta_{\mathrm{fan}},\qquad Q=uA.
+</annotation></semantics></math></p>
+<p>This does not represent a measured fan/system intersection or
+distributor uniformity. Screens, filters, fittings and an internal
+heater may add pressure loss.</p>
+<p>Vacuum withdrawal uses the retained KNF N922 50 Hz reference curve
+and the pressure-control policy. The spatial control observable uses the
+maximum local pressure. The saved spatial endpoint compares the lowest
+cell pressure at the end of desorption with 1.05 times the request.
+Inspect the maximum pressure and spread in the traces to assess the rest
+of the bed. An ultimate-vacuum rating does not imply useful flow at that
+pressure. The current model does not qualify delivery into a 3 bar
+absolute destination.</p>
+<p>The ideal inlet cooler/knockout has zero pressure drop and no line
+holdup in the common case. Its cooling request is allocated first within
+the shared 2 kW cooling capacity; remaining capacity is available to the
+bed wall. Water condensate, water vapor in product and adsorption
+exhaust are separate boundary flows. They are not additional stored
+inventory.</p>
+<h3 id="from-bed-outlet-to-pump-and-product">From bed outlet to pump and
+product</h3>
+<p>The case translator selects one pump and the
+<code>reference_fixed_inlet_speed</code> interpretation. For the plotted
+reference-volume flow
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Q</mi><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">v</mi><mi mathvariant="normal">e</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>P</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">Q_{\mathrm{curve}}(P)</annotation></semantics></math>
+in m³/s and profile reference pressure
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>P</mi><mi>r</mi></msub><annotation encoding="application/x-tex">P_r</annotation></semantics></math>,
+the assumed inlet speed and molar capacity are</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mi>P</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>Q</mi><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">v</mi><mi mathvariant="normal">e</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>P</mi><mo stretchy="false" form="postfix">)</mo><msub><mi>P</mi><mi>r</mi></msub><mi>/</mi><mi>P</mi><mo>,</mo><mspace width="2.0em"></mspace><msub><mover><mi>n</mi><mo accent="true">̇</mo></mover><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">p</mi></mrow></msub><mo>=</mo><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mi>P</mi><mo stretchy="false" form="postfix">)</mo><mi>P</mi><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mi>R</mi><msub><mi>T</mi><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">t</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+S(P)=Q_{\mathrm{curve}}(P)P_r/P,\qquad
+\dot n_{\mathrm{cap}}=S(P)P/(RT_{\mathrm{inlet}}).
+</annotation></semantics></math></p>
+<p>In spatial operation the throttle command is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">p</mi></mrow><mo stretchy="false" form="prefix">[</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>P</mi><mi mathvariant="normal">max</mi></msub><mo>−</mo><msub><mi>P</mi><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">q</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>500</mn><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">P</mi><mi mathvariant="normal">a</mi></mrow><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\alpha=\mathrm{clip}[(P_{\max}-P_{\mathrm{req}})/(500\ {\mathrm{Pa}}),0,1]</annotation></semantics></math>.
+Capacity uses the <strong>minimum</strong> cell pressure as suction
+pressure. The outlet mixture is formed using the prescribed channel
+shares and gas enthalpies. The single pump’s withdrawal is then
+apportioned to those channels. In the lumped pump/conditioner path the
+opening uses the mixed pressure, a 2,000 Pa band and a 0.02 offset. An
+identical pressure request can therefore yield different evacuation
+times in the two representations.</p>
+<p>The inlet conditioner cools only when needed, to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mi>o</mi></msub><mo>=</mo><mrow><mi mathvariant="normal">min</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">x</mi></mrow></msub><mo>,</mo><mn>328.15</mn><mspace width="0.222em"></mspace><mi mathvariant="normal">K</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">T_o=\min(T_{\mathrm{mix}},328.15\ {\mathrm{K}})</annotation></semantics></math>.
+Take one mole of raw bed gas with water fraction
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>w</mi></msub><annotation encoding="application/x-tex">y_w</annotation></semantics></math>,
+at suction pressure
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>.
+The water fraction in the conditioned vapour is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>z</mi><mo>=</mo><mrow><mi mathvariant="normal">min</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">[</mo><msub><mi>y</mi><mi>w</mi></msub><mo>,</mo><msub><mi>p</mi><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">t</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>o</mi></msub><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mi>P</mi><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">z=\min[y_w,p_{\mathrm{sat}}(T_o)/P]</annotation></semantics></math>.
+When liquid forms from a gas with a nonzero dry fraction, the remaining
+vapour fraction is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>y</mi><mi>w</mi></msub><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>z</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\gamma=(1-y_w)/(1-z)</annotation></semantics></math>.
+The liquid drain is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>γ</mi></mrow><annotation encoding="application/x-tex">1-\gamma</annotation></semantics></math>
+mol of water per mol of raw gas. All incoming CO₂ stays in the gas in
+this ideal knockout model.</p>
+<p>The enthalpy difference between the raw inlet and the two outlet
+streams gives the cooling required per mole,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow></msub><annotation encoding="application/x-tex">q_{\mathrm{cond}}</annotation></semantics></math>
+(J/mol). The raw withdrawal
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>n</mi><mo accent="true">̇</mo></mover><mi>b</mi></msub><annotation encoding="application/x-tex">\dot n_b</annotation></semantics></math>
+must satisfy both the conditioned-gas capacity and the cooling budget.
+When both bounds apply and are finite,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>n</mi><mo accent="true">̇</mo></mover><mi>b</mi></msub><mo>=</mo><mi>α</mi><mrow><mi mathvariant="normal">min</mi><mo>⁡</mo></mrow><mspace width="-0.167em"></mspace><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mover><mi>n</mi><mo accent="true">̇</mo></mover><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">p</mi></mrow></msub><mi>γ</mi></mfrac><mo>,</mo><mfrac><msub><mover><mi>Q</mi><mo accent="true">̇</mo></mover><mrow><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">l</mi></mrow><mo>,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><msub><mi>q</mi><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow></msub></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="2.0em"></mspace><msub><mover><mi>Q</mi><mo accent="true">̇</mo></mover><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow></msub><mo>=</mo><msub><mover><mi>n</mi><mo accent="true">̇</mo></mover><mi>b</mi></msub><msub><mi>q</mi><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\dot n_b=\alpha\min\!\left(\frac{\dot n_{\mathrm{cap}}}{\gamma},
+\frac{\dot Q_{\mathrm{cool},max}}{q_{\mathrm{cond}}}\right),\qquad
+\dot Q_{\mathrm{cond}}=\dot n_b q_{\mathrm{cond}}.
+</annotation></semantics></math></p>
+<p>Zero cooling duty removes the energy constraint. A closed valve or
+zero pump capacity gives zero withdrawal. The wall can use at most
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>Q</mi><mo accent="true">̇</mo></mover><mrow><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">l</mi></mrow><mo>,</mo><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>−</mo><msub><mover><mi>Q</mi><mo accent="true">̇</mo></mover><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\dot Q_{\mathrm{cool},max}-\dot Q_{\mathrm{cond}}</annotation></semantics></math>.
+In the reviewed case the shared cooling capacity is 2 kW and the
+coefficient of performance is 3. Both duties enter cooling electricity
+once. Thermal duty in watts and electrical power in watts have separate
+meters.</p>
+<p>In the code, <code>airflow.airflow</code> adds the configured minor
+loss
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">r</mi></mrow></msub><mi>ρ</mi><msup><mi>u</mi><mn>2</mn></msup><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">K_{\mathrm{minor}}\rho u^2/2</annotation></semantics></math>
+to the packed-bed drop. <code>pump_rates.rate_at_pressure</code>
+interprets the pump curve. <code>spatial.cycle_rhs</code> allocates
+withdrawal and
+<code>lumped_port.pump_conditioner.evaluate_pump_conditioner</code>
+closes the gas, liquid and cooling balances.</p>
+<h2 id="cycle-and-reporting-basis">Cycle and reporting basis</h2>
+<p>Adsorption and heated desorption last two hours each in the saved
+comparison. Evacuation lasts five minutes, with bounded cooling and
+passive repressurization. Product collection is active during desorption
+and cooling, including any collected product before the exact horizon
+ends.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>M</mi><mrow><mi>c</mi><mo>,</mo><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">t</mi></mrow></mrow></msub><mo>=</mo><mi>M</mi><msub><mi>W</mi><mi>c</mi></msub><msub><mo>∫</mo><mi mathvariant="script">𝒞</mi></msub><msub><mover><mi>n</mi><mo accent="true">̇</mo></mover><mrow><mi>c</mi><mo>,</mo><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">t</mi></mrow></mrow></msub><mspace width="0.167em"></mspace><mi>d</mi><mi>t</mi><mo>,</mo><mspace width="2.0em"></mspace><msub><mover><mi>M</mi><mo accent="true">̇</mo></mover><mrow><mi>c</mi><mo>,</mo><mrow><mi mathvariant="normal">d</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">y</mi></mrow></mrow></msub><mo>=</mo><mfrac><mn>86400</mn><msub><mi>t</mi><mi>H</mi></msub></mfrac><msub><mi>M</mi><mrow><mi>c</mi><mo>,</mo><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">t</mi></mrow></mrow></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+M_{c,\mathrm{product}}=MW_c\int_{\mathcal C}\dot n_{c,\mathrm{product}}\,dt,
+\qquad
+\dot M_{c,\mathrm{day}}=\frac{86400}{t_H}M_{c,\mathrm{product}}.
+</annotation></semantics></math></p>
+<p>Here
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="script">𝒞</mi><annotation encoding="application/x-tex">\mathcal C</annotation></semantics></math>
+denotes the collection portions of the recorded horizon. A completed
+cycle’s daily equivalent and the 48-hour cold-start average use
+different denominators and are kept separate.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>e</mi><mrow><mi mathvariant="normal">C</mi><msub><mi mathvariant="normal">O</mi><mn mathvariant="normal">2</mn></msub></mrow></msub><mo>=</mo><mfrac><msub><mi>E</mi><mrow><mi mathvariant="normal">e</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">c</mi></mrow></msub><msub><mi>M</mi><mrow><mi>c</mi><mo>,</mo><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">t</mi></mrow></mrow></msub></mfrac><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>E</mi><mrow><mi mathvariant="normal">e</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">c</mi></mrow></msub><mo>=</mo><msub><mi>E</mi><mi>h</mi></msub><mo>+</mo><msub><mi>E</mi><mi>f</mi></msub><mo>+</mo><msub><mi>E</mi><mi>p</mi></msub><mo>+</mo><msub><mi>E</mi><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">l</mi></mrow></msub><mo>+</mo><msub><mi>E</mi><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">g</mi></mrow></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+e_{\mathrm{CO_2}}=\frac{E_{\mathrm{electric}}}{M_{c,\mathrm{product}}},\qquad
+E_{\mathrm{electric}}=E_h+E_f+E_p+E_{\mathrm{cool}}+E_{\mathrm{conditioning}}.
+</annotation></semantics></math></p>
+<p>Components are taken from the saved meters so shared cooling is not
+counted twice. Dry product purity excludes water; wet purity includes
+it. These fractions refer to the model’s collection boundary.</p>
+<h3 id="switching-conditions">Switching conditions</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Spatial calculation</th>
+<th>Collection in the reviewed case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adsorption</td>
+<td>Ambient feed, prescribed volumetric flow and a pressure-following
+vent. The phase ends on its timer.</td>
+<td>Exhaust to vent</td>
+</tr>
+<tr>
+<td>Evacuation</td>
+<td>Pumped withdrawal for the configured duration. Bounded actuation
+responds to the bed energy imbalance.</td>
+<td>Conditioned gas to vent</td>
+</tr>
+<tr>
+<td>Heated desorption</td>
+<td>Pumped withdrawal, bounded positive heating toward the requested
+temperature, timed hold.</td>
+<td>Conditioned gas to product after the purge interval (zero in the
+reviewed case)</td>
+</tr>
+<tr>
+<td>Cooling</td>
+<td>Pump remains available. End when the wall and hottest bed cell are
+within 0.5 K above ambient, or when the cooling time expires.</td>
+<td>Conditioned gas to product for the selected route</td>
+</tr>
+<tr>
+<td>Repressurization</td>
+<td>Passive refill with feed gas. End when the lowest cell pressure
+reaches 99.5% of ambient, or when the time limit expires.</td>
+<td>No product withdrawal</td>
+</tr>
+</tbody>
+</table>
+<p>The lumped driver can also end evacuation on reaching the
+regeneration pressure. Its cooling and refill events use its single
+temperature and pressure. A time limit can advance a phase with an unmet
+target. The export records endpoint attainment separately from horizon
+completion. When the horizon falls inside a phase, only the elapsed
+portion contributes to inventories, energy and product.</p>
+<h3 id="component-conservation-and-a-worked-export">Component
+conservation and a worked export</h3>
+<p>For species
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>,
+form
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>N</mi><mi>i</mi></msub><annotation encoding="application/x-tex">N_i</annotation></semantics></math>
+from gas inventory plus all adsorbed reservoirs mapped to that species.
+On a consistent device basis the integrated residual is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mi>i</mi></msub><mo>=</mo><mi mathvariant="normal">Δ</mi><msub><mi>N</mi><mi>i</mi></msub><mo>−</mo><msub><mi>N</mi><mrow><mi>i</mi><mo>,</mo><mrow><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi></mrow></mrow></msub><mo>+</mo><msub><mi>N</mi><mrow><mi>i</mi><mo>,</mo><mrow><mi mathvariant="normal">v</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">t</mi></mrow></mrow></msub><mo>+</mo><msub><mi>N</mi><mrow><mi>i</mi><mo>,</mo><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">d</mi></mrow></mrow></msub><mo>+</mo><msub><mn mathvariant="bold">𝟏</mn><mrow><mi>i</mi><mo>=</mo><mrow><msub><mi mathvariant="normal">H</mi><mn mathvariant="normal">2</mn></msub><mi mathvariant="normal">O</mi></mrow></mrow></msub><msub><mi>N</mi><mrow><mi mathvariant="normal">d</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi></mrow></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+r_i=\Delta N_i-N_{i,\mathrm{in}}+N_{i,\mathrm{vent}}+N_{i,\mathrm{prod}}
++\mathbf{1}_{i=\mathrm{H_2O}}N_{\mathrm{drain}}.
+</annotation></semantics></math></p>
+<p>Inlet includes leakage where present. Conditioned product and vent
+carry vapour, and the separate liquid drain carries water. The spatial
+runtime divides the absolute residual by the larger of boundary
+throughput and a floor of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mi>−</mi><mn>9</mn></mrow></msup><annotation encoding="application/x-tex">10^{-9}</annotation></semantics></math>
+mol, on the half-device ledger. The export uses a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mi>−</mi><mn>5</mn></mrow></msup><annotation encoding="application/x-tex">10^{-5}</annotation></semantics></math>
+relative mass criterion. The energy residual audits heat and enthalpy
+across its control volume. Fan and pump electrical inputs also count in
+reported operating electricity even though they do not all heat the
+bed.</p>
+<p>The <a href="../../../docs/data/submission/results/lewatit_humid.json">humid
+Lewatit export</a> illustrates the accounting. At 172,800 s its meters
+show 5.140642 kg of collected CO₂ and 28.113042 kWh of electricity.
+Dividing by two days gives <strong>2.570321 kg/day</strong>. Dividing
+electricity by the collected mass gives <strong>5.468780 kWh/kg
+CO₂</strong>. The electricity comprises 19.635473 kWh for heat, 0.098594
+for the fan, 3.506436 for the pump, 4.872540 for cooling and zero
+additional conditioning electricity. The last value is an auxiliary
+component; the cooler duty is already included under cooling. The dry
+and wet product CO₂ mole fractions are 0.99433 and 0.56508 because wet
+purity includes water vapour in the collected gas. The meters cover ten
+complete cycles and part of the eleventh.</p>
+<h3 id="reading-saved-diagnostics">Reading saved diagnostics</h3>
+<p>For the saved COF-1000 and CALF-20 humid exports, multiply
+<code>traces[].co2_loading_mean_mol_kg</code> by two to recover total
+CO₂ loading per kg of dry shaped material. This applies to plots, trace
+CSVs and working capacities calculated by subtracting two of those trace
+values. The 53 saved phase-end states in each export confirm the factor.
+Read each individual storage site directly from the state vector using
+<code>state_layout.q</code>. New spatial traces sum the CO₂ sites within
+each cell before averaging over cells.</p>
+<p>The report’s baseline and sensitivity tables use collected product
+and electrical boundary meters. Reconstructing those meters, including
+the partial final cycle, reproduces the reported values for all 16
+complete exports. The matched Lewatit humidity comparison uses the same
+meter-based calculation.</p>
+<p>In the saved Lewatit spatial exports, the Buck diagnostic used solid
+temperature in the gas partial-pressure calculation. During gas–solid
+temperature transients, this can affect
+<code>traces[].local_rh_min</code>, <code>local_rh_mean</code> and
+<code>local_rh_max</code>, plus the RH extrema copied into
+<code>water_burden</code> and <code>metrics</code>. To reconstruct RH at
+a saved phase boundary, use the gas inventory, cell gas volume and gas
+temperature for water partial pressure, then divide by saturation
+pressure at the solid temperature. The material balance already used the
+gas pressure. The 14 other reviewed exports used the material-specific
+humidity diagnostic.</p>
+<p>In the well-mixed companion, trace rows sample phase ends. The
+full-horizon meters include any unfinished last phase.</p>
+<h2 id="numerical-solution-and-qualification">Numerical solution and
+qualification</h2>
+<p>The default spatial solver is SciPy BDF, with state-scaled absolute
+tolerances and a bounded numerical Jacobian over physical states.
+Independent cumulative meters have no feedback columns. A narrow
+dry-water trial-recovery policy is explicit in the relevant package.
+Completed mmen and TAPA rate sensitivities used the separately included
+branch-aware Jacobian, Radau solver and exact cell cache. Their original
+source hashes and numerical policies remain attached to the results;
+this extension is not presented as a new default for every material.</p>
+<p>The primary cases use relative tolerance
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mi>−</mi><mn>7</mn></mrow></msup><annotation encoding="application/x-tex">10^{-7}</annotation></semantics></math>
+and a maximum time step of 10 s. Solver success, finite sampled states,
+mass/energy closure, cycle repeatability, mesh independence and physical
+validation are separate checks. A completed integration establishes only
+that the requested numerical calculation finished. This release does not
+claim CSS, a mesh-qualified material ranking, validated hot humid
+behavior or device-level uncertainty bounds.</p>
+<h3 id="integration-and-evidence-to-inspect">Integration and evidence to
+inspect</h3>
+<p>The spatial solver integrates temperatures, gas moles, adsorbed
+loadings and boundary meters together. Its absolute tolerances differ by
+state:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mi>−</mi><mn>5</mn></mrow></msup><annotation encoding="application/x-tex">10^{-5}</annotation></semantics></math>
+K for temperatures,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mi>−</mi><mn>9</mn></mrow></msup><annotation encoding="application/x-tex">10^{-9}</annotation></semantics></math>
+mol/kg for loadings and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mi>−</mi><mn>10</mn></mrow></msup><annotation encoding="application/x-tex">10^{-10}</annotation></semantics></math>
+mol for cell gas inventories. <code>max_step_s</code> caps internal
+solver steps; <code>samples_per_phase</code> controls the reported trace
+resolution. Increasing the sample count alone therefore cannot
+demonstrate time-step or mesh convergence.</p>
+<p>The lumped weather driver ends each integration segment at the next
+applicable phase, weather or horizon boundary and carries forward the
+accepted state. When diagnosing either engine, start with
+<code>horizon</code> and <code>checks</code>, then read
+<code>endpoint</code>, <code>temperature_policy</code>,
+<code>numerical_reliability</code> and the material’s provenance. A
+small conservation residual tests the bookkeeping. A mesh study requires
+reruns with the same physical inputs at different cell counts and
+tolerances. Physical validation requires independent measurements
+appropriate to the material, geometry and operating conditions.</p>
+<p>The <a href="../../../docs/project_map.html#follow-one-calculation">project
+map</a> names the functions that run these equations and the result
+files they produce.</p>
+<p>The 3D setup replays saved traces and phase-end fields. It holds the
+last saved field between boundaries. It does not resolve a new flow
+field or interpolate an axial adsorption front. Its equipment sizes and
+pipe arrangement are illustrative.</p>
+<p><a href="index.html">Current results</a> · <a href="evidence.html">Evidence and validation</a> · <a href="../../../docs/data/submission/results.json">Native result
+exports</a></p>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-ergun1952" class="csl-entry" role="listitem">
+Ergun, Sabri. 1952. <span>“Fluid Flow Through Packed Columns.”</span>
+<em>Chemical Engineering Progress</em> 48 (2): 89–94.
+</div>
+<div id="ref-young2021" class="csl-entry" role="listitem">
+<span class="nocase">Young, J. et al.</span> 2021. <span>“The Impact of
+Binary Water–CO2 Isotherm Models on the Optimal Performance of
+Sorbent-Based Direct Air Capture Processes.”</span> <em>Energy &amp;
+Environmental Science</em> 14: 5377–94. <a href="https://doi.org/10.1039/D1EE01272J">https://doi.org/10.1039/D1EE01272J</a>.
+</div>
+</div>
+</body>
+</html>

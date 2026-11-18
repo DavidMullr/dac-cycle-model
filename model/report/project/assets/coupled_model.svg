@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="475" viewBox="0 0 1100 475" role="img" aria-labelledby="title desc">
+<title id="title">Current coupled half-bed model</title><desc id="desc">Four representative parallel gas channels have separate gas and solid states. Local gas-solid exchange couples each pair; transverse conduction connects only solid cells. A wall and heater exchange heat at the outer boundary. The centre boundary is symmetric.</desc>
+<defs><marker id="gas" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#2c6b98" stroke-width="1.5"/></marker><marker id="heat" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8" fill="none" stroke="#2a8070" stroke-width="1.5"/></marker></defs>
+<rect width="1100" height="475" fill="#fff"/><g font-family="Arial, sans-serif" fill="#193942">
+<text x="30" y="34" font-size="23" font-weight="bold">Local gas and solid states across the thermal thickness</text>
+<text x="30" y="63" font-size="15">Symmetric half-domain · representative cells only · no transverse gas exchange</text>
+<path d="M100 98V390" stroke="#687a81" stroke-width="2" stroke-dasharray="7 6"/>
+<text transform="translate(69 345) rotate(-90)" font-size="15">Centre-plane symmetry</text>
+<g fill="#eaf3fa" stroke="#2c6b98" stroke-width="1.5"><rect x="130" y="145" width="140" height="82" rx="7"/><rect x="300" y="145" width="140" height="82" rx="7"/><rect x="470" y="145" width="140" height="82" rx="7"/><rect x="640" y="145" width="140" height="82" rx="7"/></g>
+<g text-anchor="middle" font-size="17"><text x="200" y="178">Gas cell 1</text><text x="370" y="178">Gas cell 2</text><text x="540" y="178">…</text><text x="710" y="178">Gas cell N</text><text x="200" y="206">Tg, nᵢ, P</text><text x="370" y="206">Tg, nᵢ, P</text><text x="540" y="206">Tg, nᵢ, P</text><text x="710" y="206">Tg, nᵢ, P</text></g>
+<g stroke="#2c6b98" stroke-width="2" marker-end="url(#gas)"><path d="M200 100V137"/><path d="M370 100V137"/><path d="M540 100V137"/><path d="M710 100V137"/></g>
+<text x="822" y="111" font-size="15">Parallel gas paths</text>
+<g fill="#e8f3ee" stroke="#2a8070" stroke-width="1.5"><rect x="130" y="287" width="140" height="74" rx="7"/><rect x="300" y="287" width="140" height="74" rx="7"/><rect x="470" y="287" width="140" height="74" rx="7"/><rect x="640" y="287" width="140" height="74" rx="7"/></g>
+<g text-anchor="middle" font-size="17"><text x="200" y="318">Solid cell 1</text><text x="370" y="318">Solid cell 2</text><text x="540" y="318">…</text><text x="710" y="318">Solid cell N</text><text x="200" y="345">Ts, qᵢ</text><text x="370" y="345">Ts, qᵢ</text><text x="540" y="345">Ts, qᵢ</text><text x="710" y="345">Ts, qᵢ</text></g>
+<g stroke="#2a8070" stroke-width="2" marker-start="url(#heat)" marker-end="url(#heat)"><path d="M200 237V276"/><path d="M370 237V276"/><path d="M540 237V276"/><path d="M710 237V276"/><path d="M278 324H292"/><path d="M448 324H462"/><path d="M618 324H632"/><path d="M789 324H822"/></g>
+<text x="820" y="261" font-size="14">Local gas–solid</text><text x="820" y="280" font-size="14">heat and mass exchange</text>
+<rect x="832" y="287" width="95" height="74" rx="7" fill="#fff0dc" stroke="#b7833c" stroke-width="1.5"/><text x="879" y="318" text-anchor="middle" font-size="17">Wall</text><text x="879" y="345" text-anchor="middle" font-size="17">Tw</text>
+<rect x="974" y="287" width="100" height="74" rx="7" fill="#f8e9e6" stroke="#b66b54" stroke-width="1.5"/><text x="1024" y="318" text-anchor="middle" font-size="17">Heater</text><text x="1024" y="345" text-anchor="middle" font-size="17">Th</text><path d="M936 324H965" stroke="#2a8070" stroke-width="2" marker-start="url(#heat)" marker-end="url(#heat)"/>
+<path d="M200 397H760" stroke="#2a8070" stroke-width="2" marker-end="url(#heat)"/><text x="260" y="426" font-size="16">Transverse solid conduction toward the wall</text><text x="30" y="462" font-size="14" fill="#526a71">Schematic of the implemented equations, not an axial-flow or manifold calculation.</text>
+</g></svg>

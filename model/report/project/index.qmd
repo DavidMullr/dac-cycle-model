@@ -1,0 +1,102 @@
+---
+title: "Direct-air-capture model and results"
+subtitle: "Carbon Team · Astérix · Technical review edition"
+---
+
+## Purpose and main finding
+
+[Download the four-page report (PDF)](model_and_results.pdf).
+
+The model compares adsorbents and operating conditions for a temperature-vacuum swing adsorption (TVSA) unit. The full-size design objective is maximum collected CO₂ per day with about **10 kg of dry shaped adsorbent** and **CHF 24,000 incremental equipment cost**. Cost is a design constraint; a complete installed cost has not yet been established.
+
+**Lewatit VP OC 1065 is the provisional material for the small prototype.** In the common humid screening case it gives 2.570 kg CO₂/day and 5.47 kWh/kg CO₂ within the model's electricity boundary. This is the strongest output in the retained baseline comparison. It is a conditional calculation, not measured prototype performance or a validated ranking of the materials.
+
+The useful conclusion is that humidity, regeneration behavior and the complete cycle matter more than a single adsorption-capacity value. The model provides a common way to examine those effects and decide what to measure next. It does not yet select a final operating point or demonstrate the proposed equipment.
+
+## What the model represents
+
+The spatial model resolves gas inventory, adsorbed loading and temperature through a symmetric half of a flat bed. Sixteen cells cover the 8 mm half-thickness in the reported case. Gas paths act as parallel channels, while heat conducts through the bed. Heater and wall states, finite heat transfer, pressure control, water removal and electrical loads are coupled to the adsorption balances. An optional lumped model represents a single well-mixed bed; its results must be identified separately.
+
+The cycle contains adsorption, evacuation, heated desorption, cooling and repressurization. Product is collected during desorption and cooling. An ideal cooler and knockout condition the pump inlet to a 55°C target. The wall and inlet conditioner share a 2 kW cooling budget. Axial breakthrough, manifold maldistribution and a physical resistance-wire layout are not resolved.
+
+Material packages contain equilibrium, kinetics, thermal properties, shaping basis and source information. Measured data, fitted responses and transferred assumptions remain identifiable. Missing evidence is not filled by borrowing an unlabelled value from another adsorbent.
+
+## Common comparison conditions
+
+| Quantity | Setting |
+|---|---|
+| Ambient feed | 25°C, 100 kPa absolute, 420 ppm dry CO₂, 65% relative humidity |
+| Simulation basis | 48 hours from a clean, dry bed; 10 kg complete dry shaped material |
+| Bed | 16 mm full thickness; 1.736 m² face area; void fraction 0.40 |
+| Particle diameter and airflow | 1.5 mm; 0.18 m³/s |
+| Adsorption / desorption | 2 hours / 2 hours |
+| Evacuation / maximum cooling / maximum repressurization | 5 minutes / 30 minutes / 10 minutes |
+| Regeneration requests | 116°C and 16 kPa absolute |
+| Heater / combined cooling | 2 kW / 2 kW; cooling COP 3 |
+| Vacuum reference | KNF N922, 50 Hz flow curve; 135 W running input |
+| Spatial calculation | 16 cells; relative tolerance 10⁻⁷; maximum time step 10 seconds |
+
+The requests do not guarantee that every cell reaches the requested temperature or pressure. Achieved states and target misses are reported separately from conservation, numerical reliability and known material limits. The geometry, thermal properties and ideal conditioning assumptions describe a common screening case, not the chosen small prototype.
+
+## Completed baseline results
+
+| Material | Collected CO₂ (kg/day) | Electricity (kWh/kg CO₂) |
+|---|---:|---:|
+| Lewatit VP OC 1065 | 2.570 | 5.47 |
+| TEPA(50) | 0.944 | 12.55 |
+| COF-1000 | 0.434 | 21.38 |
+| mmen-Mg2(dobpdc) | 0.417 | 36.00 |
+| MOF-808-Lys | 0.405 | 25.95 |
+| MIL-101/PEI/glycerin | 0.315 | 47.66 |
+| mmen-Mg2(hob)/PVDF | 0.312 | 33.10 |
+| COF-999 | 0.193 | 53.37 |
+| MOF-808-TAPA | 0.149 | 57.84 |
+| CALF-20 | 0.059 | 236.40 |
+
+These daily rates are the total product collected over the exact 48-hour horizon divided by two days. They include collected product from the unfinished final cycle. Ten full cycles were completed in each baseline case. A late-cycle plateau is visible, but cyclic steady state (CSS) and mesh independence have not been established for this material comparison.
+
+For CALF-20 and COF-1000 the saved loading trace gives half the total CO₂ loading across two sites. The collection and electricity meters used in the table are independent of that trace.
+
+The cases use identical operating inputs after removing their labels. Their material laws, evidence quality and source releases differ. In particular, hot humid equilibrium and several rate coefficients are extrapolated or transferred. The table therefore compares the specified scenarios; it cannot isolate an intrinsic material advantage.
+
+Electricity includes the reported heater, fan, vacuum and cooling loads. It excludes unresolved upstream drying, downstream compression, product treatment, storage and life-cycle burdens. Collected CO₂ is not net atmospheric removal. Product fractions also depend on the moisture basis: the Lewatit result is 99.43% CO₂ on a dry basis and 56.51% on a wet basis at the modelled collection boundary.
+
+## Humidity and regeneration sensitivity
+
+Using the same Lewatit package and executable source, changing only feed humidity from dry air to 65% RH raises the calculated output from **1.186 to 2.570 kg/day**, a factor of **2.168**. Electricity intensity falls from 7.41 to 5.47 kWh/kg. This is a response of the adopted coupled water–CO₂ law; it is not independent experimental validation of that response.
+
+A separate sensitivity sets the CO₂ desorption rate to 0.001 s⁻¹ while retaining adsorption and water-rate assumptions. The completed results are:
+
+| Material | Baseline (kg/day) | Faster desorption (kg/day) |
+|---|---:|---:|
+| TEPA(50) | 0.944 | 1.339 |
+| mmen-Mg2(dobpdc) | 0.417 | 0.862 |
+| MOF-808-Lys | 0.405 | 0.630 |
+| MIL-101/PEI/glycerin | 0.315 | 0.521 |
+| MOF-808-TAPA | 0.149 | 0.218 |
+
+The faster-rate values are exploratory assumptions, not new fitted kinetic coefficients. The mmen and TAPA cases use a reviewed numerical solver extension whose source is included with the evidence. The HOB/PVDF and COF-999 attempts ended after their workers exited and have no complete 48-hour result. Neither is assigned a rate-sensitivity performance value.
+
+Retained CO₂ helps explain the low working output of several scenarios. Slow release matters for mmen and TEPA, while a high modelled hot equilibrium loading also limits COF and TAPA scenarios. The sensitivity does not establish how much of the real behavior is due to kinetics, equilibrium, water or heat transfer.
+
+## Evidence and limits
+
+Software checks cover material parsing, source identity, balances, numerical derivatives, job handling and result display. Saved-result audits check raw accounting and time coverage. These checks support traceability and internal consistency. They do not replace experiments.
+
+The current predictive-validation work includes fresh protocol-curve refits for COF-1000 and COF-999. Both retain failed humidity-condition tests; COF-999 also fails the withheld 100°C response test. Protocol fits do not identify intrinsic vacuum-desorption kinetics. The current HOB hot equilibrium representation is also unsuitable for an unqualified prediction: its temperature-transfer behavior needs a same-specimen fit and consistent caloric treatment. No confidence interval for device CO₂/day is justified by the available evidence.
+
+The highest immediate risks to a prototype prediction are the hot humid material law, shaped-bed kinetics, actual particle size and packing, wire-to-bed heat transfer, leakage and pump performance under simultaneous vacuum inlet and pressurized discharge. The saved Lewatit case requests 116°C and reaches about 120°C locally. It must not be used as a prototype temperature recommendation; the actual material limit and margin for local hot spots need to be established first.
+
+## Small prototype: next use of the same model
+
+The working basis is Lewatit, resistance wire inside the bed and the KNF N922 stainless-steel IP54 pump family. The downstream requirement is approximately 1% CO₂ at at least 3 bar absolute. The dry/wet concentration basis, delivery flow and duty remain to be confirmed. Published vacuum and discharge ratings do not establish pump throughput when both conditions occur together.
+
+The next step is to enter the team's actual dimensions, dry mass, bead distribution, packing, heater layout and flow path as a new case in this model. Measure pressure drop versus airflow, temperature near the wire and in colder regions, bed pressure, product amount and composition, condensate and electrical input. Use those measurements to test the model before optimizing the cycle or selecting the fan. The present full-size output should not be scaled by mass alone.
+
+## Sources and reproducibility
+
+The accompanying results dataset contains 16 completed exports, the status of two incomplete sensitivity attempts, audit records and source hashes. The technical reference gives the equations and numerical conventions. The evidence page distinguishes numerical checks from material validation. All headline values above are computed from the supplied result exports.
+
+Key external sources are Young et al. (2021), *The impact of binary water–CO₂ isotherm models on the optimal performance of sorbent-based direct air capture processes*, DOI [10.1039/D1EE01272J](https://doi.org/10.1039/D1EE01272J); Low et al. (2023), Lewatit property and equilibrium measurements, DOI [10.1021/acs.jced.3c00401](https://doi.org/10.1021/acs.jced.3c00401); and the [KNF N922 ST manufacturer information](https://knf.com/en/global/solutions/pumps/series/diaphragm-gas-pump-n-922-st). Each material package retains its own source references and transfer restrictions.
+
+[Result table and exact exports](../../../docs/data/submission/results.json) · [CSV table](../../../docs/data/submission/results.csv) · [Equations](model_reference.html) · [Evidence and validation](evidence.html) · [User guide](user_guide.html)

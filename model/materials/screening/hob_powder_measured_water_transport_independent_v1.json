@@ -1,0 +1,688 @@
+{
+  "adsorbed_phase_cp_J_kg_K": [
+    852.0887535645713,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "assumptions": [
+    "The 40 C source curve is the measured-shape reference and all temperature transfer is a fitted constant activity shift.",
+    "The dry-only water mode has zero physical water storage, rates, heat and adsorbed Cp; relative humidity must be zero before execution.",
+    "A neutral 1000 J/kg/K dry solid Cp is a screening assumption because no HOB-specific heat capacity was located.",
+    "The shared case geometry and transport are transferred to the source powder or composite and are not measured device properties.",
+    "The CO2 desorption rate mirrors the single-temperature Avrami adsorption-rate anchor because hot desorption kinetics are missing.",
+    "The fit is conditional: declaration-failing 80 and 100 C diagnostics remain visible and prevent a model-ready claim."
+  ],
+  "co2": {
+    "basis": "Measured 40 C filled-marker CO2 adsorption curve digitized from the publisher vector figure, with one fitted constant activity shift. The fit fails declared 80/100 C holdouts.",
+    "heat_J_mol": 71853.13543432922,
+    "reference_curve": {
+      "class": "FITTED nonnegative monotone projection of measured true-centre digitized points",
+      "digitized_curve_sha256": "3335844fa343e4bb589898f2f81b87d232bfb047016a6feb085f580851a0c2a4",
+      "loading_mol_kg": [
+        0.000976113,
+        0.000976113,
+        0.014725523,
+        0.018079036,
+        0.02143255,
+        0.024953739,
+        0.028307255,
+        0.035181958,
+        0.038703147,
+        0.045577853,
+        0.052284881,
+        0.055806072,
+        0.062680775,
+        0.072908994,
+        0.4516045975,
+        0.4516045975,
+        0.727514987,
+        1.128427622,
+        1.529507932,
+        1.813885945,
+        2.448035499,
+        3.02718742,
+        3.102641492,
+        3.150596744,
+        3.16769967,
+        3.181449078,
+        3.260256664,
+        3.301337213,
+        3.332189545,
+        3.356167171,
+        3.36991658,
+        3.417871835,
+        3.462473576,
+        3.50690764,
+        3.548155866,
+        3.616567558,
+        3.688668115,
+        3.770829216,
+        3.842762098,
+        3.907987951,
+        3.979920834,
+        4.055374905
+      ],
+      "pressure_Pa": [
+        1.902852748,
+        3.185296006,
+        10.613587423,
+        11.631256674,
+        16.057896094,
+        18.288131736,
+        19.470237861,
+        24.648831979,
+        26.116885884,
+        29.313668562,
+        34.86133401,
+        36.93763171,
+        38.199509188,
+        42.467121944,
+        48.597104724,
+        49.778911369,
+        50.995405494,
+        59.490380573,
+        68.731853142,
+        83.727260351,
+        96.745069322,
+        333.45043855,
+        539.68024023,
+        800.855517315,
+        877.542088059,
+        999.304856197,
+        2966.963992774,
+        5186.209087072,
+        7125.825036008,
+        8935.245853313,
+        9933.482955369,
+        15028.927545499,
+        19775.159499492,
+        24796.554809141,
+        29776.220108977,
+        39941.070478811,
+        49600.568900361,
+        59846.912168997,
+        69816.399244842,
+        79503.727236444,
+        89673.432715421,
+        99691.662903955
+      ],
+      "source_doi": "10.1021/jacs.4c05318",
+      "source_locator": "Choe et al. JACS 2024, Supporting Information Figure S34c, printed page 38; filled circles treated as the adsorption branch",
+      "source_sha256": "31648599d0e6dfb1123ed5870aa450121d190e16cc40881ca66272371f9cb558",
+      "source_svg_sha256": "ef3db8a9922f8353c695e3a89079a89eeb708c4bbb56f174e75e5fc619691728",
+      "temperature_K": 313.15,
+      "temperature_convention": "Source temperatures are Celsius; K values add 273.15."
+    },
+    "support": {
+      "measured_temperature_range_K": [
+        298.15,
+        433.15
+      ],
+      "policy": "strict"
+    }
+  },
+  "co2_water_penalty_per_mol_kg": 0.0,
+  "equilibrium_family": "activity_shift_reference_isotherm",
+  "evidence": {
+    "basis": "Measured multi-temperature powder CO2 curves, with a constant activity-shift fit that fails 80/100 C holdouts.",
+    "not_for": "humid coadsorption, shaped-device prediction, common 100 C quantitative ranking, lifetime, CSS, annual production, hardware qualification or a measured winner.",
+    "status": "CONDITIONAL_REFERENCE_CURVE_REPRESENTATION_FAILED_DRY_ONLY"
+  },
+  "kinetics": {
+    "adsorption_rate_s_inv": [
+      5.54e-05,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "desorption_rate_s_inv": [
+      5.54e-05,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "evidence_status": "SI Table S8 Avrami Ka=5.54e-5 s^-1, nA=1.15, R2=0.998 at 25 C; LDF transfer and desorption mirror are explicit assumptions.",
+    "source_avrami_R2": 0.998,
+    "source_avrami_exponent_nA": 1.15
+  },
+  "material_id": "hob_powder_measured_water_transport_independent_v1",
+  "maximum_bed_temperature_C": 160.0,
+  "missing_evidence": {
+    "candidate_specific_pellet_or_coating": null,
+    "candidate_specific_solid_heat_capacity": null,
+    "direct_humid_co2_equilibrium_closure": null,
+    "hot_desorption_kinetics": null,
+    "humid_coadsorption_kinetics": null,
+    "reversible_cycle_water_heat": null,
+    "shaped_bed_thermal_conductivity": null,
+    "shaped_particle_effective_diffusivity": null
+  },
+  "name": "mmen-Mg2(hob) powder exploratory stored-water candidate v1",
+  "nitrogen": {
+    "heat_J_mol": 0.0,
+    "henry_mol_kg_Pa_at_reference": 0.0
+  },
+  "oxygen": {
+    "heat_J_mol": 0.0,
+    "henry_mol_kg_Pa_at_reference": 0.0
+  },
+  "provenance": {
+    "amine_loading": {
+      "class": "measured",
+      "diamine_per_magnesium_ion": 0.93,
+      "locator": "SI Table S6; diamine per Mg2+ divalent magnesium ion, not per Mg2 formula unit"
+    },
+    "co2_reference_curve": {
+      "class": "measured, vector-digitized",
+      "fitted_projection": {
+        "fitted_point_count": 42,
+        "maximum_loading_projection_mol_kg": 0.20045631749999998,
+        "note": "The raw vector points remain in the dataset and all in-domain points remain in the fit. The contract requires a monotone nonnegative reference curve, so duplicate pressure nodes are averaged, pooled-adjacent-violators projection is applied, and the resulting FITTED curve is clamped at zero.",
+        "raw_point_count": 42
+      },
+      "loading_uncertainty_method": "0.05 vector local-unit true-centre calibration uncertainty",
+      "pressure_uncertainty_method": "0.05 vector local-unit true-centre calibration uncertainty",
+      "source_doi": "10.1021/jacs.4c05318",
+      "source_locator": "Choe et al. JACS 2024, Supporting Information Figure S34c, printed page 38; filled circles treated as the adsorption branch",
+      "source_pdf_sha256": "31648599d0e6dfb1123ed5870aa450121d190e16cc40881ca66272371f9cb558",
+      "source_point_count_all_branches": 428,
+      "source_point_count_reference_filled": 42,
+      "source_svg_sha256": "ef3db8a9922f8353c695e3a89079a89eeb708c4bbb56f174e75e5fc619691728",
+      "true_centre_overlay": {
+        "centre_count": 386,
+        "full_path": "Research/MOF_candidates_2026-11-03/hob/figures/hob_powder_true_centres_overlay.png",
+        "full_sha256": "d34cd570feebdcc196864790a89a5bd58fbf2f84d50ae798f08d1f57d2fd6395",
+        "marker": "Cyan circle and white cross mark the calculated centre of each filled source marker; no source pixels are removed or smoothed.",
+        "zoom_crop_xyxy": [
+          667.2410721823575,
+          1676.0183823671707,
+          1376.2447543130656,
+          2151.9744003012756
+        ],
+        "zoom_path": "Research/MOF_candidates_2026-11-03/hob/figures/hob_powder_true_centres_zoom.png",
+        "zoom_sha256": "c315b0936a117d7a82a77986263a9e6f95b290f422e87652c5417f1340015fd5"
+      }
+    },
+    "co2_temperature_shift": {
+      "acceptance": {
+        "basis": "Lead-declared engineering approximation gate; not experimental validation. All measured filled-marker points in the stated pressure domain remain in the error set.",
+        "dac_relative_error_max": 0.1,
+        "max_abs_error_mol_kg_max": 0.3,
+        "rmse_mol_kg_max": 0.15
+      },
+      "classification_note": "Engineering approximation gate, not experimental validation. Failed holdouts remain visible and this package is not model-ready for quantitative common-100 C ranking.",
+      "decision": "Data/representation insufficient for model-ready use",
+      "diagnostics": {
+        "100": {
+          "dac_40Pa": {
+            "applicable": true,
+            "measured_bracket_Pa": [
+              39.513712102,
+              43.504930882
+            ],
+            "measured_loading_mol_kg": 0.011651921509469974,
+            "model_loading_mol_kg": 0.00024267436469849803,
+            "pressure_Pa": 40.0,
+            "reason": null,
+            "relative_error": 0.9791730175575533
+          },
+          "max_abs_error_mol_kg": 0.9500929071980307,
+          "point_count": 38,
+          "rmse_mol_kg": 0.26627696783786353,
+          "role": "holdout"
+        },
+        "120": {
+          "dac_40Pa": {
+            "applicable": true,
+            "measured_bracket_Pa": [
+              34.86133401,
+              50.023366813
+            ],
+            "measured_loading_mol_kg": -0.002545078,
+            "model_loading_mol_kg": 7.470691025473239e-05,
+            "pressure_Pa": 40.0,
+            "reason": "measured interpolation at 40 Pa is nonpositive; relative error is untestable",
+            "relative_error": null
+          },
+          "max_abs_error_mol_kg": 0.3729352765186038,
+          "point_count": 32,
+          "rmse_mol_kg": 0.08238646453014661,
+          "role": "posthoc_diagnostic"
+        },
+        "140": {
+          "dac_40Pa": {
+            "applicable": true,
+            "measured_bracket_Pa": [
+              17.595532896,
+              44.568101732
+            ],
+            "measured_loading_mol_kg": -0.011973377193191442,
+            "model_loading_mol_kg": 2.577718020880337e-05,
+            "pressure_Pa": 40.0,
+            "reason": "measured interpolation at 40 Pa is nonpositive; relative error is untestable",
+            "relative_error": null
+          },
+          "max_abs_error_mol_kg": 0.13960061247902597,
+          "point_count": 30,
+          "rmse_mol_kg": 0.055921438341711545,
+          "role": "posthoc_diagnostic"
+        },
+        "160": {
+          "dac_40Pa": {
+            "applicable": true,
+            "measured_bracket_Pa": [
+              37.475747837,
+              53.002696587
+            ],
+            "measured_loading_mol_kg": -0.013403906592805544,
+            "model_loading_mol_kg": 9.812638997812652e-06,
+            "pressure_Pa": 40.0,
+            "reason": "measured interpolation at 40 Pa is nonpositive; relative error is untestable",
+            "relative_error": null
+          },
+          "max_abs_error_mol_kg": 0.12208414709418554,
+          "point_count": 24,
+          "rmse_mol_kg": 0.056305695612786526,
+          "role": "posthoc_diagnostic"
+        },
+        "25": {
+          "dac_40Pa": {
+            "applicable": true,
+            "measured_bracket_Pa": [
+              14.726596384,
+              58.078012863
+            ],
+            "measured_loading_mol_kg": 2.7145733584788863,
+            "model_loading_mol_kg": 2.822184805035443,
+            "pressure_Pa": 40.0,
+            "reason": null,
+            "relative_error": 0.03964212137440879
+          },
+          "max_abs_error_mol_kg": 0.7499523742300758,
+          "point_count": 36,
+          "rmse_mol_kg": 0.16715275843935312,
+          "role": "training"
+        },
+        "40": {
+          "dac_40Pa": {
+            "applicable": true,
+            "measured_bracket_Pa": [
+              38.199509188,
+              42.467121944
+            ],
+            "measured_loading_mol_kg": 0.06712879679408004,
+            "model_loading_mol_kg": 0.06682175499969943,
+            "pressure_Pa": 40.0,
+            "reason": null,
+            "relative_error": 0.004573920717251531
+          },
+          "max_abs_error_mol_kg": 0.20045631749999998,
+          "point_count": 33,
+          "rmse_mol_kg": 0.049348933994603016,
+          "role": "training"
+        },
+        "60": {
+          "dac_40Pa": {
+            "applicable": true,
+            "measured_bracket_Pa": [
+              36.93763171,
+              42.062888407
+            ],
+            "measured_loading_mol_kg": 0.027009404307845982,
+            "model_loading_mol_kg": 0.008629446907100224,
+            "pressure_Pa": 40.0,
+            "reason": null,
+            "relative_error": 0.6805021388571147
+          },
+          "max_abs_error_mol_kg": 1.4540455120382398,
+          "point_count": 27,
+          "rmse_mol_kg": 0.34954988296853917,
+          "role": "training"
+        },
+        "80": {
+          "dac_40Pa": {
+            "applicable": true,
+            "measured_bracket_Pa": [
+              27.801783046,
+              69.069383136
+            ],
+            "measured_loading_mol_kg": 0.0070778070613343805,
+            "model_loading_mol_kg": 0.0009008266495896018,
+            "pressure_Pa": 40.0,
+            "reason": null,
+            "relative_error": 0.872725175780679
+          },
+          "max_abs_error_mol_kg": 0.777437916210029,
+          "point_count": 32,
+          "rmse_mol_kg": 0.4070834730901689,
+          "role": "holdout"
+        }
+      },
+      "family": "activity_shift_reference_isotherm",
+      "fit_report": "Research/MOF_candidates_2026-11-03/hob/hob_family_fit.json",
+      "fit_report_sha256": "6a8aa071c65bbc22476e5d5dc7d2e7e9c3fee41f5b3b32962fc4a13974094816",
+      "fitted_heat_J_mol": 71853.13543432922,
+      "fitted_reference_projection": {
+        "fitted_point_count": 42,
+        "maximum_loading_projection_mol_kg": 0.20045631749999998,
+        "note": "The raw vector points remain in the dataset and all in-domain points remain in the fit. The contract requires a monotone nonnegative reference curve, so duplicate pressure nodes are averaged, pooled-adjacent-violators projection is applied, and the resulting FITTED curve is clamped at zero.",
+        "raw_point_count": 42
+      },
+      "gate_checks": [
+        {
+          "dac_relative_pass": true,
+          "max_abs_pass": false,
+          "rmse_pass": false,
+          "role": "training",
+          "temperature_C": 25.0
+        },
+        {
+          "dac_relative_pass": true,
+          "max_abs_pass": true,
+          "rmse_pass": true,
+          "role": "training",
+          "temperature_C": 40.0
+        },
+        {
+          "dac_relative_pass": false,
+          "max_abs_pass": false,
+          "rmse_pass": false,
+          "role": "training",
+          "temperature_C": 60.0
+        },
+        {
+          "dac_relative_pass": false,
+          "max_abs_pass": false,
+          "rmse_pass": false,
+          "role": "holdout",
+          "temperature_C": 80.0
+        },
+        {
+          "dac_relative_pass": false,
+          "max_abs_pass": false,
+          "rmse_pass": false,
+          "role": "holdout",
+          "temperature_C": 100.0
+        }
+      ],
+      "gate_pass": false,
+      "holdout_temperatures_C": [
+        80.0,
+        100.0
+      ],
+      "reference_temperature_K": 313.15,
+      "training_temperatures_C": [
+        25.0,
+        40.0,
+        60.0
+      ]
+    },
+    "digitization_report": {
+      "path": "Research/MOF_candidates_2026-11-03/hob/hob_digitized_curves.json",
+      "sha256": "6eb557d9eb43835ecc3a11deaeda13a0e1bbbf6596c775688327b396f8936cfe"
+    },
+    "shaped_transport": {
+      "basis": "Shared screening geometry and transport assumptions; no candidate-specific shaped-device measurement.",
+      "class": "assumed"
+    },
+    "solid_cp": {
+      "basis": "Neutral screening value; no HOB source heat capacity was found.",
+      "class": "assumed",
+      "value_J_kg_K": 1000.0
+    },
+    "tga_400ppm_24h": {
+      "class": "measured",
+      "locator": "SI Table S7 and Figure S44",
+      "temperature_C": 25.0,
+      "value_mol_kg": 2.91
+    },
+    "tpd": {
+      "class": "measured",
+      "dry_mol_kg": 1.61,
+      "humid_mol_kg": 1.92,
+      "locator": "SI Table S9",
+      "post_humid_mol_kg": 1.46
+    },
+    "water": {
+      "class": "numerical structural mode; no physical coefficients",
+      "note": "The normalizer keeps the shared state layout finite. Water storage, rates, heat and adsorbed Cp are zero.",
+      "physical_storage_mol_kg": 0.0,
+      "solver_normalizer_mol_kg": 0.05
+    }
+  },
+  "reference_temperature_K": 298.15,
+  "schema": "mof-screening-material/1",
+  "shaped_material": {
+    "basis": "The source sample is powder; the app case supplies 10 kg complete dry shaped material.",
+    "binder_support": "No candidate-specific binder or support formulation.",
+    "particle_geometry": "No measured shaped particle geometry; shared geometry is a transfer assumption."
+  },
+  "solid_cp_J_kg_K": 1000.0,
+  "synthetic": false,
+  "uncertainty": {
+    "classification": "CONDITIONAL_REPRESENTATION_FAILED",
+    "statement": "Vector-centre calibration uncertainty is retained per source point in the source report. The failed withheld-temperature diagnostics are material model error and are not hidden by digitization uncertainty."
+  },
+  "validity": {
+    "co2_dry_equilibrium": "Measured 40 C curve with a fitted constant activity shift. The declared 80/100 C holdout gate fails; use only as a conditional scenario input, not a validated 100 C representation.",
+    "initial_state_interpretation": "The app's declared initial state is a scenario, not CSS.",
+    "kinetics": "Single-temperature Avrami value transferred as an LDF scale; desorption is assumed equal.",
+    "thermal": "Solid Cp and shaped transport are assumptions.",
+    "water": "Dry-only. Any nonzero relative humidity at the case or weather forcing boundary is rejected."
+  },
+  "water": {
+    "basis": "The HOB source bundle contains no usable unary water isotherm. This package therefore has no physical water storage, rate or caloric contribution. The positive normalizer is an engine structural scale only.",
+    "model": "dry_only",
+    "physical_storage_mol_kg": 0.0,
+    "solver_normalizer_mol_kg": 0.05
+  },
+  "humidity_candidate": {
+    "schema": "mof-screening-humidity-candidate/1",
+    "candidate_id": "hob_powder_measured_water_transport_independent_v1",
+    "evidence_tier": "MEASURED_UNARY_WATER_NO_SPECIES_SPLIT",
+    "dry_origin_material_id": "mmen_mg2_hob_powder_2024_dry_conditional",
+    "dry_origin_package_sha256": "1a9d23da40056d810a07cc007cec40604e8519fde6f79e9e448c669885842a3a",
+    "dry_origin_package_canonical_sha256": "030061048a7859fa6125ff2458657b98ead2cfd96fb0ca67f9692b7557e4f4e5",
+    "dry_limit": {
+      "definition": "EXACT_NATIVE_DELEGATION_REQUIRES_ZERO_STORED_AND_EXTERNAL_WATER",
+      "stored_water_mol_kg": 0.0,
+      "external_water_partial_pressure_Pa": 0.0
+    },
+    "storage": {
+      "contract": "CO2, H2O, N2, O2",
+      "labels": [
+        "CO2",
+        "H2O",
+        "N2",
+        "O2"
+      ]
+    },
+    "water_law": {
+      "kind": "pchip_nodes",
+      "source_id": "hob_s51_water",
+      "reference_temperature_K": 298.15,
+      "heat_J_mol": 44000.0,
+      "adsorbed_cp_J_kg_K": 4180.0,
+      "adsorption_rate_s_inv": 0.0001,
+      "desorption_rate_s_inv": 0.0001,
+      "extrapolation_policy": "linear_extension_from_last_two_nodes",
+      "assumptions": [
+        "The accepted HOB unary water series is mapped to the powder package as a same-family transfer.",
+        "Water heat and rate are exploratory assumptions.",
+        "Water loading does not alter the retained dry CO2 target."
+      ],
+      "provenance": {
+        "source": {
+          "name": "hob_s51_water",
+          "path": "Research/next_stage_2026-11-07/other_material_humidity/data/hob_water_sorption_25c_v3.csv",
+          "sha256": "fe526a7b243e3ae85f77d8f97617914155cadf23872e17d57bd303e96669b45f"
+        },
+        "evidence_class": "digitized unary water curve",
+        "branch_status": "not labelled in source",
+        "accepted_source_file": "Research\\next_stage_2026-11-08\\material_humidity_closures\\data\\constrained_material_models.json",
+        "accepted_source_sha256": "6e32a1f76e597cd19aa217b8b5ba55d72713dba4fcd11a6c876edafd9452a0d5",
+        "loading_multiplier": 1.0,
+        "materialized_nodes": 35
+      },
+      "activity_nodes": [
+        0.0,
+        0.0026522778685958,
+        0.0052085723613,
+        0.010747209931619,
+        0.0167183520303044,
+        0.022256989813712,
+        0.0256653823285919,
+        0.0299258728656474,
+        0.0380272602328605,
+        0.054643173369995,
+        0.0640227081966487,
+        0.0704134440022321,
+        0.0874618614546441,
+        0.121132647561469,
+        0.1569272238457204,
+        0.1923022062099851,
+        0.2200018502181247,
+        0.252394489291686,
+        0.2852067220721453,
+        0.328250587275257,
+        0.399846194934861,
+        0.4220136564637827,
+        0.4769868956820625,
+        0.510231632564711,
+        0.5464522578600503,
+        0.6802768489609841,
+        0.7122369837192678,
+        0.7412147749737593,
+        0.7761637081138476,
+        0.8157991812282567,
+        0.8596951448797211,
+        0.8767435623321332,
+        0.8882468869100363,
+        0.9227697712521252,
+        0.9385400414581854
+      ],
+      "loading_nodes_mol_kg": [
+        0.0,
+        0.1015484923361356,
+        0.2296181102482215,
+        0.629623038541407,
+        1.0135888754998987,
+        1.2694850945463043,
+        1.3654765617848987,
+        1.461468021024526,
+        1.6213727808313116,
+        1.8775120246544503,
+        1.989299550452028,
+        2.053455867796959,
+        2.2454387942751737,
+        2.613365555896923,
+        2.9812923175186725,
+        3.3013448539100025,
+        3.541201997619666,
+        3.829176383337508,
+        4.117150769055353,
+        4.597108073252439,
+        5.412913988397786,
+        5.716927449452374,
+        6.900903142997237,
+        9.700451567499126,
+        13.15590114733958,
+        14.867708362312973,
+        15.091769447463658,
+        15.36370474984578,
+        15.85970113737859,
+        16.387532666806095,
+        17.34744727520027,
+        17.795326412725927,
+        18.22740949969157,
+        20.499126402764933,
+        25.01048205023919
+      ],
+      "support_activity": [
+        0.0,
+        0.9385400414581854
+      ],
+      "evidence_class": "MEASURED_UNARY_WATER_MATERIALIZED_PCHIP"
+    },
+    "co2_coupling": {
+      "kind": "unsupported",
+      "decision": "EXPLICIT_NO_HUMID_CO2_COUPLING",
+      "assumptions": [
+        "No measured or explicitly calibrated CO2-water interaction is available for this candidate.",
+        "Water storage and transport are represented without rescaling the dry CO2 target."
+      ],
+      "provenance": {
+        "class": "explicit unsupported reciprocal-coupling decision",
+        "dry_co2_curve": "retained unchanged"
+      }
+    },
+    "parameter_ranges": {
+      "water_activity": [
+        0.0,
+        1.0
+      ],
+      "saturation_temperature_K": [
+        255.9,
+        647.096
+      ]
+    },
+    "support_envelope": {
+      "saturation_pressure_law": {
+        "ambient_cold": "Antoine, 255.9-373.0 K",
+        "hot": "IAPWS SR1-86(1992), 373.0-647.096 K"
+      },
+      "water_activity": [
+        0.0,
+        1.0
+      ],
+      "source_support": [
+        0.0,
+        0.9385400414581854
+      ],
+      "named_extrapolation_policy": "linear_extension_from_last_two_nodes",
+      "hot_co2_rich_vacuum_isotherm": "unsupported"
+    },
+    "assumptions": [
+      "The accepted HOB unary water series is mapped to the powder package as a same-family transfer.",
+      "Water heat and rate are exploratory assumptions.",
+      "Water loading does not alter the retained dry CO2 target.",
+      "No measured or explicitly calibrated CO2-water interaction is available for this candidate.",
+      "Water storage and transport are represented without rescaling the dry CO2 target.",
+      "This candidate is exploratory and is not a validated humid-cycle or reciprocal thermodynamic model."
+    ],
+    "limitations": [
+      "Humid species split is unresolved.",
+      "The S41 and multi-temperature dry holdout failures remain failed.",
+      "TPD totals are not converted into an isothermal competitive law."
+    ],
+    "missing_evidence": [
+      "validated reciprocal CO2-water equilibrium",
+      "hot CO2-rich vacuum equilibrium",
+      "candidate-specific shaped transport",
+      "experimental humid-cycle validation",
+      "Humid species split is unresolved.",
+      "The S41 and multi-temperature dry holdout failures remain failed.",
+      "TPD totals are not converted into an isothermal competitive law."
+    ],
+    "provenance": {
+      "class": "accepted bounded evidence plus named exploratory adapter",
+      "dry_origin_material_id": "mmen_mg2_hob_powder_2024_dry_conditional",
+      "dry_origin_package": "Initial_screening_model\\model\\materials\\screening\\mmen_mg2_hob_powder_2024_dry_conditional.json",
+      "staging_candidate_config": "Research\\next_stage_2026-11-08\\humid_cycle_readiness\\config\\humid_candidates.json",
+      "staging_config_sha256": "b22491f44b36d98e98a71b467218e18d10a95a366e5095cb03db6702262ee212",
+      "coupling_calibration": "Research\\next_stage_2026-11-08\\humid_cycle_readiness\\data\\cof_coupling_calibration.json",
+      "coupling_calibration_sha256": "e0153f6c05b83055a4b1660f9fb27b7de5e2a01da170d67f9979f231ea66d3e8",
+      "lead_native_scope": "Research/next_stage_2026-11-08/humid_cycle_lead/NATIVE_IMPLEMENTATION_SCOPE.md",
+      "protocol_anchors": {
+        "source": "native package measured TPD fields",
+        "evidence_class": "mixed total-response constraints",
+        "dry_mol_kg": 1.61,
+        "humid_mol_kg": 1.92,
+        "post_humid_mol_kg": 1.46
+      }
+    },
+    "reciprocal_thermodynamics": false,
+    "validated_humid_cycle": false
+  }
+}

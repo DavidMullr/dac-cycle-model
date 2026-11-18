@@ -1,0 +1,1868 @@
+{
+  "status": "pass",
+  "original_sha256": "f491753b6cc1e62d2e09fa8ee9419eeb4c7e26299abe0a7eca184a39507008a6",
+  "receipt": {
+    "audited_utc": "2026-11-10T14:16:29.683197+00:00",
+    "checks": [
+      {
+        "detail": "mof-screening-result/1",
+        "name": "result_schema",
+        "pass": true
+      },
+      {
+        "detail": "4fd05685affc436ab0c50910b7b513bf",
+        "name": "result_job_id_format",
+        "pass": true
+      },
+      {
+        "detail": null,
+        "name": "result_has_bound_preview_row",
+        "pass": true
+      },
+      {
+        "detail": "mil101_pei800_glycerin_measured_water_diagnostic_v1_desorption_1e-03_sensitivity_v1",
+        "name": "actual_material_id",
+        "pass": true
+      },
+      {
+        "detail": "63441fe6b27f713ef49239a2e646ff302cd9dfc267fcc491c7ff3740302588b1",
+        "name": "actual_material_sha256",
+        "pass": true
+      },
+      {
+        "detail": "53483b0291926dadab0c0b22fdcc6913a39b9749501152743c6e55548ca48d80",
+        "name": "actual_case_sha256",
+        "pass": true
+      },
+      {
+        "detail": {
+          "case_sha256": "53483b0291926dadab0c0b22fdcc6913a39b9749501152743c6e55548ca48d80",
+          "combined_sha256": "83a8fb3b96943ea69676fba704ac58d57a9223d0ecadca43d70eabdba467114d",
+          "material_sha256": "63441fe6b27f713ef49239a2e646ff302cd9dfc267fcc491c7ff3740302588b1"
+        },
+        "name": "result_input_identity",
+        "pass": true
+      },
+      {
+        "detail": "63441fe6b27f713ef49239a2e646ff302cd9dfc267fcc491c7ff3740302588b1",
+        "name": "preview_material_binding",
+        "pass": true
+      },
+      {
+        "detail": "53483b0291926dadab0c0b22fdcc6913a39b9749501152743c6e55548ca48d80",
+        "name": "preview_case_binding",
+        "pass": true
+      },
+      {
+        "detail": "ec11332afa394b59953daae356ea31a9",
+        "name": "preview_id_binding",
+        "pass": true
+      },
+      {
+        "detail": "spatial",
+        "name": "engine_binding",
+        "pass": true
+      },
+      {
+        "detail": "f43f92ba77158b8032f5d3208221752fd9f931e45fce972a57b012a4e84ffedf",
+        "name": "source_release_identity",
+        "pass": true
+      },
+      {
+        "detail": {
+          "file_count": 62,
+          "path": "config/parameter_study_v21/RUNTIME_SOURCE_CLOSURE.json",
+          "sha256": "9cd09c31d28f120208d4562146caa0b6ec3c0df2b71a9c82a481fd4fd2087397",
+          "valid": true
+        },
+        "name": "frozen_closure_identity",
+        "pass": true
+      },
+      {
+        "detail": 172800.0,
+        "name": "48h_horizon_requested",
+        "pass": true
+      },
+      {
+        "detail": {
+          "cold_start": true,
+          "complete": true,
+          "css_established": false,
+          "cycles_completed": 10,
+          "cycles_started": 11,
+          "initial_state": "clean_dry",
+          "partial_final_cycle": true,
+          "requested_s": 172800.0,
+          "simulated_s": 172800.0,
+          "whole_cycle_basis": false
+        },
+        "name": "48h_horizon_complete",
+        "pass": true
+      },
+      {
+        "detail": {
+          "backward_steps": 0,
+          "cycle_count": 11,
+          "cycle_pass": true,
+          "cycle_span_s": 172800.0,
+          "equal_time_event_count": 52,
+          "invalid_equal_pairs": [],
+          "phase_continuity": true,
+          "required_s": 172800,
+          "trace_first_s": 0.0,
+          "trace_last_s": 172800.0,
+          "trace_pass": true,
+          "trace_row_count": 1325,
+          "trace_span_s": 172800.0
+        },
+        "name": "48h_raw_trace_coverage",
+        "pass": true
+      },
+      {
+        "detail": {
+          "backward_steps": 0,
+          "cycle_count": 11,
+          "cycle_pass": true,
+          "cycle_span_s": 172800.0,
+          "equal_time_event_count": 52,
+          "invalid_equal_pairs": [],
+          "phase_continuity": true,
+          "required_s": 172800,
+          "trace_first_s": 0.0,
+          "trace_last_s": 172800.0,
+          "trace_pass": true,
+          "trace_row_count": 1325,
+          "trace_span_s": 172800.0
+        },
+        "name": "48h_raw_cycle_and_phase_coverage",
+        "pass": true
+      },
+      {
+        "detail": {
+          "cold_start": true,
+          "complete": true,
+          "css_established": false,
+          "cycles_completed": 10,
+          "cycles_started": 11,
+          "initial_state": "clean_dry",
+          "partial_final_cycle": true,
+          "requested_s": 172800.0,
+          "simulated_s": 172800.0,
+          "whole_cycle_basis": false
+        },
+        "name": "clean_dry_cold_start",
+        "pass": true
+      },
+      {
+        "detail": {
+          "automatic_wall_termination": false,
+          "elapsed_wall_s": 18685.45299999998,
+          "policy": {
+            "classification": "operational_runtime_control",
+            "mode": "manual_stop",
+            "physical_operating_condition": false,
+            "schema": "mof-screening-runtime-policy/1",
+            "time_limit_s": null
+          },
+          "terminal_status": "completed"
+        },
+        "name": "manual_stop_terminal_runtime",
+        "pass": true
+      },
+      {
+        "detail": true,
+        "name": "finite_observations",
+        "pass": true
+      },
+      {
+        "detail": true,
+        "name": "top_level_mass_pass",
+        "pass": true
+      },
+      {
+        "detail": true,
+        "name": "top_level_gross_energy_pass",
+        "pass": true
+      },
+      {
+        "detail": {
+          "energy_legacy_net_closure_pass": false,
+          "energy_legacy_net_relative_residual": 4.137330125814518e-05,
+          "energy_normalization": {
+            "absolute_floor_J": 1.0,
+            "basis": "max(abs(delta_inventory_J), gross_boundary_exchange_J, 1 J)",
+            "criterion": "gross_boundary_exchange",
+            "legacy_net_basis_retained": true,
+            "relative_tolerance": 1e-06
+          },
+          "energy_pass": true,
+          "energy_relative_residual": 1.8145518531713e-09,
+          "mass_pass": true,
+          "mass_relative_residual_by_species": [
+            2.84730555975129e-14
+          ],
+          "status": "pass"
+        },
+        "name": "gross_conservation_status",
+        "pass": true
+      },
+      {
+        "detail": null,
+        "name": "raw_payload_finite",
+        "pass": true
+      },
+      {
+        "detail": {
+          "checks": {
+            "intent_case": true,
+            "intent_material": true,
+            "intent_plan_release": true,
+            "intent_preview": true,
+            "post_attempted_single": true,
+            "result_preview": true,
+            "start_response_job": true
+          },
+          "pass": true,
+          "start_response_recovered_from_watcher": false,
+          "start_response_sha256": "84a0be84985b712f9a9508202a61b9613485cbf3a87b800bd14d59cf25fdde26"
+        },
+        "name": "exact_job_intent_preview_start_binding",
+        "pass": true
+      },
+      {
+        "detail": {
+          "headers_exact": true,
+          "mismatches": [],
+          "row_count_matches": true,
+          "sha256": "ee3104702420e344b61c5a00deb8be0b8966bdb2faf359773a9f82768186d577",
+          "values_match_json_traces": true
+        },
+        "name": "result_csv_contract",
+        "pass": true
+      },
+      {
+        "detail": {
+          "headers_exact": true,
+          "mismatches": [],
+          "row_count_matches": true,
+          "sha256": "ee3104702420e344b61c5a00deb8be0b8966bdb2faf359773a9f82768186d577",
+          "values_match_json_traces": true
+        },
+        "name": "result_csv_row_count",
+        "pass": true
+      },
+      {
+        "detail": {
+          "headers_exact": true,
+          "mismatches": [],
+          "row_count_matches": true,
+          "sha256": "ee3104702420e344b61c5a00deb8be0b8966bdb2faf359773a9f82768186d577",
+          "values_match_json_traces": true
+        },
+        "name": "result_csv_values_match_json",
+        "pass": true
+      },
+      {
+        "detail": {
+          "adapter_storage_labels": [
+            "CO2",
+            "H2O",
+            "N2",
+            "O2"
+          ],
+          "adapter_water_tolerance_mol_kg": -1e-09,
+          "cycles": [
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 1,
+              "gross_energy": {
+                "ambient_loss_J": 645168.6522206862,
+                "cooling_removed_J": 2201801.403796253,
+                "gross_exchange_J": 8166314.58742551,
+                "heater_J": 3282923.07027899,
+                "inventory_final_J": -1600468.4457753964,
+                "inventory_initial_J": 0.0,
+                "net_boundary_enthalpy_J": -2036421.4611295813,
+                "relative_residual": 1.3373643631429005e-10,
+                "residual_J": 0.0010921338107436895,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.5275503694516078e-14,
+              "species_relative_residual": [
+                1.9375777076572243e-14,
+                1.4303800162618343e-14,
+                1.8909381293750842e-14,
+                2.5275503694516078e-14
+              ],
+              "species_residual_mol": [
+                -4.120037644383956e-13,
+                -1.4919621094122704e-11,
+                -7.650656740076922e-10,
+                2.7102126619327205e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 2,
+              "gross_energy": {
+                "ambient_loss_J": 625122.0302242608,
+                "cooling_removed_J": 2037542.968532052,
+                "gross_exchange_J": 7896430.052380773,
+                "heater_J": 3663773.728356661,
+                "inventory_final_J": -2169351.0484224497,
+                "inventory_initial_J": -1600468.4457753964,
+                "net_boundary_enthalpy_J": -1569991.3252677994,
+                "relative_residual": 8.838933535145155e-10,
+                "residual_J": -0.006979602039791644,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.4773887779039217e-14,
+              "species_relative_residual": [
+                1.638290001084177e-14,
+                1.0616816185312022e-14,
+                2.4773887779039217e-14,
+                2.1897973899042028e-14
+              ],
+              "species_residual_mol": [
+                -3.497202527569243e-13,
+                -1.1308287639621994e-11,
+                -1.0023410226822627e-09,
+                2.348050460662665e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 3,
+              "gross_energy": {
+                "ambient_loss_J": 613864.6660992976,
+                "cooling_removed_J": 1957426.5163650145,
+                "gross_exchange_J": 7710831.110759912,
+                "heater_J": 3744184.717762726,
+                "inventory_final_J": -2391812.727247631,
+                "inventory_initial_J": -2169351.0484224497,
+                "net_boundary_enthalpy_J": -1395355.2105328743,
+                "relative_residual": 4.656723622837556e-10,
+                "residual_J": -0.0035907209385186434,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.503714685067781e-14,
+              "species_relative_residual": [
+                1.9541385412101118e-14,
+                4.959313284550227e-15,
+                2.3466359500302152e-14,
+                2.503714685067781e-14
+              ],
+              "species_residual_mol": [
+                -4.1877612488860905e-13,
+                -5.31841237716435e-12,
+                -9.494389476005782e-10,
+                2.684653948800686e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 4,
+              "gross_energy": {
+                "ambient_loss_J": 609752.9891771208,
+                "cooling_removed_J": 1925113.1274826375,
+                "gross_exchange_J": 7631766.253219476,
+                "heater_J": 3773205.0398641094,
+                "inventory_final_J": -2477168.909242064,
+                "inventory_initial_J": -2391812.727247631,
+                "net_boundary_enthalpy_J": -1323695.096695609,
+                "relative_residual": 1.1141818061022422e-09,
+                "residual_J": -0.008503175107762218,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.554952440533254e-14,
+              "species_relative_residual": [
+                2.1122998291304562e-14,
+                9.758512399572938e-15,
+                2.2878820281772034e-14,
+                2.554952440533254e-14
+              ],
+              "species_residual_mol": [
+                -4.5363712786183896e-13,
+                -1.049116349349788e-11,
+                -9.256673587365594e-10,
+                2.73959456682793e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 5,
+              "gross_energy": {
+                "ambient_loss_J": 608188.9254507613,
+                "cooling_removed_J": 1912800.4616046252,
+                "gross_exchange_J": 7601347.340225138,
+                "heater_J": 3784220.585074699,
+                "inventory_final_J": -2510075.093110842,
+                "inventory_initial_J": -2477168.909242064,
+                "net_boundary_enthalpy_J": -1296137.3680950515,
+                "relative_residual": 1.8145518531713e-09,
+                "residual_J": -0.013793038902804255,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.330234443202754e-14,
+              "species_relative_residual": [
+                2.2768073525771742e-14,
+                7.557072988734579e-15,
+                2.0872028594506225e-14,
+                2.330234443202754e-14
+              ],
+              "species_residual_mol": [
+                -4.89386309254769e-13,
+                -8.132161610774347e-12,
+                -8.444734182766478e-10,
+                2.4986365754209316e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 6,
+              "gross_energy": {
+                "ambient_loss_J": 607584.0064161135,
+                "cooling_removed_J": 1908083.914086311,
+                "gross_exchange_J": 7589633.328200217,
+                "heater_J": 3788476.661094782,
+                "inventory_final_J": -2522755.108825365,
+                "inventory_initial_J": -2510075.093110842,
+                "net_boundary_enthalpy_J": -1285488.746603011,
+                "relative_residual": 1.2785689741444102e-09,
+                "residual_J": -0.009703869698569179,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.449028838316635e-14,
+              "species_relative_residual": [
+                1.8103212400661194e-14,
+                5.983380105997902e-15,
+                2.449028838316635e-14,
+                2.4334897221290893e-14
+              ],
+              "species_residual_mol": [
+                -3.892441924335799e-13,
+                -6.441069899665308e-12,
+                -9.908666734337324e-10,
+                2.6093539395172227e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 7,
+              "gross_energy": {
+                "ambient_loss_J": 607348.7464195561,
+                "cooling_removed_J": 1906280.3267187953,
+                "gross_exchange_J": 7585133.038462654,
+                "heater_J": 3790130.4336959757,
+                "inventory_final_J": -2527627.2885537855,
+                "inventory_initial_J": -2522755.108825365,
+                "net_boundary_enthalpy_J": -1281373.531628326,
+                "relative_residual": 1.1414062876763995e-09,
+                "residual_J": -0.008657718542963266,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.7562316175518848e-14,
+              "species_relative_residual": [
+                1.3970713539125245e-14,
+                7.639032789428398e-15,
+                2.7562316175518848e-14,
+                2.7541461831534217e-14
+              ],
+              "species_residual_mol": [
+                -3.0042635046356736e-13,
+                -8.22453216642316e-12,
+                -1.1151596139569175e-09,
+                2.9531837045237985e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 8,
+              "gross_energy": {
+                "ambient_loss_J": 607257.0965746396,
+                "cooling_removed_J": 1905593.9706137055,
+                "gross_exchange_J": 7583411.407687339,
+                "heater_J": 3790774.0686582695,
+                "inventory_final_J": -2529490.5695927655,
+                "inventory_initial_J": -2527627.2885537855,
+                "net_boundary_enthalpy_J": -1279786.2718407242,
+                "relative_residual": 1.4067785385420452e-09,
+                "residual_J": -0.010668180417269468,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.470525975173359e-14,
+              "species_relative_residual": [
+                1.692309672640587e-14,
+                9.902154717134768e-15,
+                2.470525975173359e-14,
+                2.2509909115693855e-14
+              ],
+              "species_residual_mol": [
+                -3.639311074721263e-13,
+                -1.0661693750080303e-11,
+                -9.995643236726526e-10,
+                2.413666246037227e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 9,
+              "gross_energy": {
+                "ambient_loss_J": 607221.364929169,
+                "cooling_removed_J": 1905334.9154899383,
+                "gross_exchange_J": 7582757.06021998,
+                "heater_J": 3791024.6342346333,
+                "inventory_final_J": -2530198.370622993,
+                "inventory_initial_J": -2529490.5695927655,
+                "net_boundary_enthalpy_J": -1279176.1455662393,
+                "relative_residual": 1.2237651982735338e-09,
+                "residual_J": -0.009279514197260141,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.3505093464769714e-14,
+              "species_relative_residual": [
+                1.679890446456443e-14,
+                8.793298915867594e-15,
+                1.3919275724914761e-14,
+                2.3505093464769714e-14
+              ],
+              "species_residual_mol": [
+                -3.6126657221302594e-13,
+                -9.467981954003335e-12,
+                -5.631679879380957e-10,
+                2.5203767111542374e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 10,
+              "gross_energy": {
+                "ambient_loss_J": 607207.4260889874,
+                "cooling_removed_J": 1905238.5102249538,
+                "gross_exchange_J": 7582510.798767829,
+                "heater_J": 3791122.1211781427,
+                "inventory_final_J": -2530464.9380633133,
+                "inventory_initial_J": -2530198.370622993,
+                "net_boundary_enthalpy_J": -1278942.7412757468,
+                "relative_residual": 1.454501722012113e-09,
+                "residual_J": -0.01102877501398325,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.84730555975129e-14,
+              "species_relative_residual": [
+                1.6695546541957067e-14,
+                6.3944754740234625e-15,
+                2.6553949600701502e-14,
+                2.84730555975129e-14
+              ],
+              "species_residual_mol": [
+                -3.590461261637756e-13,
+                -6.885159109515371e-12,
+                -1.0743615302954979e-09,
+                3.0530755527891085e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 11,
+              "gross_energy": {
+                "ambient_loss_J": 6571.126335840735,
+                "cooling_removed_J": 404935.68645459914,
+                "gross_exchange_J": 1757039.503246692,
+                "heater_J": 209092.29449776866,
+                "inventory_final_J": -3869319.8546828795,
+                "inventory_initial_J": -2530464.9380633133,
+                "net_boundary_enthalpy_J": -1136440.3959584835,
+                "relative_residual": 1.3479557577001985e-09,
+                "residual_J": -0.0023684115149080753,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 6.405184670457026e-15,
+              "species_relative_residual": [
+                5.5784607426622685e-15,
+                6.405184670457026e-15,
+                3.115762140858776e-15,
+                2.1751679945954025e-15
+              ],
+              "species_residual_mol": [
+                -1.1311062068935672e-13,
+                -6.727332558208177e-12,
+                -1.2606179468355183e-10,
+                2.3323522800600127e-11
+              ],
+              "species_tolerance": 1e-05
+            }
+          ],
+          "engine": "spatial",
+          "independent_pass": true,
+          "reported_matches_recomputed": true
+        },
+        "name": "reported_conservation_matches_raw_recomputation",
+        "pass": true
+      },
+      {
+        "detail": {
+          "adapter_storage_labels": [
+            "CO2",
+            "H2O",
+            "N2",
+            "O2"
+          ],
+          "adapter_water_tolerance_mol_kg": -1e-09,
+          "cycles": [
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 1,
+              "gross_energy": {
+                "ambient_loss_J": 645168.6522206862,
+                "cooling_removed_J": 2201801.403796253,
+                "gross_exchange_J": 8166314.58742551,
+                "heater_J": 3282923.07027899,
+                "inventory_final_J": -1600468.4457753964,
+                "inventory_initial_J": 0.0,
+                "net_boundary_enthalpy_J": -2036421.4611295813,
+                "relative_residual": 1.3373643631429005e-10,
+                "residual_J": 0.0010921338107436895,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.5275503694516078e-14,
+              "species_relative_residual": [
+                1.9375777076572243e-14,
+                1.4303800162618343e-14,
+                1.8909381293750842e-14,
+                2.5275503694516078e-14
+              ],
+              "species_residual_mol": [
+                -4.120037644383956e-13,
+                -1.4919621094122704e-11,
+                -7.650656740076922e-10,
+                2.7102126619327205e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 2,
+              "gross_energy": {
+                "ambient_loss_J": 625122.0302242608,
+                "cooling_removed_J": 2037542.968532052,
+                "gross_exchange_J": 7896430.052380773,
+                "heater_J": 3663773.728356661,
+                "inventory_final_J": -2169351.0484224497,
+                "inventory_initial_J": -1600468.4457753964,
+                "net_boundary_enthalpy_J": -1569991.3252677994,
+                "relative_residual": 8.838933535145155e-10,
+                "residual_J": -0.006979602039791644,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.4773887779039217e-14,
+              "species_relative_residual": [
+                1.638290001084177e-14,
+                1.0616816185312022e-14,
+                2.4773887779039217e-14,
+                2.1897973899042028e-14
+              ],
+              "species_residual_mol": [
+                -3.497202527569243e-13,
+                -1.1308287639621994e-11,
+                -1.0023410226822627e-09,
+                2.348050460662665e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 3,
+              "gross_energy": {
+                "ambient_loss_J": 613864.6660992976,
+                "cooling_removed_J": 1957426.5163650145,
+                "gross_exchange_J": 7710831.110759912,
+                "heater_J": 3744184.717762726,
+                "inventory_final_J": -2391812.727247631,
+                "inventory_initial_J": -2169351.0484224497,
+                "net_boundary_enthalpy_J": -1395355.2105328743,
+                "relative_residual": 4.656723622837556e-10,
+                "residual_J": -0.0035907209385186434,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.503714685067781e-14,
+              "species_relative_residual": [
+                1.9541385412101118e-14,
+                4.959313284550227e-15,
+                2.3466359500302152e-14,
+                2.503714685067781e-14
+              ],
+              "species_residual_mol": [
+                -4.1877612488860905e-13,
+                -5.31841237716435e-12,
+                -9.494389476005782e-10,
+                2.684653948800686e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 4,
+              "gross_energy": {
+                "ambient_loss_J": 609752.9891771208,
+                "cooling_removed_J": 1925113.1274826375,
+                "gross_exchange_J": 7631766.253219476,
+                "heater_J": 3773205.0398641094,
+                "inventory_final_J": -2477168.909242064,
+                "inventory_initial_J": -2391812.727247631,
+                "net_boundary_enthalpy_J": -1323695.096695609,
+                "relative_residual": 1.1141818061022422e-09,
+                "residual_J": -0.008503175107762218,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.554952440533254e-14,
+              "species_relative_residual": [
+                2.1122998291304562e-14,
+                9.758512399572938e-15,
+                2.2878820281772034e-14,
+                2.554952440533254e-14
+              ],
+              "species_residual_mol": [
+                -4.5363712786183896e-13,
+                -1.049116349349788e-11,
+                -9.256673587365594e-10,
+                2.73959456682793e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 5,
+              "gross_energy": {
+                "ambient_loss_J": 608188.9254507613,
+                "cooling_removed_J": 1912800.4616046252,
+                "gross_exchange_J": 7601347.340225138,
+                "heater_J": 3784220.585074699,
+                "inventory_final_J": -2510075.093110842,
+                "inventory_initial_J": -2477168.909242064,
+                "net_boundary_enthalpy_J": -1296137.3680950515,
+                "relative_residual": 1.8145518531713e-09,
+                "residual_J": -0.013793038902804255,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.330234443202754e-14,
+              "species_relative_residual": [
+                2.2768073525771742e-14,
+                7.557072988734579e-15,
+                2.0872028594506225e-14,
+                2.330234443202754e-14
+              ],
+              "species_residual_mol": [
+                -4.89386309254769e-13,
+                -8.132161610774347e-12,
+                -8.444734182766478e-10,
+                2.4986365754209316e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 6,
+              "gross_energy": {
+                "ambient_loss_J": 607584.0064161135,
+                "cooling_removed_J": 1908083.914086311,
+                "gross_exchange_J": 7589633.328200217,
+                "heater_J": 3788476.661094782,
+                "inventory_final_J": -2522755.108825365,
+                "inventory_initial_J": -2510075.093110842,
+                "net_boundary_enthalpy_J": -1285488.746603011,
+                "relative_residual": 1.2785689741444102e-09,
+                "residual_J": -0.009703869698569179,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.449028838316635e-14,
+              "species_relative_residual": [
+                1.8103212400661194e-14,
+                5.983380105997902e-15,
+                2.449028838316635e-14,
+                2.4334897221290893e-14
+              ],
+              "species_residual_mol": [
+                -3.892441924335799e-13,
+                -6.441069899665308e-12,
+                -9.908666734337324e-10,
+                2.6093539395172227e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 7,
+              "gross_energy": {
+                "ambient_loss_J": 607348.7464195561,
+                "cooling_removed_J": 1906280.3267187953,
+                "gross_exchange_J": 7585133.038462654,
+                "heater_J": 3790130.4336959757,
+                "inventory_final_J": -2527627.2885537855,
+                "inventory_initial_J": -2522755.108825365,
+                "net_boundary_enthalpy_J": -1281373.531628326,
+                "relative_residual": 1.1414062876763995e-09,
+                "residual_J": -0.008657718542963266,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.7562316175518848e-14,
+              "species_relative_residual": [
+                1.3970713539125245e-14,
+                7.639032789428398e-15,
+                2.7562316175518848e-14,
+                2.7541461831534217e-14
+              ],
+              "species_residual_mol": [
+                -3.0042635046356736e-13,
+                -8.22453216642316e-12,
+                -1.1151596139569175e-09,
+                2.9531837045237985e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 8,
+              "gross_energy": {
+                "ambient_loss_J": 607257.0965746396,
+                "cooling_removed_J": 1905593.9706137055,
+                "gross_exchange_J": 7583411.407687339,
+                "heater_J": 3790774.0686582695,
+                "inventory_final_J": -2529490.5695927655,
+                "inventory_initial_J": -2527627.2885537855,
+                "net_boundary_enthalpy_J": -1279786.2718407242,
+                "relative_residual": 1.4067785385420452e-09,
+                "residual_J": -0.010668180417269468,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.470525975173359e-14,
+              "species_relative_residual": [
+                1.692309672640587e-14,
+                9.902154717134768e-15,
+                2.470525975173359e-14,
+                2.2509909115693855e-14
+              ],
+              "species_residual_mol": [
+                -3.639311074721263e-13,
+                -1.0661693750080303e-11,
+                -9.995643236726526e-10,
+                2.413666246037227e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 9,
+              "gross_energy": {
+                "ambient_loss_J": 607221.364929169,
+                "cooling_removed_J": 1905334.9154899383,
+                "gross_exchange_J": 7582757.06021998,
+                "heater_J": 3791024.6342346333,
+                "inventory_final_J": -2530198.370622993,
+                "inventory_initial_J": -2529490.5695927655,
+                "net_boundary_enthalpy_J": -1279176.1455662393,
+                "relative_residual": 1.2237651982735338e-09,
+                "residual_J": -0.009279514197260141,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.3505093464769714e-14,
+              "species_relative_residual": [
+                1.679890446456443e-14,
+                8.793298915867594e-15,
+                1.3919275724914761e-14,
+                2.3505093464769714e-14
+              ],
+              "species_residual_mol": [
+                -3.6126657221302594e-13,
+                -9.467981954003335e-12,
+                -5.631679879380957e-10,
+                2.5203767111542374e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 10,
+              "gross_energy": {
+                "ambient_loss_J": 607207.4260889874,
+                "cooling_removed_J": 1905238.5102249538,
+                "gross_exchange_J": 7582510.798767829,
+                "heater_J": 3791122.1211781427,
+                "inventory_final_J": -2530464.9380633133,
+                "inventory_initial_J": -2530198.370622993,
+                "net_boundary_enthalpy_J": -1278942.7412757468,
+                "relative_residual": 1.454501722012113e-09,
+                "residual_J": -0.01102877501398325,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 2.84730555975129e-14,
+              "species_relative_residual": [
+                1.6695546541957067e-14,
+                6.3944754740234625e-15,
+                2.6553949600701502e-14,
+                2.84730555975129e-14
+              ],
+              "species_residual_mol": [
+                -3.590461261637756e-13,
+                -6.885159109515371e-12,
+                -1.0743615302954979e-09,
+                3.0530755527891085e-10
+              ],
+              "species_tolerance": 1e-05
+            },
+            {
+              "adapter_storage_labels": [
+                "CO2",
+                "H2O",
+                "N2",
+                "O2"
+              ],
+              "adapter_water_tolerance_mol_kg": -1e-09,
+              "cycle": 11,
+              "gross_energy": {
+                "ambient_loss_J": 6571.126335840735,
+                "cooling_removed_J": 404935.68645459914,
+                "gross_exchange_J": 1757039.503246692,
+                "heater_J": 209092.29449776866,
+                "inventory_final_J": -3869319.8546828795,
+                "inventory_initial_J": -2530464.9380633133,
+                "net_boundary_enthalpy_J": -1136440.3959584835,
+                "relative_residual": 1.3479557577001985e-09,
+                "residual_J": -0.0023684115149080753,
+                "source_delivered_J": 0.0,
+                "tolerance": 1e-06
+              },
+              "independent_pass": true,
+              "reported_matches_recomputed": true,
+              "species_max_relative_residual": 6.405184670457026e-15,
+              "species_relative_residual": [
+                5.5784607426622685e-15,
+                6.405184670457026e-15,
+                3.115762140858776e-15,
+                2.1751679945954025e-15
+              ],
+              "species_residual_mol": [
+                -1.1311062068935672e-13,
+                -6.727332558208177e-12,
+                -1.2606179468355183e-10,
+                2.3323522800600127e-11
+              ],
+              "species_tolerance": 1e-05
+            }
+          ],
+          "engine": "spatial",
+          "independent_pass": true,
+          "reported_matches_recomputed": true
+        },
+        "name": "independent_species_and_gross_energy_closure",
+        "pass": true
+      },
+      {
+        "detail": {
+          "actual": 4,
+          "expected": 4
+        },
+        "name": "spatial_storage_count",
+        "pass": true
+      },
+      {
+        "detail": {
+          "actual": [
+            "CO2",
+            "H2O",
+            "N2",
+            "O2"
+          ],
+          "expected": [
+            "CO2",
+            "H2O",
+            "N2",
+            "O2"
+          ]
+        },
+        "name": "spatial_actual_storage_labels",
+        "pass": true
+      },
+      {
+        "detail": {
+          "actual": -1e-09,
+          "expected": -1e-09
+        },
+        "name": "spatial_declared_water_tolerance",
+        "pass": true
+      },
+      {
+        "detail": {
+          "cells": 16,
+          "end": 98,
+          "start": 34,
+          "storage": 4
+        },
+        "name": "spatial_storage_index_shape",
+        "pass": true
+      },
+      {
+        "detail": 1.3373643631429005e-10,
+        "name": "cycle_1_gross_energy",
+        "pass": true
+      },
+      {
+        "detail": 2.5275503694516078e-14,
+        "name": "cycle_1_mass",
+        "pass": true
+      },
+      {
+        "detail": 8.838933535145155e-10,
+        "name": "cycle_2_gross_energy",
+        "pass": true
+      },
+      {
+        "detail": 2.4773887779039217e-14,
+        "name": "cycle_2_mass",
+        "pass": true
+      },
+      {
+        "detail": 4.656723622837556e-10,
+        "name": "cycle_3_gross_energy",
+        "pass": true
+      },
+      {
+        "detail": 2.503714685067781e-14,
+        "name": "cycle_3_mass",
+        "pass": true
+      },
+      {
+        "detail": 1.1141818061022422e-09,
+        "name": "cycle_4_gross_energy",
+        "pass": true
+      },
+      {
+        "detail": 2.554952440533254e-14,
+        "name": "cycle_4_mass",
+        "pass": true
+      },
+      {
+        "detail": 1.8145518531713e-09,
+        "name": "cycle_5_gross_energy",
+        "pass": true
+      },
+      {
+        "detail": 2.330234443202754e-14,
+        "name": "cycle_5_mass",
+        "pass": true
+      },
+      {
+        "detail": 1.2785689741444102e-09,
+        "name": "cycle_6_gross_energy",
+        "pass": true
+      },
+      {
+        "detail": 2.449028838316635e-14,
+        "name": "cycle_6_mass",
+        "pass": true
+      },
+      {
+        "detail": 1.1414062876763995e-09,
+        "name": "cycle_7_gross_energy",
+        "pass": true
+      },
+      {
+        "detail": 2.7562316175518848e-14,
+        "name": "cycle_7_mass",
+        "pass": true
+      },
+      {
+        "detail": 1.4067785385420452e-09,
+        "name": "cycle_8_gross_energy",
+        "pass": true
+      },
+      {
+        "detail": 2.470525975173359e-14,
+        "name": "cycle_8_mass",
+        "pass": true
+      },
+      {
+        "detail": 1.2237651982735338e-09,
+        "name": "cycle_9_gross_energy",
+        "pass": true
+      },
+      {
+        "detail": 2.3505093464769714e-14,
+        "name": "cycle_9_mass",
+        "pass": true
+      },
+      {
+        "detail": 1.454501722012113e-09,
+        "name": "cycle_10_gross_energy",
+        "pass": true
+      },
+      {
+        "detail": 2.84730555975129e-14,
+        "name": "cycle_10_mass",
+        "pass": true
+      },
+      {
+        "detail": 1.3479557577001985e-09,
+        "name": "cycle_11_gross_energy",
+        "pass": true
+      },
+      {
+        "detail": 6.405184670457026e-15,
+        "name": "cycle_11_mass",
+        "pass": true
+      },
+      {
+        "detail": 128,
+        "name": "spatial_raw_state_vectors_finite",
+        "pass": true
+      },
+      {
+        "detail": 0.0,
+        "name": "spatial_declared_water_boundary",
+        "pass": true
+      },
+      {
+        "detail": {
+          "gas_minimum_mol": 2.2650111110708008e-10,
+          "gas_threshold_mol": -1e-07,
+          "loading_minimum_mol_kg": 0.0,
+          "loading_threshold_mol_kg": -1e-06,
+          "source": "saved cycle and phase start/end state vectors"
+        },
+        "name": "spatial_native_domain_exported_states",
+        "pass": true
+      },
+      {
+        "detail": {
+          "minimum_gas_mol": 2.1828693467396485e-10,
+          "minimum_loading_mol_kg": 0.0,
+          "rows": 1325
+        },
+        "name": "spatial_native_domain_exported_diagnostics",
+        "pass": true
+      }
+    ],
+    "classification": "BOUNDED_SEVEN_RATE_SENSITIVITY_RH065_48H_RAW_AUDIT",
+    "manifest_sha256": "a2e0c71567d8bc6de82f0d23861d5eb327cf7963f1fa99af6416a04d39f6d59f",
+    "observations": {
+      "case_id": "mil_glycerin_kdes0p001_rh065_matched48h_20261110",
+      "case_sha256": "53483b0291926dadab0c0b22fdcc6913a39b9749501152743c6e55548ca48d80",
+      "cells_half": 16,
+      "conservation_recomputed": {
+        "adapter_storage_labels": [
+          "CO2",
+          "H2O",
+          "N2",
+          "O2"
+        ],
+        "adapter_water_tolerance_mol_kg": -1e-09,
+        "cycles": [
+          {
+            "adapter_storage_labels": [
+              "CO2",
+              "H2O",
+              "N2",
+              "O2"
+            ],
+            "adapter_water_tolerance_mol_kg": -1e-09,
+            "cycle": 1,
+            "gross_energy": {
+              "ambient_loss_J": 645168.6522206862,
+              "cooling_removed_J": 2201801.403796253,
+              "gross_exchange_J": 8166314.58742551,
+              "heater_J": 3282923.07027899,
+              "inventory_final_J": -1600468.4457753964,
+              "inventory_initial_J": 0.0,
+              "net_boundary_enthalpy_J": -2036421.4611295813,
+              "relative_residual": 1.3373643631429005e-10,
+              "residual_J": 0.0010921338107436895,
+              "source_delivered_J": 0.0,
+              "tolerance": 1e-06
+            },
+            "independent_pass": true,
+            "reported_matches_recomputed": true,
+            "species_max_relative_residual": 2.5275503694516078e-14,
+            "species_relative_residual": [
+              1.9375777076572243e-14,
+              1.4303800162618343e-14,
+              1.8909381293750842e-14,
+              2.5275503694516078e-14
+            ],
+            "species_residual_mol": [
+              -4.120037644383956e-13,
+              -1.4919621094122704e-11,
+              -7.650656740076922e-10,
+              2.7102126619327205e-10
+            ],
+            "species_tolerance": 1e-05
+          },
+          {
+            "adapter_storage_labels": [
+              "CO2",
+              "H2O",
+              "N2",
+              "O2"
+            ],
+            "adapter_water_tolerance_mol_kg": -1e-09,
+            "cycle": 2,
+            "gross_energy": {
+              "ambient_loss_J": 625122.0302242608,
+              "cooling_removed_J": 2037542.968532052,
+              "gross_exchange_J": 7896430.052380773,
+              "heater_J": 3663773.728356661,
+              "inventory_final_J": -2169351.0484224497,
+              "inventory_initial_J": -1600468.4457753964,
+              "net_boundary_enthalpy_J": -1569991.3252677994,
+              "relative_residual": 8.838933535145155e-10,
+              "residual_J": -0.006979602039791644,
+              "source_delivered_J": 0.0,
+              "tolerance": 1e-06
+            },
+            "independent_pass": true,
+            "reported_matches_recomputed": true,
+            "species_max_relative_residual": 2.4773887779039217e-14,
+            "species_relative_residual": [
+              1.638290001084177e-14,
+              1.0616816185312022e-14,
+              2.4773887779039217e-14,
+              2.1897973899042028e-14
+            ],
+            "species_residual_mol": [
+              -3.497202527569243e-13,
+              -1.1308287639621994e-11,
+              -1.0023410226822627e-09,
+              2.348050460662665e-10
+            ],
+            "species_tolerance": 1e-05
+          },
+          {
+            "adapter_storage_labels": [
+              "CO2",
+              "H2O",
+              "N2",
+              "O2"
+            ],
+            "adapter_water_tolerance_mol_kg": -1e-09,
+            "cycle": 3,
+            "gross_energy": {
+              "ambient_loss_J": 613864.6660992976,
+              "cooling_removed_J": 1957426.5163650145,
+              "gross_exchange_J": 7710831.110759912,
+              "heater_J": 3744184.717762726,
+              "inventory_final_J": -2391812.727247631,
+              "inventory_initial_J": -2169351.0484224497,
+              "net_boundary_enthalpy_J": -1395355.2105328743,
+              "relative_residual": 4.656723622837556e-10,
+              "residual_J": -0.0035907209385186434,
+              "source_delivered_J": 0.0,
+              "tolerance": 1e-06
+            },
+            "independent_pass": true,
+            "reported_matches_recomputed": true,
+            "species_max_relative_residual": 2.503714685067781e-14,
+            "species_relative_residual": [
+              1.9541385412101118e-14,
+              4.959313284550227e-15,
+              2.3466359500302152e-14,
+              2.503714685067781e-14
+            ],
+            "species_residual_mol": [
+              -4.1877612488860905e-13,
+              -5.31841237716435e-12,
+              -9.494389476005782e-10,
+              2.684653948800686e-10
+            ],
+            "species_tolerance": 1e-05
+          },
+          {
+            "adapter_storage_labels": [
+              "CO2",
+              "H2O",
+              "N2",
+              "O2"
+            ],
+            "adapter_water_tolerance_mol_kg": -1e-09,
+            "cycle": 4,
+            "gross_energy": {
+              "ambient_loss_J": 609752.9891771208,
+              "cooling_removed_J": 1925113.1274826375,
+              "gross_exchange_J": 7631766.253219476,
+              "heater_J": 3773205.0398641094,
+              "inventory_final_J": -2477168.909242064,
+              "inventory_initial_J": -2391812.727247631,
+              "net_boundary_enthalpy_J": -1323695.096695609,
+              "relative_residual": 1.1141818061022422e-09,
+              "residual_J": -0.008503175107762218,
+              "source_delivered_J": 0.0,
+              "tolerance": 1e-06
+            },
+            "independent_pass": true,
+            "reported_matches_recomputed": true,
+            "species_max_relative_residual": 2.554952440533254e-14,
+            "species_relative_residual": [
+              2.1122998291304562e-14,
+              9.758512399572938e-15,
+              2.2878820281772034e-14,
+              2.554952440533254e-14
+            ],
+            "species_residual_mol": [
+              -4.5363712786183896e-13,
+              -1.049116349349788e-11,
+              -9.256673587365594e-10,
+              2.73959456682793e-10
+            ],
+            "species_tolerance": 1e-05
+          },
+          {
+            "adapter_storage_labels": [
+              "CO2",
+              "H2O",
+              "N2",
+              "O2"
+            ],
+            "adapter_water_tolerance_mol_kg": -1e-09,
+            "cycle": 5,
+            "gross_energy": {
+              "ambient_loss_J": 608188.9254507613,
+              "cooling_removed_J": 1912800.4616046252,
+              "gross_exchange_J": 7601347.340225138,
+              "heater_J": 3784220.585074699,
+              "inventory_final_J": -2510075.093110842,
+              "inventory_initial_J": -2477168.909242064,
+              "net_boundary_enthalpy_J": -1296137.3680950515,
+              "relative_residual": 1.8145518531713e-09,
+              "residual_J": -0.013793038902804255,
+              "source_delivered_J": 0.0,
+              "tolerance": 1e-06
+            },
+            "independent_pass": true,
+            "reported_matches_recomputed": true,
+            "species_max_relative_residual": 2.330234443202754e-14,
+            "species_relative_residual": [
+              2.2768073525771742e-14,
+              7.557072988734579e-15,
+              2.0872028594506225e-14,
+              2.330234443202754e-14
+            ],
+            "species_residual_mol": [
+              -4.89386309254769e-13,
+              -8.132161610774347e-12,
+              -8.444734182766478e-10,
+              2.4986365754209316e-10
+            ],
+            "species_tolerance": 1e-05
+          },
+          {
+            "adapter_storage_labels": [
+              "CO2",
+              "H2O",
+              "N2",
+              "O2"
+            ],
+            "adapter_water_tolerance_mol_kg": -1e-09,
+            "cycle": 6,
+            "gross_energy": {
+              "ambient_loss_J": 607584.0064161135,
+              "cooling_removed_J": 1908083.914086311,
+              "gross_exchange_J": 7589633.328200217,
+              "heater_J": 3788476.661094782,
+              "inventory_final_J": -2522755.108825365,
+              "inventory_initial_J": -2510075.093110842,
+              "net_boundary_enthalpy_J": -1285488.746603011,
+              "relative_residual": 1.2785689741444102e-09,
+              "residual_J": -0.009703869698569179,
+              "source_delivered_J": 0.0,
+              "tolerance": 1e-06
+            },
+            "independent_pass": true,
+            "reported_matches_recomputed": true,
+            "species_max_relative_residual": 2.449028838316635e-14,
+            "species_relative_residual": [
+              1.8103212400661194e-14,
+              5.983380105997902e-15,
+              2.449028838316635e-14,
+              2.4334897221290893e-14
+            ],
+            "species_residual_mol": [
+              -3.892441924335799e-13,
+              -6.441069899665308e-12,
+              -9.908666734337324e-10,
+              2.6093539395172227e-10
+            ],
+            "species_tolerance": 1e-05
+          },
+          {
+            "adapter_storage_labels": [
+              "CO2",
+              "H2O",
+              "N2",
+              "O2"
+            ],
+            "adapter_water_tolerance_mol_kg": -1e-09,
+            "cycle": 7,
+            "gross_energy": {
+              "ambient_loss_J": 607348.7464195561,
+              "cooling_removed_J": 1906280.3267187953,
+              "gross_exchange_J": 7585133.038462654,
+              "heater_J": 3790130.4336959757,
+              "inventory_final_J": -2527627.2885537855,
+              "inventory_initial_J": -2522755.108825365,
+              "net_boundary_enthalpy_J": -1281373.531628326,
+              "relative_residual": 1.1414062876763995e-09,
+              "residual_J": -0.008657718542963266,
+              "source_delivered_J": 0.0,
+              "tolerance": 1e-06
+            },
+            "independent_pass": true,
+            "reported_matches_recomputed": true,
+            "species_max_relative_residual": 2.7562316175518848e-14,
+            "species_relative_residual": [
+              1.3970713539125245e-14,
+              7.639032789428398e-15,
+              2.7562316175518848e-14,
+              2.7541461831534217e-14
+            ],
+            "species_residual_mol": [
+              -3.0042635046356736e-13,
+              -8.22453216642316e-12,
+              -1.1151596139569175e-09,
+              2.9531837045237985e-10
+            ],
+            "species_tolerance": 1e-05
+          },
+          {
+            "adapter_storage_labels": [
+              "CO2",
+              "H2O",
+              "N2",
+              "O2"
+            ],
+            "adapter_water_tolerance_mol_kg": -1e-09,
+            "cycle": 8,
+            "gross_energy": {
+              "ambient_loss_J": 607257.0965746396,
+              "cooling_removed_J": 1905593.9706137055,
+              "gross_exchange_J": 7583411.407687339,
+              "heater_J": 3790774.0686582695,
+              "inventory_final_J": -2529490.5695927655,
+              "inventory_initial_J": -2527627.2885537855,
+              "net_boundary_enthalpy_J": -1279786.2718407242,
+              "relative_residual": 1.4067785385420452e-09,
+              "residual_J": -0.010668180417269468,
+              "source_delivered_J": 0.0,
+              "tolerance": 1e-06
+            },
+            "independent_pass": true,
+            "reported_matches_recomputed": true,
+            "species_max_relative_residual": 2.470525975173359e-14,
+            "species_relative_residual": [
+              1.692309672640587e-14,
+              9.902154717134768e-15,
+              2.470525975173359e-14,
+              2.2509909115693855e-14
+            ],
+            "species_residual_mol": [
+              -3.639311074721263e-13,
+              -1.0661693750080303e-11,
+              -9.995643236726526e-10,
+              2.413666246037227e-10
+            ],
+            "species_tolerance": 1e-05
+          },
+          {
+            "adapter_storage_labels": [
+              "CO2",
+              "H2O",
+              "N2",
+              "O2"
+            ],
+            "adapter_water_tolerance_mol_kg": -1e-09,
+            "cycle": 9,
+            "gross_energy": {
+              "ambient_loss_J": 607221.364929169,
+              "cooling_removed_J": 1905334.9154899383,
+              "gross_exchange_J": 7582757.06021998,
+              "heater_J": 3791024.6342346333,
+              "inventory_final_J": -2530198.370622993,
+              "inventory_initial_J": -2529490.5695927655,
+              "net_boundary_enthalpy_J": -1279176.1455662393,
+              "relative_residual": 1.2237651982735338e-09,
+              "residual_J": -0.009279514197260141,
+              "source_delivered_J": 0.0,
+              "tolerance": 1e-06
+            },
+            "independent_pass": true,
+            "reported_matches_recomputed": true,
+            "species_max_relative_residual": 2.3505093464769714e-14,
+            "species_relative_residual": [
+              1.679890446456443e-14,
+              8.793298915867594e-15,
+              1.3919275724914761e-14,
+              2.3505093464769714e-14
+            ],
+            "species_residual_mol": [
+              -3.6126657221302594e-13,
+              -9.467981954003335e-12,
+              -5.631679879380957e-10,
+              2.5203767111542374e-10
+            ],
+            "species_tolerance": 1e-05
+          },
+          {
+            "adapter_storage_labels": [
+              "CO2",
+              "H2O",
+              "N2",
+              "O2"
+            ],
+            "adapter_water_tolerance_mol_kg": -1e-09,
+            "cycle": 10,
+            "gross_energy": {
+              "ambient_loss_J": 607207.4260889874,
+              "cooling_removed_J": 1905238.5102249538,
+              "gross_exchange_J": 7582510.798767829,
+              "heater_J": 3791122.1211781427,
+              "inventory_final_J": -2530464.9380633133,
+              "inventory_initial_J": -2530198.370622993,
+              "net_boundary_enthalpy_J": -1278942.7412757468,
+              "relative_residual": 1.454501722012113e-09,
+              "residual_J": -0.01102877501398325,
+              "source_delivered_J": 0.0,
+              "tolerance": 1e-06
+            },
+            "independent_pass": true,
+            "reported_matches_recomputed": true,
+            "species_max_relative_residual": 2.84730555975129e-14,
+            "species_relative_residual": [
+              1.6695546541957067e-14,
+              6.3944754740234625e-15,
+              2.6553949600701502e-14,
+              2.84730555975129e-14
+            ],
+            "species_residual_mol": [
+              -3.590461261637756e-13,
+              -6.885159109515371e-12,
+              -1.0743615302954979e-09,
+              3.0530755527891085e-10
+            ],
+            "species_tolerance": 1e-05
+          },
+          {
+            "adapter_storage_labels": [
+              "CO2",
+              "H2O",
+              "N2",
+              "O2"
+            ],
+            "adapter_water_tolerance_mol_kg": -1e-09,
+            "cycle": 11,
+            "gross_energy": {
+              "ambient_loss_J": 6571.126335840735,
+              "cooling_removed_J": 404935.68645459914,
+              "gross_exchange_J": 1757039.503246692,
+              "heater_J": 209092.29449776866,
+              "inventory_final_J": -3869319.8546828795,
+              "inventory_initial_J": -2530464.9380633133,
+              "net_boundary_enthalpy_J": -1136440.3959584835,
+              "relative_residual": 1.3479557577001985e-09,
+              "residual_J": -0.0023684115149080753,
+              "source_delivered_J": 0.0,
+              "tolerance": 1e-06
+            },
+            "independent_pass": true,
+            "reported_matches_recomputed": true,
+            "species_max_relative_residual": 6.405184670457026e-15,
+            "species_relative_residual": [
+              5.5784607426622685e-15,
+              6.405184670457026e-15,
+              3.115762140858776e-15,
+              2.1751679945954025e-15
+            ],
+            "species_residual_mol": [
+              -1.1311062068935672e-13,
+              -6.727332558208177e-12,
+              -1.2606179468355183e-10,
+              2.3323522800600127e-11
+            ],
+            "species_tolerance": 1e-05
+          }
+        ],
+        "engine": "spatial",
+        "independent_pass": true,
+        "reported_matches_recomputed": true
+      },
+      "csv": {
+        "headers_exact": true,
+        "mismatches": [],
+        "row_count_matches": true,
+        "sha256": "ee3104702420e344b61c5a00deb8be0b8966bdb2faf359773a9f82768186d577",
+        "values_match_json_traces": true
+      },
+      "engine": "spatial",
+      "frozen_closure_sha256": "9cd09c31d28f120208d4562146caa0b6ec3c0df2b71a9c82a481fd4fd2087397",
+      "gross_pass_preserved_separately": true,
+      "gross_relative_residual": 1.8145518531713e-09,
+      "job_id": "4fd05685affc436ab0c50910b7b513bf",
+      "legacy_net_pass_all": false,
+      "legacy_net_pass_preserved_separately": false,
+      "legacy_net_relative_residual": 4.137330125814518e-05,
+      "mass_relative_residual": 2.84730555975129e-14,
+      "material_id": "mil101_pei800_glycerin_measured_water_diagnostic_v1_desorption_1e-03_sensitivity_v1",
+      "material_sha256": "63441fe6b27f713ef49239a2e646ff302cd9dfc267fcc491c7ff3740302588b1",
+      "minimum_water_mol_kg": 0.0,
+      "native_domain": {
+        "exported_gas_minimum_mol": 2.2650111110708008e-10,
+        "exported_loading_minimum_mol_kg": 0.0,
+        "gas_threshold_mol": -1e-07,
+        "loading_threshold_mol_kg": -1e-06,
+        "phase_state_vector_count": 106,
+        "source": "spatial engine check_inventory sampled-state gate",
+        "trace_diagnostic_rows": 1325,
+        "trace_gas_minimum_mol": 2.1828693467396485e-10,
+        "trace_loading_minimum_mol_kg": 0.0,
+        "unobservable": [
+          "accepted interior solver samples between exported phase start/end states are not retained in RESULT.json",
+          "the production engine independently applied check_inventory to sampled states before accepting the raw result"
+        ]
+      },
+      "net_relative_residual": 4.137330125814518e-05,
+      "raw_state_vectors": 128,
+      "source_release_sha256": "f43f92ba77158b8032f5d3208221752fd9f931e45fce972a57b012a4e84ffedf",
+      "species_residual_max_mol": 1.1151596139569175e-09,
+      "start_chain": {
+        "checks": {
+          "intent_case": true,
+          "intent_material": true,
+          "intent_plan_release": true,
+          "intent_preview": true,
+          "post_attempted_single": true,
+          "result_preview": true,
+          "start_response_job": true
+        },
+        "pass": true,
+        "start_response_recovered_from_watcher": false,
+        "start_response_sha256": "84a0be84985b712f9a9508202a61b9613485cbf3a87b800bd14d59cf25fdde26"
+      },
+      "state_size": 193,
+      "storage_count": 4,
+      "storage_index_range": [
+        34,
+        98
+      ],
+      "storage_labels": [
+        "CO2",
+        "H2O",
+        "N2",
+        "O2"
+      ]
+    },
+    "pass": true,
+    "plan_sha256": "1f2329843e785597178c2b287f53e5116d3100a1dff2b0149245140a43a48444",
+    "process_integration": true,
+    "raw_result_only": true,
+    "release_sha256": "9d3405557c280af7fcf472e777ea9927791f214959d2bd1253d1f51bd176e87d",
+    "result_path": "Research\\next_stage_2026-11-10\\rate_sensitivity_48h\\lead\\startup_recovery_v1\\allocation\\runs\\mil_glycerin_kdes0p001_rh065_matched48h_20261110\\attempt_01\\RESULT.json",
+    "result_sha256": "f64dd1091a693caba522fb03bacd1529639c80f320a41c6f589f2c83f4ffb926",
+    "schema": "humid-native-canary-raw-audit/1",
+    "young_specific_gate_used": false
+  }
+}

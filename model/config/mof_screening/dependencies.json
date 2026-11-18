@@ -1,0 +1,82 @@
+{
+  "schema": "dac-current-dependencies/1",
+  "scope": "Required shared numerical functions and pump data for the current model.",
+  "files": [
+    {
+      "path": "screening/__init__.py",
+      "sha256": "646f6a5d90919823f9e4c9c5879989e68f064f6216ede32138d7d93e0b1d57d0"
+    },
+    {
+      "path": "screening/airflow.py",
+      "sha256": "7b6d248b550b183bc65bd9aa1716734a5c0830d1029dee31012dbade3ea663ca"
+    },
+    {
+      "path": "screening/common.py",
+      "sha256": "6d8e9ebc1875b4ad081d052425e3572d31641076550a212050269eb5dcd3df85"
+    },
+    {
+      "path": "screening/construction.py",
+      "sha256": "5068a20c8bcd234a42fe5a02f4afb980537c2f7c4c2dddbda8c149ee7f1925c8"
+    },
+    {
+      "path": "screening/cycle_control.py",
+      "sha256": "93fb3b2773b3e627ae9483ee4e6983b44bbe621835e534eb5c1764f78e467a47"
+    },
+    {
+      "path": "screening/feed_dryer.py",
+      "sha256": "1f99be2fe4df29f977326761fa01ff570f4076dd4536ed690e46b867cef8e17a"
+    },
+    {
+      "path": "screening/geometry.py",
+      "sha256": "f5f9d55100665ac85cb70ae8c022adc9face031aed93675684bb9b99298c85fd"
+    },
+    {
+      "path": "screening/heat_source_contract.py",
+      "sha256": "e9c6eee231d21052998f4f8c3b615344a34503cda0a19ee017259230f4b8e4d9"
+    },
+    {
+      "path": "screening/material_models.py",
+      "sha256": "364210ece1d2dafcc1d0413bc52ca45c86eef4cd28f91f77c38c1bf0aad1c724"
+    },
+    {
+      "path": "screening/orthogonal_cassette.py",
+      "sha256": "5fc696d5eaa0309ea856613522708cf2a4cc8319b403a9a817410aa164bcfc8f"
+    },
+    {
+      "path": "screening/pressure_control.py",
+      "sha256": "e3f128075a6535d789953781a038aafbfca9f9547a5df860dd9bcd573564b749"
+    },
+    {
+      "path": "screening/pump_profile.py",
+      "sha256": "8921aa75f07ffef144b4dfc48906e4907dae26ab374643a393f5bdc0ab36a449"
+    },
+    {
+      "path": "screening/pump_rates.py",
+      "sha256": "60d813f5cf2d9936893947feb821410fee3a2f8c1b8372a9672ce89e32a60754"
+    },
+    {
+      "path": "screening/source_closure.py",
+      "sha256": "d02d15c9c1b32c88dc4774c4c98205615ef3e9eefb44ae8ec2a414861d538196"
+    },
+    {
+      "path": "screening/systems.py",
+      "sha256": "b32562422c68497a9f719244874b5bb48df2622d7aa1dcd3442e318a651c386d"
+    },
+    {
+      "path": "screening/utilities.py",
+      "sha256": "81a0d26c8718dcafab9015c0cd9b498b5774093bd3476771f27235b53767c6c0"
+    },
+    {
+      "path": "screening/water_properties.py",
+      "sha256": "af132febc71f0aa73aba2ab3873378a88addb98fb10fbd1e885972a5e029faab"
+    },
+    {
+      "path": "equipment/knf_n922_ste_50hz_flow_curve.csv",
+      "sha256": "9ad8913d2080839e3f95739b684edb07f4c454ae76e8fd77d59c5a568e9817b8"
+    },
+    {
+      "path": "equipment/pump_profiles.json",
+      "sha256": "99fa15ebb848769559b59c3218e0ea5e2f7eeea26247fac14ae760813885a83f"
+    }
+  ]
+}

@@ -1,0 +1,360 @@
+{
+  "schema": "lead-material-source-fixtures/1",
+  "integration_starts": 0,
+  "source_hashes": {
+    "Research/Matched_material_weather_2026-11-01/matched_weather/adapters.py": "581cbe2e63c48189e89a89b6fa2bb153a24bc9ebcafac9af1448342390ee8398",
+    "Research/Material_cycle_comparison_2026-11-01/material_cycle_v1/model.py": "0bc4335dc3708e5f20817cffe95b439053f2e7aa4f66d8c7fefa9064b76b8372",
+    "Research/Material_cycle_comparison_2026-11-01/material_cycle_v1/conditional_cycle.py": "bf88032c5485fa3a6721661c94610a43094afd7c5e84306d0a1869c389da195e",
+    "Initial_screening_model/model/materials/hypothetical_mmen_like.json": "4c8b727d8661406b9f1c20242e89c0c50b50e7900a23684ea815ba995fb31bc1",
+    "Research/Material_comparison_2026-10-30/prepared/calf20_shaped_author_parameters.json": "8513e80dbcff1add9920d88c7cddf36f2bc6d67159015b116a8997294a9bafcb",
+    "Research/Material_comparison_2026-10-30/prepared/calf20_shaped_water_measurements.csv": "9a9f5d11d1001bac7750035ca6a4f4552daa62a77995d505a374c8fbb00c960e",
+    "Initial_screening_model/model/screening/common.py": "b1db48c1a4e067dc907edd7d5bc8357ae1031d1b978f1f2425c12dd6d1327252",
+    "Initial_screening_model/model/screening/material_models.py": "797869f703073e9a6dce783115b7e99621b17d26e6bc42ca62204b6855d404f7"
+  },
+  "fixtures": [
+    {
+      "material": "hypothetical",
+      "label": "humid_feed",
+      "temperature_K": 298.15,
+      "partial_pressures_Pa": [
+        41.33,
+        1584.0,
+        77716.5,
+        20558.17
+      ],
+      "equilibrium_mol_kg": [
+        2.0487363896848136,
+        27.72013397850533,
+        0.08063086875,
+        0.039060523
+      ],
+      "site_loadings_mol_kg": [
+        2.0487363896848136
+      ],
+      "rates_at_declared_loadings_mol_kg_s": [
+        0.0006658393266475645,
+        0.0015246073688177932,
+        0.00064504695,
+        0.000312484184
+      ],
+      "site_state_fraction": 0.35,
+      "water_state_fraction": 0.45,
+      "inert_state_fraction": 0.2,
+      "absolute_energies_J_mol": [
+        -68521.0429704433,
+        -42521.0429704433,
+        -15521.0429704433,
+        -15521.0429704433
+      ],
+      "component_cp_J_mol_K": [
+        37.408075,
+        75.30387040000001,
+        29.133936000000002,
+        29.438896
+      ]
+    },
+    {
+      "material": "hypothetical",
+      "label": "dry_feed",
+      "temperature_K": 298.15,
+      "partial_pressures_Pa": [
+        42.0,
+        0.0,
+        79016.799,
+        20941.201
+      ],
+      "equilibrium_mol_kg": [
+        2.0621541081311197,
+        0.0,
+        0.0819799289625,
+        0.0397882819
+      ],
+      "site_loadings_mol_kg": [
+        2.0621541081311197
+      ],
+      "rates_at_declared_loadings_mol_kg_s": [
+        0.000670200085142614,
+        0.0,
+        0.0006558394317,
+        0.00031830625520000005
+      ],
+      "site_state_fraction": 0.35,
+      "water_state_fraction": 0.45,
+      "inert_state_fraction": 0.2,
+      "absolute_energies_J_mol": [
+        -68521.0429704433,
+        -42521.0429704433,
+        -15521.0429704433,
+        -15521.0429704433
+      ],
+      "component_cp_J_mol_K": [
+        37.408075,
+        75.30387040000001,
+        29.133936000000002,
+        29.438896
+      ]
+    },
+    {
+      "material": "hypothetical",
+      "label": "hot_mixture",
+      "temperature_K": 373.0,
+      "partial_pressures_Pa": [
+        9000.0,
+        10000.0,
+        790.5,
+        209.5
+      ],
+      "equilibrium_mol_kg": [
+        1.7373172704213744,
+        0.00012701050612342894,
+        0.0001909867518614812,
+        9.27211255642686e-05
+      ],
+      "site_loadings_mol_kg": [
+        1.7373172704213744
+      ],
+      "rates_at_declared_loadings_mol_kg_s": [
+        0.0005646281128869467,
+        6.985577836788592e-09,
+        1.5278940148918496e-06,
+        7.417690045141488e-07
+      ],
+      "site_state_fraction": 0.35,
+      "water_state_fraction": 0.45,
+      "inert_state_fraction": 0.2,
+      "absolute_energies_J_mol": [
+        -65721.0485566933,
+        -36884.548271003296,
+        -13340.3678608433,
+        -13317.5416048433
+      ],
+      "component_cp_J_mol_K": [
+        37.408075,
+        75.30387040000001,
+        29.133936000000002,
+        29.438896
+      ]
+    },
+    {
+      "material": "hypothetical",
+      "label": "low_co2",
+      "temperature_K": 323.15,
+      "partial_pressures_Pa": [
+        1.0,
+        500.0,
+        79000.0,
+        20500.0
+      ],
+      "equilibrium_mol_kg": [
+        0.013204290894234643,
+        1.332301810823863e-07,
+        0.046734916660958,
+        0.022210127052351744
+      ],
+      "site_loadings_mol_kg": [
+        0.013204290894234643
+      ],
+      "rates_at_declared_loadings_mol_kg_s": [
+        4.29139454062626e-06,
+        7.327659959531245e-12,
+        0.00037387933328766404,
+        0.00017768101641881396
+      ],
+      "site_state_fraction": 0.35,
+      "water_state_fraction": 0.45,
+      "inert_state_fraction": 0.2,
+      "absolute_energies_J_mol": [
+        -67585.8410954433,
+        -40638.4462104433,
+        -14792.6945704433,
+        -14785.0705704433
+      ],
+      "component_cp_J_mol_K": [
+        37.408075,
+        75.30387040000001,
+        29.133936000000002,
+        29.438896
+      ]
+    },
+    {
+      "material": "calf",
+      "label": "humid_feed",
+      "temperature_K": 298.15,
+      "partial_pressures_Pa": [
+        41.33,
+        1584.0,
+        77716.5,
+        20558.17
+      ],
+      "equilibrium_mol_kg": [
+        0.03042534310888477,
+        6.8337765586535335,
+        0.0,
+        0.0
+      ],
+      "site_loadings_mol_kg": [
+        0.03009163292692842,
+        0.0003337101819563514
+      ],
+      "rates_at_declared_loadings_mol_kg_s": [
+        9.779780701251736e-06,
+        1.0845580913581421e-07,
+        0.00037585771072594435,
+        0.0,
+        0.0
+      ],
+      "site_state_fraction": 0.35,
+      "water_state_fraction": 0.45,
+      "inert_state_fraction": 0.2,
+      "absolute_energies_J_mol": [
+        -35060.0,
+        -28950.0,
+        -50485.966170443295,
+        0.0,
+        0.0
+      ],
+      "component_cp_J_mol_K": [
+        29.185537382,
+        29.185537382,
+        34.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "material": "calf",
+      "label": "dry_feed",
+      "temperature_K": 298.15,
+      "partial_pressures_Pa": [
+        42.0,
+        0.0,
+        79016.799,
+        20941.201
+      ],
+      "equilibrium_mol_kg": [
+        0.030912319283857525,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "site_loadings_mol_kg": [
+        0.030573199892083718,
+        0.0003391193917738078
+      ],
+      "rates_at_declared_loadings_mol_kg_s": [
+        9.93628996492721e-06,
+        1.1021380232648755e-07,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "site_state_fraction": 0.35,
+      "water_state_fraction": 0.45,
+      "inert_state_fraction": 0.2,
+      "absolute_energies_J_mol": [
+        -35060.0,
+        -28950.0,
+        -50485.966170443295,
+        0.0,
+        0.0
+      ],
+      "component_cp_J_mol_K": [
+        29.185537382,
+        29.185537382,
+        34.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "material": "calf",
+      "label": "hot_mixture",
+      "temperature_K": 373.0,
+      "partial_pressures_Pa": [
+        9000.0,
+        10000.0,
+        790.5,
+        209.5
+      ],
+      "equilibrium_mol_kg": [
+        0.28034361992515094,
+        0.24963059810349142,
+        0.0,
+        0.0
+      ],
+      "site_loadings_mol_kg": [
+        0.27477671707867557,
+        0.005566902846475361
+      ],
+      "rates_at_declared_loadings_mol_kg_s": [
+        8.930243305056956e-05,
+        1.8092434251044924e-06,
+        1.3729682895692028e-05,
+        0.0,
+        0.0
+      ],
+      "site_state_fraction": 0.35,
+      "water_state_fraction": 0.45,
+      "inert_state_fraction": 0.2,
+      "absolute_energies_J_mol": [
+        -32875.4625269573,
+        -26765.4625269573,
+        -47941.0661704433,
+        0.0,
+        0.0
+      ],
+      "component_cp_J_mol_K": [
+        29.185537382,
+        29.185537382,
+        34.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "material": "calf",
+      "label": "low_co2",
+      "temperature_K": 323.15,
+      "partial_pressures_Pa": [
+        1.0,
+        500.0,
+        79000.0,
+        20500.0
+      ],
+      "equilibrium_mol_kg": [
+        0.00023078722101557047,
+        0.14024225694627868,
+        0.0,
+        0.0
+      ],
+      "site_loadings_mol_kg": [
+        0.00022776862454615057,
+        3.018596469419899e-06
+      ],
+      "rates_at_declared_loadings_mol_kg_s": [
+        7.402480297749894e-08,
+        9.81043852561467e-10,
+        7.713324132045327e-06,
+        0.0,
+        0.0
+      ],
+      "site_state_fraction": 0.35,
+      "water_state_fraction": 0.45,
+      "inert_state_fraction": 0.2,
+      "absolute_energies_J_mol": [
+        -34330.36156545,
+        -28220.36156545,
+        -49635.966170443295,
+        0.0,
+        0.0
+      ],
+      "component_cp_J_mol_K": [
+        29.185537382,
+        29.185537382,
+        34.0,
+        0.0,
+        0.0
+      ]
+    }
+  ]
+}

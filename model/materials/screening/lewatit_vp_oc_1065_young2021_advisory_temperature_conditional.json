@@ -1,0 +1,178 @@
+{
+  "schema": "mof-screening-material/1",
+  "material_id": "lewatit_vp_oc_1065_young2021_advisory_temperature_conditional",
+  "name": "Lewatit VP OC 1065, Young 2021 temperature-advisory humid extrapolation",
+  "equilibrium_family": "young2021_advisory_wadst_gab",
+  "synthetic": false,
+  "evidence": {
+    "status": "CONDITIONAL_TEMPERATURE_ADVISORY_EXTRAPOLATION_NOT_VALIDATED",
+    "basis": "The unchanged Young 2021 Toth, GAB, LDF-rate and process-heat values are evaluated with IAPWS local saturation in a named exploratory scenario. Actual temperatures are recorded; the requested 116 C value and former 20-120 C range are not hard validity boundaries. Genuine equation-domain branches remain enforced.",
+    "not_for": "validated equilibrium or coupling outside 25-70 C, measured humid-cycle accuracy, validated hot-vacuum rates or energy transfer, equipment suitability, cyclic steady state, lifetime, degradation trigger, or annual production."
+  },
+  "shaped_material": {
+    "basis": "The app case supplies a dry shaped resin mass; the source measured resin sample is not a shaped device.",
+    "binder_support": "Commercial resin beads are represented as the dry resin solid; no binder or support is added.",
+    "particle_geometry": "The case particle diameter remains a transfer assumption."
+  },
+  "temperature_advisory": {
+    "schema": "mof-screening-temperature-advisory/1",
+    "mode": "record_actual_temperatures",
+    "requested_regeneration_temperature_C": 116.0,
+    "requested_temperature_is_advisory": true,
+    "historical_evaluation_range_temperature_K": [
+      293.15,
+      393.15
+    ],
+    "historical_range_is_hard_stop": false,
+    "measured_coupled_support_temperature_K": [
+      298.15,
+      343.15
+    ],
+    "physical_degradation_limit_C": null,
+    "temporary_temperature_clamping": false,
+    "accepted_state_temperature_clamping": false,
+    "statement": "Record actual accepted and solver-query temperatures; crossing 116 C or the former 20-120 C range alone does not terminate this scenario."
+  },
+  "reference_temperature_K": 298.15,
+  "maximum_bed_temperature_C": 120.0,
+  "solid_cp_J_kg_K": 1580.0,
+  "co2_water_penalty_per_mol_kg": 0.0,
+  "co2": {
+    "heat_J_mol": 70000.0,
+    "support": {
+      "temperature_K": [
+        298.15,
+        343.15
+      ],
+      "relative_humidity": [
+        0.0,
+        0.55
+      ],
+      "co2_partial_pressure_Pa": [
+        0.0,
+        100000.0
+      ],
+      "relative_humidity_basis": "local p_H2O / p_sat(T_bed)"
+    },
+    "historical_evaluation_range": {
+      "temperature_K": [
+        293.15,
+        393.15
+      ],
+      "relative_humidity": [
+        0.0,
+        0.55
+      ],
+      "co2_partial_pressure_Pa": [
+        0.0,
+        100000.0
+      ],
+      "classification": "historical discretionary range retained for comparison only; not enforced"
+    },
+    "source_locator": "Young et al. 2021 DOI 10.1039/D1EE01272J Tables 2 and 4; process heat from SI Table S9"
+  },
+  "water": {
+    "model": "young2021_gab_iapws_temperature_advisory",
+    "heat_J_mol": 46000.0,
+    "source_locator": "Young et al. 2021 DOI 10.1039/D1EE01272J equations 5-8 and 25-26; process heat from SI Table S9",
+    "basis": "Unchanged Young GAB coefficients evaluated from local H2O partial pressure and IAPWS saturation. No cross-specimen correction is fitted."
+  },
+  "water_evaluation_policy": {
+    "storage_scale_mol_kg": 4.136,
+    "storage_scale_basis": "Numerical scaling only; no experimental or physical upper-bound claim.",
+    "negative_numerical_tolerance_mol_kg": 1e-9,
+    "negative_residual_normalization_scope": "CO2-helper evaluation only; raw ODE inventory, deltas, energy and exports remain unchanged",
+    "inventory_mutation": false,
+    "upper_bound_known": false,
+    "temperature_clamping": false
+  },
+  "nitrogen": {
+    "henry_mol_kg_Pa_at_reference": 0.0,
+    "heat_J_mol": 0.0
+  },
+  "oxygen": {
+    "henry_mol_kg_Pa_at_reference": 0.0,
+    "heat_J_mol": 0.0
+  },
+  "adsorbed_phase_cp_J_kg_K": [
+    852.0887535645713,
+    1887.2867921009274
+  ],
+  "kinetics": {
+    "adsorption_rate_s_inv": [
+      0.003,
+      0.0086
+    ],
+    "desorption_rate_s_inv": [
+      0.003,
+      0.0086
+    ],
+    "evidence_status": "Unchanged Young 2021 SI Table S9 process constants. Humid, hot and vacuum transfer rates remain assumptions outside measured support."
+  },
+  "provenance": {
+    "equilibrium": {
+      "class": "unchanged source-reproduced Young fit outside its measured coupled support",
+      "source_doi": "10.1039/D1EE01272J",
+      "source_sha256": "e9f81c1a9fab6fd6e66fa6fffaa6ce5d463467230473456c5453ddd41a34374f"
+    },
+    "preserved_policy_packages": {
+      "strict_young": "lewatit_vp_oc_1065_young2021_wadst_conditional",
+      "hot_envelope": "lewatit_vp_oc_1065_young2021_hot116_conditional",
+      "cold_hot_envelope": "lewatit_vp_oc_1065_young2021_cold_hot116_conditional"
+    },
+    "saturation_pressure": {
+      "class": "IAPWS SR1-86(1992) liquid-vapour correlation",
+      "domain_K": [
+        273.16,
+        647.096
+      ],
+      "upper_exclusive": true
+    },
+    "measured_constraint": {
+      "class": "separate-specimen diagnostic",
+      "source_doi": "10.1021/acs.jced.3c00697",
+      "p_H2O_range_Pa": [
+        15700.0,
+        92700.0
+      ],
+      "status": "not spliced into the Young coefficients"
+    },
+    "cycle_kinetics": {
+      "class": "unchanged conditional process-model assumptions",
+      "source_locator": "Supporting Information Table S9"
+    },
+    "adsorbed_energy": {
+      "class": "native energy-closure assumption",
+      "basis": "Constant CP_GAS and 70/46 kJ/mol process heats preserve the original convention."
+    }
+  },
+  "assumptions": [
+    "Measured Young coupled support remains 25-70 C and RH 0-0.55.",
+    "Temperatures outside measured support are exploratory extrapolation, including local transient excursions.",
+    "The requested 116 C regeneration target and the previous 20-120 C evaluation range are advisory and are not hard stops.",
+    "No temperature ceiling or state-temperature clamp is introduced; actual temperatures remain in accepted states, histories and exports.",
+    "The local water branch uses H2O partial pressure divided by IAPWS saturation pressure and requires an unsaturated finite branch.",
+    "The actual evolving stored-water inventory drives the unchanged Young WADST CO2 target.",
+    "Only a negative water residual within 1e-9 mol/kg may be normalized at the CO2-helper boundary; the raw state, delta and energy remain unchanged.",
+    "Hot binary coupling, adsorption/desorption rates and energy transfer are unvalidated transfers.",
+    "Wilkins 110 C and Low 2023 measurements are diagnostic constraints, not fitted corrections or same-specimen validation."
+  ],
+  "validity": {
+    "equilibrium": "Measured coupled support ends at 25-70 C; values outside it are exploratory extrapolation with no accuracy claim.",
+    "water": "Local IAPWS unsaturated branches are evaluated without a 0.55 RH cap; departure from the measured support is reported.",
+    "cycle": "Numerical scenario only; rates, caloric closure, drainage and thermal lag are unvalidated.",
+    "initial_state_interpretation": "Equilibrated initialization is a numerical scenario state, not cyclic steady state."
+  },
+  "missing_evidence": {
+    "binary_outside_25_70c": null,
+    "hot_vacuum_kinetics": null,
+    "hot_energy_transfer": null,
+    "residual_water_drainage": null,
+    "hot_accuracy_bound": null,
+    "evidenced_degradation_limit": null
+  },
+  "uncertainty": {
+    "classification": "TEMPERATURE_ADVISORY_CONDITIONAL_EXTRAPOLATION",
+    "statement": "Finite exploratory output is not a validated prediction outside the measured 25-70 C support. The absence of an arbitrary stop does not imply material stability or accuracy."
+  }
+}

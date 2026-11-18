@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Screening workspace for arbitrary MOF material packages and shared TVSA operating cases.">
+  <title>Material screening | Carbon Team</title>
+  <script src="/docs/assets/ui/theme-init.js"></script>
+  <link rel="stylesheet" href="/docs/style.css">
+  <link rel="stylesheet" href="/docs/assets/ui/app.css">
+  <link rel="stylesheet" href="/screening/style.css">
+  <script src="/docs/assets/ui/app-shell.js" defer></script>
+  <script src="/screening/material_state.js" defer></script>
+  <script src="/screening/case_presets.js" defer></script>
+  <script src="/screening/progress_clock.js" defer></script>
+  <script src="/screening/result_view.js" defer></script>
+  <script src="/screening/comparison_view.js" defer></script>
+  <script src="/screening/job_reattach.js" defer></script>
+  <script src="/screening/app.js" defer></script>
+  <script src="/screening/material_builder.js" defer></script>
+</head>
+<body class="ct-app ct-screening">
+  <header>
+    <div class="eyebrow">Material-to-device screening</div>
+    <div class="screening-title-row">
+      <div>
+        <h1>MOF screening workspace</h1>
+        <p>Import or select a material, define one shared TVSA case, preview the bounded calculation, and compare collected CO₂/day. Requested operating targets are advisory; hard limits, conservation and numerical reliability remain separate.</p>
+      </div>
+      <span id="scopeStatus" class="screening-status">Loading contract…</span>
+    </div>
+  </header>
+  <main>
+    <div id="globalError" class="screening-alert error" role="alert" hidden></div>
+    <div class="screening-layout">
+      <section id="configurationPanel" class="screening-panel configuration-panel" aria-labelledby="configureHeading">
+        <div class="screening-section-heading">
+          <div>
+            <p class="screening-kicker">Case setup</p>
+            <h2 id="configureHeading">Material and operating basis</h2>
+          </div>
+          <span id="previewState" class="screening-chip">Edits not previewed</span>
+        </div>
+
+        <div class="screening-fieldset">
+          <label for="materialSelect">Display/load built-in material</label>
+          <div class="screening-inline">
+            <select id="materialSelect" aria-label="Built-in material package"></select>
+            <label class="screening-file-button">
+              <span>Import JSON</span>
+              <input id="materialFile" type="file" accept=".json,application/json">
+            </label>
+            <button type="button" class="secondary" id="createMaterial">Create material</button>
+          </div>
+          <div id="materialTags" class="screening-tags" aria-live="polite"></div>
+          <section id="guidedMaterialPanel" class="screening-guided-material" hidden aria-labelledby="guidedMaterialHeading">
+            <div class="screening-section-heading">
+              <div>
+                <p class="screening-kicker">Guided package</p>
+                <h3 id="guidedMaterialHeading">Create material</h3>
+              </div>
+              <button type="button" class="secondary" id="guidedLoadCurrent">Edit current package</button>
+            </div>
+            <p class="screening-field-note">Blank fields are missing; they are never filled from a built-in material. A material name or one capacity point is insufficient. Choose a law below and declare the source or assumption for every property group.</p>
+            <form id="guidedMaterialForm" novalidate>
+              <fieldset class="screening-fieldset">
+                <legend>Identity and evidence</legend>
+                <div class="screening-grid three">
+                  <label class="screening-field"><span>Material ID</span><input id="gmMaterialId" type="text" placeholder="lowercase_material_id"></label>
+                  <label class="screening-field"><span>Material name</span><input id="gmName" type="text"></label>
+                  <div class="screening-field"><span>Overall package evidence</span><strong id="gmOverallEvidence">Derived from the four property groups</strong></div>
+                </div>
+                <label class="screening-field"><span>Evidence basis</span><textarea id="gmEvidenceBasis" rows="2"></textarea></label>
+                <label class="screening-field"><span>Not suitable for</span><textarea id="gmEvidenceNotFor" rows="2"></textarea></label>
+              </fieldset>
+
+              <fieldset class="screening-fieldset">
+                <legend>Complete dry shaped basis</legend>
+                <div class="screening-grid">
+                  <label class="screening-field"><span>Basis declaration</span><input id="gmShapingBasis" type="text" placeholder="Complete dry shaped material basis"></label>
+                  <label class="screening-field"><span>Binder / support</span><input id="gmBinderSupport" type="text"></label>
+                  <label class="screening-field"><span>Particle geometry and transfer basis</span><input id="gmParticleGeometry" type="text"></label>
+                </div>
+              </fieldset>
+
+              <fieldset class="screening-fieldset">
+                <legend>Adsorption law</legend>
+                <label class="screening-field"><span>Supported law family</span><select id="gmFamily"><option value="">Choose a supported family</option><option value="independent_langmuir_sips">Independent CO2 Langmuir + water Sips + inert Henry</option><option value="activity_shift_reference_isotherm">CO2 reference curve with activity shift</option><option value="split_rate_activity_shift_reference_isotherm">CO2 reference curve with two kinetic reservoirs</option><option value="site_resolved_concentration_langmuir">Two concentration-basis CO2 sites</option></select></label>
+
+                <div data-guided-family="independent_langmuir_sips" hidden>
+                  <p class="screening-law-note">CO2 law: q = qsat · bP / (1 + bP), where b is derived from the supplied reference loading, saturation and reference partial pressure. Water is an independent unary Sips law.</p>
+                  <div class="screening-grid three">
+                    <label class="screening-field"><span>CO2 saturation (mol/kg dry shaped)</span><input id="gmCo2Saturation" type="number" step="any"></label>
+                    <label class="screening-field"><span>CO2 reference loading (mol/kg)</span><input id="gmCo2ReferenceLoading" type="number" step="any"></label>
+                    <label class="screening-field"><span>CO2 reference partial pressure (Pa)</span><input id="gmCo2ReferencePressure" type="number" step="any"></label>
+                    <label class="screening-field"><span>CO2 adsorption heat magnitude (J/mol; nonnegative)</span><input id="gmCo2Heat" type="number" step="any" min="0"></label>
+                    <label class="screening-field"><span>Water saturation (mol/kg)</span><input id="gmWaterSaturation" type="number" step="any"></label>
+                    <label class="screening-field"><span>Half-loading RH at reference (-)</span><input id="gmWaterHalfRh" type="number" step="any" min="0" max="1"></label>
+                    <label class="screening-field"><span>Water Sips exponent (-)</span><input id="gmWaterSipsExponent" type="number" step="any"></label>
+                    <label class="screening-field"><span>Water heat magnitude (J/mol; nonnegative)</span><input id="gmWaterHeat" type="number" step="any" min="0"></label>
+                  </div>
+                </div>
+
+                <div data-guided-family="activity_shift_reference_isotherm split_rate_activity_shift_reference_isotherm" hidden>
+                  <p class="screening-law-note">CO2 reference curve: enter absolute pressure in Pa and loading in mol/kg dry shaped material. The constant-isosteric-heat activity shift maps the curve to temperature; this is not a humid competitive mixture law. The split-rate option adds two kinetic inventories that share this one curve and energy.</p>
+                  <p class="screening-field-note">For the one-pool option the adsorbed-species Cp order is CO2, H2O, N2, O2. For split rate it is CO2 fast, CO2 slow, H2O, N2, O2. Every CO2 entry is 37.5/MW_CO2 = 852.0887535645713 J/kg adsorbed CO2/K.</p>
+                  <div class="screening-grid three">
+                    <label class="screening-field"><span>CO2 heat magnitude (J/mol; nonnegative)</span><input id="gmActivityCo2Heat" type="number" step="any" min="0"></label>
+                    <label class="screening-field"><span>CO2-water empirical penalty (kg/mol)</span><input id="gmActivityPenalty" type="number" step="any"></label>
+                    <label class="screening-field"><span>Curve reference temperature (K)</span><input id="gmActivityCurveTemperature" type="number" step="any"></label>
+                    <label class="screening-field"><span>Fast kinetic reservoir fraction (-)</span><input id="gmSplitFastFraction" type="number" step="any" min="0" max="1"></label>
+                    <label class="screening-field"><span>Slow kinetic reservoir fraction (-)</span><input id="gmSplitSlowFraction" type="number" step="any" min="0" max="1"></label>
+                    <label class="screening-field"><span>Water saturation (mol/kg)</span><input id="gmActivityWaterSaturation" type="number" step="any"></label>
+                    <label class="screening-field"><span>Half-loading RH at reference (-)</span><input id="gmActivityWaterHalfRh" type="number" step="any" min="0" max="1"></label>
+                    <label class="screening-field"><span>Water Sips exponent (-)</span><input id="gmActivityWaterSipsExponent" type="number" step="any"></label>
+                    <label class="screening-field"><span>Water heat magnitude (J/mol; nonnegative)</span><input id="gmActivityWaterHeat" type="number" step="any" min="0"></label>
+                    <label class="screening-field"><span>Dry-only water solver normalizer (mol/kg; structural only)</span><input id="gmActivityWaterSolverNormalizer" type="number" step="any" min="0"></label>
+                  </div>
+                  <label class="screening-field"><span>CO2 curve CSV</span><textarea id="gmCo2CurveCsv" rows="8" placeholder="pressure_Pa,loading_mol_kg"></textarea></label>
+                  <label class="screening-file-button"><span>Load CO2 curve CSV</span><input id="gmCo2CurveFile" type="file" accept=".csv,text/csv"></label>
+                </div>
+
+                <div data-guided-family="site_resolved_concentration_langmuir" hidden>
+                  <p class="screening-law-note">Two ordered sites: θᵢ = b₀ᵢ exp(−Uᵢ/RT) c / (1 + b₀ᵢ exp(−Uᵢ/RT)c), with concentration c = pCO2/(RT). b₀ is a concentration-basis prefactor in m³/mol, not a pressure-basis affinity.</p>
+                  <div class="screening-grid three">
+                    <label class="screening-field"><span>Site 1 capacity (mol/kg)</span><input id="gmSite1Capacity" type="number" step="any"></label>
+                    <label class="screening-field"><span>Site 1 b0 (m³/mol)</span><input id="gmSite1Affinity" type="number" step="any"></label>
+                    <label class="screening-field"><span>Site 1 internal energy (J/mol; zero or negative)</span><input id="gmSite1Energy" type="number" step="any"></label>
+                    <label class="screening-field"><span>Site 2 capacity (mol/kg)</span><input id="gmSite2Capacity" type="number" step="any"></label>
+                    <label class="screening-field"><span>Site 2 b0 (m³/mol)</span><input id="gmSite2Affinity" type="number" step="any"></label>
+                    <label class="screening-field"><span>Site 2 internal energy (J/mol; zero or negative)</span><input id="gmSite2Energy" type="number" step="any"></label>
+                    <label class="screening-field"><span>Water measurement temperature (K)</span><input id="gmSiteWaterMeasurementT" type="number" step="any"></label>
+                    <label class="screening-field"><span>Water reference temperature (K)</span><input id="gmSiteWaterReferenceT" type="number" step="any"></label>
+                    <label class="screening-field"><span>Water sorption heat magnitude (J/mol)</span><input id="gmSiteWaterHeat" type="number" step="any"></label>
+                  </div>
+                  <label class="screening-field"><span>Water curve CSV</span><textarea id="gmWaterCurveCsv" rows="8" placeholder="relative_humidity,loading_mol_kg"></textarea></label>
+                  <label class="screening-file-button"><span>Load water curve CSV</span><input id="gmWaterCurveFile" type="file" accept=".csv,text/csv"></label>
+                </div>
+              </fieldset>
+
+              <fieldset class="screening-fieldset">
+                <legend>Thermal and common species</legend>
+                <div class="screening-grid three">
+                  <label class="screening-field"><span>Reference temperature (K)</span><input id="gmReferenceTemperature" type="number" step="any"></label>
+                  <label class="screening-field"><span>Maximum material temperature (°C)</span><input id="gmMaximumTemperature" type="number" step="any"></label>
+                  <label class="screening-field"><span>Dry solid heat capacity (J/kg/K)</span><input id="gmSolidCp" type="number" step="any"></label>
+                  <label class="screening-field"><span>Nitrogen Henry coefficient (mol/kg/Pa at reference)</span><input id="gmNitrogenHenry" type="number" step="any"></label>
+                    <label class="screening-field"><span>Nitrogen heat magnitude (J/mol; nonnegative)</span><input id="gmNitrogenHeat" type="number" step="any" min="0"></label>
+                  <label class="screening-field"><span>Oxygen Henry coefficient (mol/kg/Pa at reference)</span><input id="gmOxygenHenry" type="number" step="any"></label>
+                    <label class="screening-field"><span>Oxygen heat magnitude (J/mol; nonnegative)</span><input id="gmOxygenHeat" type="number" step="any" min="0"></label>
+                </div>
+                <div class="screening-grid two">
+                  <label class="screening-field"><span>Adsorbed-species Cp (J/kg adsorbed species/K, visible state order; distinct from dry solid Cp)</span><input id="gmAdsorbedCp" type="text"></label>
+                  <label class="screening-field"><span>Adsorption LDF rates (s⁻¹, comma-separated)</span><input id="gmAdsorptionRates" type="text"></label>
+                  <label class="screening-field"><span>Desorption LDF rates (s⁻¹, comma-separated)</span><input id="gmDesorptionRates" type="text"></label>
+                </div>
+                <p id="gmStateOrder" class="screening-field-note">State order is selected with the law family.</p>
+                <button type="button" class="secondary" id="gmUseSiteLawCp" hidden>Use two-site law-derived adsorbed Cp</button>
+              </fieldset>
+
+              <fieldset class="screening-fieldset">
+                <legend>Group evidence, validity and uncertainty</legend>
+                <div class="screening-grid two">
+                  <label class="screening-field"><span>CO2 evidence mode</span><select id="gmCo2EvidenceType"><option value="">Choose mode</option><option value="source">Sourced data</option><option value="assumption">Assumption</option><option value="synthetic">Synthetic</option></select></label>
+                  <label class="screening-field"><span>CO2 source or assumption declaration</span><textarea id="gmCo2Declaration" rows="2"></textarea></label>
+                  <label class="screening-field"><span>Water evidence mode</span><select id="gmWaterEvidenceType"><option value="">Choose mode</option><option value="source">Sourced data</option><option value="assumption">Assumption</option><option value="synthetic">Synthetic</option></select></label>
+                  <label class="screening-field"><span>Water source or assumption declaration</span><textarea id="gmWaterDeclaration" rows="2"></textarea></label>
+                  <label class="screening-field"><span>Thermal evidence mode</span><select id="gmThermalEvidenceType"><option value="">Choose mode</option><option value="source">Sourced data</option><option value="assumption">Assumption</option><option value="synthetic">Synthetic</option></select></label>
+                  <label class="screening-field"><span>Thermal source or assumption declaration</span><textarea id="gmThermalDeclaration" rows="2"></textarea></label>
+                  <label class="screening-field"><span>Kinetics evidence mode</span><select id="gmKineticsEvidenceType"><option value="">Choose mode</option><option value="source">Sourced data</option><option value="assumption">Assumption</option><option value="synthetic">Synthetic</option></select></label>
+                  <label class="screening-field"><span>Kinetics source or assumption declaration</span><textarea id="gmKineticsDeclaration" rows="2"></textarea></label>
+                  <label class="screening-field"><span>CO2 validity</span><textarea id="gmCo2Validity" rows="2"></textarea></label>
+                  <label class="screening-field"><span>Water validity</span><textarea id="gmWaterValidity" rows="2"></textarea></label>
+                  <label class="screening-field"><span>Thermal validity</span><textarea id="gmThermalValidity" rows="2"></textarea></label>
+                  <label class="screening-field"><span>Kinetics validity</span><textarea id="gmKineticsValidity" rows="2"></textarea></label>
+                </div>
+                <label class="screening-field"><span>Assumptions (one per line or semicolon-separated)</span><textarea id="gmAssumptions" rows="3"></textarea></label>
+                <div class="screening-grid two">
+                  <label class="screening-field"><span>Uncertainty classification</span><input id="gmUncertaintyClassification" type="text"></label>
+                  <label class="screening-field"><span>Uncertainty statement</span><textarea id="gmUncertaintyStatement" rows="2"></textarea></label>
+                </div>
+              </fieldset>
+
+              <div class="screening-actions">
+                <button type="button" class="secondary" id="guidedLoadSynthetic">Load explicit synthetic example</button>
+                <button type="button" class="secondary" id="guidedApply">Validate and apply package</button>
+                <button type="button" class="secondary" id="guidedDownload" disabled>Download native package</button>
+                <button type="button" class="secondary" id="guidedClose">Close</button>
+              </div>
+              <div id="guidedIssues" class="screening-warning-list" role="status" aria-live="polite"></div>
+            </form>
+          </section>
+          <details class="screening-editor">
+            <summary>Material package document</summary>
+            <p class="screening-field-note">Edit the complete package to define a supplied or explicitly assumed material. Required fields are validated before preview.</p>
+            <textarea id="materialJson" spellcheck="false" aria-label="Material package JSON"></textarea>
+            <div class="screening-actions">
+              <button type="button" class="secondary" id="applyMaterial">Apply package</button>
+              <button type="button" class="secondary" id="downloadMaterial">Download package</button>
+            </div>
+          </details>
+        </div>
+
+        <form id="caseForm" novalidate>
+          <fieldset class="screening-fieldset">
+            <legend>Comparison preset</legend>
+            <div class="screening-actions">
+              <button type="button" class="secondary" id="loadHumidYoungDemo">Load 1-hour coupled-humidity diagnostic</button>
+              <button type="button" class="secondary" id="loadReviewedLewatitHumid">Reviewed Lewatit (65% RH, 48 h)</button>
+              <button type="button" class="secondary" id="loadReviewedLewatitDry">Reviewed Lewatit (dry, 48 h)</button>
+              <button type="button" class="secondary" id="loadDryAirBaseline">Dry-air comparison baseline (48 h)</button>
+              <button type="button" class="secondary" id="loadHumidCandidate48h">Humid exploration baseline (48 h)</button>
+              <button type="button" class="secondary" id="loadHotYoungDry48h">Hot Young dry 48 h preview</button>
+              <button type="button" class="secondary" id="loadHotYoungRh03048h">Hot Young ambient 30% RH 48 h preview</button>
+              <button type="button" class="secondary" id="loadYoungAdvisoryRh048h">Young advisory-extrapolation RH0 48 h</button>
+              <button type="button" class="secondary" id="loadYoungAdvisoryRh03048h">Young advisory-extrapolation 30% RH 48 h</button>
+              <button type="button" class="secondary" id="loadMmenIndependentRh048h">mmen independent-component RH0 48 h</button>
+              <button type="button" class="secondary" id="loadMmenIndependentRh03048h">mmen independent-component 30% RH 48 h</button>
+            </div>
+            <p id="casePresetNote" class="screening-field-note">Loads an exact preset without changing active-job controls. Presets select their matching source-bound material, except the humid exploration baseline, which preserves the current candidate selection and requires an opt-in humidity candidate. Advisory Young records excursions outside 25-70 C. The mmen pair includes separate water heat, gas and pumping burdens but no direct water-to-CO2 enhancement or competition.</p>
+          </fieldset>
+
+          <fieldset class="screening-fieldset">
+            <legend>Representation</legend>
+            <div class="screening-segmented" role="group" aria-label="Calculation representation">
+              <label><input type="radio" name="engine" value="spatial" checked><span>Spatial</span></label>
+              <label><input type="radio" name="engine" value="lumped"><span>Lumped companion</span></label>
+            </div>
+            <label class="screening-field">
+              <span>Case label</span>
+              <input id="caseLabel" type="text" maxlength="120" required>
+            </label>
+          </fieldset>
+
+          <fieldset class="screening-fieldset">
+            <legend>Execution control</legend>
+            <div class="screening-segmented" role="group" aria-label="Execution time policy">
+              <label><input type="radio" name="runtimePolicy" value="manual_stop" checked><span>Manual stop</span></label>
+              <label><input type="radio" name="runtimePolicy" value="time_limit"><span>Time limit</span></label>
+            </div>
+            <label class="screening-field compact">
+              <span>Optional wall-time limit (minutes)</span>
+              <input id="executionTimeLimitMinutes" type="number" min="1" step="1" disabled>
+            </label>
+            <p class="screening-field-note">Execution controls affect when a job stops, not the physical operating conditions. Stop remains available during the run. Manual stop has no elapsed-time deadline.</p>
+          </fieldset>
+
+          <fieldset class="screening-fieldset">
+            <legend>Temperature scenario policy</legend>
+            <div class="screening-segmented" role="group" aria-label="Temperature scenario policy">
+              <label><input type="radio" name="temperaturePolicy" value="stop_at_scenario_guard" checked><span>Stop at guard</span></label>
+              <label><input type="radio" name="temperaturePolicy" value="record_scenario_excursions"><span>Record excursions</span></label>
+            </div>
+            <p class="screening-field-note">The reviewed guard policy applies only to exact built-in package hashes. Recording an excursion does not establish a physical degradation limit or a hard-limit pass.</p>
+          </fieldset>
+
+          <fieldset class="screening-fieldset">
+            <legend>Weather interval</legend>
+            <div class="screening-segmented" role="group" aria-label="Weather source">
+              <label><input type="radio" name="weatherMode" value="fixed" checked><span>Fixed conditions</span></label>
+              <label><input type="radio" name="weatherMode" value="official"><span>MeteoSwiss Pully</span></label>
+            </div>
+            <div id="fixedWeatherFields" class="screening-grid three">
+              <label class="screening-field"><span>Temperature (°C)</span><input id="weatherTemperature" type="number" step="0.1"></label>
+              <label class="screening-field"><span>Relative humidity</span><input id="weatherRh" type="number" min="0" max="1" step="0.01"></label>
+              <label class="screening-field"><span>Pressure (Pa)</span><input id="weatherPressure" type="number" min="1" step="100"></label>
+              <label class="screening-field"><span>CO₂ dry (ppm)</span><input id="weatherCo2" type="number" min="1" step="1"></label>
+            </div>
+            <div id="officialWeatherFields" class="screening-grid" hidden>
+              <label class="screening-field"><span>Official interval start (UTC)</span><input id="weatherStart" type="text" placeholder="2023-01-15T00:00:00Z"></label>
+              <label class="screening-field">
+                <span>Example interval</span>
+                <select id="weatherExample"><option value="">Choose an example</option></select>
+              </label>
+            </div>
+            <label class="screening-field compact">
+              <span>Simulation horizon (hours)</span>
+              <input id="weatherHours" type="number" min="1" max="96" step="1">
+            </label>
+            <p class="screening-field-note">Official timestamps are interval ends and remain limited to 24 hours. Fixed-condition finite horizons may extend to 96 hours; neither establishes automatic CSS.</p>
+          </fieldset>
+
+          <details class="screening-fieldset" open>
+            <summary>Equipment and geometry</summary>
+            <div class="screening-grid three">
+              <label class="screening-field"><span>Dry shaped mass (kg)</span><input id="eqMass" type="number" step="0.1"></label>
+              <label class="screening-field"><span>Bed thickness (m)</span><input id="eqThickness" type="number" step="0.001"></label>
+              <label class="screening-field"><span>Flow face area (m²)</span><input id="eqArea" type="number" step="0.001"></label>
+              <label class="screening-field"><span>Particle diameter (m)</span><input id="eqParticle" type="number" step="0.0001"></label>
+              <label class="screening-field"><span>Bed void fraction</span><input id="eqVoid" type="number" min="0.01" max="0.99" step="0.01"></label>
+              <label class="screening-field"><span>Airflow (m³/s)</span><input id="eqAirflow" type="number" step="0.01"></label>
+              <label class="screening-field"><span>Heater power (W)</span><input id="eqHeater" type="number" step="50"></label>
+              <label class="screening-field"><span>Bed conductivity (W/m/K)</span><input id="eqConductivity" type="number" step="0.01"></label>
+              <label class="screening-field"><span>Gas-solid heat transfer (W/m²/K)</span><input id="eqHeatTransfer" type="number" step="1"></label>
+              <label class="screening-field"><span>Wall heat capacity (J/K)</span><input id="eqWallCapacity" type="number" step="100"></label>
+              <label class="screening-field"><span>Wall loss UA (W/K)</span><input id="eqWallLoss" type="number" step="0.1"></label>
+              <label class="screening-field"><span>Wall cooling UA (W/K)</span><input id="eqWallCooling" type="number" step="1"></label>
+            </div>
+            <p id="equipmentApplicability" class="screening-field-note">Fixed shared assumptions: one KNF N922 50 Hz pump curve at 135 W running input, 2 kW heater, combined 2 kW cooling at COP 3, and an ideal 55 °C pump-inlet knockout.</p>
+          </details>
+
+          <details class="screening-fieldset">
+            <summary>Cycle and collection</summary>
+            <div class="screening-grid three">
+              <label class="screening-field"><span>Adsorption (s)</span><input id="cyAds" type="number" step="60"></label>
+              <label class="screening-field"><span>Evacuation (s)</span><input id="cyEvac" type="number" step="10"></label>
+              <label class="screening-field"><span>Desorption (s)</span><input id="cyDes" type="number" step="60"></label>
+              <label class="screening-field"><span>Cooling maximum (s)</span><input id="cyCool" type="number" step="60"></label>
+              <label class="screening-field"><span>Repressurization maximum (s)</span><input id="cyRepress" type="number" step="10"></label>
+              <label class="screening-field"><span>Regeneration temperature (°C)</span><input id="cyTemperature" type="number" step="1"></label>
+              <label class="screening-field"><span>Regeneration pressure (Pa)</span><input id="cyPressure" type="number" step="1000"></label>
+              <label class="screening-field"><span>Initial purge (s)</span><input id="cyPurge" type="number" step="10"></label>
+              <label class="screening-field"><span>Product route</span><select id="collectionRoute"><option value="all_desorption_and_cooling">All desorption and cooling</option><option value="desorption_only">Desorption only</option></select></label>
+              <label class="screening-field"><span>Knockout</span><input value="Ideal equilibrium at 55 °C" disabled></label>
+              <label class="screening-field"><span>Initial state</span><select id="initialBasis"><option value="equilibrated_with_first_weather">Equilibrated with first weather interval</option><option value="clean_dry">Clean dry initial state</option></select></label>
+              <label class="screening-check"><input id="initialCold" type="checkbox"><span>Label as cold start</span></label>
+            </div>
+          </details>
+
+          <details class="screening-fieldset">
+            <summary>Numerical resolution</summary>
+            <p id="transportApplicability" class="screening-field-note">Spatial only: through-thickness cells, bed conductivity and gas-solid heat transfer affect the local finite-transfer solution.</p>
+            <div class="screening-grid three">
+              <label class="screening-field"><span>Through-thickness cells</span><input id="solverCells" type="number" min="1" max="32" step="1"></label>
+              <label class="screening-field"><span>Relative tolerance</span><input id="solverRtol" type="number" min="0.000000001" max="0.01" step="0.0001"></label>
+              <label class="screening-field"><span>Maximum integration step (s)</span><input id="solverStep" type="number" min="1" step="10"></label>
+              <label class="screening-field"><span>Samples per phase</span><input id="solverSamples" type="number" min="3" max="121" step="2"></label>
+            </div>
+          </details>
+
+          <div class="screening-actions sticky-actions">
+            <button type="button" class="secondary" id="previewButton">Preview exact case</button>
+            <button type="button" class="primary" id="startButton" disabled>Start screening</button>
+          </div>
+        </form>
+      </section>
+
+      <div class="screening-workbench">
+        <section class="screening-panel" aria-labelledby="previewHeading">
+          <div class="screening-section-heading">
+            <div>
+              <p class="screening-kicker">Checked boundary</p>
+              <h2 id="previewHeading">Preview</h2>
+            </div>
+          </div>
+          <div id="previewEmpty" class="screening-empty">Preview the current material and case to unlock Start.</div>
+          <div id="previewContent" hidden>
+            <div id="previewFacts" class="screening-facts"></div>
+            <div id="previewWarnings" class="screening-warning-list"></div>
+          </div>
+        </section>
+
+        <section class="screening-panel" aria-labelledby="parallelHeading">
+          <div class="screening-section-heading"><div>
+            <p class="screening-kicker">Independent calculations</p>
+            <h2 id="parallelHeading">Simultaneous runs</h2>
+          </div></div>
+          <label for="maxConcurrentJobs">Maximum simultaneous runs (0 = unlimited)</label>
+          <input id="maxConcurrentJobs" type="number" min="0" step="1" value="0">
+          <button type="button" class="secondary" id="applyConcurrency">Apply run limit</button>
+          <p id="concurrencyStatus" class="screening-field-note" role="status"></p>
+          <p class="screening-field-note">Each run uses a separate CPU process. More simultaneous runs share the available CPU and memory. Lowering the limit leaves existing runs active.</p>
+          <div id="activeJobs" role="list" aria-label="Active simulations"></div>
+        </section>
+
+        <section id="runPanel" class="screening-panel" hidden aria-labelledby="runHeading">
+          <div class="screening-section-heading">
+            <div>
+              <p class="screening-kicker">Durable job</p>
+              <h2 id="runHeading">Calculation</h2>
+            </div>
+            <span id="runState" class="screening-chip">Queued</span>
+          </div>
+          <progress id="runProgress" max="1" value="0" aria-label="Screening progress"></progress>
+          <p id="runMessage" class="screening-field-note" role="status"></p>
+          <p id="runProgressDetails" class="screening-field-note" role="status"></p>
+          <div class="screening-actions">
+            <button type="button" class="danger" id="cancelButton" disabled>Cancel job</button>
+          </div>
+        </section>
+
+        <section id="resultsPanel" class="screening-panel" hidden aria-labelledby="resultsHeading">
+          <div class="screening-section-heading">
+            <div>
+              <p class="screening-kicker">Screening result</p>
+              <h2 id="resultsHeading">Collected CO₂ and operating outcome</h2>
+            </div>
+            <span id="resultEvidence" class="screening-chip"></span>
+          </div>
+          <p id="resultBasisCaption" class="screening-basis-caption"></p>
+          <div id="resultDiagnostics" class="screening-diagnostic" role="status"></div>
+          <div id="metricCards" class="screening-metrics"></div>
+          <div id="resultWarnings" class="screening-warning-list"></div>
+          <div class="screening-grid two">
+            <figure class="screening-plot">
+              <figcaption>Pressure traces by phase</figcaption>
+              <svg id="pressurePlot" viewBox="0 0 600 250" role="img" aria-label="Pressure versus elapsed time"></svg>
+            </figure>
+            <figure class="screening-plot">
+              <figcaption>Bed and wall temperature traces</figcaption>
+              <svg id="temperaturePlot" viewBox="0 0 600 250" role="img" aria-label="Temperature versus elapsed time"></svg>
+            </figure>
+            <figure class="screening-plot">
+              <figcaption>Sorbed CO₂ and water burden</figcaption>
+              <svg id="loadingPlot" viewBox="0 0 600 250" role="img" aria-label="CO2 and water loading versus elapsed time"></svg>
+            </figure>
+            <figure class="screening-plot">
+              <figcaption>Local bed relative humidity</figcaption>
+              <svg id="humidityPlot" viewBox="0 0 600 250" role="img" aria-label="Local relative humidity versus elapsed time"></svg>
+            </figure>
+          </div>
+          <details class="screening-details">
+            <summary>Advisory targets, hard limits, balances and model basis</summary>
+            <div id="resultDetails"></div>
+          </details>
+          <div class="screening-actions">
+            <a class="button secondary" id="exportJson">Export JSON</a>
+            <a class="button secondary" id="exportCsv">Export CSV traces</a>
+            <button type="button" class="secondary" id="editAndCopy">Edit as next case</button>
+          </div>
+        </section>
+
+        <section class="screening-panel" aria-labelledby="historyHeading">
+          <div class="screening-section-heading">
+            <div>
+              <p class="screening-kicker">Saved evidence</p>
+              <h2 id="historyHeading">History and comparison</h2>
+            </div>
+            <button type="button" class="secondary" id="refreshHistory">Refresh</button>
+          </div>
+          <div class="screening-history" role="table" aria-label="Saved screening jobs" id="historyTable"></div>
+          <div class="screening-actions">
+            <button type="button" class="primary" id="compareButton" disabled>Compare selected</button>
+            <button type="button" class="secondary" id="downloadComparison" disabled>Download comparison JSON</button>
+            <span id="comparisonSelectionNote" class="screening-field-note">Select 2–32 saved jobs.</span>
+          </div>
+          <div id="comparison" hidden>
+            <div id="comparisonDiagnostics" class="screening-diagnostic" role="status"></div>
+            <div id="comparisonBasis" class="screening-tags"></div>
+            <div id="comparisonSummary" class="screening-comparison-summary" role="list" aria-label="Comparison objective summary"></div>
+            <div id="comparisonTable" class="screening-history" role="table" aria-label="Screening comparison"></div>
+            <p id="comparisonNote" class="screening-field-note"></p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

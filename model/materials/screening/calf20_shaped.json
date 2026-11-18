@@ -1,0 +1,86 @@
+{
+  "schema": "mof-screening-material/1",
+  "material_id": "calf20_nguyen2024_80_20_shaped",
+  "name": "CALF-20 80/20 shaped source-transfer",
+  "equilibrium_family": "site_resolved_concentration_langmuir",
+  "synthetic": false,
+  "evidence": {
+    "status": "CONDITIONAL_SOURCE_TRANSFER",
+    "basis": "80 wt% CALF-20 crystal and 20 wt% polymeric binder, with published author-site parameters and shaped water measurements",
+    "not_for": "universal humid coadsorption, lifetime, powder-to-shape transfer, annual output or measured device ranking"
+  },
+  "shaped_material": {
+    "basis": "Complete dry shaped material containing 80 wt% crystals and 20 wt% binder",
+    "binder_support": "20 wt% polymeric binder as named in the source-transfer scenario",
+    "particle_geometry": "Case input; no transfer to a specific pellet or coating is established."
+  },
+  "reference_temperature_K": 298.15,
+  "maximum_bed_temperature_C": 160.0,
+  "solid_cp_J_kg_K": 1371.0,
+  "co2": {
+    "site_capacity_mol_kg": [2.387, 3.271],
+    "site_affinity_m3_mol": [5.519e-7, 5.187e-8],
+    "site_internal_energy_J_mol": [-35060.0, -28950.0],
+    "source_locator": "Nguyen et al. supporting information pS6 Eq and Table S2",
+    "basis": "two independent concentration-basis Langmuir sites"
+  },
+  "water": {
+    "model": "temperature_activity_pchip",
+    "measurement_temperature_K": 295.15,
+    "reference_temperature_K": 298.15,
+    "sorption_heat_J_mol": 52964.9232,
+    "points": [
+      [0.0, 0.0],
+      [0.08, 0.68],
+      [0.153, 2.27],
+      [0.32, 5.74],
+      [0.5, 6.91],
+      [0.75, 7.65],
+      [0.79, 7.7],
+      [1.0, 8.3]
+    ],
+    "source_locator": "Nguyen et al. supporting information pS8 Table S4, 22 C block",
+    "basis": "temperature-activity transfer of the published shaped-material unary water curve"
+  },
+  "adsorbed_phase_cp_J_kg_K": [
+    663.1644845317488,
+    663.1644845317488,
+    1887.2867921009274
+  ],
+  "kinetics": {
+    "adsorption_rate_s_inv": [0.0005, 0.0005, 0.0001],
+    "desorption_rate_s_inv": [0.001, 0.001, 0.0002],
+    "evidence_status": "shared illustrative LDF assumptions for both source sites and water"
+  },
+  "provenance": {
+    "co2_sites": {
+      "class": "published author fit",
+      "doi": "10.1038/s41467-024-48136-0",
+      "source_sha256": "e3127785637f4c4b54de855b4935a5f5afdb1032b2188f5c0bda106f461026f8"
+    },
+    "water_curve": {
+      "class": "published tabulated shaped-material measurements",
+      "doi": "10.1021/acs.iecr.3c04266",
+      "source_sha256": "e3127785637f4c4b54de855b4935a5f5afdb1032b2188f5c0bda106f461026f8"
+    },
+    "sorption_heat": {
+      "class": "borrowed screening assumption",
+      "value_J_mol": 52964.9232
+    }
+  },
+  "assumptions": [
+    "The two published concentration-basis sites are retained independently; CALF is not refit as one Langmuir site.",
+    "Site internal energies define the CO2 energy inventory exactly.",
+    "Water uses a named single-temperature PCHIP activity transfer with a borrowed sorption heat.",
+    "LDF kinetics and pellet or coating transfer remain unvalidated."
+  ],
+  "validity": {
+    "co2": "Low-pressure DAC transfer remains conditional.",
+    "water": "The water table is unary and temperature-shifted; it is not a validated competitive humid-mixture model.",
+    "initial_state_interpretation": "Initial loading is a declared screening basis and does not establish cyclic steady state."
+  },
+  "uncertainty": {
+    "classification": "CONDITIONAL",
+    "statement": "No transferred uncertainty distribution or measured shaped-device error exists in this package."
+  }
+}

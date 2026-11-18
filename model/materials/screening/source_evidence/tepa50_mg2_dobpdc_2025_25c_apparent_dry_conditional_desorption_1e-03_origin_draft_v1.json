@@ -1,0 +1,339 @@
+{
+  "adsorbed_phase_cp_J_kg_K": [
+    852.0887535645713,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "assumptions": [
+    "The executable curve is a fitted nonnegative monotone running-maximum projection of finite-time apparent observations, not a measured true-equilibrium isotherm.",
+    "A constant 70 kJ/mol isosteric heat is a named screening assumption for a possible reversible hot scenario; its broad 40-100 kJ/mol range is not experimental uncertainty.",
+    "A 1e-4 s^-1 LDF rate in both directions is a named scenario assumption with a broad 1e-5 to 1e-3 s^-1 range; no intrinsic kinetics are claimed.",
+    "A 1000 J/kg/K dry solid Cp is a named scenario assumption with a broad 700-1500 J/kg/K range.",
+    "The shared 10 kg dry shaped basis, geometry and transport are transferred assumptions because no candidate-specific shaped pellet, binder, density or transport measurements are supplied.",
+    "Source mol/kg loadings already use the full TEPA(50)-impregnated sorbent and map to the complete dry shaped inventory with an explicit unity loading-retention and mass-transfer assumption and no additional 0.5 dilution; binder fraction, shaped density and effective transport remain unknown, and no binder-free shaped body is claimed.",
+    "The measured 25 C apparent curve is not extrapolated as a demonstrated hot equilibrium law; the existing constant-heat activity transfer is conditional and not validated against withheld temperatures.",
+    "Dry-only water handling has zero physical water storage, rates, heat and adsorbed Cp; any nonzero relative humidity is rejected.",
+    "The material identity, sample/shaping declaration or one or more physical coefficients were edited after loading a built-in package; results no longer inherit that package's source evidence status."
+  ],
+  "co2": {
+    "basis": "SI Figure S7 supplies a 25 C finite-time apparent uptake curve under a diffusion limitation. The executable reference curve is a fitted nonnegative monotone projection retained only for conditional dry screening; it is not a true-equilibrium isotherm.",
+    "heat_J_mol": 70000.0,
+    "reference_curve": {
+      "class": "FITTED nonnegative monotone running-maximum projection of measured finite-time apparent uptake points",
+      "digitization_audit_sha256": "dc4eeba55c577e020c759ee7033cabc262398034b1e602a22834f030c14288f2",
+      "loading_mol_kg": [
+        0.31746031746031766,
+        0.39584411998205044,
+        0.42150015183723044,
+        0.4577764577764577,
+        0.460860860860861,
+        0.47282447282447226,
+        0.5130273995629521,
+        0.5290845795207215,
+        0.5427008694784791,
+        0.553074761849346,
+        0.5608523513696204,
+        0.566280047066734,
+        0.5723314842830728,
+        0.5783444996758158,
+        0.5854107741893049,
+        0.5899825939843509,
+        0.5978819969742811,
+        0.6043368633383762,
+        0.6082019748507475,
+        0.6094661767884155,
+        0.6094661767884155
+      ],
+      "nonnegative_projection_method": "running maximum through pressure order",
+      "pressure_Pa": [
+        4.385589094449861,
+        24.329404917794264,
+        41.63959607452706,
+        136.00000000000003,
+        163.0300984528833,
+        251.87925998052577,
+        3418.8034188034067,
+        8223.119816985976,
+        15603.8672865596,
+        20638.736263736275,
+        25677.680032733228,
+        30683.76068376067,
+        35678.418803418805,
+        40675.19019442097,
+        45725.334448160545,
+        50713.399503722096,
+        55697.1153846154,
+        60721.15384615386,
+        65684.44995864351,
+        75710.58748943363,
+        90666.44562334218
+      ],
+      "source_completeness": "Six low-pressure and fifteen high-pressure red filled TEPA(50) symbols were resolved. Unresolved source symbols remain in the original image; extraction is incomplete.",
+      "source_csv_sha256": "1a73f84d537c0ada3da4cc3d53d430dea451deaeb8e139b3f5f7ac48d14c8157",
+      "source_doi": "10.1039/D5IM00002E",
+      "source_locator": "RSC Industrial Chemistry & Materials 2025 supporting information Figure S7b,d, printed page 20",
+      "source_primary_pdf_sha256": "0d0ca8271982b80cb6fb63fde42fe3cb0182f034e50bb6b3d1bb96504d3b4cb4",
+      "source_si_pdf_sha256": "ac8baf0cc22539d44066a87fd5a7cddede1bcd5c8ff1764d124057ff7124da2d",
+      "source_symbol_count_detected": 21,
+      "temperature_K": 298.15
+    },
+    "support": {
+      "displayed_scenario_temperature_range_K": [
+        253.15,
+        393.15
+      ],
+      "measured_temperature_range_K": [
+        298.15,
+        298.15
+      ],
+      "policy": "named_extrapolation_scenario",
+      "scenario_name": "dry_apparent_CO2_hot_temperature_shift_and_pressure_transfer_not_validated"
+    }
+  },
+  "co2_water_penalty_per_mol_kg": 0.0,
+  "equilibrium_family": "activity_shift_reference_isotherm",
+  "evidence": {
+    "basis": "The physical coefficients differ from the loaded built-in package. This preview is an explicitly user-edited assumption, not the original source-transfer or hypothetical evidence.",
+    "edit_detected": true,
+    "edited_baseline_sha256": "2f13539f5fa2d1cbe3af5bf63b07524a5dd9b00c0f7247fb1aaf31ded32fc29f",
+    "edited_physical_sha256": "e07968be4da9bec2117e372258a84690e09ee4ccff8a7273d9dbbee716dc59d9",
+    "loaded_baseline_sha256": "84e45fee58fe0064e3c8bffec21d647e827b553de45d0626dedb22377721fe14",
+    "loaded_physical_sha256": "6493ce981f84082a97fe39408f9b6718c1530a9474bd3dc74b6dbf4349400f4f",
+    "original_evidence": {
+      "basis": "Copy of the exact dry physical origin. Only CO2 desorption-rate entries are replaced by the named sensitivity value; adsorption and all other fields remain.",
+      "status": "DRAFT_NAMED_DIRECTIONAL_RATE_SENSITIVITY_NOT_MEASURED"
+    },
+    "status": "USER_EDITED_ASSUMPTION"
+  },
+  "kinetics": {
+    "adsorption_rate_s_inv": [
+      0.0001,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "desorption_rate_s_inv": [
+      0.001,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "evidence_status": "ASSUMED_LDF_SCREENING_SCALE: the finite-time apparent isotherm and breakthrough delay contain protocol and diffusion effects and do not supply an intrinsic LDF coefficient. Both directions use a named 1e-4 s^-1 scenario assumption."
+  },
+  "material_id": "tepa50_mg2_dobpdc_2025_25c_apparent_dry_conditional_desorption_1e-03_origin_draft_v1",
+  "maximum_bed_temperature_C": 120.0,
+  "missing_evidence": {
+    "candidate_specific_apparent_to_intrinsic_kinetic_transfer": null,
+    "candidate_specific_pellet_or_coating": null,
+    "candidate_specific_solid_heat_capacity": null,
+    "direct_humid_co2_equilibrium_closure": null,
+    "fit_tested_hot_temperature_representation": null,
+    "hot_co2_rich_desorption_isotherm": null,
+    "hot_desorption_kinetics": null,
+    "humid_coadsorption_kinetics": null,
+    "intrinsic_adsorption_desorption_rates": null,
+    "measured_isosteric_heat_of_adsorption": null,
+    "shaped_bed_thermal_conductivity": null,
+    "shaped_particle_effective_diffusivity": null,
+    "true_equilibrium_isotherm_at_multiple_temperatures": null
+  },
+  "name": "TEPA(50)-Mg2(dobpdc), 2025 25 C apparent dry conditional / draft directional-rate origin k_CO2,des=1e-03 s^-1",
+  "nitrogen": {
+    "heat_J_mol": 0.0,
+    "henry_mol_kg_Pa_at_reference": 0.0
+  },
+  "oxygen": {
+    "heat_J_mol": 0.0,
+    "henry_mol_kg_Pa_at_reference": 0.0
+  },
+  "provenance": {
+    "chemistry_context": {
+      "class": "measured source interpretation, not represented by dry_only",
+      "description": "The main in-situ infrared discussion reports carbamate-dominant chemistry over 0 to 70 percent RH. A demonstrated bicarbonate switch is not claimed."
+    },
+    "co2": {
+      "class": "source-derived conditional assumption",
+      "statement": "Measured finite-time apparent uptake shape from SI Figure S7, converted to the executable curve only by the declared nonnegative monotone projection; the reversible hot heat shift is an assumption, not a true-equilibrium fit."
+    },
+    "co2_reference_curve": {
+      "class": "measured finite-time apparent uptake, then fitted monotone projection",
+      "digitized_loading_uncertainty_mol_kg": 0.018018018018018018,
+      "digitized_pressure_uncertainty_Pa_by_panel": {
+        "S7b": 360.5769230769231,
+        "S7d": 1.0632911392405062
+      },
+      "projection_note": "The sole decrease was preserved in evidence and replaced only in the executable curve by the preceding maximum; no smoothing or reason-based exclusion was applied.",
+      "raw_nonmonotone_observations": [
+        {
+          "decrease_mol_kg": -0.0004968339258077936,
+          "from_loading_mol_kg": 0.6094661767884155,
+          "from_pressure_Pa": 75710.58748943363,
+          "to_loading_mol_kg": 0.6089693428626077,
+          "to_pressure_Pa": 90666.44562334218
+        }
+      ],
+      "raw_point_count": 21,
+      "reported_experimental_uncertainty": null,
+      "source_asset": "Research/MOF_candidates_2026-11-03/lead/secondary_sources/TEPA50_25C_APPARENT_DIGITIZED.csv",
+      "source_asset_sha256": "1a73f84d537c0ada3da4cc3d53d430dea451deaeb8e139b3f5f7ac48d14c8157",
+      "source_audit": "Research/MOF_candidates_2026-11-03/lead/secondary_sources/TEPA50_DIGITIZATION_AUDIT.json",
+      "source_audit_sha256": "dc4eeba55c577e020c759ee7033cabc262398034b1e602a22834f030c14288f2"
+    },
+    "co2_temperature_shift": {
+      "basis": "Named amine-material screening assumption used with the existing constant activity-shift law. It is not fitted to source data and is not a measured or published TEPA(50) heat.",
+      "broad_scenario_range_J_mol": [
+        40000.0,
+        100000.0
+      ],
+      "class": "assumed",
+      "constant_isosteric_heat_J_mol": 70000.0
+    },
+    "draft_directional_rate_origin": {
+      "co2_desorption_rate_s_inv": 0.001,
+      "named_sensitivity_not_measurement": true,
+      "schema": "directional-rate-origin-draft/1",
+      "source_dry_origin_sha256": "8a524de458802f9cb66398fd366022561f0a03852f02fb923f3d73ae596f7737",
+      "source_material_id": "tepa50_mg2_dobpdc_2025_25c_apparent_dry_conditional",
+      "source_material_sha256": "4c7628ad182867e307195cca3c870a5dd332c5f40534b9be1ed7c7e609ca27c8"
+    },
+    "fixed_bed_protocol_observations": {
+      "class": "measured protocol values, not thermodynamic isotherms and not executable here",
+      "dry_400_ppm_CO2_N2": {
+        "breakthrough_5_percent_mol_kg": [
+          0.09,
+          0.2,
+          0.37
+        ],
+        "pseudo_equilibrium_95_percent_mol_kg": [
+          0.2,
+          0.33,
+          0.54
+        ],
+        "temperatures_C": [
+          -20.0,
+          0.0,
+          25.0
+        ]
+      },
+      "humid_70_percent_RH_400_ppm_CO2_N2": {
+        "breakthrough_5_percent_mol_kg": [
+          0.18,
+          0.3,
+          3.18
+        ],
+        "pseudo_equilibrium_95_percent_mol_kg": [
+          0.32,
+          3.37,
+          3.9
+        ],
+        "temperatures_C": [
+          -20.0,
+          0.0,
+          25.0
+        ]
+      },
+      "locator": "Supporting Information Tables S3 and S4, printed pages 23 and 29"
+    },
+    "input_edit": {
+      "class": "user-edited assumption",
+      "edited_baseline_sha256": "2f13539f5fa2d1cbe3af5bf63b07524a5dd9b00c0f7247fb1aaf31ded32fc29f",
+      "edited_physical_sha256": "e07968be4da9bec2117e372258a84690e09ee4ccff8a7273d9dbbee716dc59d9",
+      "loaded_baseline_material_id": "tepa50_mg2_dobpdc_2025_25c_apparent_dry_conditional",
+      "loaded_baseline_name": "TEPA(50)-Mg2(dobpdc), 2025 25 C apparent dry conditional",
+      "loaded_baseline_sha256": "84e45fee58fe0064e3c8bffec21d647e827b553de45d0626dedb22377721fe14",
+      "loaded_physical_sha256": "6493ce981f84082a97fe39408f9b6718c1530a9474bd3dc74b6dbf4349400f4f",
+      "original_evidence_preserved_under": "material.evidence.original_evidence"
+    },
+    "kinetics": {
+      "adsorption_rate_s_inv": 0.0001,
+      "basis": "Named LDF scenario scale. The source's long isotherm equilibration, particle-size dependence and fixed-bed delay are protocol and diffusion observations, not converted into intrinsic coefficients.",
+      "broad_scenario_range_s_inv": [
+        1e-05,
+        0.001
+      ],
+      "class": "assumed",
+      "desorption_rate_s_inv": 0.0001
+    },
+    "loaded_builtin": {
+      "baseline_sha256": "84e45fee58fe0064e3c8bffec21d647e827b553de45d0626dedb22377721fe14",
+      "material_id": "tepa50_mg2_dobpdc_2025_25c_apparent_dry_conditional",
+      "name": "TEPA(50)-Mg2(dobpdc), 2025 25 C apparent dry conditional",
+      "package_file": "tepa50_mg2_dobpdc_2025_25c_apparent_dry_conditional.json",
+      "schema": "mof-screening-loaded-builtin/1"
+    },
+    "mass_mapping": {
+      "additional_amine_dilution_applied": false,
+      "additional_amine_dilution_factor": 1.0,
+      "basis": "Source mol/kg values already use the full TEPA(50)-impregnated sorbent, so no extra 0.5 dilution is applied. The values map to the shared 10 kg complete dry shaped inventory under a named unity loading-retention and mass-transfer assumption; this is not evidence of a binder-free shaped body.",
+      "class": "assumed",
+      "executable_inventory_basis": "per kg complete dry shaped inventory in the shared app case",
+      "final_binder_mass_fraction": null,
+      "shaped_density": null,
+      "shaped_effective_transport": null,
+      "source_loading_basis": "per kg full dry TEPA(50)-impregnated sorbent, where 50 wt% denotes TEPA in that full sorbent",
+      "unity_loading_retention_and_mass_transfer": true
+    },
+    "regeneration_protocol_context": {
+      "class": "measured protocol context, not a hot CO2-rich equilibrium or kinetic law",
+      "description": "One vacuum cycle is twenty hours of ambient exposure at 22 C and 50 percent RH followed by four hours at 80 C and 0.1 bar static vacuum. A later 70 percent RH fixed-bed capacity test is a separate observation."
+    },
+    "sample_identity": {
+      "class": "measured",
+      "description": "TEPA(50)-Mg2(dobpdc) amine-impregnated sample. The 50 designation is amine mass fraction in the full impregnated sorbent, not a TEPA-to-framework molar ratio."
+    },
+    "shaped_transport": {
+      "basis": "The shared app geometry and transport inputs are used for a complete dry shaped basis. The source 125-425 micrometer particles do not supply a final pellet, binder, density or effective diffusivity.",
+      "class": "transferred to shared assumption"
+    },
+    "solid_cp": {
+      "basis": "Neutral screening value; no TEPA(50)-Mg2(dobpdc)-specific heat capacity is claimed.",
+      "broad_scenario_range_J_kg_K": [
+        700.0,
+        1500.0
+      ],
+      "class": "assumed",
+      "value_J_kg_K": 1000.0
+    },
+    "thermal": {
+      "class": "assumption",
+      "statement": "Assumed 1000 J/kg/K dry solid Cp and transferred shared shaped thermal basis; no candidate-specific measurement is claimed."
+    },
+    "water": {
+      "class": "numerical structural mode; no physical coefficients",
+      "physical_storage_mol_kg": 0.0,
+      "solver_normalizer_mol_kg": 0.05
+    }
+  },
+  "reference_temperature_K": 298.15,
+  "schema": "mof-screening-material/1",
+  "shaped_material": {
+    "basis": "The source is an amine-impregnated Mg2(dobpdc) powder. Its mol/kg loadings are on the full dry TEPA(50)-impregnated sorbent and map to the shared 10 kg complete dry shaped inventory under an explicit unity loading-retention and mass-transfer assumption; this is not evidence of a binder-free shaped body.",
+    "binder_support": "The 50 designation means 50 wt% TEPA in the full impregnated sorbent, not a framework ratio. No candidate-specific final pellet, binder, support or dry shaped mass conversion is supplied.",
+    "particle_geometry": "Source fixed-bed particles are 125-425 micrometers, but shaped density, binder and effective transport are not established; the shared app geometry is a named transfer."
+  },
+  "solid_cp_J_kg_K": 1000.0,
+  "synthetic": false,
+  "uncertainty": {
+    "classification": "CONDITIONAL_APPARENT_UPTAKE_NAMED_EXTRAPOLATION",
+    "digitization": "Panel-specific pressure and loading center uncertainties are retained in the digitization audit. Experimental uncertainty was not supplied.",
+    "raw_nonmonotonicity": "One 0.0004968339258077936 mol/kg decrease between 75710.58748943363 and 90666.44562334218 Pa is preserved in evidence and in the projection note.",
+    "representation": "No true-equilibrium, hot or humid representation gate was passed. The package remains a conditional dry screening scenario.",
+    "statement": "Digitization uncertainty and the retained nonmonotone source point remain visible. True equilibrium, hot heat, dry solid Cp, intrinsic LDF and shaped transport are unavailable and are not claimed as measured or fitted.",
+    "thermal_and_kinetic": "Heat, dry solid Cp and LDF values are named scenario assumptions with broad ranges, not fitted coefficients or experimental uncertainty."
+  },
+  "validity": {
+    "co2": "Conditional dry apparent-reference shape only. A running-maximum projection of finite-time uptake is not a true thermodynamic equilibrium isotherm, and the constant-heat hot transfer is an explicit assumption.",
+    "co2_dry_equilibrium": "Conditional apparent-reference-shape scenario only. The finite-time diffusion-limited measurement is not evidence of true reversible thermodynamic equilibrium; hot behavior is a named constant-heat extrapolation.",
+    "initial_state_interpretation": "The app's declared initial state is a scenario, not cyclic steady state.",
+    "kinetics": "Both-direction LDF rates are scenario assumptions; neither the isotherm protocol nor fixed-bed delay supplies intrinsic material kinetics.",
+    "thermal": "Solid Cp and shaped transport are assumptions.",
+    "water": "Dry-only. Any nonzero relative humidity at the case or weather forcing boundary is rejected; direct humid chemistry and hydration history are unrepresented."
+  },
+  "water": {
+    "basis": "No direct humid chemistry, water storage or hydration-history state is represented. Water storage, rates, heat and adsorbed Cp are exactly zero; the positive normalizer is a numerical state-layout scale only. Every selected weather interval must have RH exactly zero.",
+    "model": "dry_only",
+    "physical_storage_mol_kg": 0.0,
+    "solver_normalizer_mol_kg": 0.05
+  }
+}

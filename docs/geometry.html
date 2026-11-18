@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Explore saved DAC cycles with connected equipment, synchronized trends, bed fields and material comparisons.">
+  <title>Carbon Team | DAC process explorer</title>
+  <script src="/docs/assets/ui/theme-init.js"></script>
+  <link rel="stylesheet" href="/docs/assets/ui/app.css">
+  <link rel="stylesheet" href="/docs/assets/geometry/viewer.css">
+  <link rel="stylesheet" href="/docs/assets/geometry/process.css">
+  <script src="/docs/assets/ui/app-shell.js" defer></script>
+  <script src="/docs/assets/geometry/spec.js"></script>
+  <script src="/docs/assets/geometry/process-contract.js"></script>
+  <script type="importmap">{"imports":{"three":"/docs/assets/vendor/three-r170/three.module.js"}}</script>
+</head>
+<body class="ct-app ct-geometry px-focus">
+<header><div class="eyebrow">DAC process · saved simulation</div><div class="gx-heading"><div><h1>DAC process explorer</h1><p>Follow a cycle through the equipment. Inspect the bed and compare saved material responses.</p></div><div class="px-header-actions"><span class="gx-scope">Proposed layout · saved results</span><button type="button" id="px-focus" aria-pressed="true">Restore workspace</button></div></div></header>
+<main>
+  <nav class="gx-models" aria-label="Geometry selection">
+    <button type="button" data-gx-model="process" aria-pressed="true"><span class="gx-model-icon" aria-hidden="true">↔</span><span><strong>Complete DAC setup</strong><small>Connected process + saved cycle</small></span><span class="gx-model-number">00</span></button>
+    <button type="button" data-gx-model="pellet" aria-pressed="false"><span class="gx-model-icon" aria-hidden="true"><svg viewBox="0 0 40 32"><path d="m5 11 19-7 12 7-19 7-12-7Zm0 0v11l12 7 19-7V11M17 18v11"/><circle cx="15" cy="12" r="1.4"/><circle cx="21" cy="10" r="1.4"/><circle cx="25" cy="13" r="1.4"/></svg></span><span><strong>Pellet cassette</strong><small>Historical 24 mm pilot</small></span><span class="gx-model-number">01</span></button>
+    <button type="button" data-gx-model="bank" aria-pressed="false"><span class="gx-model-icon" aria-hidden="true"><svg viewBox="0 0 40 32"><path d="m5 7 20-5 10 5-20 5L5 7Zm0 5 10 5 20-5M5 17l10 5 20-5M5 22l10 5 20-5M5 7v19m30-19v18"/></svg></span><span><strong>Cassette bank</strong><small>Ten matching cassettes</small></span><span class="gx-model-number">02</span></button>
+    <button type="button" data-gx-model="channel" aria-pressed="false"><span class="gx-model-icon" aria-hidden="true"><svg viewBox="0 0 40 32"><path d="m4 10 20-7 12 6-20 7-12-6Zm0 6 12 6 20-7M4 22l12 6 20-7M9 12l20-7m-14 10 20-7"/></svg></span><span><strong>Coated channels</strong><small>Alternative contactor</small></span><span class="gx-model-number">03</span></button>
+  </nav>
+
+  <div class="px-workbench"><div class="px-controls-column">
+  <section class="px-intro" id="px-intro" aria-label="Saved scenario selection">
+    <div class="px-intro-title"><span class="px-status-dot" aria-hidden="true"></span><div><strong>Cycle replay</strong><small id="px-scenario-context">65% RH · 10 kg dry sorbent</small></div></div>
+    <div class="px-select-field"><label for="px-scenario">Saved case</label><select id="px-scenario"></select></div>
+    <div class="px-select-field"><label for="px-compare">Compare with</label><select id="px-compare"><option value="">No comparison</option></select></div>
+    <div id="px-cycle-choice" class="px-select-field" hidden><label for="px-run-cycle">Cycle in run</label><select id="px-run-cycle"></select></div>
+    <details id="px-add-run"><summary>Add run</summary>
+      <label for="px-local-jobs">Completed runs on this installation</label>
+      <select id="px-local-jobs" disabled></select>
+      <div class="px-run-actions"><button type="button" id="px-open-job" disabled>Open run</button><button type="button" id="px-refresh-jobs">Refresh</button></div>
+      <small id="px-history-status" role="status"></small>
+      <label for="px-run-file">Or open an exported result JSON</label>
+      <input id="px-run-file" type="file" accept=".json,application/json">
+      <p id="px-import-status" role="status" aria-live="polite"></p>
+      <button type="button" id="px-remove-run" hidden>Remove from replay list</button>
+    </details>
+    <p class="px-evidence-flag" id="px-evidence-flag">Conditional model result</p>
+  </section>
+
+  <section class="px-replay" id="px-replay" aria-label="Saved cycle playback">
+    <div class="px-transport">
+      <div class="px-cycle-heading"><span class="px-overline" id="px-cycle-label">Saved cycle 10</span><strong id="px-current-phase">Adsorption</strong></div>
+      <div class="px-clock-block"><output id="px-clock">0:00:00</output><small id="px-clock-total"></small></div>
+      <div class="px-play-controls" role="group" aria-label="Cycle playback controls">
+        <button type="button" id="px-restart" title="Return to cycle start" aria-label="Restart cycle">↺</button>
+        <button type="button" id="px-previous" title="Previous phase" aria-label="Previous phase">│‹</button>
+        <button type="button" id="px-play" class="primary" aria-pressed="false">Play cycle</button>
+        <button type="button" id="px-next" title="Next phase" aria-label="Next phase">›│</button>
+        <label for="px-speed" class="px-speed-label">Speed<select id="px-speed"><option value="60">60×</option><option value="300" selected>300×</option><option value="1200">1200×</option></select></label>
+      </div>
+    </div>
+    <div id="px-phase-track" class="px-phase-track" aria-hidden="true"><div id="px-phase-progress"></div></div>
+    <label for="px-time" class="px-sr-only">Elapsed cycle time</label><input type="range" id="px-time" min="0" max="1" value="0" step="any" aria-describedby="px-time-help">
+    <div id="px-phases" class="px-phases" role="group" aria-label="Jump to phase"></div>
+    <p id="px-time-help" class="px-time-help">The bar follows elapsed time. Select a phase or drag the clock to inspect a saved state.</p>
+  </section>
+
+  </div><div class="px-visual-column">
+    <div class="px-meters" id="px-readouts">
+      <div><small>CO₂ adsorbed in the bed</small><strong id="px-inventory">—</strong><span id="px-inventory-time">Saved sample</span></div>
+      <div><small>Mean bed temperature</small><strong id="px-temp-value">—</strong><span id="px-scalar-time">Saved trace</span></div>
+      <div><small id="px-pressure-label">Mean absolute pressure</small><strong id="px-pressure-value">—</strong><span id="px-pressure-time">Saved trace</span></div>
+      <div><small id="px-product-label">Collected in this cycle</small><strong id="px-product">—</strong><span id="px-product-time">Saved endpoint</span></div>
+      <div><small id="px-electric-label">Electricity in this cycle</small><strong id="px-electric">—</strong><span id="px-electric-time">Saved endpoint</span></div>
+    </div>
+  <div class="px-scene-toolbar" id="px-scene-toolbar">
+    <div><label for="px-field">Bed colour</label><select id="px-field"><option value="temperature">Temperature</option><option value="loading">CO₂ loading</option><option value="composition">Gas CO₂ fraction</option></select></div>
+    <div><label for="px-label-mode">Labels</label><select id="px-label-mode"><option value="all">All equipment</option><option value="active" selected>Active route</option><option value="selected">Selected equipment</option></select></div>
+    <button type="button" id="px-motion" aria-pressed="true">Pause flow markers</button>
+    <span>Click equipment to inspect</span>
+  </div>
+  <div class="gx-layout" id="gx-layout">
+    <div class="gx-stage" id="gx-stage" aria-label="Interactive 3D geometry">
+      <div class="gx-stage-heading"><span id="gx-index">01 / PACKED BED</span><strong id="gx-stage-title">Pellet cassette</strong><small id="gx-stage-note">One of ten parallel beds</small></div>
+      <div class="gx-stage-badge" id="gx-render-note">Pellets enlarged 4×</div>
+      <canvas id="gx-canvas" tabindex="0" role="img" aria-label="Rotatable 3D model of a pellet cassette" aria-describedby="gx-keyboard-help gx-visual-scope gx-flow-scope"></canvas>
+      <div class="gx-flow-key" id="gx-flow-key"><span class="gx-flow-pulse" aria-hidden="true"></span>Adsorption airflow <span>Direction only</span></div>
+      <div class="gx-flow-label gx-flow-label-in" id="gx-flow-inlet"><span aria-hidden="true">↘</span> Ambient air in</div>
+      <div class="gx-flow-label gx-flow-label-out" id="gx-flow-outlet"><span aria-hidden="true">↗</span> Air out</div>
+      <div class="gx-loading" id="gx-loading" role="status"><span class="gx-loading-mark" aria-hidden="true"></span><strong>Preparing geometry</strong><span>Building the local 3D view…</span></div>
+      <div class="gx-fallback" id="gx-fallback" role="alert" hidden><strong>The 3D view is unavailable</strong><p id="gx-fallback-message">This browser needs WebGL 2 to display the geometry.</p><p>Any loaded saved data remains available in the panels and tables. <a href="/docs/data/architecture_cycle_pilot_scenario.json">Read the geometry inputs</a>.</p><button type="button" id="gx-retry">Reload viewer</button></div>
+      <div class="gx-camera" role="group" aria-label="Camera views"><button type="button" data-gx-camera="iso" aria-pressed="true">Isometric</button><button type="button" data-gx-camera="front" aria-pressed="false">Front</button><button type="button" data-gx-camera="top" aria-pressed="false">Top</button></div>
+      <div class="gx-zoom" role="group" aria-label="Zoom and reset"><button type="button" id="gx-zoom-in" aria-label="Zoom in">+</button><button type="button" id="gx-zoom-out" aria-label="Zoom out">−</button><button type="button" id="gx-reset" aria-label="Reset camera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6"/></svg></button></div>
+      <div class="gx-legend" aria-label="Model colours"><span><i class="gx-legend-material"></i>Adsorbent</span><span><i class="gx-legend-metal"></i>Metal / support</span><span><i class="gx-legend-seal"></i>Frame details</span></div>
+      <div class="px-field-key" id="px-field-key"><span id="px-field-key-title">Solid temperature</span><i></i><span id="px-field-key-range">25–130 °C</span><small id="px-stage-field-time">Saved bed field · cycle start</small></div>
+      <div class="gx-stage-footer"><span><span aria-hidden="true">↔</span> Drag to orbit</span><span>Scroll to zoom</span><span id="gx-view-mode">Cutaway view</span></div>
+    </div>
+
+    <aside class="px-inspector" id="px-inspector" aria-label="Process workspace">
+      <div class="px-tabs" role="tablist" aria-label="Process information">
+        <button type="button" role="tab" id="px-tab-trends" aria-controls="px-panel-trends" aria-selected="true" data-px-tab="trends">Trends</button>
+        <button type="button" role="tab" id="px-tab-equipment" aria-controls="px-panel-equipment" aria-selected="false" tabindex="-1" data-px-tab="equipment">Equipment</button>
+        <button type="button" role="tab" id="px-tab-bed" aria-controls="px-panel-bed" aria-selected="false" tabindex="-1" data-px-tab="bed">Bed</button>
+        <button type="button" role="tab" id="px-tab-compare" aria-controls="px-panel-compare" aria-selected="false" tabindex="-1" data-px-tab="compare">Compare</button>
+      </div>
+      <div id="px-panel-trends" class="px-panel" role="tabpanel" aria-labelledby="px-tab-trends">
+        <div class="px-chart-legend" id="px-chart-legend"></div>
+        <div class="px-plots">
+          <figure><figcaption><span>CO₂ adsorbed in the bed</span><small id="px-inventory-basis">Whole bed · saved trace</small></figcaption><svg id="px-inventory-plot" viewBox="0 0 360 150" role="img" tabindex="0" aria-label="Total adsorbed CO₂ in grams versus elapsed cycle time. Use the arrow keys to step through saved inventories."></svg></figure>
+        <figure><figcaption><span>Bed temperature</span><small id="px-temp-stat">Mean + cell range</small></figcaption><svg id="px-temperature" viewBox="0 0 480 154" role="img" tabindex="0" aria-label="Saved mean bed temperature against cycle time. Click to seek; arrow keys step through saved samples."></svg></figure>
+          <figure><figcaption><span>Absolute pressure</span><small id="px-pressure-stat">Mean</small></figcaption><svg id="px-pressure" viewBox="0 0 480 154" role="img" tabindex="0" aria-label="Saved absolute pressure against cycle time. Click to seek; arrow keys step through saved samples."></svg></figure>
+          <figure><figcaption><label for="px-meter-plot">Cycle accumulation</label><select id="px-meter-plot"><option value="product">Collected CO₂</option><option value="electricity">Electricity</option></select></figcaption><svg id="px-accumulation" viewBox="0 0 480 154" role="img" tabindex="0" aria-label="Cycle accumulation at saved phase endpoints"></svg></figure>
+        </div>
+        <p id="px-chart-readout" class="px-chart-readout"></p><p class="px-note" id="px-trend-note">Click a plot to move the clock. The bed inventory holds the latest saved mass. Points are saved samples; the shaded temperature band spans the bed cells. Accumulation holds the last saved endpoint.</p>
+      </div>
+      <div id="px-panel-equipment" class="px-panel" role="tabpanel" aria-labelledby="px-tab-equipment" hidden>
+        <label for="px-component">Inspect equipment</label><select id="px-component"></select>
+        <div class="px-equipment-title"><h2 id="px-component-title">Adsorption bed</h2><button type="button" id="px-focus-component">Locate in 3D</button></div>
+        <span id="px-component-state" class="px-component-state"></span><p id="px-component-description"></p><dl id="px-component-facts"></dl>
+        <div class="px-route"><h3>Active gas route</h3><div id="px-route-list"></div><p id="px-route-note"></p></div>
+      </div>
+      <div id="px-panel-bed" class="px-panel" role="tabpanel" aria-labelledby="px-tab-bed" hidden>
+        <div class="px-bed-heading"><h2 id="px-field-title">Solid temperature</h2><button type="button" id="px-show-bed">Locate bed</button></div>
+        <p id="px-field-time" class="px-snapshot-note"></p>
+        <svg id="px-profile" viewBox="0 0 480 220" role="img" aria-label="Saved transverse bed profile"></svg>
+        <div class="px-bed-stats"><div><small>Minimum</small><strong id="px-field-min"></strong></div><div><small>Maximum</small><strong id="px-field-max"></strong></div></div>
+        <p id="px-solid"></p><p class="px-note">16 cells across the 8 mm symmetric half-bed. Colour scales stay fixed when you change time or material. Spatial fields are available at phase boundaries; the last saved field is held between them.</p>
+        <p class="px-note">This is a transverse profile. The model does not resolve an axial breakthrough front. Bed thickness is enlarged in 3D.</p><a href="#px-cell-details">Saved cell values ↓</a>
+      </div>
+      <div id="px-panel-compare" class="px-panel" role="tabpanel" aria-labelledby="px-tab-compare" hidden>
+        <h2>Saved scenario comparison</h2><p id="px-comparison-note"></p><div class="px-table"><table id="px-comparison"><thead></thead><tbody></tbody></table></div>
+        <p class="px-note">Trends share elapsed cycle time. Each scenario ends at its own saved duration. A cycle equivalent is an extrapolation of this cycle; it does not establish cyclic steady state or measured output.</p>
+        <div id="px-comparison-evidence"></div><a href="/screening/">Set up a new calculation ↗</a>
+      </div>
+    </aside>
+    <aside class="gx-inspector" id="gx-geometry-inspector" aria-label="Geometry information" hidden>
+      <section class="gx-info"><div class="gx-panel-label">The contactor</div><h2 id="gx-info-title">Pellet cassette</h2><p id="gx-description">A shallow bed between two heated faces. The open corner reveals the adsorbent and retaining frame.</p><div class="gx-material-swatch"><span aria-hidden="true"></span><div><strong>Hypothetical adsorbent</strong><small>Formulation and properties unknown</small></div></div>
+        <dl class="gx-facts" id="gx-facts"></dl>
+      </section>
+      <section class="gx-controls"><div class="gx-panel-label">Display</div>
+        <div class="gx-toggle-row"><label for="gx-cutaway">Cutaway<span>Look inside the contactor</span></label><input type="checkbox" id="gx-cutaway" role="switch" checked></div>
+        <div class="gx-toggle-row"><label for="gx-explode">Exploded view<span>Separate the component layers</span></label><input type="checkbox" id="gx-explode" role="switch"></div>
+        <div class="gx-toggle-row"><label for="gx-airflow">Airflow<span>Inlet, contactor and outlet</span></label><input type="checkbox" id="gx-airflow" role="switch" checked></div>
+        <div class="gx-toggle-row"><label for="gx-flow-motion">Animate airflow<span id="gx-flow-motion-note">Illustrative speed</span></label><input type="checkbox" id="gx-flow-motion" role="switch" checked></div>
+        <div class="gx-toggle-row"><label for="gx-rotate">Slow rotation<span>Turn the model automatically</span></label><input type="checkbox" id="gx-rotate" role="switch"></div>
+        <div class="gx-toggle-row"><label for="gx-grid">Reference grid<span>Show the ground plane</span></label><input type="checkbox" id="gx-grid" role="switch"></div>
+      </section>
+      <section class="gx-airflow-panel"><div class="gx-panel-label">Adsorption phase</div><p id="gx-flow-explanation">Air crosses the 150 mm packed-bed length between the heated faces.</p><div class="gx-flow-legend"><span><i></i>Air in</span><span aria-hidden="true">→</span><span><i></i>Air out</span></div><p class="gx-flow-scope" id="gx-flow-scope">Arrows show direction during adsorption. Speed, flow distribution and CO₂ concentration are not calculated. Regeneration and CO₂ collection are not shown.</p></section>
+      <details class="gx-source"><summary>Geometry basis</summary><p>Dimensions come from the saved illustrative axial-pilot presets. These views do not represent a validated prototype.</p><a href="/docs/data/architecture_cycle_pilot_scenario.json">View source geometry <span aria-hidden="true">↗</span></a><a href="/architecture/">Open analytical comparison <span aria-hidden="true">↗</span></a></details>
+    </aside>
+  </div>
+  </div></div>
+  <section class="px-details" id="px-details" aria-label="Saved cycle details">
+    <p id="px-import-details" hidden><span id="px-import-source"></span> · <a id="px-added-csv" download>Download cycle bed CO₂ inventory (CSV)</a></p>
+    <details id="px-cell-details"><summary>Saved bed values · transverse half-bed</summary><p id="px-cell-time"></p><p>Values come from the saved endpoint and are rounded for display. Download the replay data for full precision. Tiny negative water values are numerical residuals, not physical negative humidity. Extension across unresolved directions in the 3D view is illustrative.</p><div class="px-table"><table><thead><tr><th>Cell</th><th>Center mm</th><th>Solid °C</th><th>CO₂ mol/kg</th><th>H₂O mol/kg</th><th>Gas CO₂ %</th><th>Gas H₂O fraction</th></tr></thead><tbody id="px-cells"></tbody></table></div></details>
+    <details><summary>Complete cycle accounting</summary><p>Full-device values for the selected complete cycle. Cooling/auxiliaries are the remaining metered electricity; thermal cooling duty is not counted again.</p><div class="px-table"><table><thead><tr><th>Phase</th><th>Minutes</th><th>CO₂ g</th><th>Heater kWh</th><th>Pump kWh</th><th>Blower kWh</th><th>Cooling / aux kWh</th><th>Total kWh</th></tr></thead><tbody id="px-phase-ledger"></tbody></table></div></details>
+    <details><summary>Saved run context, evidence and export</summary><div class="px-averages"><p id="px-average"></p><p id="px-latest"></p><p id="px-total"></p></div><p id="px-evidence"></p><p>The default replay uses the reviewed Lewatit case at 65% RH. The other three cases use dry feed. Full-state cyclic steady state, mesh convergence, humid-mixture validity, hardware and lifetime are unqualified. The 48 h metrics include the final partial cycle. Upstream drying and downstream drying, compression and storage are outside the electricity boundary.</p><details><summary>Source identities</summary><div id="px-identities"></div></details><div class="px-exports"><a id="px-replay-json" href="/docs/data/lewatit_humid_cycle.json" download>Replay JSON</a><a id="px-inventory-csv" download>Bed CO₂ inventory CSV</a><a id="px-native-json">Original native JSON</a><a id="px-native-csv">Original native CSV</a></div><p>Physical inputs are edited and queued in <a href="/screening/">Materials &amp; simulations</a>. This workspace displays saved calculations.</p></details>
+  </section>
+  <div class="gx-boundary" id="gx-visual-scope"><span class="gx-boundary-icon" aria-hidden="true">i</span><p id="gx-scope-note">Pellets are enlarged for visibility and show a representative sample. Frame, seals, fasteners and mounting details are illustrative. No cycle calculation runs in this viewer.</p></div>
+  <p class="gx-keyboard-help" id="gx-keyboard-help">Keyboard: focus the model, then use arrow keys to orbit, + / − to zoom, or Home to reset. Touch: drag to orbit and pinch to zoom.</p>
+  <noscript><p>Enable JavaScript to use the interactive viewer. <a href="/docs/data/architecture_cycle_pilot_scenario.json">The saved geometry inputs</a> remain readable.</p></noscript>
+</main>
+<script src="/docs/assets/geometry/boot.js" defer></script>
+</body>
+</html>

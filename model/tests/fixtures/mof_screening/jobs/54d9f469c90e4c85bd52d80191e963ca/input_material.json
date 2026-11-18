@@ -1,0 +1,287 @@
+{
+  "adsorbed_phase_cp_J_kg_K": [
+    852.0887535645713,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "assumptions": [
+    "A constant 70 kJ/mol isosteric heat is a named screening assumption for a possible reversible hot scenario; its broad 40-100 kJ/mol range is not experimental uncertainty.",
+    "A 1e-4 s^-1 LDF rate in both directions is a named scenario assumption with a broad 1e-5 to 1e-3 s^-1 range; no intrinsic kinetics are claimed.",
+    "A 1000 J/kg/K dry solid Cp is a named scenario assumption with a broad 700-1500 J/kg/K range.",
+    "The shared 10 kg dry shaped basis, geometry and transport are transferred assumptions because no candidate-specific pellet, binder, density or transport measurements are supplied.",
+    "Source powder mol/kg loadings map to the complete dry shaped inventory with an explicit unity loading-retention and mass-transfer assumption; binder fraction, shaped density and effective transport remain unknown and no binder-free shaped body is claimed.",
+    "The measured 25 C dry curve is not extrapolated as a demonstrated hot equilibrium law; the existing constant-heat activity transfer is conditional and not validated against withheld temperatures.",
+    "Dry-only water handling has zero physical water storage, rates, heat and adsorbed Cp; any nonzero relative humidity is rejected.",
+    "The two SI views are the same 25 C curve and provide no independent multi-temperature validation."
+  ],
+  "co2": {
+    "basis": "Measured dry 25 C filled-marker CO2 adsorption curve digitized from SI Figure S70. No temperature-dependent source curve, fit or measured isosteric heat is available for the reversible hot scenario.",
+    "heat_J_mol": 70000.0,
+    "reference_curve": {
+      "class": "measured, digitized from publisher figure; nonnegative monotone adsorption branch",
+      "digitization_audit_sha256": "801bb3f4ed9413dc441f8a85020a26f0d41c6e475b08f73e46e72013f4f04bf8",
+      "loading_mol_kg": [
+        0.08234295415959253,
+        0.15874363327674024,
+        0.233446519524618,
+        0.3030560271646859,
+        0.3709677419354839,
+        0.43378607809847197,
+        0.4864176570458404,
+        0.5526315789473685,
+        0.6035653650254669,
+        0.6477079796264855,
+        0.6918505942275043,
+        0.7224108658743633,
+        0.7376910016977929,
+        0.7546689303904923,
+        0.766553480475382,
+        0.7767402376910016,
+        0.7852292020373515,
+        0.7920203735144312,
+        0.7971137521222411,
+        0.83276740237691,
+        0.8616298811544991,
+        0.8887945670628183,
+        0.9108658743633277,
+        0.931239388794567,
+        0.9499151103565365,
+        0.966893039049236,
+        0.9855687606112055,
+        1.000848896434635,
+        1.1162988115449914,
+        1.2113752122241086,
+        1.297962648556876,
+        1.3777589134125636,
+        1.4524617996604414,
+        1.5220713073005094,
+        1.5882852292020373
+      ],
+      "pressure_Pa": [
+        4.91950713435551,
+        7.392144380339949,
+        11.056295583947145,
+        16.0096308847077,
+        22.547330010183554,
+        31.608164559859325,
+        42.69984182656587,
+        58.22004633840191,
+        85.08705982814566,
+        123.77839331751585,
+        186.85440178910045,
+        299.5623458367131,
+        368.9107339835956,
+        496.0650548741681,
+        583.2788696651876,
+        692.202470188595,
+        791.6129279689445,
+        888.6976414353379,
+        1006.9652163726342,
+        1951.613635459702,
+        2987.316748032056,
+        3961.5913828176363,
+        4969.839130762646,
+        5952.762071059599,
+        6934.846324997565,
+        7930.792276500102,
+        8944.732772879443,
+        9903.291941291714,
+        19734.07764194639,
+        29652.797964936177,
+        39689.29413786941,
+        49560.58021539502,
+        59637.88335055364,
+        69476.91697521576,
+        80193.57300182863
+      ],
+      "source_completeness": "Filled adsorption symbols detected; highest-pressure symbols obscured by open desorption markers were not recovered. This is not a complete numeric extraction.",
+      "source_csv_sha256": "5f9a8e3ba3c6774b29211e924a2277a75b262c2d6227055079aa77141207d9e3",
+      "source_doi": "10.1021/jacs.3c14125",
+      "source_locator": "JACS 2024 supporting information Figure S70, printed page 57, linear/log views of the same 25 C curve",
+      "source_pdf_sha256": "9228f8992cbd9889a5130c83b163f1f430bb5dc77b5b136027bd3c1ebbf524e0",
+      "source_symbol_count_detected": 35,
+      "temperature_K": 298.15
+    },
+    "support": {
+      "displayed_scenario_temperature_range_K": [
+        253.15,
+        413.15
+      ],
+      "measured_temperature_range_K": [
+        298.15,
+        298.15
+      ],
+      "note": "The source methods mention 288, 298 and 308 K, but the supplied Figures S65/S70 expose a 25 C curve only. No multi-temperature array is claimed.",
+      "policy": "named_extrapolation_scenario",
+      "scenario_name": "dry_CO2_hot_temperature_shift_and_pressure_transfer_not_validated"
+    }
+  },
+  "co2_water_penalty_per_mol_kg": 0.0,
+  "equilibrium_family": "activity_shift_reference_isotherm",
+  "evidence": {
+    "basis": "A digitized 25 C dry CO2 adsorption curve is used as the measured reference shape. Reversible hot behavior, isosteric heat, intrinsic rates and the shared shaped basis are explicit screening assumptions because complete source evidence is absent.",
+    "loaded_source_sha256": "01a1d44981e37a9464bae28343e34794bde9ed45f76f2460f17845e20e2b0436",
+    "not_for": "humid coadsorption or hydration-history prediction, equilibrium-complete hot vacuum prediction, intrinsic kinetics, shaped-device prediction, lifetime, CSS, annual production, hardware qualification or a measured winner.",
+    "status": "CONDITIONAL_DRY_ONLY_NAMED_EXTRAPOLATION_NOT_MODEL_READY"
+  },
+  "kinetics": {
+    "adsorption_rate_s_inv": [
+      0.0001,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "desorption_rate_s_inv": [
+      0.0001,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "evidence_status": "ASSUMED_LDF_SCREENING_SCALE: no intrinsic adsorption or desorption kinetics were extracted; both directions use a named 1e-4 s^-1 scenario assumption."
+  },
+  "material_id": "mof808_tapa_2024_25c_dry_conditional",
+  "maximum_bed_temperature_C": 140.0,
+  "missing_evidence": {
+    "candidate_specific_pellet_or_coating": null,
+    "candidate_specific_solid_heat_capacity": null,
+    "direct_humid_co2_equilibrium_closure": null,
+    "fit_tested_hot_temperature_representation": null,
+    "hot_desorption_kinetics": null,
+    "humid_coadsorption_kinetics": null,
+    "intrinsic_adsorption_desorption_rates": null,
+    "measured_isosteric_heat_of_adsorption": null,
+    "shaped_bed_thermal_conductivity": null,
+    "shaped_particle_effective_diffusivity": null
+  },
+  "name": "MOF-808-TAPA, 2024 25 C dry conditional",
+  "nitrogen": {
+    "heat_J_mol": 0.0,
+    "henry_mol_kg_Pa_at_reference": 0.0
+  },
+  "oxygen": {
+    "heat_J_mol": 0.0,
+    "henry_mol_kg_Pa_at_reference": 0.0
+  },
+  "provenance": {
+    "co2": {
+      "class": "source-derived conditional assumption",
+      "statement": "Measured and digitized 25 C dry adsorption shape from SI Figure S70; the reversible hot heat shift is an explicit assumption, not a fitted or measured result."
+    },
+    "co2_reference_curve": {
+      "class": "measured, digitized",
+      "decision": "Retain the SI table value and digitized interpolation separately. The discrepancy exceeds the stated digitization uncertainty and is not rescaled or hidden.",
+      "difference_table_minus_digitized_mol_kg": 0.023011541893272647,
+      "digitized_at_40_Pa_mol_kg": 0.47498845810672735,
+      "digitized_pressure_relative_uncertainty": 0.013978946984389173,
+      "loading_digitization_uncertainty_mol_kg": 0.0050933786078098476,
+      "reported_experimental_uncertainty": null,
+      "source_asset": "Research/MOF_candidates_2026-11-03/lead/secondary_sources/MOF808_TAPA_25C_DIGITIZED.csv",
+      "source_asset_sha256": "5f9a8e3ba3c6774b29211e924a2277a75b262c2d6227055079aa77141207d9e3",
+      "source_audit": "Research/MOF_candidates_2026-11-03/lead/secondary_sources/MOF808_DIGITIZATION_AUDIT.json",
+      "source_audit_sha256": "801bb3f4ed9413dc441f8a85020a26f0d41c6e475b08f73e46e72013f4f04bf8",
+      "source_table_at_400_ppm_mol_kg": 0.498
+    },
+    "co2_temperature_shift": {
+      "basis": "Named amine-material screening assumption used with the existing constant activity-shift law. It is not fitted to data and is not a measured or published MOF-808-TAPA heat.",
+      "broad_scenario_range_J_mol": [
+        40000.0,
+        100000.0
+      ],
+      "class": "assumed",
+      "constant_isosteric_heat_J_mol": 70000.0
+    },
+    "kinetics": {
+      "adsorption_rate_s_inv": 0.0001,
+      "basis": "Named LDF scenario scale; finite-time breakthrough or cycling data are not converted into intrinsic kinetics.",
+      "broad_scenario_range_s_inv": [
+        1e-05,
+        0.001
+      ],
+      "class": "assumed",
+      "desorption_rate_s_inv": 0.0001
+    },
+    "loaded_builtin": {
+      "baseline_sha256": "b04bbd3d44b330d7d8a5adedac7d826dc0bc5c7ebb90dc982a4d2625021904da",
+      "material_id": "mof808_tapa_2024_25c_dry_conditional",
+      "name": "MOF-808-TAPA, 2024 25 C dry conditional",
+      "package_file": "mof808_tapa_2024_25c_dry_conditional.json",
+      "schema": "mof-screening-loaded-builtin/1"
+    },
+    "mass_mapping": {
+      "basis": "Source powder mol/kg loadings are applied directly to the shared 10 kg complete dry shaped inventory under a named unity loading-retention and mass-transfer assumption. No binder-free shaped-body claim follows.",
+      "class": "assumed",
+      "executable_inventory_basis": "per kg complete dry shaped inventory in the shared app case",
+      "final_binder_mass_fraction": null,
+      "shaped_density": null,
+      "shaped_effective_transport": null,
+      "source_loading_basis": "per kg dry MOF-808-TAPA powder",
+      "unity_loading_retention_and_mass_transfer": true
+    },
+    "reported_humid_context": {
+      "class": "measured protocol context, not represented by this package",
+      "description": "The source reports persistent humid desorption behavior and humidity-enhanced breakthrough uptake. No coupled humid chemistry or hydration-history state is inferred from the unary dry curve."
+    },
+    "sample_identity": {
+      "class": "measured",
+      "description": "MOF-808 functionalized with tris(3-aminopropyl)amine (TAPA); separate from MOF-808-Lys and historical mmen materials."
+    },
+    "shaped_transport": {
+      "basis": "The shared app geometry and transport inputs are used for a complete dry shaped basis. No candidate-specific pellet, binder, density or effective diffusivity is claimed.",
+      "class": "transferred to shared assumption"
+    },
+    "solid_cp": {
+      "basis": "Neutral screening value; no MOF-808-TAPA-specific heat capacity is claimed.",
+      "broad_scenario_range_J_kg_K": [
+        700.0,
+        1500.0
+      ],
+      "class": "assumed",
+      "value_J_kg_K": 1000.0
+    },
+    "source_table_context": {
+      "single_component_dry_25C_uptake_at_400_ppm_mol_kg": 0.498,
+      "source_locator": "Supporting Information Table S4, printed page 57"
+    },
+    "thermal": {
+      "class": "assumption",
+      "statement": "Assumed 1000 J/kg/K dry solid Cp and transferred shared shaped thermal basis; no candidate-specific measurement is claimed."
+    },
+    "water": {
+      "class": "numerical structural mode; no physical coefficients",
+      "physical_storage_mol_kg": 0.0,
+      "solver_normalizer_mol_kg": 0.05
+    }
+  },
+  "reference_temperature_K": 298.15,
+  "schema": "mof-screening-material/1",
+  "shaped_material": {
+    "basis": "The source sample is a polyamine-functionalized MOF powder. Its mol/kg loadings are mapped to the shared 10 kg complete dry shaped inventory under an explicit unity loading-retention and mass-transfer assumption; this is not evidence of a binder-free shaped body.",
+    "binder_support": "No candidate-specific binder, support or final shaped mass fraction is supplied; none is inferred.",
+    "particle_geometry": "No candidate-specific shaped particle geometry is supplied; the shared case geometry and transport values are named transfers."
+  },
+  "solid_cp_J_kg_K": 1000.0,
+  "synthetic": false,
+  "uncertainty": {
+    "classification": "CONDITIONAL_NAMED_EXTRAPOLATION",
+    "digitization": "Per-point center uncertainty and 40 Pa interpolation uncertainty are retained in the digitization audit. Experimental uncertainty was not supplied.",
+    "representation": "No hot or humid representation gate was passed. The package remains a conditional dry screening scenario.",
+    "source_consistency": "The 40 Pa digitized value is 0.474988458 mol/kg while the SI table reports 0.498 mol/kg; the difference is retained.",
+    "statement": "Digitization uncertainty and the retained 40 Pa table discrepancy bound the source consistency check. Hot heat, dry solid Cp, LDF and shaped transport are broad named scenario assumptions, not measurements or fits.",
+    "thermal_and_kinetic": "Heat, dry solid Cp and LDF values are named scenario assumptions with broad ranges, not fitted coefficients or experimental uncertainty."
+  },
+  "validity": {
+    "co2": "Conditional 25 C measured dry reference shape. The reversible hot activity shift is an explicitly assumed scenario and is not validated equilibrium data.",
+    "co2_dry_equilibrium": "Valid as a conditional 25 C measured reference-shape scenario. Hot behavior is a named constant-heat extrapolation, not validated equilibrium data.",
+    "initial_state_interpretation": "The app's declared initial state is a scenario, not cyclic steady state.",
+    "kinetics": "Both-direction LDF rates are scenario assumptions; no intrinsic material kinetics are claimed.",
+    "thermal": "Solid Cp and shaped transport are assumptions.",
+    "water": "Dry-only. Any nonzero relative humidity at the case or weather forcing boundary is rejected; direct humidity and hydration-history physics are unrepresented."
+  },
+  "water": {
+    "basis": "No defensible coupled humid chemistry or hydration-history law is represented. Water storage, rates, heat and adsorbed Cp are exactly zero; the positive normalizer is a numerical state-layout scale only. Every selected weather interval must have RH exactly zero.",
+    "model": "dry_only",
+    "physical_storage_mol_kg": 0.0,
+    "solver_normalizer_mol_kg": 0.05
+  }
+}

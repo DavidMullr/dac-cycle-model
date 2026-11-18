@@ -1,0 +1,284 @@
+{
+  "schema": "mof-screening-material/1",
+  "material_id": "lewatit_vp_oc_1065_low2023_conditional",
+  "name": "Lewatit VP OC 1065, dry-curve conditional benchmark",
+  "equilibrium_family": "activity_shift_reference_isotherm",
+  "synthetic": false,
+  "evidence": {
+    "status": "CONDITIONAL_SOURCE_BACKED_DRY_CO2_UNARY_WATER",
+    "basis": "Measured 25 C Lewatit CO2 reference curve with a fitted constant activity shift, measured solid Cp and unary water curve; direct humid coadsorption remains blocked.",
+    "not_for": "humid coadsorption validation, steam-assisted TVSA transfer, equilibrium-complete four-hour regeneration, shaped-device prediction, lifetime, CSS, annual production or hardware qualification."
+  },
+  "shaped_material": {
+    "basis": "The webapp case supplies 10 kg complete dry shaped resin material.",
+    "binder_support": "Commercial resin beads are represented as the dry resin solid; no additional binder is added.",
+    "particle_geometry": "Source measured beads span 0.3-1.2 mm; the shared case particle diameter remains an explicit transfer assumption."
+  },
+  "reference_temperature_K": 298.15,
+  "maximum_bed_temperature_C": 120.0,
+  "solid_cp_J_kg_K": 1307.4440323153407,
+  "co2_water_penalty_per_mol_kg": 0.0,
+  "co2": {
+    "heat_J_mol": 75883.673,
+    "reference_curve": {
+      "temperature_K": 298.15,
+      "pressure_Pa": [
+        9.72962062883377,
+        19.192985302376748,
+        28.906120638370517,
+        38.75117010362149,
+        48.27895416805744,
+        57.02690719614029,
+        67.65673050427436,
+        79.38921289358139,
+        87.84225440311432,
+        97.26821824235917,
+        107.42611477975845,
+        118.60999332404137,
+        124.18728297586442,
+        137.1938571879387,
+        146.7166587126732,
+        154.30512230443955,
+        163.8590269557953,
+        176.64517742586136,
+        186.91424737701416,
+        195.29991732101442,
+        288.0032232805252,
+        384.4091204492569,
+        489.78803919582367,
+        569.9992996204376,
+        591.4229170886995,
+        672.365871812439,
+        784.25136757164,
+        908.6111084049226,
+        953.5013276584626,
+        5808.779622454835,
+        10453.57083748169,
+        15749.675827899171,
+        20668.93692550049,
+        25697.882428308105,
+        30828.382102990723,
+        35776.562337817384,
+        40896.59330720215,
+        45729.42045292969,
+        50895.05722009277,
+        55756.66211652833,
+        60842.96375559082,
+        65812.06309196778,
+        70838.79523461915,
+        75871.96809257813,
+        80858.13145927734,
+        85881.49880625,
+        90842.28176733399,
+        95842.71805209962,
+        99881.17267895509
+      ],
+      "loading_mol_kg": [
+        0.632388706215801,
+        0.7778253390508348,
+        0.8671454219506962,
+        0.9400439453125,
+        0.9897164112903527,
+        1.0349888076027343,
+        1.071772403466575,
+        1.111375863206831,
+        1.136828783944758,
+        1.1612633296781947,
+        1.187348985033345,
+        1.2059851025100568,
+        1.2149850932461101,
+        1.2369726244806754,
+        1.2526433099861687,
+        1.2682863692387367,
+        1.2917951556179423,
+        1.3089449770752721,
+        1.325247512278448,
+        1.3375219170167898,
+        1.4194339305616708,
+        1.5011984998551395,
+        1.558819460217944,
+        1.5929702857596062,
+        1.5998541197393523,
+        1.6256862226969575,
+        1.681344540428698,
+        1.717438008377995,
+        1.734688532049587,
+        2.1726436885221667,
+        2.3160713718633605,
+        2.4213017151752285,
+        2.487389333639661,
+        2.5416472606586757,
+        2.586638608899199,
+        2.6265178387574566,
+        2.659834932815835,
+        2.696800157117579,
+        2.725254802463747,
+        2.751804966433036,
+        2.778759010262076,
+        2.8050722938453427,
+        2.830358432680929,
+        2.854854219386801,
+        2.8785963224490967,
+        2.8975860078070976,
+        2.915761744081835,
+        2.93766660883295,
+        2.9543200854674097
+      ],
+      "source_locator": "Low et al. 2023 supporting information AIF/workbook CO2 adsorption branch, 298.15 K",
+      "source_doi": "10.1021/acs.jced.3c00401",
+      "source_sha256": "2a19f54bb025a228bab6712a7a42db4eb81dd5804defa047e11ab943da984e30"
+    },
+    "support": {
+      "policy": "named_extrapolation_scenario",
+      "scenario_name": "hot_TVSA_extrapolation_not_validated",
+      "measured_temperature_range_K": [
+        288.15,
+        353.15
+      ]
+    },
+    "basis": "Measured 25 C reference curve with a fitted constant activity shift. The deployed Q was fit with 353.15 K withheld and 393.15 K included; the declared supported use range ends at 353.15 K. A separate fold trained without 393.15 K fails that holdout and is retained."
+  },
+  "water": {
+    "saturation_mol_kg": 14.4441483,
+    "half_loading_relative_humidity_at_reference": 0.99,
+    "sips_exponent": 1.76187839,
+    "heat_J_mol": 49000.0,
+    "source_locator": "Low et al. 2023 supporting information AIF/workbook H2O adsorption branch, 298.15 K",
+    "basis": "Unary Sips fit to measured 25 C water adsorption points; RMSE 0.231788 mol/kg. This is not direct CO2-water coadsorption."
+  },
+  "nitrogen": {
+    "henry_mol_kg_Pa_at_reference": 0.00000005827898242550593,
+    "heat_J_mol": 20300.0,
+    "source_locator": "Low et al. 2023 measured 298.15 K N2 points; throughput-zero fit; heat from Table 8"
+  },
+  "oxygen": {
+    "henry_mol_kg_Pa_at_reference": 0.00000013148832505736783,
+    "heat_J_mol": 16000.0,
+    "source_locator": "Low et al. 2023 measured 298.15 K O2 points; throughput-zero fit"
+  },
+  "adsorbed_phase_cp_J_kg_K": [
+    852.0887535645713,
+    4180.0,
+    1040.0,
+    920.0
+  ],
+  "kinetics": {
+    "adsorption_rate_s_inv": [
+      0.0002523457254389137,
+      0.0001,
+      0.0,
+      0.0
+    ],
+    "desorption_rate_s_inv": [
+      0.0002523457254389137,
+      0.0001,
+      0.0,
+      0.0
+    ],
+    "evidence_status": "CO2 adsorption rate is the 298.15 K value from a published 400 ppm Arrhenius LDF fit. Water rate is assumed; hot desorption rate is an explicit mirrored assumption; inert rates are disabled."
+  },
+  "provenance": {
+    "co2_reference_curve": {
+      "class": "measured",
+      "source_doi": "10.1021/acs.jced.3c00401",
+      "locator": "supporting information workbook CO2 adsorption branch at 298.15 K"
+    },
+    "co2_temperature_shift": {
+      "class": "fitted effective constant-isosteric heat",
+      "posthoc_diagnostic_note": "The 0.30 mol/kg diagnostic was observed after fitting, is not a predeclared gate, and is not reused from the MIL audit.",
+      "declared_supported_use_temperature_range_K": [288.15, 353.15],
+      "deployed_fit": {
+        "Q_J_mol": 75883.673,
+        "fit_rule": "least-squares loading residuals across measured adsorption temperatures except 353.15 K",
+        "training_temperatures_K": [288.15, 298.15, 308.15, 333.15, 343.15, 393.15],
+        "withheld_temperature_K": 353.15,
+        "withheld_RMSE_mol_kg": 0.17519832925019782,
+        "withheld_353_15K_RMSE_mol_kg": 0.17519832925019782,
+        "withheld_353_15K_max_abs_error_mol_kg": 0.24920218917350145,
+        "in_sample_393_15K_RMSE_mol_kg": 0.2556638705940961,
+        "in_sample_393_15K_max_abs_error_mol_kg": 0.3764045540005345,
+        "in_sample_393_15K_mean_error_mol_kg": 0.2448422806296574,
+        "in_sample_393_15K_compared_points": 17,
+        "support_note": "393.15 K informed the deployed coefficient and was evaluated in-sample, but the declared app support range still ends at 353.15 K. Hot operation is a named scenario, not a validity endorsement."
+      },
+      "separate_fold_withholding_393_15K": {
+        "Q_J_mol": 68024.53,
+        "fit_rule": "least-squares loading residuals across measured adsorption temperatures except 393.15 K",
+        "training_temperatures_K": [288.15, 298.15, 308.15, 333.15, 343.15, 353.15],
+        "withheld_temperature_K": 393.15,
+        "withheld_RMSE_mol_kg": 0.4464,
+        "withheld_393_15K_RMSE_mol_kg": 0.4464,
+        "withheld_393_15K_max_abs_error_mol_kg": 0.5567,
+        "withheld_393_15K_compared_points": 19,
+        "result": "FAIL_EXPLORATORY_DIAGNOSTIC",
+        "note": "This failure belongs to Q=68024.53, not the deployed Q=75883.673."
+      }
+    },
+    "solid_cp": {
+      "class": "measured fit evaluated at 298.15 K",
+      "source_doi": "10.1021/acs.jced.3c00401",
+      "equation": "cp[J/g/K] = a*T^-2 + b*T - c",
+      "parameters": {
+        "a_J_K_g_inv": -32300.0,
+        "b_J_g_inv_K_inv2": 0.00227,
+        "c_J_g_inv_K_inv": -0.994
+      }
+    },
+    "water_curve": {
+      "class": "fitted to measured unary adsorption branch",
+      "source_doi": "10.1021/acs.jced.3c00401",
+      "fit_rmse_mol_kg": 0.23178818715067193,
+      "fit_max_abs_error_mol_kg": 0.5695229668948905
+    },
+    "water_heat": {
+      "class": "measured limiting heat",
+      "source_doi": "10.1021/acs.jced.3c00401",
+      "locator": "Table 10",
+      "value_J_mol": 49000.0,
+      "uncertainty_J_mol": 29000.0
+    },
+    "co2_adsorption_kinetics": {
+      "class": "fitted Arrhenius LDF",
+      "source_doi": "10.1016/j.cherd.2025.01.048",
+      "locator": "preprint Table 1; ln(k0)=4.987 s^-1 and Ea=32.90 kJ/mol",
+      "value_s_inv": 0.0002523457254389137
+    },
+    "desorption_kinetics": {
+      "class": "assumed",
+      "basis": "mirrored adsorption rate because hot desorption LDF is not measured"
+    },
+    "humid_coadsorption": {
+      "class": "required but not implemented",
+      "source_doi": "10.1039/D1EE01272J",
+      "reason": "Published direct CO2 enhancement/diminution with water cannot be represented by independent unary laws; the shared coadsorption adapter remains a future bounded extension."
+    }
+  },
+  "assumptions": [
+    "The 25 C measured curve is the reference; a single effective isosteric heat is fitted to dry adsorption data.",
+    "The deployed Q=75883.673 fit withheld 353.15 K (RMSE 0.175198 mol/kg) and includes 393.15 K in fitting. Its 393.15 K in-sample RMSE is 0.255664 mol/kg. These are posthoc diagnostics, not a predeclared acceptance test.",
+    "A separate Q=68024.53 fold withheld 393.15 K and failed at RMSE 0.4464 mol/kg; that failed fit is preserved and is not attributed to the deployed Q.",
+    "The app's declared supported dry use range ends at 353.15 K even though 393.15 K informed the deployed fit. Hot operation remains a named extrapolation scenario.",
+    "The unary water Sips law is a bounded fit and does not reproduce direct water-CO2 coadsorption.",
+    "Water kinetics and hot desorption kinetics are explicit assumptions; the 25 C CO2 adsorption LDF value is not transferred as measured hot desorption.",
+    "The source bead diameter range and shared case geometry differ; no shaped-device transfer is validated."
+  ],
+  "validity": {
+    "co2_dry_equilibrium": "Deployed Q=75883.673 has a 353.15 K holdout diagnostic and an in-sample 393.15 K diagnostic; neither is formal acceptance. A different lower-temperature-trained fold failed its 393.15 K holdout. The supported use range ends at 353.15 K and hot use is named extrapolation. No model-ready or universal-validity claim follows.",
+    "water": "Unary adsorption-branch fit only; no direct humid coadsorption.",
+    "regeneration": "Hot desorption kinetics, equilibrium closure and steam-assisted operation are not validated. The four-hour pilot regeneration is not assumed equilibrium-complete.",
+    "initial_state_interpretation": "The app's declared initial state is a scenario, not CSS."
+  },
+  "missing_evidence": {
+    "direct_humid_co2_coadsorption_adapter": null,
+    "humid_coadsorption_kinetics": null,
+    "hot_desorption_kinetics": null,
+    "shaped_particle_effective_diffusivity": null,
+    "shaped_bed_thermal_conductivity": null,
+    "wet_pump_transfer": null,
+    "steam_assisted_cycle_closure": null
+  },
+  "uncertainty": {
+    "classification": "CONDITIONAL",
+    "statement": "The source reports CO2 td-Toth and water limiting-heat uncertainty; this constrained adapter does not propagate all source uncertainties. The deployed-Q 393.15 K in-sample error and the separate failed 393.15 K holdout are material to hot-cycle interpretation."
+  }
+}

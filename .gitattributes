@@ -1,0 +1,14 @@
+# Preserve exact bytes across clones: manifests bind raw SHA256, including
+# line endings. Text diffs still work normally.
+* -text
+*.py diff=python
+*.png -diff
+*.jpg -diff
+*.jpeg -diff
+*.gif -diff
+*.webp -diff
+*.npz -diff
+*.npy -diff
+*.gz -diff
+*.zip -diff
+*.whl -diff

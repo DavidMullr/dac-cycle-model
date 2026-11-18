@@ -1,0 +1,145 @@
+{
+  "adsorbed_phase_cp_J_kg_K": [
+    852.0887535645713,
+    1887.2867921009274
+  ],
+  "assumptions": [
+    "The measured coupled support remains 25-70 C and RH 0-0.55.",
+    "All Young Toth and GAB coefficients are evaluated unchanged through the explicit 25-120 C numerical envelope.",
+    "IAPWS saturation replaces only the saturation correlation inside this separate provider.",
+    "The actual evolving stored-water inventory drives the Young WADST CO2 target.",
+    "Hot binary coupling, adsorption/desorption rates and energy transfer are unvalidated transfers.",
+    "Wilkins 110 C and Low 2023 measurements are diagnostic constraints, not fitted corrections or same-specimen validation."
+  ],
+  "co2": {
+    "evaluation_envelope": {
+      "classification": "explicit unvalidated numerical extrapolation",
+      "co2_partial_pressure_Pa": [
+        0.0,
+        100000.0
+      ],
+      "relative_humidity": [
+        0.0,
+        0.55
+      ],
+      "temperature_K": [
+        298.15,
+        393.15
+      ]
+    },
+    "heat_J_mol": 70000.0,
+    "source_locator": "Young et al. 2021 DOI 10.1039/D1EE01272J Tables 2 and 4; process heat from SI Table S9",
+    "support": {
+      "co2_partial_pressure_Pa": [
+        0.0,
+        100000.0
+      ],
+      "relative_humidity": [
+        0.0,
+        0.55
+      ],
+      "relative_humidity_basis": "local p_H2O / p_sat(T_bed)",
+      "temperature_K": [
+        298.15,
+        343.15
+      ]
+    }
+  },
+  "co2_water_penalty_per_mol_kg": 0.0,
+  "equilibrium_family": "young2021_hot_wadst_gab_extrapolated",
+  "evidence": {
+    "basis": "The original Young 2021 Toth and GAB coefficients, LDF rates and process heats are evaluated unchanged from local p_H2O with IAPWS saturation in an explicit 25-120 C numerical envelope. Measured coupled support ends at 70 C.",
+    "loaded_source_sha256": "c988602949295208fec7d8a89620917949bc6f30164d614bfc499c392a017704",
+    "not_for": "validated 116 C equilibrium or coupling, hot adsorption/desorption rate prediction, hot-vacuum energy validation, measured humid-cycle accuracy, hardware qualification, cyclic steady state, lifetime or annual production.",
+    "status": "CONDITIONAL_HOT_NUMERICAL_EXTRAPOLATION_NOT_VALIDATED"
+  },
+  "kinetics": {
+    "adsorption_rate_s_inv": [
+      0.003,
+      0.0086
+    ],
+    "desorption_rate_s_inv": [
+      0.003,
+      0.0086
+    ],
+    "evidence_status": "Unchanged Young 2021 SI Table S9 process constants. Equal adsorption/desorption, humid-CO2 transfer and hot-vacuum transfer are assumptions, not measured validation."
+  },
+  "material_id": "lewatit_vp_oc_1065_young2021_hot116_conditional",
+  "maximum_bed_temperature_C": 120.0,
+  "missing_evidence": {
+    "binary_116c": null,
+    "hot_accuracy_bound": null,
+    "hot_energy_transfer": null,
+    "hot_vacuum_kinetics": null,
+    "residual_water_drainage": null
+  },
+  "name": "Lewatit VP OC 1065, Young 2021 hot numerical extrapolation",
+  "nitrogen": {
+    "heat_J_mol": 0.0,
+    "henry_mol_kg_Pa_at_reference": 0.0
+  },
+  "oxygen": {
+    "heat_J_mol": 0.0,
+    "henry_mol_kg_Pa_at_reference": 0.0
+  },
+  "provenance": {
+    "adsorbed_energy": {
+      "basis": "Constant CP_GAS and 70/46 kJ/mol process heats preserve the original convention.",
+      "class": "native energy-closure assumption"
+    },
+    "cycle_kinetics": {
+      "class": "unchanged conditional process-model assumptions",
+      "source_locator": "Supporting Information Table S9"
+    },
+    "equilibrium": {
+      "class": "unchanged source-reproduced Young fit outside its measured coupled domain",
+      "source_doi": "10.1039/D1EE01272J",
+      "source_sha256": "e9f81c1a9fab6fd6e66fa6fffaa6ce5d463467230473456c5453ddd41a34374f"
+    },
+    "loaded_builtin": {
+      "baseline_sha256": "be7411b18e1f1181a4338ec8ca9e7c1b23aa9f83dc2c380844f30ce3bd6b3eb5",
+      "material_id": "lewatit_vp_oc_1065_young2021_hot116_conditional",
+      "name": "Lewatit VP OC 1065, Young 2021 hot numerical extrapolation",
+      "package_file": "lewatit_vp_oc_1065_young2021_hot116_conditional.json",
+      "schema": "mof-screening-loaded-builtin/1"
+    },
+    "measured_constraint": {
+      "class": "separate-specimen diagnostic",
+      "p_H2O_range_Pa": [
+        15700.0,
+        92700.0
+      ],
+      "source_doi": "10.1021/acs.jced.3c00697",
+      "status": "not spliced into the Young coefficient set"
+    },
+    "saturation_pressure": {
+      "class": "IAPWS SR1-86(1992) liquid-vapour correlation",
+      "reason": "The original Buck implementation has no declared hot-validity interval; IAPWS is used only by the separate hot provider."
+    }
+  },
+  "reference_temperature_K": 298.15,
+  "schema": "mof-screening-material/1",
+  "shaped_material": {
+    "basis": "The app case supplies a dry shaped resin mass; the source measured resin sample is not a shaped device.",
+    "binder_support": "Commercial resin beads are represented as the dry resin solid; no binder or support is added.",
+    "particle_geometry": "The case particle diameter remains a transfer assumption."
+  },
+  "solid_cp_J_kg_K": 1580.0,
+  "synthetic": false,
+  "uncertainty": {
+    "classification": "UNVALIDATED_NUMERICAL_EXTRAPOLATION",
+    "statement": "The calculation is authorized as a transparent conditional scenario. No percentage accuracy statement or measured 116 C validation follows."
+  },
+  "validity": {
+    "cycle": "Numerical scenario only; hot rates, caloric closure, drainage and thermal lag are unvalidated.",
+    "equilibrium": "Measured coupled support ends at 70 C; 116 C output is conditional numerical extrapolation.",
+    "initial_state_interpretation": "Equilibrated initialization is a numerical scenario state, not cyclic steady state.",
+    "water": "Local IAPWS RH is used within the original 0-0.55 envelope; no hot cross-temperature fit is adopted."
+  },
+  "water": {
+    "basis": "Unchanged Young GAB coefficients evaluated with local p_H2O / IAPWS saturation. The measured water evidence is used as a diagnostic constraint only and is not spliced into the Young specimen.",
+    "heat_J_mol": 46000.0,
+    "model": "young2021_gab_iapws_hot_extrapolated",
+    "source_locator": "Young et al. 2021 DOI 10.1039/D1EE01272J equations 5-8 and 25-26; process heat from SI Table S9"
+  }
+}

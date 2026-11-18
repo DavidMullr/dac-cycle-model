@@ -1,0 +1,13 @@
+pressure_hPa,pressure_Pa,reference_flow_l_min,reference_flow_m3_s,source,note
+110.0,11000.0,0.000,0.0,datasheet ultimate vacuum,flow is exactly zero at or below the 110 mbar abs ultimate pressure
+150.0,15000.0,0.905,0.0000151,digitized page-2 black 50 Hz curve,lowest clean digitized point above the axis merge
+200.0,20000.0,1.892,0.0000315,digitized page-2 black 50 Hz curve,within the cycle regeneration pressure of this project
+300.0,30000.0,3.895,0.0000649,digitized page-2 black 50 Hz curve,
+400.0,40000.0,5.985,0.0000998,digitized page-2 black 50 Hz curve,
+500.0,50000.0,8.105,0.0001351,digitized page-2 black 50 Hz curve,
+600.0,60000.0,10.224,0.0001704,digitized page-2 black 50 Hz curve,
+700.0,70000.0,12.344,0.0002057,digitized page-2 black 50 Hz curve,
+800.0,80000.0,14.463,0.0002411,digitized page-2 black 50 Hz curve,
+900.0,90000.0,17.018,0.0002836,digitized page-2 black 50 Hz curve,
+985.0,98500.0,20.370,0.0003395,digitized page-2 black 50 Hz curve,last point before the black and blue curves overlap in the render
+1013.25,101325.0,21.000,0.0003500,datasheet performance table,table value 21.0 +/- 10 % at atmospheric pressure

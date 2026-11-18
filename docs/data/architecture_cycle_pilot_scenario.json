@@ -1,0 +1,351 @@
+{
+  "schema": "architecture-cycle-scenario/1",
+  "study_id": "matched_geometry_numerical_resolution",
+  "material_package": {
+    "schema": "architecture-cycle-material/1",
+    "material_id": "new_pilot_hypothetical_mmen_like",
+    "name": "New pilot hypothetical mmen-like material",
+    "source_identity": "Equilibrium and caloric anchors cloned from the read-only frozen hypothetical mmen-like material; intrinsic kinetics, diffusion and film coefficients are new analyst assumptions.",
+    "mass_basis": "active_mof",
+    "active_mof_fraction": 0.75,
+    "binder_heat_capacity_J_kg_K": 1100.0,
+    "material": {
+      "name": "Hypothetical mmen-inspired material",
+      "status": "HYPOTHETICAL: literature-anchored equilibrium and energy values plus explicit unvalidated pilot transport assumptions",
+      "equilibrium_family": "independent_langmuir_sips",
+      "reference_temperature_K": 298.15,
+      "co2": {
+        "saturation_mol_kg": 3.46,
+        "reference_loading_mol_kg": 2.0,
+        "reference_partial_pressure_Pa": 39.0,
+        "heat_J_mol": 71000.0
+      },
+      "water": {
+        "saturation_mol_kg": 40.0,
+        "half_loading_relative_humidity_at_reference": 0.45,
+        "sips_exponent": 8.0,
+        "heat_J_mol": 45000.0
+      },
+      "nitrogen": {
+        "henry_mol_kg_Pa_at_reference": 1.0375e-06,
+        "heat_J_mol": 18000.0
+      },
+      "oxygen": {
+        "henry_mol_kg_Pa_at_reference": 1.9e-06,
+        "heat_J_mol": 18000.0
+      },
+      "solid_cp_J_kg_K": 1300.0,
+      "adsorbed_phase_cp_J_kg_K": [
+        850.0,
+        4180.0,
+        1040.0,
+        920.0
+      ],
+      "adsorption_rate_s_inv": [
+        0.0005,
+        0.0001,
+        0.01,
+        0.01
+      ],
+      "desorption_rate_s_inv": [
+        0.001,
+        0.0002,
+        0.01,
+        0.01
+      ],
+      "co2_water_penalty_per_mol_kg": 0.0,
+      "maximum_bed_temperature_C": 180.0,
+      "provenance": {
+        "equilibrium_anchors": {
+          "class": "read-only frozen hypothetical equilibrium anchors",
+          "source": "materials/hypothetical_mmen_like.json",
+          "note": "The values are not same-sample cyclic validation."
+        },
+        "caloric_assumptions": {
+          "class": "hypothetical Kirchhoff-consistent assumptions",
+          "note": "Solid and adsorbed heat capacities are engineering assumptions, not measured pilot values."
+        },
+        "temperature_limit": {
+          "class": "scenario guard",
+          "note": "Not a certified stability limit."
+        }
+      }
+    },
+    "intrinsic": {
+      "adsorption_rate_s_inv": [
+        0.00045,
+        9e-05,
+        0.008,
+        0.008
+      ],
+      "desorption_rate_s_inv": [
+        0.00095,
+        0.00018,
+        0.008,
+        0.008
+      ],
+      "effective_diffusivity_m2_s": [
+        9e-10,
+        5e-10,
+        2.5e-09,
+        2.5e-09
+      ],
+      "film_coefficient_m_s": [
+        0.018,
+        0.012,
+        0.04,
+        0.04
+      ]
+    },
+    "evidence": {
+      "equilibrium": {
+        "status": "assumed",
+        "source": "read-only hypothetical_mmen_like material",
+        "units": "mol/kg active MOF and Pa",
+        "conditions": {
+          "temperature_K": 298.15
+        },
+        "validity": "Dry-point calibrated CO2 Langmuir, illustrative water/N2/O2 isotherms; hot and mixed-gas performance is unvalidated.",
+        "notes": "Cloned equilibrium anchors are explicitly distinguished from the new pilot transport assumptions."
+      },
+      "thermal": {
+        "status": "assumed",
+        "source": "read-only hypothetical_mmen_like material",
+        "units": "J/(kg K), J/mol and K",
+        "conditions": {
+          "reference_temperature_K": 298.15
+        },
+        "validity": "Constant heat capacities and the 180 C guard are screening assumptions.",
+        "notes": "The Kirchhoff caloric convention is preserved."
+      },
+      "intrinsic_kinetics": {
+        "status": "assumed",
+        "source": "new pilot analytical assumption",
+        "units": "1/s",
+        "conditions": {
+          "phase": "adsorption and desorption"
+        },
+        "validity": "Not measured and not inherited from the retained lumped LDF coefficients.",
+        "notes": "Four independent species constants are declared."
+      },
+      "effective_diffusivity": {
+        "status": "assumed",
+        "source": "new pilot analytical assumption",
+        "units": "m2/s",
+        "conditions": {
+          "material_form": "declared pellet or coating thickness"
+        },
+        "validity": "Reduced diffusion model only; no shaped-material validation.",
+        "notes": "Pellet and coating formulas remain architecture specific."
+      },
+      "film_transfer": {
+        "status": "assumed",
+        "source": "new pilot analytical assumption",
+        "units": "m/s",
+        "conditions": {
+          "gas_contact_area": "architecture specific"
+        },
+        "validity": "Film resistance uses the finite-difference equilibrium derivative and is not a fitted LDF rate.",
+        "notes": "Pellet gas-film area never uses the external heated-face area."
+      }
+    }
+  },
+  "common": {
+    "ambient": {
+      "temperature_K": 298.15,
+      "pressure_Pa": 100000.0,
+      "relative_humidity": 0.5,
+      "composition": [
+        0.0004145884106446323,
+        0.01584608235071814,
+        0.7792485312644896,
+        0.20449079797414768
+      ]
+    },
+    "conditioning": {
+      "electric_kWh_per_kg_water": 0.267,
+      "boundary": "separate_upstream_drying"
+    },
+    "feed": {
+      "composition": [
+        0.00042,
+        0.003,
+        0.78942,
+        0.20716
+      ],
+      "flow_m3_s": 0.05,
+      "temperature_K": 298.15,
+      "pressure_Pa": 100000.0,
+      "outlet_boundary": "ideal_one_way_check_valve"
+    },
+    "dry_composite_mass_kg": 10.0,
+    "pump": {
+      "profile": "knf_n922_ste_50hz",
+      "profile_file": "equipment/pump_profiles.json",
+      "basis": "fixed_standard_reference",
+      "count": 1,
+      "bank_contract": "ideal_parallel_unit_curve",
+      "pressure_request_Pa": 20000.0,
+      "pressure_band_Pa": 1000.0
+    },
+    "utility": {
+      "viscosity_Pa_s": 1.85e-05,
+      "fan_efficiency": 0.6,
+      "bed_cooling_COP": 3.0,
+      "bed_cooling_auxiliary_electric_W": 0.0,
+      "prepump_cooling_temperature_K": 313.15,
+      "prepump_cooling_COP": 3.0,
+      "prepump_cooling_auxiliary_electric_W": 20.0,
+      "repressurisation_molar_conductance_mol_s_Pa": 2e-05,
+      "auxiliary_electric_W": 0.0
+    },
+    "collection_boundary": "conditioned_inlet_to_collected_stream"
+  },
+  "cases": [
+    {
+      "case_id": "pellet_24mm_electrical_precision",
+      "architecture": "pellet",
+      "geometry": {
+        "parallel_beds": 10,
+        "bed_thickness_m": 0.024,
+        "path_length_m": 0.15,
+        "bulk_density_kg_m3": 600.0,
+        "face_plate_thickness_m": 0.002,
+        "void_fraction": 0.4,
+        "pellet_diameter_m": 0.002
+      },
+      "contact": {
+        "effective_conductivity_W_m_K": 0.3,
+        "support_heat_capacity_J_kg_K": 500.0,
+        "support_density_kg_m3": 2700.0,
+        "contact_h_W_m2_K": 80.0,
+        "ambient_UA_W_K": 1.0
+      },
+      "hydraulic": {
+        "open_area_basis": "parallel_bed_gross_frontal_area",
+        "gas_contact_area_basis": "spherical_equivalent_wetted_area"
+      },
+      "phase": {
+        "adsorption_duration_s": 9000.0,
+        "evacuation_duration_s": 600.0,
+        "regeneration_duration_s": 7200.0,
+        "cooling_max_duration_s": 7200.0,
+        "cooling_margin_K": 0.5,
+        "cooling_UA_W_K": 40.0,
+        "cooling_capacity_W": 1500.0,
+        "repressurisation_max_duration_s": 1800.0,
+        "repressurisation_target_fraction": 0.98
+      },
+      "heating": {
+        "method": "electrical_support",
+        "target_temperature_K": 393.15,
+        "control_band_K": 5.0,
+        "power_ceiling_W": 2000.0,
+        "delivery_efficiency": 0.85,
+        "source_supply_temperature_K": null,
+        "source_to_bed_UA_W_K": null,
+        "source_supply_efficiency": null,
+        "source_auxiliary_electric_W": null,
+        "joule": null
+      },
+      "collection": {
+        "collect_phases": [
+          "regeneration",
+          "cooling"
+        ],
+        "minimum_dry_CO2_fraction": null
+      },
+      "validity": {
+        "channel_max_reynolds": 2000.0,
+        "minimum_temperature_K": 250.0,
+        "maximum_temperature_K": 450.0,
+        "noncondensing_pump_inlet": true
+      },
+      "solver": {
+        "n_axial_cells": 8,
+        "rtol": 1e-06,
+        "atol_mol": 1e-13,
+        "atol_loading_mol_kg": 1e-13,
+        "atol_temperature_K": 1e-05,
+        "atol_meter": 1e-08,
+        "max_step_s": 20.0,
+        "max_cycles": 40,
+        "temperature_scale_K": 100.0,
+        "state_relative_tolerance": 0.001,
+        "collected_relative_tolerance": 0.005
+      }
+    },
+    {
+      "case_id": "channel_500um_electrical_precision",
+      "architecture": "coated_channel",
+      "geometry": {
+        "parallel_units": 100,
+        "path_length_m": 0.15,
+        "coating_thickness_m": 0.0005,
+        "support_thickness_m": 0.0002,
+        "channel_gap_m": 0.002,
+        "coating_density_kg_m3": 900.0
+      },
+      "contact": {
+        "effective_conductivity_W_m_K": 0.3,
+        "support_heat_capacity_J_kg_K": 500.0,
+        "support_density_kg_m3": 2700.0,
+        "contact_h_W_m2_K": 80.0,
+        "ambient_UA_W_K": 1.0
+      },
+      "hydraulic": {
+        "open_area_basis": "two_sided_open_channel_area",
+        "gas_contact_area_basis": "two_sided_coated_gas_faces"
+      },
+      "phase": {
+        "adsorption_duration_s": 9000.0,
+        "evacuation_duration_s": 600.0,
+        "regeneration_duration_s": 7200.0,
+        "cooling_max_duration_s": 7200.0,
+        "cooling_margin_K": 0.5,
+        "cooling_UA_W_K": 40.0,
+        "cooling_capacity_W": 1500.0,
+        "repressurisation_max_duration_s": 1800.0,
+        "repressurisation_target_fraction": 0.98
+      },
+      "heating": {
+        "method": "electrical_support",
+        "target_temperature_K": 393.15,
+        "control_band_K": 5.0,
+        "power_ceiling_W": 2000.0,
+        "delivery_efficiency": 0.85,
+        "source_supply_temperature_K": null,
+        "source_to_bed_UA_W_K": null,
+        "source_supply_efficiency": null,
+        "source_auxiliary_electric_W": null,
+        "joule": null
+      },
+      "collection": {
+        "collect_phases": [
+          "regeneration",
+          "cooling"
+        ],
+        "minimum_dry_CO2_fraction": null
+      },
+      "validity": {
+        "channel_max_reynolds": 2000.0,
+        "minimum_temperature_K": 250.0,
+        "maximum_temperature_K": 450.0,
+        "noncondensing_pump_inlet": true
+      },
+      "solver": {
+        "n_axial_cells": 8,
+        "rtol": 1e-06,
+        "atol_mol": 1e-13,
+        "atol_loading_mol_kg": 1e-13,
+        "atol_temperature_K": 1e-05,
+        "atol_meter": 1e-08,
+        "max_step_s": 20.0,
+        "max_cycles": 40,
+        "temperature_scale_K": 100.0,
+        "state_relative_tolerance": 0.001,
+        "collected_relative_tolerance": 0.005
+      }
+    }
+  ]
+}

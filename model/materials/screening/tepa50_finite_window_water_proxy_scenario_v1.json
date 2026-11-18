@@ -1,0 +1,620 @@
+{
+  "schema": "mof-screening-material/1",
+  "material_id": "tepa50_finite_window_water_proxy_scenario_v1",
+  "name": "TEPA(50)-Mg2(dobpdc) exploratory stored-water candidate v1",
+  "equilibrium_family": "activity_shift_reference_isotherm",
+  "synthetic": false,
+  "evidence": {
+    "status": "CONDITIONAL_DRY_ONLY_APPARENT_UPTAKE_NAMED_EXTRAPOLATION_NOT_MODEL_READY",
+    "basis": "A 25 C finite-time, diffusion-limited apparent uptake curve is used only as a conditional reversible dry reference shape. The raw nonmonotone observation is retained and the executable monotone curve is explicitly a fitted projection. Heat, intrinsic rates, solid Cp and shaped properties are named assumptions.",
+    "not_for": "true-equilibrium or thermodynamic-isotherm claims, humid coadsorption or hydration-history prediction, intrinsic kinetics, breakthrough-time kinetic inference, shaped-device prediction, lifetime, CSS, annual production, hardware qualification or a measured winner."
+  },
+  "shaped_material": {
+    "basis": "The source is an amine-impregnated Mg2(dobpdc) powder. Its mol/kg loadings are on the full dry TEPA(50)-impregnated sorbent and map to the shared 10 kg complete dry shaped inventory under an explicit unity loading-retention and mass-transfer assumption; this is not evidence of a binder-free shaped body.",
+    "binder_support": "The 50 designation means 50 wt% TEPA in the full impregnated sorbent, not a framework ratio. No candidate-specific final pellet, binder, support or dry shaped mass conversion is supplied.",
+    "particle_geometry": "Source fixed-bed particles are 125-425 micrometers, but shaped density, binder and effective transport are not established; the shared app geometry is a named transfer."
+  },
+  "reference_temperature_K": 298.15,
+  "maximum_bed_temperature_C": 120.0,
+  "solid_cp_J_kg_K": 1000.0,
+  "co2_water_penalty_per_mol_kg": 0.0,
+  "co2": {
+    "heat_J_mol": 70000.0,
+    "basis": "SI Figure S7 supplies a 25 C finite-time apparent uptake curve under a diffusion limitation. The executable reference curve is a fitted nonnegative monotone projection retained only for conditional dry screening; it is not a true-equilibrium isotherm.",
+    "reference_curve": {
+      "class": "FITTED nonnegative monotone running-maximum projection of measured finite-time apparent uptake points",
+      "temperature_K": 298.15,
+      "pressure_Pa": [
+        4.385589094449861,
+        24.329404917794264,
+        41.63959607452706,
+        136.00000000000003,
+        163.0300984528833,
+        251.87925998052577,
+        3418.8034188034067,
+        8223.119816985976,
+        15603.8672865596,
+        20638.736263736275,
+        25677.680032733228,
+        30683.76068376067,
+        35678.418803418805,
+        40675.19019442097,
+        45725.334448160545,
+        50713.399503722096,
+        55697.1153846154,
+        60721.15384615386,
+        65684.44995864351,
+        75710.58748943363,
+        90666.44562334218
+      ],
+      "loading_mol_kg": [
+        0.31746031746031766,
+        0.39584411998205044,
+        0.42150015183723044,
+        0.4577764577764577,
+        0.460860860860861,
+        0.47282447282447226,
+        0.5130273995629521,
+        0.5290845795207215,
+        0.5427008694784791,
+        0.553074761849346,
+        0.5608523513696204,
+        0.566280047066734,
+        0.5723314842830728,
+        0.5783444996758158,
+        0.5854107741893049,
+        0.5899825939843509,
+        0.5978819969742811,
+        0.6043368633383762,
+        0.6082019748507475,
+        0.6094661767884155,
+        0.6094661767884155
+      ],
+      "source_doi": "10.1039/D5IM00002E",
+      "source_locator": "RSC Industrial Chemistry & Materials 2025 supporting information Figure S7b,d, printed page 20",
+      "source_primary_pdf_sha256": "0d0ca8271982b80cb6fb63fde42fe3cb0182f034e50bb6b3d1bb96504d3b4cb4",
+      "source_si_pdf_sha256": "ac8baf0cc22539d44066a87fd5a7cddede1bcd5c8ff1764d124057ff7124da2d",
+      "source_csv_sha256": "1a73f84d537c0ada3da4cc3d53d430dea451deaeb8e139b3f5f7ac48d14c8157",
+      "digitization_audit_sha256": "dc4eeba55c577e020c759ee7033cabc262398034b1e602a22834f030c14288f2",
+      "source_symbol_count_detected": 21,
+      "source_completeness": "Six low-pressure and fifteen high-pressure red filled TEPA(50) symbols were resolved. Unresolved source symbols remain in the original image; extraction is incomplete.",
+      "nonnegative_projection_method": "running maximum through pressure order"
+    },
+    "support": {
+      "policy": "named_extrapolation_scenario",
+      "scenario_name": "dry_apparent_CO2_hot_temperature_shift_and_pressure_transfer_not_validated",
+      "measured_temperature_range_K": [
+        298.15,
+        298.15
+      ],
+      "displayed_scenario_temperature_range_K": [
+        253.15,
+        393.15
+      ]
+    }
+  },
+  "water": {
+    "model": "dry_only",
+    "physical_storage_mol_kg": 0.0,
+    "solver_normalizer_mol_kg": 0.05,
+    "basis": "No direct humid chemistry, water storage or hydration-history state is represented. Water storage, rates, heat and adsorbed Cp are exactly zero; the positive normalizer is a numerical state-layout scale only. Every selected weather interval must have RH exactly zero."
+  },
+  "nitrogen": {
+    "henry_mol_kg_Pa_at_reference": 0.0,
+    "heat_J_mol": 0.0
+  },
+  "oxygen": {
+    "henry_mol_kg_Pa_at_reference": 0.0,
+    "heat_J_mol": 0.0
+  },
+  "adsorbed_phase_cp_J_kg_K": [
+    852.0887535645713,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "kinetics": {
+    "adsorption_rate_s_inv": [
+      0.0001,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "desorption_rate_s_inv": [
+      0.0001,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "evidence_status": "ASSUMED_LDF_SCREENING_SCALE: the finite-time apparent isotherm and breakthrough delay contain protocol and diffusion effects and do not supply an intrinsic LDF coefficient. Both directions use a named 1e-4 s^-1 scenario assumption."
+  },
+  "missing_evidence": {
+    "candidate_specific_apparent_to_intrinsic_kinetic_transfer": null,
+    "candidate_specific_pellet_or_coating": null,
+    "candidate_specific_solid_heat_capacity": null,
+    "direct_humid_co2_equilibrium_closure": null,
+    "fit_tested_hot_temperature_representation": null,
+    "hot_co2_rich_desorption_isotherm": null,
+    "hot_desorption_kinetics": null,
+    "humid_coadsorption_kinetics": null,
+    "intrinsic_adsorption_desorption_rates": null,
+    "measured_isosteric_heat_of_adsorption": null,
+    "shaped_bed_thermal_conductivity": null,
+    "shaped_particle_effective_diffusivity": null,
+    "true_equilibrium_isotherm_at_multiple_temperatures": null
+  },
+  "provenance": {
+    "sample_identity": {
+      "class": "measured",
+      "description": "TEPA(50)-Mg2(dobpdc) amine-impregnated sample. The 50 designation is amine mass fraction in the full impregnated sorbent, not a TEPA-to-framework molar ratio."
+    },
+    "co2": {
+      "class": "source-derived conditional assumption",
+      "statement": "Measured finite-time apparent uptake shape from SI Figure S7, converted to the executable curve only by the declared nonnegative monotone projection; the reversible hot heat shift is an assumption, not a true-equilibrium fit."
+    },
+    "co2_reference_curve": {
+      "class": "measured finite-time apparent uptake, then fitted monotone projection",
+      "source_asset": "Research/MOF_candidates_2026-11-03/lead/secondary_sources/TEPA50_25C_APPARENT_DIGITIZED.csv",
+      "source_asset_sha256": "1a73f84d537c0ada3da4cc3d53d430dea451deaeb8e139b3f5f7ac48d14c8157",
+      "source_audit": "Research/MOF_candidates_2026-11-03/lead/secondary_sources/TEPA50_DIGITIZATION_AUDIT.json",
+      "source_audit_sha256": "dc4eeba55c577e020c759ee7033cabc262398034b1e602a22834f030c14288f2",
+      "raw_point_count": 21,
+      "raw_nonmonotone_observations": [
+        {
+          "from_pressure_Pa": 75710.58748943363,
+          "from_loading_mol_kg": 0.6094661767884155,
+          "to_pressure_Pa": 90666.44562334218,
+          "to_loading_mol_kg": 0.6089693428626077,
+          "decrease_mol_kg": -0.0004968339258077936
+        }
+      ],
+      "projection_note": "The sole decrease was preserved in evidence and replaced only in the executable curve by the preceding maximum; no smoothing or reason-based exclusion was applied.",
+      "reported_experimental_uncertainty": null,
+      "digitized_loading_uncertainty_mol_kg": 0.018018018018018018,
+      "digitized_pressure_uncertainty_Pa_by_panel": {
+        "S7d": 1.0632911392405062,
+        "S7b": 360.5769230769231
+      }
+    },
+    "co2_temperature_shift": {
+      "class": "assumed",
+      "constant_isosteric_heat_J_mol": 70000.0,
+      "broad_scenario_range_J_mol": [
+        40000.0,
+        100000.0
+      ],
+      "basis": "Named amine-material screening assumption used with the existing constant activity-shift law. It is not fitted to source data and is not a measured or published TEPA(50) heat."
+    },
+    "kinetics": {
+      "class": "assumed",
+      "adsorption_rate_s_inv": 0.0001,
+      "desorption_rate_s_inv": 0.0001,
+      "broad_scenario_range_s_inv": [
+        1e-05,
+        0.001
+      ],
+      "basis": "Named LDF scenario scale. The source's long isotherm equilibration, particle-size dependence and fixed-bed delay are protocol and diffusion observations, not converted into intrinsic coefficients."
+    },
+    "solid_cp": {
+      "class": "assumed",
+      "value_J_kg_K": 1000.0,
+      "broad_scenario_range_J_kg_K": [
+        700.0,
+        1500.0
+      ],
+      "basis": "Neutral screening value; no TEPA(50)-Mg2(dobpdc)-specific heat capacity is claimed."
+    },
+    "thermal": {
+      "class": "assumption",
+      "statement": "Assumed 1000 J/kg/K dry solid Cp and transferred shared shaped thermal basis; no candidate-specific measurement is claimed."
+    },
+    "shaped_transport": {
+      "class": "transferred to shared assumption",
+      "basis": "The shared app geometry and transport inputs are used for a complete dry shaped basis. The source 125-425 micrometer particles do not supply a final pellet, binder, density or effective diffusivity."
+    },
+    "mass_mapping": {
+      "class": "assumed",
+      "source_loading_basis": "per kg full dry TEPA(50)-impregnated sorbent, where 50 wt% denotes TEPA in that full sorbent",
+      "executable_inventory_basis": "per kg complete dry shaped inventory in the shared app case",
+      "unity_loading_retention_and_mass_transfer": true,
+      "additional_amine_dilution_factor": 1.0,
+      "additional_amine_dilution_applied": false,
+      "basis": "Source mol/kg values already use the full TEPA(50)-impregnated sorbent, so no extra 0.5 dilution is applied. The values map to the shared 10 kg complete dry shaped inventory under a named unity loading-retention and mass-transfer assumption; this is not evidence of a binder-free shaped body.",
+      "final_binder_mass_fraction": null,
+      "shaped_density": null,
+      "shaped_effective_transport": null
+    },
+    "water": {
+      "class": "numerical structural mode; no physical coefficients",
+      "physical_storage_mol_kg": 0.0,
+      "solver_normalizer_mol_kg": 0.05
+    },
+    "fixed_bed_protocol_observations": {
+      "class": "measured protocol values, not thermodynamic isotherms and not executable here",
+      "dry_400_ppm_CO2_N2": {
+        "temperatures_C": [
+          -20.0,
+          0.0,
+          25.0
+        ],
+        "breakthrough_5_percent_mol_kg": [
+          0.09,
+          0.2,
+          0.37
+        ],
+        "pseudo_equilibrium_95_percent_mol_kg": [
+          0.2,
+          0.33,
+          0.54
+        ]
+      },
+      "humid_70_percent_RH_400_ppm_CO2_N2": {
+        "temperatures_C": [
+          -20.0,
+          0.0,
+          25.0
+        ],
+        "breakthrough_5_percent_mol_kg": [
+          0.18,
+          0.3,
+          3.18
+        ],
+        "pseudo_equilibrium_95_percent_mol_kg": [
+          0.32,
+          3.37,
+          3.9
+        ]
+      },
+      "locator": "Supporting Information Tables S3 and S4, printed pages 23 and 29"
+    },
+    "regeneration_protocol_context": {
+      "class": "measured protocol context, not a hot CO2-rich equilibrium or kinetic law",
+      "description": "One vacuum cycle is twenty hours of ambient exposure at 22 C and 50 percent RH followed by four hours at 80 C and 0.1 bar static vacuum. A later 70 percent RH fixed-bed capacity test is a separate observation."
+    },
+    "chemistry_context": {
+      "class": "measured source interpretation, not represented by dry_only",
+      "description": "The main in-situ infrared discussion reports carbamate-dominant chemistry over 0 to 70 percent RH. A demonstrated bicarbonate switch is not claimed."
+    }
+  },
+  "assumptions": [
+    "The executable curve is a fitted nonnegative monotone running-maximum projection of finite-time apparent observations, not a measured true-equilibrium isotherm.",
+    "A constant 70 kJ/mol isosteric heat is a named screening assumption for a possible reversible hot scenario; its broad 40-100 kJ/mol range is not experimental uncertainty.",
+    "A 1e-4 s^-1 LDF rate in both directions is a named scenario assumption with a broad 1e-5 to 1e-3 s^-1 range; no intrinsic kinetics are claimed.",
+    "A 1000 J/kg/K dry solid Cp is a named scenario assumption with a broad 700-1500 J/kg/K range.",
+    "The shared 10 kg dry shaped basis, geometry and transport are transferred assumptions because no candidate-specific shaped pellet, binder, density or transport measurements are supplied.",
+    "Source mol/kg loadings already use the full TEPA(50)-impregnated sorbent and map to the complete dry shaped inventory with an explicit unity loading-retention and mass-transfer assumption and no additional 0.5 dilution; binder fraction, shaped density and effective transport remain unknown, and no binder-free shaped body is claimed.",
+    "The measured 25 C apparent curve is not extrapolated as a demonstrated hot equilibrium law; the existing constant-heat activity transfer is conditional and not validated against withheld temperatures.",
+    "Dry-only water handling has zero physical water storage, rates, heat and adsorbed Cp; any nonzero relative humidity is rejected."
+  ],
+  "uncertainty": {
+    "classification": "CONDITIONAL_APPARENT_UPTAKE_NAMED_EXTRAPOLATION",
+    "statement": "Digitization uncertainty and the retained nonmonotone source point remain visible. True equilibrium, hot heat, dry solid Cp, intrinsic LDF and shaped transport are unavailable and are not claimed as measured or fitted.",
+    "digitization": "Panel-specific pressure and loading center uncertainties are retained in the digitization audit. Experimental uncertainty was not supplied.",
+    "raw_nonmonotonicity": "One 0.0004968339258077936 mol/kg decrease between 75710.58748943363 and 90666.44562334218 Pa is preserved in evidence and in the projection note.",
+    "thermal_and_kinetic": "Heat, dry solid Cp and LDF values are named scenario assumptions with broad ranges, not fitted coefficients or experimental uncertainty.",
+    "representation": "No true-equilibrium, hot or humid representation gate was passed. The package remains a conditional dry screening scenario."
+  },
+  "validity": {
+    "co2": "Conditional dry apparent-reference shape only. A running-maximum projection of finite-time uptake is not a true thermodynamic equilibrium isotherm, and the constant-heat hot transfer is an explicit assumption.",
+    "co2_dry_equilibrium": "Conditional apparent-reference-shape scenario only. The finite-time diffusion-limited measurement is not evidence of true reversible thermodynamic equilibrium; hot behavior is a named constant-heat extrapolation.",
+    "initial_state_interpretation": "The app's declared initial state is a scenario, not cyclic steady state.",
+    "kinetics": "Both-direction LDF rates are scenario assumptions; neither the isotherm protocol nor fixed-bed delay supplies intrinsic material kinetics.",
+    "thermal": "Solid Cp and shaped transport are assumptions.",
+    "water": "Dry-only. Any nonzero relative humidity at the case or weather forcing boundary is rejected; direct humid chemistry and hydration history are unrepresented."
+  },
+  "humidity_candidate": {
+    "schema": "mof-screening-humidity-candidate/1",
+    "candidate_id": "tepa50_finite_window_water_proxy_scenario_v1",
+    "evidence_tier": "CONDITIONAL_FINITE_WINDOW_WATER_PROXY_WITH_APPARENT_CO2_TARGET",
+    "dry_origin_material_id": "tepa50_mg2_dobpdc_2025_25c_apparent_dry_conditional",
+    "dry_origin_package_sha256": "8a524de458802f9cb66398fd366022561f0a03852f02fb923f3d73ae596f7737",
+    "dry_origin_package_canonical_sha256": "73d2ec4e59b3e7ccae288b0ef99ed796d1a8af4b2d6da47371783f08ba45627b",
+    "dry_limit": {
+      "definition": "EXACT_NATIVE_DELEGATION_REQUIRES_ZERO_STORED_AND_EXTERNAL_WATER",
+      "stored_water_mol_kg": 0.0,
+      "external_water_partial_pressure_Pa": 0.0
+    },
+    "storage": {
+      "contract": "CO2, H2O, N2, O2",
+      "labels": [
+        "CO2",
+        "H2O",
+        "N2",
+        "O2"
+      ]
+    },
+    "water_law": {
+      "kind": "sips_anchor",
+      "reference_temperature_K": 298.15,
+      "anchor_activity": 0.7,
+      "anchor_loading_mol_kg": 19.69049911427419,
+      "saturation_mol_kg": 39.38099822854838,
+      "exponent": 1.0,
+      "heat_J_mol": 44000.0,
+      "adsorbed_cp_J_kg_K": 4180.0,
+      "adsorption_rate_s_inv": 0.0001,
+      "desorption_rate_s_inv": 0.0001,
+      "evidence_class": "ASSUMED_CONDITIONAL_FINITE_WINDOW_WET_MASS_PROXY_DRY_STEADY_TARGET_NOT_MEASURED_EQUILIBRIUM",
+      "assumptions": [
+        "The S10b H2O finite window is integrated independently over the common time window and is not integrated against the CO2 trace.",
+        "The H2O legend/caption identifies this TEPA(50) trace as H2O; the axis wording says outlet CO2 concentration C/C0, which is retained as a source-label ambiguity.",
+        "The assumed inlet/flow/STP basis gives 19.69049911427419 mol/kg of reported wet charge with Buck saturation at 0 C; this is a conditional finite-window water proxy.",
+        "The wet-basis finite-window increment is mapped to an assumed dry steady target; it is neither an absolute equilibrium uptake nor a measured dry-basis TEPA water anchor.",
+        "The 0.5, 1.0 and 2.0 proxy-scale sensitivity and the named unit-exponent Sips shape are exploratory; q_sat is twice the unit-scale proxy.",
+        "One finite-window RH point leaves q_sat and the Sips exponent unidentifiable; their assigned values are scenario parameters.",
+        "The 0 C source condition is kept separate from the 298.15 K caloric reference; transfer of the fixed-RH shape to 25 C and hot states is assumed.",
+        "Water heat, Cp and rate remain named exploratory assumptions.",
+        "The prior mass-cancelled Table S4 water derivation remains refused and is not revived by this proxy."
+      ],
+      "provenance": {
+        "source": "humid_protocol_digitization/data/tepa50_70rh_0c_h2o.csv",
+        "source_sha256": "2b75ec9e86046a5808c176309a06fe604751522f3cbfbb0dc127b19937ecd6e2",
+        "decision": "humid_cycle_lead/TEPA_WATER_PROXY_DECISION.json",
+        "decision_sha256": "baabcf8ffb74e7d3902388a98dc2f86352ce943a041664aef5c8305c8d0ba025",
+        "classification": "CONDITIONAL_FINITE_WINDOW_PROXY_FOR_EXPLORATORY_PARAMETER_SELECTION_NOT_MEASUREMENT",
+        "assumed_condition": {
+          "temperature_K": 273.15,
+          "nominal_rh": 0.7,
+          "total_pressure_Pa": 100000.0,
+          "delivered_flow_sccm": 22.0,
+          "standard_molar_volume_cm3_mol": 22414.0,
+          "reported_wet_charge_kg": 6e-05
+        },
+        "common_window_min": [
+          7.998774134,
+          799.601593625
+        ],
+        "common_window_end_relative_values": {
+          "CO2_C_over_C0": 0.838,
+          "H2O_C_over_C0": 0.892
+        },
+        "common_window_cutoff_class": "EXTRACTION_SUPPORT_NOT_THERMODYNAMIC_ENDPOINT",
+        "normalized_water_deficit_integral_min": 281.33008070685105,
+        "conditional_increment_mol_kg_reported_wet_charge": 19.69049911427419,
+        "water_proxy_scale_default": 1.0,
+        "water_proxy_scale_sensitivity": [
+          0.5,
+          1.0,
+          2.0
+        ],
+        "shape_exponent_sensitivity": [
+          0.5,
+          1.0,
+          2.0
+        ],
+        "extended_trace_sensitivity": {
+          "endpoint_min": 898.345,
+          "conditional_increment_mol_kg_reported_wet_charge": 20.7023,
+          "relative_change_fraction": 0.051
+        },
+        "shape_class": "named Sips/Langmuir activity shape anchored at RH 0.7",
+        "measured_dry_equilibrium_water_anchor": null,
+        "measured_tepa_water_anchor": null,
+        "derived_water_increment_decision": "REFUSED_ENDPOINT_MISMATCH",
+        "mass_cancelled_table_s4_status": "REFUSED_ENDPOINT_MISMATCH_UNCHANGED"
+      },
+      "support_activity": [
+        0.0,
+        0.7
+      ],
+      "half_activity": 0.7,
+      "extrapolation_policy": "named Sips extension to water activity 1"
+    },
+    "co2_coupling": {
+      "kind": "water_activated_temperature_langmuir_added_target",
+      "added_capacity_mol_kg": 11.01086841855594,
+      "reference_added_target_mol_kg": 3.4800981489626492,
+      "water_normalizer_mol_kg": 19.69049911427419,
+      "activation_exponent": 1.0,
+      "half_pressure_Pa": 40.0,
+      "co2_heat_J_mol": 70000.0,
+      "co2_heat_sensitivity_J_mol": [
+        35000.0,
+        70000.0,
+        105000.0
+      ],
+      "reference_temperature_K": 298.15,
+      "calibration_status": "SINGLE_APPARENT_PSEUDO_EQUILIBRIUM_ANCHOR_EXPLORATORY",
+      "holdout_status": "NO_INDEPENDENT_HOLDOUT",
+      "assumptions": [
+        "The native 0.61 mol/kg apparent curve remains the exact zero-water dry limit.",
+        "At 25 C, 70% RH and 40 Pa apparent CO2 pressure, the extra term is calibrated as an assumed target increment so the total apparent pseudo-equilibrium target is 3.9 mol/kg.",
+        "The 3.9 mol/kg default target assumes reported wet sample mass maps to the dry package basis; that mapping is an explicit assumption, not an equivalence claim.",
+        "The Table S4 breakthrough endpoint 3.18 mol/kg is retained as a separate alternative protocol scenario and is not treated as the same measurement.",
+        "The added term uses a bounded water activation and a temperature-dependent Langmuir pressure fraction with inherited 70 kJ/mol CO2 heat.",
+        "The 35, 70 and 105 kJ/mol values are assumed sensitivity values, not measured humid-binding enthalpies.",
+        "The 40 Pa reference half-pressure, unit activation exponent and proxy-scale range are exploratory scenario parameters."
+      ],
+      "parameter_ranges": {
+        "water_proxy_scale": [
+          0.5,
+          1.0,
+          2.0
+        ],
+        "shape_exponent": [
+          0.5,
+          1.0,
+          2.0
+        ],
+        "co2_heat_J_mol": [
+          35000.0,
+          70000.0,
+          105000.0
+        ],
+        "half_pressure_Pa": [
+          20.0,
+          40.0,
+          80.0
+        ],
+        "activation_exponent": [
+          0.5,
+          2.0
+        ],
+        "pseudo_equilibrium_target_mol_kg": [
+          3.37,
+          3.9
+        ],
+        "breakthrough_alternative_mol_kg": [
+          3.18
+        ]
+      },
+      "provenance": {
+        "capacity_anchor": "TEPA Table S4, 25 C/70% RH pseudo-equilibrium 3.9 mol/kg; breakthrough 3.18 retained separately",
+        "water_shape": "named Sips anchored to the finite-window wet-mass proxy at RH 0.7",
+        "class": "single-anchor apparent-target exploratory hypothesis",
+        "dry_target_mol_kg": 0.4199018510373506,
+        "reference_apparent_target_mol_kg": 3.9,
+        "reference_added_target_mol_kg": 3.4800981489626492
+      }
+    },
+    "parameter_ranges": {
+      "water_activity": [
+        0.0,
+        1.0
+      ],
+      "saturation_temperature_K": [
+        255.9,
+        647.096
+      ],
+      "water_proxy_scale": [
+        0.5,
+        1.0,
+        2.0
+      ],
+      "shape_exponent": [
+        0.5,
+        1.0,
+        2.0
+      ],
+      "co2_heat_J_mol": [
+        35000.0,
+        70000.0,
+        105000.0
+      ],
+      "half_pressure_Pa": [
+        20.0,
+        40.0,
+        80.0
+      ],
+      "activation_exponent": [
+        0.5,
+        2.0
+      ],
+      "pseudo_equilibrium_target_mol_kg": [
+        3.37,
+        3.9
+      ],
+      "breakthrough_alternative_mol_kg": [
+        3.18
+      ],
+      "measured_protocol_rh_nodes": [
+        0.7
+      ]
+    },
+    "support_envelope": {
+      "saturation_pressure_law": {
+        "ambient_cold": "Antoine, 255.9-373.0 K",
+        "hot": "IAPWS SR1-86(1992), 373.0-647.096 K"
+      },
+      "water_activity": [
+        0.0,
+        1.0
+      ],
+      "source_support": [
+        0.0,
+        0.7
+      ],
+      "named_extrapolation_policy": "named Sips extension to water activity 1",
+      "hot_co2_rich_vacuum_isotherm": "unsupported"
+    },
+    "assumptions": [
+      "The S10b H2O finite window is integrated independently over the common time window and is not integrated against the CO2 trace.",
+      "The H2O legend/caption identifies this TEPA(50) trace as H2O; the axis wording says outlet CO2 concentration C/C0, which is retained as a source-label ambiguity.",
+      "The assumed inlet/flow/STP basis gives 19.69049911427419 mol/kg of reported wet charge with Buck saturation at 0 C; this is a conditional finite-window water proxy.",
+      "The wet-basis finite-window increment is mapped to an assumed dry steady target; it is neither an absolute equilibrium uptake nor a measured dry-basis TEPA water anchor.",
+      "The 0.5, 1.0 and 2.0 proxy-scale sensitivity and the named unit-exponent Sips shape are exploratory; q_sat is twice the unit-scale proxy.",
+      "One finite-window RH point leaves q_sat and the Sips exponent unidentifiable; their assigned values are scenario parameters.",
+      "The 0 C source condition is kept separate from the 298.15 K caloric reference; transfer of the fixed-RH shape to 25 C and hot states is assumed.",
+      "Water heat, Cp and rate remain named exploratory assumptions.",
+      "The prior mass-cancelled Table S4 water derivation remains refused and is not revived by this proxy.",
+      "The native 0.61 mol/kg apparent curve remains the exact zero-water dry limit.",
+      "At 25 C, 70% RH and 40 Pa apparent CO2 pressure, the extra term is calibrated as an assumed target increment so the total apparent pseudo-equilibrium target is 3.9 mol/kg.",
+      "The 3.9 mol/kg default target assumes reported wet sample mass maps to the dry package basis; that mapping is an explicit assumption, not an equivalence claim.",
+      "The Table S4 breakthrough endpoint 3.18 mol/kg is retained as a separate alternative protocol scenario and is not treated as the same measurement.",
+      "The added term uses a bounded water activation and a temperature-dependent Langmuir pressure fraction with inherited 70 kJ/mol CO2 heat.",
+      "The 35, 70 and 105 kJ/mol values are assumed sensitivity values, not measured humid-binding enthalpies.",
+      "The 40 Pa reference half-pressure, unit activation exponent and proxy-scale range are exploratory scenario parameters.",
+      "This candidate is exploratory and is not a validated humid-cycle or reciprocal thermodynamic model."
+    ],
+    "limitations": [
+      "The TEPA water quantity is a conditional finite-window wet-mass proxy, not absolute equilibrium or a measured dry-basis TEPA water anchor.",
+      "The 799.601 min common-window cutoff is extraction support, not a thermodynamic endpoint; extending the H2O trace to 898.345 min changes the proxy by about 5.1%.",
+      "The finite-window integration assumes 100 kPa, 22 sccm, 22414 cm3/mol STP and an omitted-tail correction that are not independently identified.",
+      "The CO2 hydration response has one apparent pseudo-equilibrium anchor and no independent holdout; the 3.18 breakthrough endpoint is a separate alternative.",
+      "The reported wet sample mass is adopted as the dry package basis only as an explicit assumption.",
+      "80 C / 0.1 bar static vacuum is not a pump-driven 16 kPa law.",
+      "No reciprocal coadsorption or hot vacuum closure is claimed."
+    ],
+    "missing_evidence": [
+      "validated reciprocal CO2-water equilibrium",
+      "hot CO2-rich vacuum equilibrium",
+      "candidate-specific shaped transport",
+      "experimental humid-cycle validation",
+      "The TEPA water quantity is a conditional finite-window wet-mass proxy, not absolute equilibrium or a measured dry-basis TEPA water anchor.",
+      "The 799.601 min common-window cutoff is extraction support, not a thermodynamic endpoint; extending the H2O trace to 898.345 min changes the proxy by about 5.1%.",
+      "The finite-window integration assumes 100 kPa, 22 sccm, 22414 cm3/mol STP and an omitted-tail correction that are not independently identified.",
+      "The CO2 hydration response has one apparent pseudo-equilibrium anchor and no independent holdout; the 3.18 breakthrough endpoint is a separate alternative.",
+      "The reported wet sample mass is adopted as the dry package basis only as an explicit assumption.",
+      "80 C / 0.1 bar static vacuum is not a pump-driven 16 kPa law.",
+      "No reciprocal coadsorption or hot vacuum closure is claimed."
+    ],
+    "provenance": {
+      "class": "accepted bounded evidence plus named exploratory adapter",
+      "dry_origin_material_id": "tepa50_mg2_dobpdc_2025_25c_apparent_dry_conditional",
+      "dry_origin_package": "Initial_screening_model\\model\\materials\\screening\\tepa50_mg2_dobpdc_2025_25c_apparent_dry_conditional.json",
+      "staging_candidate_config": "Research\\next_stage_2026-11-08\\humid_cycle_readiness\\config\\humid_candidates.json",
+      "staging_config_sha256": "b22491f44b36d98e98a71b467218e18d10a95a366e5095cb03db6702262ee212",
+      "coupling_calibration": "Research\\next_stage_2026-11-08\\humid_cycle_readiness\\data\\cof_coupling_calibration.json",
+      "coupling_calibration_sha256": "e0153f6c05b83055a4b1660f9fb27b7de5e2a01da170d67f9979f231ea66d3e8",
+      "lead_native_scope": "Research/next_stage_2026-11-08/humid_cycle_lead/NATIVE_IMPLEMENTATION_SCOPE.md",
+      "protocol_anchors": {
+        "source": "humid_protocol_digitization/data/protocol_constraints.json",
+        "rh_fraction": 0.7,
+        "temperature_C": [
+          -20.0,
+          0.0,
+          25.0
+        ],
+        "breakthrough_capacity_mol_kg": [
+          0.18,
+          0.3,
+          3.18
+        ],
+        "pseudo_equilibrium_capacity_mol_kg": [
+          0.32,
+          3.37,
+          3.9
+        ],
+        "default_ambient_target": {
+          "temperature_C": 25.0,
+          "rh_fraction": 0.7,
+          "co2_partial_pressure_Pa": 40.0,
+          "pseudo_equilibrium_capacity_mol_kg": 3.9,
+          "mass_basis_assumption": "reported wet sample mass adopted as dry package basis"
+        },
+        "alternative_protocol_target": {
+          "breakthrough_capacity_mol_kg": 3.18,
+          "use": "separate scenario constraint only"
+        },
+        "water_proxy": {
+          "source": "humid_protocol_digitization/data/tepa50_70rh_0c_h2o.csv",
+          "default_mol_kg_reported_wet_charge": 19.69049911427419,
+          "status": "CONDITIONAL_FINITE_WINDOW_PROXY_FOR_EXPLORATORY_PARAMETER_SELECTION_NOT_MEASUREMENT"
+        },
+        "evidence_class": "exact fixed-bed scalar nodes"
+      }
+    },
+    "reciprocal_thermodynamics": false,
+    "validated_humid_cycle": false
+  }
+}

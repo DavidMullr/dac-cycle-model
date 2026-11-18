@@ -1,0 +1,39 @@
+{
+  "status": "source_context_checked",
+  "same_source_and_material_as_humid": true,
+  "allowed_case_changes": [
+    "label",
+    "weather.relative_humidity"
+  ],
+  "source_context": {
+    "status": "SAVED_DRY_VS_RH065_LEWATIT_CONTEXT",
+    "dry_job": "1499d52ac9324f61871f698bba800d02",
+    "wet_job": "864cff3bff364f76ad1a0fd59cb0252d",
+    "dry_path": "Research\\next_stage_2026-11-08\\dry_bdf_run\\allocation_dry_bdf_run_2026-11-08\\runs\\dry_N16_bdf_recovery_v1_20261108\\attempt_01\\RESULT.json",
+    "wet_path": "Research\\next_stage_2026-11-08\\lausanne_humidity_campaign\\allocation_lausanne_humidity_2026-11-08\\runs\\lausanne_humidity_only_rh065_20261108\\attempt_01\\RESULT.json",
+    "dry_sha256": "2c7091cfa5759cc7ff3b0ba8694cae27051a656490d39130df6c35332c0c4031",
+    "wet_sha256": "df6fbc10e3f861d11b34707a917d3c0d2834c228f4f706e9e4c1eef504400a3a",
+    "case_differences": [
+      {
+        "path": "/label",
+        "dry": "Matched TVSA baseline 48h 116C 16kPa",
+        "wet": "Lausanne humidity-only 48h RH0.65 25C 100kPa 116C 16kPa"
+      },
+      {
+        "path": "/weather/relative_humidity",
+        "dry": 0,
+        "wet": 0.65
+      }
+    ],
+    "material_differences": [],
+    "same_full_source_release_identity": true,
+    "dry_kg_day": 1.1857052098801573,
+    "wet_kg_day": 2.5703211735838662,
+    "wet_dry_ratio": 2.1677573415095783,
+    "dry_kWh_kg": 7.412330287627883,
+    "wet_kWh_kg": 5.46878005849286,
+    "historical_13case_low2023_dry_kg_day": 0.33990467565709137,
+    "historical_warning": "Historical13case Low2023 Lewatit differs from currentYoung2021 Lewatit; historical-to-current ratio does not isolate humidity.",
+    "scientific_scope": "Same-model conditional response, not experimental validation of hot humid law. No new simulation."
+  }
+}

@@ -1,0 +1,352 @@
+{
+  "scope": "Bounded regression fixtures; not live jobs or complete scientific validation.",
+  "files": [
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/6c785953b9ab418a9f5150a5086a5783/input_case.json",
+      "sha256": "9b29c03f7add4671857d652bf5f8f343855cbd3d550adb490712a661561cf955",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/6c785953b9ab418a9f5150a5086a5783/input_case.json",
+      "original_sha256": "9b29c03f7add4671857d652bf5f8f343855cbd3d550adb490712a661561cf955",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/6c785953b9ab418a9f5150a5086a5783/input_material.json",
+      "sha256": "2a539879edbd3d55e81c9a221252bddfac9966ace7a3a5378cc3a3bc156901a6",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/6c785953b9ab418a9f5150a5086a5783/input_material.json",
+      "original_sha256": "2a539879edbd3d55e81c9a221252bddfac9966ace7a3a5378cc3a3bc156901a6",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/6c785953b9ab418a9f5150a5086a5783/SPATIAL_CHECKPOINT.json",
+      "sha256": "594b95839edfc66e9f096c5f72b887f0684321fd58599c65a42e0424d731c6ab",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/6c785953b9ab418a9f5150a5086a5783/SPATIAL_CHECKPOINT.json",
+      "original_sha256": "56339d303435a86de69ed4b2b09ccd5d070ec6aab6adb80febf9d2d316c1f86d",
+      "selected_fields": [
+        "state"
+      ],
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/c9e57eb3c22e47d5a593d3a0efdbe823/input_case.json",
+      "sha256": "9b29c03f7add4671857d652bf5f8f343855cbd3d550adb490712a661561cf955",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/c9e57eb3c22e47d5a593d3a0efdbe823/input_case.json",
+      "original_sha256": "9b29c03f7add4671857d652bf5f8f343855cbd3d550adb490712a661561cf955",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/c9e57eb3c22e47d5a593d3a0efdbe823/input_material.json",
+      "sha256": "c016e81e4c6a794a8642ae504dd86bc3e9374bca1da64c232a40cab42ae1e9b8",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/c9e57eb3c22e47d5a593d3a0efdbe823/input_material.json",
+      "original_sha256": "c016e81e4c6a794a8642ae504dd86bc3e9374bca1da64c232a40cab42ae1e9b8",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/c9e57eb3c22e47d5a593d3a0efdbe823/SPATIAL_CHECKPOINT.json",
+      "sha256": "744e3d6204685df3cc4ae8985e9cc1ee0d350db9dc1ddf3696934942cf0e2e7b",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/c9e57eb3c22e47d5a593d3a0efdbe823/SPATIAL_CHECKPOINT.json",
+      "original_sha256": "f78074d74c172ac8d8503696b3feef40da196a12bb933cc728c8ef773f2efb99",
+      "selected_fields": [
+        "state"
+      ],
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/54d9f469c90e4c85bd52d80191e963ca/input_case.json",
+      "sha256": "9b29c03f7add4671857d652bf5f8f343855cbd3d550adb490712a661561cf955",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/54d9f469c90e4c85bd52d80191e963ca/input_case.json",
+      "original_sha256": "9b29c03f7add4671857d652bf5f8f343855cbd3d550adb490712a661561cf955",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/54d9f469c90e4c85bd52d80191e963ca/input_material.json",
+      "sha256": "5164b011a82ec51bf1508485faab0ee18c5ba4d16d534996a518f31cf462ad10",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/54d9f469c90e4c85bd52d80191e963ca/input_material.json",
+      "original_sha256": "5164b011a82ec51bf1508485faab0ee18c5ba4d16d534996a518f31cf462ad10",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/54d9f469c90e4c85bd52d80191e963ca/SPATIAL_CHECKPOINT.json",
+      "sha256": "e7490794e0d686547c1ee65fefcda34bbcd7220c01729eea203af6f3baa2d30a",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/54d9f469c90e4c85bd52d80191e963ca/SPATIAL_CHECKPOINT.json",
+      "original_sha256": "a8ebbc7b4e87282f25e880827a48c9dcc715c9b65617c1f1c4fb31a8c298295c",
+      "selected_fields": [
+        "state"
+      ],
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/73f1ef3a26f24a2e89884ddfd6c88701/input_case.json",
+      "sha256": "9b29c03f7add4671857d652bf5f8f343855cbd3d550adb490712a661561cf955",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/73f1ef3a26f24a2e89884ddfd6c88701/input_case.json",
+      "original_sha256": "9b29c03f7add4671857d652bf5f8f343855cbd3d550adb490712a661561cf955",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/73f1ef3a26f24a2e89884ddfd6c88701/input_material.json",
+      "sha256": "96a1ee45656e87e1e96731a6dfdda47a0e6d87331a8ff96c79ebb1e349f8d6ad",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/73f1ef3a26f24a2e89884ddfd6c88701/input_material.json",
+      "original_sha256": "96a1ee45656e87e1e96731a6dfdda47a0e6d87331a8ff96c79ebb1e349f8d6ad",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/73f1ef3a26f24a2e89884ddfd6c88701/SPATIAL_CHECKPOINT.json",
+      "sha256": "10b4e85ffe91653ec3bac99f19af9c482d2b9f7d56028eda31107cf6b81b69da",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/73f1ef3a26f24a2e89884ddfd6c88701/SPATIAL_CHECKPOINT.json",
+      "original_sha256": "7b1b49f48b18dac570683c5cf0f0ac8bc60c5dfc3183d13d5c95f64614bfc131",
+      "selected_fields": [
+        "state"
+      ],
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/7ebc1386f2694ec48ad2dd91ed7bf65b/input_case.json",
+      "sha256": "ced33e75305f5d1d64dc8a4878baaed72c33ca33cdbee0d6e12c4898408c2ac1",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/7ebc1386f2694ec48ad2dd91ed7bf65b/input_case.json",
+      "original_sha256": "ced33e75305f5d1d64dc8a4878baaed72c33ca33cdbee0d6e12c4898408c2ac1",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/7ebc1386f2694ec48ad2dd91ed7bf65b/input_material.json",
+      "sha256": "5cb4a910876106e47763ad883b539f8851ec32ca641e834bfbdc1f69172ba611",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/7ebc1386f2694ec48ad2dd91ed7bf65b/input_material.json",
+      "original_sha256": "5cb4a910876106e47763ad883b539f8851ec32ca641e834bfbdc1f69172ba611",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/7ebc1386f2694ec48ad2dd91ed7bf65b/SPATIAL_CHECKPOINT.json",
+      "sha256": "b17c0ef713def92afda0d6bce089c0d0afaf06ba3e2093ca6c017b4cb7e3663b",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/7ebc1386f2694ec48ad2dd91ed7bf65b/SPATIAL_CHECKPOINT.json",
+      "original_sha256": "c4779bc84109d5de4b248706ac4bb17bea847925fb9d1414ac62bc72ce6c24ab",
+      "selected_fields": [
+        "state"
+      ],
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/bed9435c6b694f6dbcc4fb86939ff984/input_case.json",
+      "sha256": "7e1d4d44d1e7927e0adb04199f018116e54c9df8f34dbf38ba255d0f4ef62d36",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/bed9435c6b694f6dbcc4fb86939ff984/input_case.json",
+      "original_sha256": "7e1d4d44d1e7927e0adb04199f018116e54c9df8f34dbf38ba255d0f4ef62d36",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/bed9435c6b694f6dbcc4fb86939ff984/input_material.json",
+      "sha256": "5cb4a910876106e47763ad883b539f8851ec32ca641e834bfbdc1f69172ba611",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/bed9435c6b694f6dbcc4fb86939ff984/input_material.json",
+      "original_sha256": "5cb4a910876106e47763ad883b539f8851ec32ca641e834bfbdc1f69172ba611",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/bed9435c6b694f6dbcc4fb86939ff984/SPATIAL_CHECKPOINT.json",
+      "sha256": "c3f977b0cd259dac36f356ab2857ef87c7f9aaaafafb333d6f25eb5e9e916762",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/bed9435c6b694f6dbcc4fb86939ff984/SPATIAL_CHECKPOINT.json",
+      "original_sha256": "4ee8c540afc8e00861aec19587f8ff7a541b98ddf53114b191221440e290fda6",
+      "selected_fields": [
+        "state"
+      ],
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/3b569f312a014d03ac311fb41321859d/input_case.json",
+      "sha256": "8b6aac60a39552724d4b73ed6a8da0d5a09094910fd4bdde8383bf968b68372d",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/3b569f312a014d03ac311fb41321859d/input_case.json",
+      "original_sha256": "8b6aac60a39552724d4b73ed6a8da0d5a09094910fd4bdde8383bf968b68372d",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/3b569f312a014d03ac311fb41321859d/input_material.json",
+      "sha256": "5cb4a910876106e47763ad883b539f8851ec32ca641e834bfbdc1f69172ba611",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/3b569f312a014d03ac311fb41321859d/input_material.json",
+      "original_sha256": "5cb4a910876106e47763ad883b539f8851ec32ca641e834bfbdc1f69172ba611",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/3b569f312a014d03ac311fb41321859d/SPATIAL_CHECKPOINT.json",
+      "sha256": "8d98b062afbf5959e83c9d76aef4cad3592c693206682afd39fd3d0a0292683a",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/3b569f312a014d03ac311fb41321859d/SPATIAL_CHECKPOINT.json",
+      "original_sha256": "2d0865d0ce042ee775443cb99b29ec39c25f49764de8a36807313dc46b78752f",
+      "selected_fields": [
+        "state"
+      ],
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/a7c559cc00c54159a0738b79186c3d87/input_case.json",
+      "sha256": "ced33e75305f5d1d64dc8a4878baaed72c33ca33cdbee0d6e12c4898408c2ac1",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/a7c559cc00c54159a0738b79186c3d87/input_case.json",
+      "original_sha256": "ced33e75305f5d1d64dc8a4878baaed72c33ca33cdbee0d6e12c4898408c2ac1",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/a7c559cc00c54159a0738b79186c3d87/SPATIAL_CHECKPOINT.json",
+      "sha256": "b17c0ef713def92afda0d6bce089c0d0afaf06ba3e2093ca6c017b4cb7e3663b",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/a7c559cc00c54159a0738b79186c3d87/SPATIAL_CHECKPOINT.json",
+      "original_sha256": "aba702db9e76dc8be1f233340a8e9a0ec4903c3b22dff2ecce5c4a240bf37956",
+      "selected_fields": [
+        "state"
+      ],
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/3362a1a7bfa746a1a9eda3e21b6bbbb5/input_case.json",
+      "sha256": "7e1d4d44d1e7927e0adb04199f018116e54c9df8f34dbf38ba255d0f4ef62d36",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/3362a1a7bfa746a1a9eda3e21b6bbbb5/input_case.json",
+      "original_sha256": "7e1d4d44d1e7927e0adb04199f018116e54c9df8f34dbf38ba255d0f4ef62d36",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/3362a1a7bfa746a1a9eda3e21b6bbbb5/SPATIAL_CHECKPOINT.json",
+      "sha256": "a47408e26221a47ce3c5d60f5bb226176a2ccbadf6df372754db096e9477acf1",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/3362a1a7bfa746a1a9eda3e21b6bbbb5/SPATIAL_CHECKPOINT.json",
+      "original_sha256": "9a7b2c89288a5f882ef99bfa2eb96bd88fc41886a78de6df5933f95442c6ed2a",
+      "selected_fields": [
+        "state"
+      ],
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/330d27a0aa6b4efb8fa4a17823c7b823/input_case.json",
+      "sha256": "7e1d4d44d1e7927e0adb04199f018116e54c9df8f34dbf38ba255d0f4ef62d36",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/330d27a0aa6b4efb8fa4a17823c7b823/input_case.json",
+      "original_sha256": "7e1d4d44d1e7927e0adb04199f018116e54c9df8f34dbf38ba255d0f4ef62d36",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/330d27a0aa6b4efb8fa4a17823c7b823/STATE.json",
+      "sha256": "054903455feb6e2d0002771e943aa1ef1ce21f2fa035bbbef95d2c9ce19da071",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/330d27a0aa6b4efb8fa4a17823c7b823/STATE.json",
+      "original_sha256": "1c7bca1263d098c87ea4e083ef618394f63cd6974d8edf7d11e02ff439d3ec0e",
+      "selected_fields": [
+        "simulated_s",
+        "phase_elapsed_s"
+      ],
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/jobs/330d27a0aa6b4efb8fa4a17823c7b823/MATERIAL_DOMAIN_FAILURE.json",
+      "sha256": "713e50192265177d5f8b7fce6d8b63c34e87e526e9e2a1ff4274fc214c40c4d2",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/330d27a0aa6b4efb8fa4a17823c7b823/MATERIAL_DOMAIN_FAILURE.json",
+      "original_sha256": "bc72d8f367cfa4dd11e1ca73064417a50bf06f61b4d2233111d2fd4cea1ca841",
+      "selected_fields": [
+        "rejected_state_vector",
+        "phase",
+        "temperature_K"
+      ],
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/energy_result.json",
+      "sha256": "31634f78ad528bb32b793c2fb25717659fc71397839574bb256164b4251af722",
+      "source_record": "Initial_screening_model/model/outputs/mof_screening/jobs/8bbf73e008454f29bdc1ff2047731202/RESULT.json",
+      "original_sha256": "31634f78ad528bb32b793c2fb25717659fc71397839574bb256164b4251af722",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/material_source_values.json",
+      "sha256": "272f4d0da67fa54d8672ef1dc5a2f97449452e6a70d4331d2a83c8ff21d0d2aa",
+      "source_record": "Research/MOF_screening_webapp_2026-11-02/LEAD_MATERIAL_SOURCE_FIXTURES.json",
+      "original_sha256": "2bc2b91485e9eb469a10e6244082decc074aab949e0fe866f81988e3e36f7ea3",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/matched_supported_case.json",
+      "sha256": "624f8e72fd26eb56346f37c7a6d39106be5224499c95b625e8bebcc429ae76f6",
+      "source_record": "Research/TVSA_recovery_2026-11-04/lead/MATCHED_SUPPORTED_BASELINE_CASE.json",
+      "original_sha256": "624f8e72fd26eb56346f37c7a6d39106be5224499c95b625e8bebcc429ae76f6",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/advisory_case.json",
+      "sha256": "ced33e75305f5d1d64dc8a4878baaed72c33ca33cdbee0d6e12c4898408c2ac1",
+      "source_record": "Research/TVSA_recovery_2026-11-05/lead/BROWSER_CASE.json",
+      "original_sha256": "ced33e75305f5d1d64dc8a4878baaed72c33ca33cdbee0d6e12c4898408c2ac1",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/lumped_result_8.json",
+      "sha256": "9b3363e798acb116c5b130c8921dd74a7d69d830b3465577550a39f8bcacad6d",
+      "source_record": "Research/MOF_screening_webapp_2026-11-02/verification/artifacts/attempt_08/RESULT.json",
+      "original_sha256": "a4325f3c8ed0f7f67ff442610bbdce7428049c7bc43b96e3de9064d75188c8a7",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/lumped_result_9.json",
+      "sha256": "c37b5789aedc16f27cfe7e9e68932d3e43d0048a543a9b9b364eb17e879abc9e",
+      "source_record": "Research/MOF_screening_webapp_2026-11-02/verification/artifacts/attempt_09/RESULT.json",
+      "original_sha256": "8f3e30e43d07b79f158cc4ac5eae45c0a72ebf7affaa890afb6198660e3cca04",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/replay_failure_state.json",
+      "sha256": "9127e57204acc01a753a9f601d47f813c57a3bd54229a5299bcf762f8fe996ee",
+      "source_record": "Research/TVSA_recovery_2026-11-05/worker/evidence/replay3_20261105/FIRST_ANOMALY.npz",
+      "original_sha256": "20c35cd277501d293023e00f633838f1e52c4a0524fc0bf2387227f3802feaca",
+      "selected_fields": "all",
+      "change": "Selected numerical inputs/states retained; local path prefixes removed from string metadata."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/source_tables/MOF808_DIGITIZATION_AUDIT.json",
+      "sha256": "801bb3f4ed9413dc441f8a85020a26f0d41c6e475b08f73e46e72013f4f04bf8",
+      "source_record": "Research/MOF_candidates_2026-11-03/lead/secondary_sources/MOF808_DIGITIZATION_AUDIT.json",
+      "original_sha256": "801bb3f4ed9413dc441f8a85020a26f0d41c6e475b08f73e46e72013f4f04bf8",
+      "change": "Exact numerical source table or digitization audit; no publisher PDF."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/source_tables/MOF808_Lys_25C_DIGITIZED.csv",
+      "sha256": "b67b7cd045e8cbeeecac7ea928451a935610b5a828a5eb8d35822e24d7e1e7bc",
+      "source_record": "Research/MOF_candidates_2026-11-03/lead/secondary_sources/MOF808_Lys_25C_DIGITIZED.csv",
+      "original_sha256": "b67b7cd045e8cbeeecac7ea928451a935610b5a828a5eb8d35822e24d7e1e7bc",
+      "change": "Exact numerical source table or digitization audit; no publisher PDF."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/source_tables/MOF808_TAPA_25C_DIGITIZED.csv",
+      "sha256": "5f9a8e3ba3c6774b29211e924a2277a75b262c2d6227055079aa77141207d9e3",
+      "source_record": "Research/MOF_candidates_2026-11-03/lead/secondary_sources/MOF808_TAPA_25C_DIGITIZED.csv",
+      "original_sha256": "5f9a8e3ba3c6774b29211e924a2277a75b262c2d6227055079aa77141207d9e3",
+      "change": "Exact numerical source table or digitization audit; no publisher PDF."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/source_tables/TEPA50_25C_APPARENT_DIGITIZED.csv",
+      "sha256": "1a73f84d537c0ada3da4cc3d53d430dea451deaeb8e139b3f5f7ac48d14c8157",
+      "source_record": "Research/MOF_candidates_2026-11-03/lead/secondary_sources/TEPA50_25C_APPARENT_DIGITIZED.csv",
+      "original_sha256": "1a73f84d537c0ada3da4cc3d53d430dea451deaeb8e139b3f5f7ac48d14c8157",
+      "change": "Exact numerical source table or digitization audit; no publisher PDF."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/source_tables/TEPA50_DIGITIZATION_AUDIT.json",
+      "sha256": "dc4eeba55c577e020c759ee7033cabc262398034b1e602a22834f030c14288f2",
+      "source_record": "Research/MOF_candidates_2026-11-03/lead/secondary_sources/TEPA50_DIGITIZATION_AUDIT.json",
+      "original_sha256": "dc4eeba55c577e020c759ee7033cabc262398034b1e602a22834f030c14288f2",
+      "change": "Exact numerical source table or digitization audit; no publisher PDF."
+    },
+    {
+      "path": "model/tests/fixtures/mof_screening/source_tables/COF1000_25C_adsorption_PUBLISHER.csv",
+      "sha256": "e17a559482f8cbb6d17368119e7c45e179ac14a97aa1b378010c1d0f3c614ec9",
+      "source_record": "Research\\MOF_candidates_2026-11-03\\lead\\secondary_sources\\COF1000_25C_adsorption_PUBLISHER.csv",
+      "original_sha256": "e17a559482f8cbb6d17368119e7c45e179ac14a97aa1b378010c1d0f3c614ec9",
+      "change": "Exact numerical source table or digitization audit; no publisher PDF."
+    }
+  ]
+}

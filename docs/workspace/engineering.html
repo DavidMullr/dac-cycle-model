@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Engineering &amp; costs | Carbon Team</title><link rel="stylesheet" href="/docs/style.css">
+<script src="/docs/assets/ui/theme-init.js"></script><link rel="stylesheet" href="/docs/assets/ui/app.css">
+<link rel="stylesheet" href="/docs/assets/ui/current.css"><script src="/docs/assets/ui/app-shell.js" defer></script>
+<script src="/docs/assets/ui/engineering-current.js" defer></script></head>
+<body class="ct-app"><header><div class="eyebrow">Carbon Team · DAC model</div><h1>Engineering &amp; costs</h1><p>Engineering requirements from a selected completed run. Price entries are saved separately for that exact result.</p></header>
+<main>
+<section><label for="selected-run">Completed run</label><select id="selected-run" disabled></select><p id="engineering-status" role="status">Loading completed runs…</p><p class="muted" id="run-basis"></p></section>
+<section id="engineering-content" hidden>
+<div class="current-cards" id="run-metrics"></div>
+<h2>Bed and equipment duties</h2><div class="table-scroll"><table><thead><tr><th>Quantity</th><th>Selected run</th><th>Basis</th></tr></thead><tbody id="duties"></tbody></table></div>
+<p>Fan pressure loss covers the modelled bed and declared minor losses. Filters, screens and ducts need measurements. The pump calculation does not establish simultaneous inlet vacuum and pressurised delivery. The observed peak temperature is not a recommended material limit.</p>
+<h2>Cost worksheet</h2><p>Enter supplier quotes or stated assumptions. Blank prices remain unknown; an entered zero also needs a basis. Changing runs loads that run's own worksheet.</p>
+<label for="electricity-price">Electricity price (CHF/kWh)</label><input type="number" min="0" step="0.01" id="electricity-price" placeholder="Not entered">
+<div class="table-scroll"><table><thead><tr><th>Component</th><th>Quantity</th><th>Unit price (CHF)</th><th>Quote or assumption</th></tr></thead><tbody id="cost-inputs"></tbody></table></div>
+<div class="current-actions"><button id="calculate-costs">Update calculation</button><button id="save-costs">Save worksheet</button><button id="export-json">Export JSON</button><button id="export-csv">Export CSV</button></div>
+<p id="cost-summary"></p><p class="muted">The total covers the listed components only. It does not include an unentered installation cost, replacement schedule or downstream compression.</p>
+<details><summary>Result identity and next measurements</summary><pre id="source-identity"></pre><ul id="open-inputs"></ul></details>
+</section></main></body></html>

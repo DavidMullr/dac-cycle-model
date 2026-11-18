@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quick start | Carbon Team</title>
+<link rel="stylesheet" href="style.css">
+<script src="assets/ui/theme-init.js"></script>
+<link rel="stylesheet" href="assets/ui/app.css">
+<script src="assets/ui/app-shell.js" defer></script>
+<style>main{max-width:1100px}main table{width:100%;border-collapse:collapse;margin:1.5rem 0}th,td{text-align:left;padding:.65rem;border-bottom:1px solid var(--border,#dce3e8)}main p,main li{max-width:85ch;line-height:1.65}pre{overflow-x:auto;padding:1rem;border-radius:8px;background:var(--surface-2,#eef3f5)}@media(max-width:650px){table{display:block;overflow-x:auto}}@media print{.ct-sidebar,.ct-topbar,.ct-skip{display:none!important}.ct-workspace{margin:0!important}}</style>
+</head><body class="ct-app">
+<header><div class="eyebrow">Carbon Team &middot; 17 November 2026</div><h1>Quick start</h1></header>
+<main><p>Use a 64-bit CPython 3.12 virtual environment from the project
+root:</p>
+<pre class="text"><code>python -m pip install -r model/requirements-lock.txt
+python -B model/run.py serve</code></pre>
+<p>On Windows, <code>INSTALL.cmd</code> and <code>START.cmd</code>
+provide the same setup and launch workflow; <code>STOP.cmd</code> stops
+the app. Open <a
+href="http://127.0.0.1:8772/">http://127.0.0.1:8772/</a>.</p>
+<p>Start with <strong>Results &amp; comparison</strong> to inspect the
+reviewed results. For a new calculation, use <strong>Materials &amp;
+simulations</strong>, then <strong>Preview exact case</strong> and
+<strong>Start screening</strong>. Opening the app or previewing inputs
+starts no simulation.</p>
+<p>Read <a href="../model/report/project/user_guide.html">Using the DAC
+model</a> for the workflow, input choices, calculation steps and
+interpretation of results. The <a href="project_map.html">project
+map</a> explains where those steps live in the code.</p>
+<p>The <a href="../model/report/project/model_and_results.pdf">four-page
+report</a> and saved exports can be read without installing Python. <a
+href="REVIEW_CHECKS.html">Review checks</a> lists the verification
+commands. Node.js is needed for JavaScript tests; Pandoc (also supplied
+with Quarto) and the optional PDF dependencies are needed only to
+rebuild documentation.</p>
+<p><a href="../model/report/project/index.html">Model and results</a> &middot; <a href="../model/report/project/model_and_results.pdf">Four-page PDF</a> &middot; <a href="QUICKSTART.md">Markdown source</a></p></main>
+</body></html>

@@ -1,0 +1,225 @@
+{
+  "airflow": {
+    "air_viscosity_Pa_s": 1.85e-05,
+    "fan_efficiency": 0.55,
+    "minor_loss_coefficient": 2.0,
+    "volume_flow_m3_s": 0.1
+  },
+  "ambient": {
+    "co2_ppm_dry": 420.0,
+    "pressure_Pa": 100000.0,
+    "relative_humidity": 0.02,
+    "temperature_C": 25.0
+  },
+  "bed": {
+    "bed_void_fraction": 0.4,
+    "dry_sorbent_mass_kg": 10.0,
+    "particle_diameter_m": 0.0015,
+    "pellet_density_kg_m3": 600.0
+  },
+  "conditioner": {
+    "cooling_auxiliary_electric_W": 0.0,
+    "cooling_target_C": 40.0,
+    "line_molar_conductance_mol_s_Pa": 1e-05,
+    "max_cooling_duty_W": 500.0,
+    "valve_max_conductance_mol_s_Pa": 1e-05
+  },
+  "conditioning": {
+    "electric_J_per_kg_water_removed": 0.0,
+    "outlet_relative_humidity": null
+  },
+  "cycle": {
+    "adsorption_s": 7200.0,
+    "cooling_approach_K": 5.0,
+    "cooling_max_s": 7200.0,
+    "css_relative_tolerance": 0.002,
+    "desorption_s": 8100.0,
+    "evacuation_s": 240.0,
+    "maximum_cycles": 64,
+    "minimum_cycles": 3,
+    "regeneration_pressure_Pa": 20000.0,
+    "regeneration_temperature_C": 150.0,
+    "repressurization_flow_mol_s": 0.05,
+    "repressurization_max_s": 60.0,
+    "desorption_control": {
+      "schema": "desorption-control-v8/1",
+      "mode": "fixed_timer",
+      "minimum_duration_s": 3600.0,
+      "checkpoint_s": 30.0,
+      "bed_temperature_margin_K": 2.0,
+      "tail_window_s": 300.0,
+      "tail_rate_limit_mol_s": 0.0001,
+      "tail_mass_fraction_of_product": 0.01,
+      "require_all_tail_samples_below_rate": true
+    }
+  },
+  "description": "v12 approved-policy P20 one-unit N8-tight preparation; frozen v11 physics; no release",
+  "equilibrium_screen": {
+    "regeneration_wet_mole_fractions": [
+      0.5,
+      0.45,
+      0.04,
+      0.01
+    ]
+  },
+  "geometry": {
+    "extra_dead_volume_m3": 0.0005,
+    "kind": "parallel_cassette_bank",
+    "metal_cp_J_kg_K": 900.0,
+    "parallel_cassette_bank": {
+      "gap_m": 0.01,
+      "module_count": 10,
+      "module_geometry": {
+        "extra_dead_volume_m3": 0.0005,
+        "kind": "orthogonal_cassette",
+        "metal_cp_J_kg_K": 900.0,
+        "orthogonal_cassette": {
+          "end_frames": {
+            "density_kg_m3": 2700.0,
+            "rim_width_m": 0.005,
+            "thickness_m": 0.001
+          },
+          "face_sheets": {
+            "density_kg_m3": 2700.0,
+            "thickness_m": 0.001
+          },
+          "height_m": 0.15,
+          "side_rails": {
+            "density_kg_m3": 2700.0,
+            "thickness_m": 0.001
+          },
+          "thickness_m": 0.016
+        }
+      },
+      "module_mass_kg": 1.0,
+      "rack_columns": 2,
+      "rack_rows": 5
+    },
+    "construction_penalty_v8": {
+      "schema": "construction-penalty-v8/1",
+      "construction": "external_plate_rib_bank",
+      "scenario_id": "short_16_015",
+      "owner_group": "B",
+      "added_vacuum_volume_m3": 0.0,
+      "added_coupled_metal_kg": 34.95,
+      "unheated_metal_kg": 0.0,
+      "structural_support_coupled_fraction": 0.0,
+      "unheated_metal_assumption": "thermally_isolated_no_sink_credit",
+      "included_surfaces": "two external heated face plates per cassette plus declared ribs; the frozen 1 mm face sheet remains the unverified sealing membrane and plate-to-sheet bond/contact is not checked; side rails, end frames, seals, fasteners, manifolds and supports are not included",
+      "physical_envelope_status": "external_structure_outside_sealed_bed_envelope",
+      "derived_baseline": {
+        "module_count": 10,
+        "module_width_m": 1.1574074074074077,
+        "module_height_m": 0.15,
+        "module_thickness_m": 0.016,
+        "module_face_area_each_m2": 0.17361111111111113,
+        "face_count": 2,
+        "ribs_per_face": 20,
+        "rib_count_total_per_module": 40,
+        "panel_span_m": 0.05511463844797179,
+        "heated_area_total_m2": 3.4722222222222228,
+        "frozen_module_metal_kg": 10.143640000000003,
+        "added_metal_kg": 34.95,
+        "construction_metal_kg": 45.09364000000001,
+        "double_counting_rule": "frozen module metal is reused once; plates and ribs are external additions"
+      },
+      "source_ref": {
+        "path": "config/buildable_selection_v9/engineering/designs.json",
+        "sha256": "b3133a315793f1403624737af096485f4b6fea8f1b3fdc914127238ce3f055e5"
+      }
+    }
+  },
+  "kinetics": {
+    "activation_energy_J_mol": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "model": "diffusion_limited",
+    "reference_pellet_diameter_m": 0.0015,
+    "reference_temperature_K": 298.15
+  },
+  "material_file": "materials/hypothetical_mmen_like.json",
+  "pump": {
+    "air_leak_Pa_m3_s": 1e-05,
+    "bank_contract": "ideal_parallel_unit_curve",
+    "bank_count": 1,
+    "profile": "knf_n922_ste_50hz",
+    "profile_file": "equipment/pump_profiles.json",
+    "throttle_band_Pa": 500.0,
+    "pressure_control_observable": "maximum"
+  },
+  "scheduling": {
+    "column_counts": [
+      1,
+      2,
+      3
+    ],
+    "samples": 1440,
+    "shared_heater_limit_W": 1600.0,
+    "shared_pump_speed_limit_m3_h": 10.0,
+    "total_sorbent_mass_kg": 2.0
+  },
+  "solver": {
+    "rtol": 5e-09,
+    "max_step_s": 7.5,
+    "samples_per_step": 801
+  },
+  "thermal": {
+    "bed_control_gain_W_K": 40.0,
+    "cooling_h_W_m2_K": 70.0,
+    "effective_bed_conductivity_W_m_K": 0.1,
+    "heat_loss_U_W_m2_K": 0.8,
+    "heater_ceiling_band_K": 5.0,
+    "heater_heat_capacity_J_K": 120.0,
+    "heater_power_W": 2000.0,
+    "heater_temperature_margin_K": 40.0,
+    "heater_wall_conductance_W_K": 20.0,
+    "wall_contact_h_W_m2_K": 80.0
+  },
+  "utilities": {
+    "prepump_cooling": {
+      "auxiliary_electric_W": 0.0,
+      "cop": 2.5,
+      "kind": "constant_cop",
+      "max_cooling_capacity_W": 1000.0
+    },
+    "wall_cooling": {
+      "auxiliary_electric_W": 0.0,
+      "cop": 3.0,
+      "kind": "constant_cop",
+      "max_cooling_capacity_W": 2000.0
+    }
+  },
+  "coupled_through_thickness": {
+    "n_cells_half": 8,
+    "gas_solid_heat_transfer_W_m2_K": 100.0,
+    "gas_solid_specific_area_m2_m3": 2400.0,
+    "pump_flow_basis": "reference_fixed_inlet_speed",
+    "transport_status": "ANALYST_HGS_ALL_PRESSURE_INCLUDING_LOW_ISOLATED_COOLING",
+    "transport_note": "constant 100 W/m2K analyst assumption at all local pressures, including very low isolated-cooling pressures outside the cited transport-probe domain; not a measured coefficient or hardware calibration; pump rate uses the conditional STE 50 Hz reference curve and fixed-inlet-speed temperature transfer",
+    "h_gs_applicability": {
+      "source_class": "analyst",
+      "value_W_m2_K": 100.0,
+      "pressure_domain": "all modeled local pressures including very low isolated cooling",
+      "transport_probe_domain": "does not establish this constant at very low isolated-cooling pressure",
+      "status": "ANALYST_ASSUMPTION_NOT_CALIBRATED"
+    }
+  },
+  "humidity_activity_audit": {
+    "direct_domain_K": [
+      255.9,
+      373.0
+    ],
+    "hot_upper_bound": "p_H2O / p_sat(373 K)",
+    "requires_saturation_pressure_monotonicity": true,
+    "above_model_temperature_range": "unknown",
+    "wet_hot_validation": "UNKNOWN"
+  },
+  "v11_parent_blueprint": {
+    "proposal": "config/vacuum_qualification_v11/runtime/pilot/QUALIFICATION_PROPOSAL_R2.json",
+    "profile": "v11_pilot_owned1_short_n8_fixed_speed",
+    "change": "v12 decision overlay; solver rtol 5e-9, max step 7.5 s, samples 801 only; physical inputs unchanged"
+  }
+}

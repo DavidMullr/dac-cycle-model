@@ -1,0 +1,74 @@
+{
+  "schema": "carbon-team-submission-review-checks/2",
+  "verified_at": "2026-11-18",
+  "scope": "Full standalone catalogue, finite-horizon calculations, native saved evidence and reference presets.",
+  "environment": {
+    "python": "3.12.3",
+    "locked_packages": {
+      "colorama": "0.4.6",
+      "contourpy": "1.4.0",
+      "cycler": "0.12.1",
+      "fonttools": "4.67.0",
+      "iniconfig": "2.3.1",
+      "kiwisolver": "1.5.1",
+      "matplotlib": "3.11.2",
+      "numpy": "2.5.4",
+      "packaging": "26.3",
+      "pillow": "12.3.0",
+      "pluggy": "1.7.0",
+      "pygments": "2.21.0",
+      "pyparsing": "3.3.3",
+      "pytest": "9.1.1",
+      "python-dateutil": "2.9.0.post0",
+      "scipy": "1.18.1",
+      "six": "1.17.0"
+    }
+  },
+  "python": {
+    "passed": 420,
+    "failed": 0,
+    "skipped": 0
+  },
+  "javascript": {
+    "passed_test_files": 8
+  },
+  "reviewed_exports": {
+    "complete": 16,
+    "incomplete_sensitivities": 2,
+    "raw_half_bed_product_and_electricity_meters_reconciled": true,
+    "electricity_components_reconstructed": [
+      "heater",
+      "fan",
+      "pump",
+      "cooling",
+      "conditioning"
+    ],
+    "historical_two_site_loading_phase_endpoints": {
+      "cof1000_humid": 53,
+      "calf20_humid": 53
+    }
+  },
+  "bounded_smoke": {
+    "engines": [
+      "spatial",
+      "lumped"
+    ],
+    "simulated_hours_each": 1,
+    "cycle": "one complete cycle and partial second cycle",
+    "entry": "loopback HTTP preview and Start; separate workers; monitor, JSON and trace CSV export, selected-result engineering",
+    "mass_and_energy_checks": "passed"
+  },
+  "reports": {
+    "html_reports": 4,
+    "html_guides": 4,
+    "pdf_pages": 4,
+    "native_display_equations": 33,
+    "checked_local_references": 117
+  },
+  "unverified": [
+    "Hosted CI",
+    "Separate computer installation",
+    "Separate dataset licences for COF-1000 Fig. 2 and COF-999 Fig. 3 numerical series if protected as compilations",
+    "Physical validation, cyclic steady state, mesh independence and prototype temperature limits"
+  ]
+}

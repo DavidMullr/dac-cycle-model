@@ -1,0 +1,499 @@
+{
+  "adsorbed_phase_cp_J_kg_K": [
+    852.0887535645713,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "assumptions": [
+    "The 40 C source curve is the measured-shape reference and all temperature transfer is a fitted constant activity shift.",
+    "The dry-only water mode has zero physical water storage, rates, heat and adsorbed Cp; relative humidity must be zero before execution.",
+    "A neutral 1000 J/kg/K dry solid Cp is a screening assumption because no HOB-specific heat capacity was located.",
+    "The shared case geometry and transport are transferred to the source powder or composite and are not measured device properties.",
+    "The CO2 desorption rate mirrors the single-temperature Avrami adsorption-rate anchor because hot desorption kinetics are missing.",
+    "The fit is conditional: declaration-failing 80 and 100 C diagnostics remain visible and prevent a model-ready claim."
+  ],
+  "co2": {
+    "basis": "Measured 40 C filled-marker CO2 adsorption curve digitized from the publisher vector figure, with one fitted constant activity shift. The fit fails declared 80/100 C holdouts.",
+    "heat_J_mol": 49117.725233522135,
+    "reference_curve": {
+      "class": "FITTED nonnegative monotone projection of measured true-centre digitized points",
+      "digitized_curve_sha256": "f720fa79d17dc47357e1c7ff7678df2b617d3483f5354f0e1b0aa1d9b1865ed6",
+      "loading_mol_kg": [
+        0.032490862,
+        0.05549603,
+        0.113087736,
+        0.295041284,
+        0.35491775,
+        0.884588113,
+        1.331416237,
+        1.46267175,
+        1.53176604,
+        1.554810602,
+        1.623904891,
+        1.672239381,
+        1.71371959,
+        1.750551493,
+        1.775880815,
+        1.789707551,
+        1.8081432,
+        1.826578847,
+        1.842690344,
+        1.854192928,
+        1.868019666,
+        1.891064226,
+        1.916393547,
+        1.939398714,
+        1.957834363,
+        1.976270012,
+        2.024643893,
+        2.063760557,
+        2.086805118,
+        2.107525525,
+        2.125961175,
+        2.14207267,
+        2.158223559,
+        2.172010904,
+        2.18583764,
+        2.21116696,
+        2.236496281,
+        2.261825601,
+        2.284870162,
+        2.307914724,
+        2.330919891,
+        2.351640301,
+        2.372400101,
+        2.423058742,
+        2.473717383,
+        2.522091263,
+        2.570465146,
+        2.618799634,
+        2.667173516,
+        2.713262637
+      ],
+      "pressure_Pa": [
+        4.88952595,
+        10.312202281,
+        19.470444714,
+        34.860667835,
+        52.743407788,
+        70.749092833,
+        101.522022543,
+        123.672975418,
+        146.377280578,
+        158.861337529,
+        180.903123006,
+        205.021727473,
+        240.333847645,
+        269.786807204,
+        298.492122976,
+        325.500337063,
+        351.578212954,
+        381.563209815,
+        418.079707778,
+        445.077867768,
+        483.076930525,
+        574.498885672,
+        673.448271536,
+        793.219390392,
+        877.617932017,
+        994.624866023,
+        1923.488773509,
+        3188.970434711,
+        3941.473779303,
+        4966.316790908,
+        5934.461817391,
+        6956.016952727,
+        7960.384162205,
+        8935.195043597,
+        9934.041957508,
+        12516.013069331,
+        14884.659407929,
+        17363.775691708,
+        19870.901113627,
+        22304.2473233,
+        24797.592851548,
+        27303.096682814,
+        29773.539890221,
+        39937.71024719,
+        49602.218061571,
+        59560.427170587,
+        69474.80096142,
+        79506.146837212,
+        89676.882471584,
+        99693.466402608
+      ],
+      "source_doi": "10.1021/jacs.4c05318",
+      "source_locator": "Choe et al. JACS 2024, Supporting Information Figure S68a, printed page 74; filled circles treated as the adsorption branch",
+      "source_sha256": "31648599d0e6dfb1123ed5870aa450121d190e16cc40881ca66272371f9cb558",
+      "source_svg_sha256": "7c0b6174bbe05ba12796c7ad2975bc1e03ba53a8ad3466ff3ec62e880f4cb3ab",
+      "temperature_K": 313.15,
+      "temperature_convention": "Source temperatures are Celsius; K values add 273.15."
+    },
+    "support": {
+      "measured_temperature_range_K": [
+        298.15,
+        433.15
+      ],
+      "policy": "strict"
+    }
+  },
+  "co2_water_penalty_per_mol_kg": 0.0,
+  "equilibrium_family": "activity_shift_reference_isotherm",
+  "evidence": {
+    "basis": "Measured multi-temperature composite CO2 curves, with a constant activity-shift fit that fails 80/100 C holdouts.",
+    "not_for": "final active-fraction reconstruction, humid coadsorption, shaped-device prediction, common 100 C quantitative ranking, lifetime, CSS, annual production, hardware qualification or a measured winner.",
+    "status": "CONDITIONAL_REFERENCE_CURVE_REPRESENTATION_FAILED_DRY_ONLY"
+  },
+  "kinetics": {
+    "adsorption_rate_s_inv": [
+      5.13e-05,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "desorption_rate_s_inv": [
+      5.13e-05,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "evidence_status": "SI Table S12 Avrami Ka=5.13e-5 s^-1, nA=0.803, R2=0.980 at 25 C; LDF transfer and desorption mirror are explicit assumptions.",
+    "source_avrami_R2": 0.98,
+    "source_avrami_exponent_nA": 0.803
+  },
+  "material_id": "mmen_mg2_hob_pvdf_2024_dry_conditional",
+  "maximum_bed_temperature_C": 160.0,
+  "missing_evidence": {
+    "candidate_specific_pellet_or_coating": null,
+    "candidate_specific_solid_heat_capacity": null,
+    "direct_humid_co2_equilibrium_closure": null,
+    "hot_desorption_kinetics": null,
+    "humid_coadsorption_kinetics": null,
+    "reversible_cycle_water_heat": null,
+    "shaped_bed_thermal_conductivity": null,
+    "shaped_particle_effective_diffusivity": null
+  },
+  "name": "mmen-Mg2(hob)/PVDF composite, 2024 dry conditional",
+  "nitrogen": {
+    "heat_J_mol": 0.0,
+    "henry_mol_kg_Pa_at_reference": 0.0
+  },
+  "oxygen": {
+    "heat_J_mol": 0.0,
+    "henry_mol_kg_Pa_at_reference": 0.0
+  },
+  "provenance": {
+    "amine_loading": {
+      "class": "measured",
+      "diamine_per_magnesium_ion_after_humid_tpd": 0.93,
+      "diamine_per_magnesium_ion_before_humid_tpd": 0.92,
+      "locator": "SI Table S14; diamine per Mg2+ divalent magnesium ion, not per Mg2 formula unit"
+    },
+    "co2_reference_curve": {
+      "class": "measured, vector-digitized",
+      "fitted_projection": {
+        "fitted_point_count": 50,
+        "maximum_loading_projection_mol_kg": 0.0,
+        "note": "The raw vector points remain in the dataset and all in-domain points remain in the fit. The contract requires a monotone nonnegative reference curve, so duplicate pressure nodes are averaged, pooled-adjacent-violators projection is applied, and the resulting FITTED curve is clamped at zero.",
+        "raw_point_count": 50
+      },
+      "loading_uncertainty_method": "0.05 vector local-unit true-centre calibration uncertainty",
+      "pressure_uncertainty_method": "0.05 vector local-unit true-centre calibration uncertainty",
+      "source_doi": "10.1021/jacs.4c05318",
+      "source_locator": "Choe et al. JACS 2024, Supporting Information Figure S68a, printed page 74; filled circles treated as the adsorption branch",
+      "source_pdf_sha256": "31648599d0e6dfb1123ed5870aa450121d190e16cc40881ca66272371f9cb558",
+      "source_point_count_all_branches": 485,
+      "source_point_count_reference_filled": 50,
+      "source_svg_sha256": "7c0b6174bbe05ba12796c7ad2975bc1e03ba53a8ad3466ff3ec62e880f4cb3ab",
+      "true_centre_overlay": {
+        "centre_count": 481,
+        "full_path": "Research/MOF_candidates_2026-11-03/hob/figures/hob_composite_true_centres_overlay.png",
+        "full_sha256": "dd2ab1532f55324946da16103bf0678a11e1e4779d6b4928d345f6c823d07418",
+        "marker": "Cyan circle and white cross mark the calculated centre of each filled source marker; no source pixels are removed or smoothed.",
+        "zoom_crop_xyxy": [
+          563.5987925544118,
+          647.7210705344585,
+          1501.8368371433755,
+          1231.3137813287324
+        ],
+        "zoom_path": "Research/MOF_candidates_2026-11-03/hob/figures/hob_composite_true_centres_zoom.png",
+        "zoom_sha256": "1289d4c9737d92fe2a95c43d95f29c32666829c36a0b408e0962ec094adf232e"
+      }
+    },
+    "co2_temperature_shift": {
+      "acceptance": {
+        "basis": "Lead-declared engineering approximation gate; not experimental validation. All measured filled-marker points in the stated pressure domain remain in the error set.",
+        "dac_relative_error_max": 0.1,
+        "max_abs_error_mol_kg_max": 0.3,
+        "rmse_mol_kg_max": 0.15
+      },
+      "classification_note": "Engineering approximation gate, not experimental validation. Failed holdouts remain visible and this package is not model-ready for quantitative common-100 C ranking.",
+      "decision": "Data/representation insufficient for model-ready use",
+      "diagnostics": {
+        "100": {
+          "dac_40Pa": {
+            "applicable": true,
+            "measured_bracket_Pa": [
+              35.201022264,
+              41.260507718
+            ],
+            "measured_loading_mol_kg": 0.025111487630834213,
+            "model_loading_mol_kg": 0.012799606871802488,
+            "pressure_Pa": 40.0,
+            "reason": null,
+            "relative_error": 0.490288784958883
+          },
+          "max_abs_error_mol_kg": 1.0434494573934918,
+          "point_count": 57,
+          "rmse_mol_kg": 0.28349221836113264,
+          "role": "holdout"
+        },
+        "120": {
+          "dac_40Pa": {
+            "applicable": true,
+            "measured_bracket_Pa": [
+              37.292577539,
+              42.063189049
+            ],
+            "measured_loading_mol_kg": 0.014055213,
+            "model_loading_mol_kg": 0.005720465823268537,
+            "pressure_Pa": 40.0,
+            "reason": null,
+            "relative_error": 0.5930004174772351
+          },
+          "max_abs_error_mol_kg": 1.4125030343253897,
+          "point_count": 54,
+          "rmse_mol_kg": 0.5360205815993404,
+          "role": "posthoc_diagnostic"
+        },
+        "140": {
+          "dac_40Pa": {
+            "applicable": true,
+            "measured_bracket_Pa": [
+              37.653574833,
+              42.470366622
+            ],
+            "measured_loading_mol_kg": 0.000228478,
+            "model_loading_mol_kg": 0.0027639452006408454,
+            "pressure_Pa": 40.0,
+            "reason": null,
+            "relative_error": 11.097204985341458
+          },
+          "max_abs_error_mol_kg": 1.4763484479847229,
+          "point_count": 51,
+          "rmse_mol_kg": 0.5029220879789379,
+          "role": "posthoc_diagnostic"
+        },
+        "160": {
+          "dac_40Pa": {
+            "applicable": true,
+            "measured_bracket_Pa": [
+              37.653574833,
+              45.65062588
+            ],
+            "measured_loading_mol_kg": -0.004380436,
+            "model_loading_mol_kg": 0.001428236030757305,
+            "pressure_Pa": 40.0,
+            "reason": "measured interpolation at 40 Pa is nonpositive; relative error is untestable",
+            "relative_error": null
+          },
+          "max_abs_error_mol_kg": 1.2329845618544477,
+          "point_count": 43,
+          "rmse_mol_kg": 0.32462074675294494,
+          "role": "posthoc_diagnostic"
+        },
+        "25": {
+          "dac_40Pa": {
+            "applicable": true,
+            "measured_bracket_Pa": [
+              32.434763503,
+              43.715701546
+            ],
+            "measured_loading_mol_kg": 1.7717249785495,
+            "model_loading_mol_kg": 1.3459880336446628,
+            "pressure_Pa": 40.0,
+            "reason": null,
+            "relative_error": 0.2402951643507252
+          },
+          "max_abs_error_mol_kg": 0.5888005397477958,
+          "point_count": 34,
+          "rmse_mol_kg": 0.16204222848876726,
+          "role": "training"
+        },
+        "40": {
+          "dac_40Pa": {
+            "applicable": true,
+            "measured_bracket_Pa": [
+              34.860667835,
+              52.743407788
+            ],
+            "measured_loading_mol_kg": 0.31492689788536077,
+            "model_loading_mol_kg": 0.3137677226635727,
+            "pressure_Pa": 40.0,
+            "reason": null,
+            "relative_error": 0.0036807755373439266
+          },
+          "max_abs_error_mol_kg": 0.0,
+          "point_count": 39,
+          "rmse_mol_kg": 0.0,
+          "role": "training"
+        },
+        "60": {
+          "dac_40Pa": {
+            "applicable": true,
+            "measured_bracket_Pa": [
+              38.38608685,
+              46.538712508
+            ],
+            "measured_loading_mol_kg": 0.05106213408651338,
+            "model_loading_mol_kg": 0.06898178859464035,
+            "pressure_Pa": 40.0,
+            "reason": null,
+            "relative_error": 0.3509382212221314
+          },
+          "max_abs_error_mol_kg": 0.30215318845670985,
+          "point_count": 42,
+          "rmse_mol_kg": 0.16414077750772904,
+          "role": "training"
+        },
+        "80": {
+          "dac_40Pa": {
+            "applicable": true,
+            "measured_bracket_Pa": [
+              36.057609545,
+              41.859343167
+            ],
+            "measured_loading_mol_kg": 0.04027772066480354,
+            "model_loading_mol_kg": 0.03137462088504165,
+            "pressure_Pa": 40.0,
+            "reason": null,
+            "relative_error": 0.22104279072429775
+          },
+          "max_abs_error_mol_kg": 0.39686406581266187,
+          "point_count": 56,
+          "rmse_mol_kg": 0.1885239711408249,
+          "role": "holdout"
+        }
+      },
+      "family": "activity_shift_reference_isotherm",
+      "fit_report": "Research/MOF_candidates_2026-11-03/hob/hob_family_fit.json",
+      "fit_report_sha256": "6a8aa071c65bbc22476e5d5dc7d2e7e9c3fee41f5b3b32962fc4a13974094816",
+      "fitted_heat_J_mol": 49117.725233522135,
+      "fitted_reference_projection": {
+        "fitted_point_count": 50,
+        "maximum_loading_projection_mol_kg": 0.0,
+        "note": "The raw vector points remain in the dataset and all in-domain points remain in the fit. The contract requires a monotone nonnegative reference curve, so duplicate pressure nodes are averaged, pooled-adjacent-violators projection is applied, and the resulting FITTED curve is clamped at zero.",
+        "raw_point_count": 50
+      },
+      "gate_checks": [
+        {
+          "dac_relative_pass": false,
+          "max_abs_pass": false,
+          "rmse_pass": false,
+          "role": "training",
+          "temperature_C": 25.0
+        },
+        {
+          "dac_relative_pass": true,
+          "max_abs_pass": true,
+          "rmse_pass": true,
+          "role": "training",
+          "temperature_C": 40.0
+        },
+        {
+          "dac_relative_pass": false,
+          "max_abs_pass": false,
+          "rmse_pass": false,
+          "role": "training",
+          "temperature_C": 60.0
+        },
+        {
+          "dac_relative_pass": false,
+          "max_abs_pass": false,
+          "rmse_pass": false,
+          "role": "holdout",
+          "temperature_C": 80.0
+        },
+        {
+          "dac_relative_pass": false,
+          "max_abs_pass": false,
+          "rmse_pass": false,
+          "role": "holdout",
+          "temperature_C": 100.0
+        }
+      ],
+      "gate_pass": false,
+      "holdout_temperatures_C": [
+        80.0,
+        100.0
+      ],
+      "reference_temperature_K": 313.15,
+      "training_temperatures_C": [
+        25.0,
+        40.0,
+        60.0
+      ]
+    },
+    "digitization_report": {
+      "path": "Research/MOF_candidates_2026-11-03/hob/hob_digitized_curves.json",
+      "sha256": "6eb557d9eb43835ecc3a11deaeda13a0e1bbbf6596c775688327b396f8936cfe"
+    },
+    "shaped_transport": {
+      "basis": "Shared screening geometry and transport assumptions; no candidate-specific shaped-device measurement.",
+      "class": "assumed"
+    },
+    "solid_cp": {
+      "basis": "Neutral screening value; no HOB source heat capacity was found.",
+      "class": "assumed",
+      "value_J_kg_K": 1000.0
+    },
+    "tga_400ppm_24h": {
+      "class": "measured",
+      "locator": "SI Figure S73",
+      "mass_basis": "complete dry PVDF composite",
+      "temperature_C": 25.0,
+      "value_mol_kg": 2.17
+    },
+    "tpd": {
+      "class": "measured",
+      "dry_mol_kg": 1.26,
+      "humid_mol_kg": 1.54,
+      "locator": "SI Table S13",
+      "mass_basis": "complete dry PVDF composite",
+      "post_humid_mol_kg": 1.28
+    },
+    "water": {
+      "class": "numerical structural mode; no physical coefficients",
+      "note": "The normalizer keeps the shared state layout finite. Water storage, rates, heat and adsorbed Cp are zero.",
+      "physical_storage_mol_kg": 0.0,
+      "solver_normalizer_mol_kg": 0.05
+    }
+  },
+  "reference_temperature_K": 298.15,
+  "schema": "mof-screening-material/1",
+  "shaped_material": {
+    "basis": "The measured curve is reported per gram of composite; the app supplies 10 kg complete dry composite.",
+    "binder_support": "SI p65 reports 300 mg bare framework plus 100 mg PVDF before amination. This is not asserted as the final active-MOF mass fraction.",
+    "particle_geometry": "Bead diameter in breakthrough tests is about 0.3 cm; exact packing and coating are unmeasured transfers."
+  },
+  "solid_cp_J_kg_K": 1000.0,
+  "synthetic": false,
+  "uncertainty": {
+    "classification": "CONDITIONAL_REPRESENTATION_FAILED",
+    "statement": "Vector-centre calibration uncertainty is retained per source point in the source report. The failed withheld-temperature diagnostics are material model error and are not hidden by digitization uncertainty."
+  },
+  "validity": {
+    "co2_dry_equilibrium": "Measured 40 C curve with a fitted constant activity shift. The declared 80/100 C holdout gate fails; use only as a conditional scenario input, not a validated 100 C representation.",
+    "initial_state_interpretation": "The app's declared initial state is a scenario, not CSS.",
+    "kinetics": "Single-temperature Avrami value transferred as an LDF scale; desorption is assumed equal.",
+    "thermal": "Solid Cp and shaped transport are assumptions.",
+    "water": "Dry-only. Any nonzero relative humidity at the case or weather forcing boundary is rejected."
+  },
+  "water": {
+    "basis": "The HOB source bundle contains no usable unary water isotherm. This package therefore has no physical water storage, rate or caloric contribution. The positive normalizer is an engine structural scale only.",
+    "model": "dry_only",
+    "physical_storage_mol_kg": 0.0,
+    "solver_normalizer_mol_kg": 0.05
+  }
+}

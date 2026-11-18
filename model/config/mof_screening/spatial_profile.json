@@ -1,0 +1,82 @@
+{
+  "airflow": {
+    "air_viscosity_Pa_s": 1.85e-05,
+    "fan_efficiency": 0.55,
+    "minor_loss_coefficient": 2.0,
+    "volume_flow_m3_s": 0.1
+  },
+  "cycle": {
+    "adsorption_s": 7200.0,
+    "cooling_approach_K": 5.0,
+    "cooling_max_s": 7200.0,
+    "css_relative_tolerance": 0.002,
+    "desorption_s": 8100.0,
+    "evacuation_s": 240.0,
+    "maximum_cycles": 64,
+    "minimum_cycles": 3,
+    "regeneration_pressure_Pa": 20000.0,
+    "regeneration_temperature_C": 150.0,
+    "repressurization_flow_mol_s": 0.05,
+    "repressurization_max_s": 60.0,
+    "desorption_control": {
+      "schema": "desorption-control/1",
+      "mode": "fixed_timer",
+      "minimum_duration_s": 3600.0,
+      "checkpoint_s": 30.0,
+      "bed_temperature_margin_K": 2.0,
+      "tail_window_s": 300.0,
+      "tail_rate_limit_mol_s": 0.0001,
+      "tail_mass_fraction_of_product": 0.01,
+      "require_all_tail_samples_below_rate": true
+    }
+  },
+  "thermal": {
+    "bed_control_gain_W_K": 40.0,
+    "cooling_h_W_m2_K": 70.0,
+    "effective_bed_conductivity_W_m_K": 0.1,
+    "heat_loss_U_W_m2_K": 0.8,
+    "heater_ceiling_band_K": 5.0,
+    "heater_heat_capacity_J_K": 120.0,
+    "heater_power_W": 2000.0,
+    "heater_temperature_margin_K": 40.0,
+    "heater_wall_conductance_W_K": 20.0,
+    "wall_contact_h_W_m2_K": 80.0
+  },
+  "kinetics": {
+    "activation_energy_J_mol": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "model": "diffusion_limited",
+    "reference_pellet_diameter_m": 0.0015,
+    "reference_temperature_K": 298.15
+  },
+  "coupled_through_thickness": {
+    "n_cells_half": 8,
+    "gas_solid_heat_transfer_W_m2_K": 100.0,
+    "gas_solid_specific_area_m2_m3": 2400.0,
+    "pump_flow_basis": "reference_fixed_inlet_speed",
+    "transport_status": "ANALYST_HGS_ALL_PRESSURE_INCLUDING_LOW_ISOLATED_COOLING",
+    "transport_note": "constant 100 W/m2K analyst assumption at all local pressures, including very low isolated-cooling pressures outside the cited transport-probe domain; not a measured coefficient or hardware calibration; pump rate uses the conditional STE 50 Hz reference curve and fixed-inlet-speed temperature transfer",
+    "h_gs_applicability": {
+      "source_class": "analyst",
+      "value_W_m2_K": 100.0,
+      "pressure_domain": "all modeled local pressures including very low isolated cooling",
+      "transport_probe_domain": "does not establish this constant at very low isolated-cooling pressure",
+      "status": "ANALYST_ASSUMPTION_NOT_CALIBRATED"
+    }
+  },
+  "humidity_activity_audit": {
+    "direct_domain_K": [
+      255.9,
+      373.0
+    ],
+    "hot_upper_bound": "p_H2O / p_sat(373 K)",
+    "requires_saturation_pressure_monotonicity": true,
+    "above_model_temperature_range": "unknown",
+    "wet_hot_validation": "UNKNOWN"
+  },
+  "description": "Shared spatial-model constants; case geometry, weather and equipment are supplied by the runtime."
+}

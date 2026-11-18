@@ -1,0 +1,419 @@
+{
+  "schema": "mof-screening-material/1",
+  "material_id": "calf20_independent_water_diagnostic_v1",
+  "name": "CALF-20 80/20 shaped exploratory stored-water candidate v1",
+  "equilibrium_family": "site_resolved_concentration_langmuir",
+  "synthetic": false,
+  "evidence": {
+    "status": "CONDITIONAL_SOURCE_TRANSFER",
+    "basis": "80 wt% CALF-20 crystal and 20 wt% polymeric binder, with published author-site parameters and shaped water measurements",
+    "not_for": "universal humid coadsorption, lifetime, powder-to-shape transfer, annual output or measured device ranking"
+  },
+  "shaped_material": {
+    "basis": "Complete dry shaped material containing 80 wt% crystals and 20 wt% binder",
+    "binder_support": "20 wt% polymeric binder as named in the source-transfer scenario",
+    "particle_geometry": "Case input; no transfer to a specific pellet or coating is established."
+  },
+  "reference_temperature_K": 298.15,
+  "maximum_bed_temperature_C": 160.0,
+  "solid_cp_J_kg_K": 1371.0,
+  "co2": {
+    "site_capacity_mol_kg": [
+      2.387,
+      3.271
+    ],
+    "site_affinity_m3_mol": [
+      5.519e-07,
+      5.187e-08
+    ],
+    "site_internal_energy_J_mol": [
+      -35060.0,
+      -28950.0
+    ],
+    "source_locator": "Nguyen et al. supporting information pS6 Eq and Table S2",
+    "basis": "two independent concentration-basis Langmuir sites"
+  },
+  "water": {
+    "model": "temperature_activity_pchip",
+    "measurement_temperature_K": 295.15,
+    "reference_temperature_K": 298.15,
+    "sorption_heat_J_mol": 52964.9232,
+    "points": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.08,
+        0.68
+      ],
+      [
+        0.153,
+        2.27
+      ],
+      [
+        0.32,
+        5.74
+      ],
+      [
+        0.5,
+        6.91
+      ],
+      [
+        0.75,
+        7.65
+      ],
+      [
+        0.79,
+        7.7
+      ],
+      [
+        1.0,
+        8.3
+      ]
+    ],
+    "source_locator": "Nguyen et al. supporting information pS8 Table S4, 22 C block",
+    "basis": "temperature-activity transfer of the published shaped-material unary water curve"
+  },
+  "adsorbed_phase_cp_J_kg_K": [
+    663.1644845317488,
+    663.1644845317488,
+    1887.2867921009274
+  ],
+  "kinetics": {
+    "adsorption_rate_s_inv": [
+      0.0005,
+      0.0005,
+      0.0001
+    ],
+    "desorption_rate_s_inv": [
+      0.001,
+      0.001,
+      0.0002
+    ],
+    "evidence_status": "shared illustrative LDF assumptions for both source sites and water"
+  },
+  "provenance": {
+    "co2_sites": {
+      "class": "published author fit",
+      "doi": "10.1038/s41467-024-48136-0",
+      "source_sha256": "e3127785637f4c4b54de855b4935a5f5afdb1032b2188f5c0bda106f461026f8"
+    },
+    "water_curve": {
+      "class": "published tabulated shaped-material measurements",
+      "doi": "10.1021/acs.iecr.3c04266",
+      "source_sha256": "e3127785637f4c4b54de855b4935a5f5afdb1032b2188f5c0bda106f461026f8"
+    },
+    "sorption_heat": {
+      "class": "borrowed screening assumption",
+      "value_J_mol": 52964.9232
+    }
+  },
+  "assumptions": [
+    "The two published concentration-basis sites are retained independently; CALF is not refit as one Langmuir site.",
+    "Site internal energies define the CO2 energy inventory exactly.",
+    "Water uses a named single-temperature PCHIP activity transfer with a borrowed sorption heat.",
+    "LDF kinetics and pellet or coating transfer remain unvalidated."
+  ],
+  "validity": {
+    "co2": "Low-pressure DAC transfer remains conditional.",
+    "water": "The water table is unary and temperature-shifted; it is not a validated competitive humid-mixture model.",
+    "initial_state_interpretation": "Initial loading is a declared screening basis and does not establish cyclic steady state."
+  },
+  "uncertainty": {
+    "classification": "CONDITIONAL",
+    "statement": "No transferred uncertainty distribution or measured shaped-device error exists in this package."
+  },
+  "humidity_candidate": {
+    "schema": "mof-screening-humidity-candidate/1",
+    "candidate_id": "calf20_independent_water_diagnostic_v1",
+    "evidence_tier": "CONDITIONAL_INDEPENDENT_WATER_DIAGNOSTIC",
+    "dry_origin_material_id": "calf20_nguyen2024_80_20_shaped",
+    "dry_origin_package_sha256": "f9883a0b4f643ded7268548566dde66ebcf69ca674e3b672f9263d57db8a6301",
+    "dry_origin_package_canonical_sha256": "fa6fc633e660bfed88931083cecff806e1a6d9b4da1f841906c1e5ffce884061",
+    "dry_limit": {
+      "definition": "EXACT_NATIVE_DELEGATION_REQUIRES_ZERO_STORED_AND_EXTERNAL_WATER",
+      "stored_water_mol_kg": 0.0,
+      "external_water_partial_pressure_Pa": 0.0
+    },
+    "storage": {
+      "contract": "CO2_site_1, CO2_site_2, H2O",
+      "labels": [
+        "CO2_site_1",
+        "CO2_site_2",
+        "H2O"
+      ]
+    },
+    "water_law": {
+      "kind": "temperature_activity_table",
+      "reference_temperature_K": 295.15,
+      "heat_J_mol": 45000.0,
+      "adsorbed_cp_J_kg_K": 4165.0,
+      "adsorption_rate_s_inv": 0.005,
+      "desorption_rate_s_inv": 0.005,
+      "extrapolation_policy": "linear_extension_then_hold_nearest_temperature",
+      "assumptions": [
+        "The 56 tabulated 22-100 C shaped-water points are interpolated in activity and linearly between measured temperatures.",
+        "Outside the measured temperature table, the nearest measured isotherm is held as a declared exploratory extension; raw state temperature remains unclamped.",
+        "The 45 kJ/mol water energy is the midpoint of the source-derived 39-51 kJ/mol range, not calorimetric validation.",
+        "The 0.005 s^-1 water rate is a named effective source-fit transfer, not an intrinsic pellet diffusivity."
+      ],
+      "provenance": {
+        "source": "Research\\next_stage_2026-11-08\\humid_remaining_material_evidence\\data\\water_points.csv",
+        "source_locator": "Nguyen 2024 SI pS8 Table S4, 22-100 C shaped material",
+        "measured_points": 56,
+        "water_energy_range_J_mol": [
+          39000.0,
+          51000.0
+        ],
+        "sha256": "aeb943bbfcd4a8c62441eb539b311fb795ee623bcba4a2f23706b1c334b87d86",
+        "materialized_rows": 56,
+        "temperature_count": 7
+      },
+      "temperatures_K": [
+        295.15,
+        303.15,
+        313.15,
+        323.15,
+        333.15,
+        353.15,
+        373.15
+      ],
+      "activity_nodes": [
+        [
+          0.0,
+          0.08,
+          0.153,
+          0.32,
+          0.5,
+          0.75,
+          0.79,
+          1.0
+        ],
+        [
+          0.0,
+          0.051,
+          0.09759999999999999,
+          0.20420000000000002,
+          0.319,
+          0.47850000000000004,
+          0.504,
+          0.638
+        ],
+        [
+          0.0,
+          0.029300000000000003,
+          0.056100000000000004,
+          0.1173,
+          0.1833,
+          0.2749,
+          0.2896,
+          0.3665
+        ],
+        [
+          0.0,
+          0.0175,
+          0.0335,
+          0.07,
+          0.1094,
+          0.16399999999999998,
+          0.1728,
+          0.2187
+        ],
+        [
+          0.0,
+          0.0108,
+          0.0207,
+          0.0432,
+          0.0675,
+          0.1013,
+          0.1067,
+          0.1351
+        ],
+        [
+          0.0,
+          0.0045000000000000005,
+          0.0086,
+          0.018000000000000002,
+          0.0282,
+          0.042300000000000004,
+          0.044500000000000005,
+          0.0564
+        ],
+        [
+          0.0,
+          0.0021,
+          0.004,
+          0.0083,
+          0.013000000000000001,
+          0.0195,
+          0.0206,
+          0.026099999999999998
+        ]
+      ],
+      "loading_table_mol_kg": [
+        [
+          0.0,
+          0.68,
+          2.27,
+          5.74,
+          6.91,
+          7.65,
+          7.7,
+          8.3
+        ],
+        [
+          0.0,
+          0.38,
+          0.97,
+          3.26,
+          5.61,
+          6.64,
+          6.68,
+          7.35
+        ],
+        [
+          0.0,
+          0.22,
+          0.51,
+          1.31,
+          2.74,
+          4.49,
+          4.67,
+          5.73
+        ],
+        [
+          0.0,
+          0.13,
+          0.3,
+          0.7,
+          1.23,
+          2.11,
+          2.34,
+          3.16
+        ],
+        [
+          0.0,
+          0.06,
+          0.21,
+          0.41,
+          0.68,
+          1.05,
+          1.1,
+          1.58
+        ],
+        [
+          0.0,
+          0.03,
+          0.09,
+          0.2,
+          0.29,
+          0.39,
+          0.37,
+          0.49
+        ],
+        [
+          0.0,
+          0.01,
+          0.06,
+          0.14,
+          0.19,
+          0.21,
+          0.19,
+          0.21
+        ]
+      ],
+      "support_activity": [
+        0.0,
+        1.0
+      ],
+      "evidence_class": "MEASURED_TEMPERATURE_ACTIVITY_TABLE"
+    },
+    "co2_coupling": {
+      "kind": "unsupported",
+      "decision": "EXPLICIT_NO_HUMID_CO2_COUPLING",
+      "assumptions": [
+        "No measured or explicitly calibrated CO2-water interaction is available for this candidate.",
+        "Water storage and transport are represented without rescaling the dry CO2 target."
+      ],
+      "provenance": {
+        "class": "explicit unsupported reciprocal-coupling decision",
+        "dry_co2_curve": "retained unchanged"
+      }
+    },
+    "parameter_ranges": {
+      "water_activity": [
+        0.0,
+        1.0
+      ],
+      "saturation_temperature_K": [
+        255.9,
+        647.096
+      ]
+    },
+    "support_envelope": {
+      "saturation_pressure_law": {
+        "ambient_cold": "Antoine, 255.9-373.0 K",
+        "hot": "IAPWS SR1-86(1992), 373.0-647.096 K"
+      },
+      "water_activity": [
+        0.0,
+        1.0
+      ],
+      "source_support": [
+        0.0,
+        1.0
+      ],
+      "named_extrapolation_policy": "linear_extension_then_hold_nearest_temperature",
+      "hot_co2_rich_vacuum_isotherm": "unsupported"
+    },
+    "assumptions": [
+      "The 56 tabulated 22-100 C shaped-water points are interpolated in activity and linearly between measured temperatures.",
+      "Outside the measured temperature table, the nearest measured isotherm is held as a declared exploratory extension; raw state temperature remains unclamped.",
+      "The 45 kJ/mol water energy is the midpoint of the source-derived 39-51 kJ/mol range, not calorimetric validation.",
+      "The 0.005 s^-1 water rate is a named effective source-fit transfer, not an intrinsic pellet diffusivity.",
+      "No measured or explicitly calibrated CO2-water interaction is available for this candidate.",
+      "Water storage and transport are represented without rescaling the dry CO2 target.",
+      "This candidate is exploratory and is not a validated humid-cycle or reciprocal thermodynamic model."
+    ],
+    "limitations": [
+      "The staged adapter checks both actual domain and transformed water-reference support instead of relying on native clipping.",
+      "Independent water and CO2 sites are not a validated competitive coadsorption model.",
+      "Separate Moreton 45-50% MOF Teflon thin-film and Constant granular data are not merged into this 80/20 shaped sample."
+    ],
+    "missing_evidence": [
+      "validated reciprocal CO2-water equilibrium",
+      "hot CO2-rich vacuum equilibrium",
+      "candidate-specific shaped transport",
+      "experimental humid-cycle validation",
+      "The staged adapter checks both actual domain and transformed water-reference support instead of relying on native clipping.",
+      "Independent water and CO2 sites are not a validated competitive coadsorption model.",
+      "Separate Moreton 45-50% MOF Teflon thin-film and Constant granular data are not merged into this 80/20 shaped sample."
+    ],
+    "provenance": {
+      "class": "accepted bounded evidence plus named exploratory adapter",
+      "dry_origin_material_id": "calf20_nguyen2024_80_20_shaped",
+      "dry_origin_package": "Initial_screening_model\\model\\materials\\screening\\calf20_shaped.json",
+      "staging_candidate_config": "Research\\next_stage_2026-11-08\\humid_cycle_readiness\\config\\humid_candidates.json",
+      "staging_config_sha256": "b22491f44b36d98e98a71b467218e18d10a95a366e5095cb03db6702262ee212",
+      "coupling_calibration": "Research\\next_stage_2026-11-08\\humid_cycle_readiness\\data\\cof_coupling_calibration.json",
+      "coupling_calibration_sha256": "e0153f6c05b83055a4b1660f9fb27b7de5e2a01da170d67f9979f231ea66d3e8",
+      "lead_native_scope": "Research/next_stage_2026-11-08/humid_cycle_lead/NATIVE_IMPLEMENTATION_SCOPE.md",
+      "protocol_anchors": {
+        "source": "humid_remaining_material_evidence/data/water_points.csv",
+        "evidence_class": "published shaped unary water table",
+        "temperature_support_C": [
+          22.0,
+          100.0
+        ],
+        "water_activity_support": [
+          0.0,
+          1.0
+        ],
+        "binary_scope": "Constant2025 is granular 30 C/0.95 bar and 5-100% CO2 only; Moreton is 45-50% MOF thin film"
+      }
+    },
+    "reciprocal_thermodynamics": false,
+    "validated_humid_cycle": false
+  }
+}

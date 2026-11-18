@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data needed for the small prototype | Carbon Team</title>
+<link rel="stylesheet" href="style.css">
+<script src="assets/ui/theme-init.js"></script>
+<link rel="stylesheet" href="assets/ui/app.css">
+<script src="assets/ui/app-shell.js" defer></script>
+<style>main{max-width:1100px}main table{width:100%;border-collapse:collapse;margin:1.5rem 0}th,td{text-align:left;padding:.65rem;border-bottom:1px solid var(--border,#dce3e8)}main p,main li{max-width:85ch;line-height:1.65}pre{overflow-x:auto;padding:1rem;border-radius:8px;background:var(--surface-2,#eef3f5)}@media(max-width:650px){table{display:block;overflow-x:auto}}@media print{.ct-sidebar,.ct-topbar,.ct-skip{display:none!important}.ct-workspace{margin:0!important}}</style>
+</head><body class="ct-app">
+<header><div class="eyebrow">Carbon Team &middot; 17 November 2026</div><h1>Data needed for the small prototype</h1></header>
+<main><p>The working basis is Lewatit VP OC 1065, resistance wire inside the
+bed and the KNF N922 stainless-steel IP54 pump family. Keep the current
+screening case as a reference; enter the prototype as its own case.</p>
+<table>
+<thead>
+<tr>
+<th>Needed input or measurement</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chosen dimensions, flow direction, dry mass and open flow areas</td>
+<td>Defines bed volume, velocity, heat paths and pressure loss</td>
+</tr>
+<tr>
+<td>Actual material batch, conditioning, bead-size distribution, packed
+density and voidage</td>
+<td>Fixes the dry shaped basis and hydraulic/thermal properties</td>
+</tr>
+<tr>
+<td>Material temperature limit and cycling stability under the intended
+atmosphere</td>
+<td>Sets a defensible operating envelope</td>
+</tr>
+<tr>
+<td>Wire position, electrical power, insulation/contact and several
+internal temperatures</td>
+<td>Tests heater-to-bed transfer and local hot spots</td>
+</tr>
+<tr>
+<td>Pressure drop versus airflow, including filters, screens and
+heater</td>
+<td>Defines the fan requirement at load</td>
+</tr>
+<tr>
+<td>Pump variant and flow at simultaneous inlet vacuum and outlet
+pressure</td>
+<td>Tests whether the intended collection/delivery duty is
+achievable</td>
+</tr>
+<tr>
+<td>Leak rate and line/valve conductance</td>
+<td>Determines achieved vacuum and dilution</td>
+</tr>
+<tr>
+<td>Humid uptake and hot desorption on the actual shaped material</td>
+<td>Tests equilibrium and kinetic assumptions</td>
+</tr>
+<tr>
+<td>Product amount, wet/dry CO₂ fraction, condensate and electrical
+input per cycle</td>
+<td>Supports independent mass/energy and performance validation</td>
+</tr>
+<tr>
+<td>Downstream flow, duty and wet/dry concentration basis</td>
+<td>Completes the approximately 1% CO₂, 3 bar absolute interface</td>
+</tr>
+<tr>
+<td>Component quotes, installation and operating loads</td>
+<td>Completes CAPEX and operating cost</td>
+</tr>
+</tbody>
+</table>
+<p>The fan has not been selected. Its free-air maximum is not the
+required operating point: use the total system pressure at the chosen
+flow. A temperature target or pump name alone is not a validated device
+specification.</p>
+<p>Prioritize geometry and material limits, then pressure-flow and
+heater measurements. Collect independent cycles or operating conditions
+for validation rather than fitting and evaluating on the same data.</p>
+<p><a href="../model/report/project/index.html">Model and results</a> &middot; <a href="../model/report/project/model_and_results.pdf">Four-page PDF</a> &middot; <a href="DATA_NEEDED.md">Markdown source</a></p></main>
+</body></html>

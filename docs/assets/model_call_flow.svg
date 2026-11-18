@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="414" viewBox="0 0 680 414" role="img" aria-labelledby="title desc">
+  <title id="title">From preview to a completed DAC result</title>
+  <desc id="desc">Start launches a worker after validation. The worker runs either the spatial or the lumped engine. A completed result supports export and Engineering. Engineering can also open a previously reviewed result.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#47616a"/></marker>
+  </defs>
+  <rect width="680" height="414" rx="12" fill="#f6f9f9"/>
+  <g fill="none" stroke="#47616a" stroke-width="1.8" marker-end="url(#arrow)">
+    <path d="M340 52 V76"/>
+    <path d="M340 125 V140 H164 V154"/>
+    <path d="M340 125 V140 H516 V154"/>
+    <path d="M164 206 V224 H330 V240"/>
+    <path d="M516 206 V224 H350 V240"/>
+    <path d="M296 289 V306 H135 V335"/>
+    <path d="M375 289 V307 H360 V335"/>
+    <path d="M558 289 V320 H408 V335"/>
+  </g>
+  <g fill="#fff" stroke="#91a9ae" stroke-width="1.5">
+    <rect x="192" y="9" width="296" height="43" rx="7"/>
+    <rect x="192" y="78" width="296" height="47" rx="7"/>
+    <rect x="35" y="156" width="258" height="50" rx="7" fill="#e3f1ed" stroke="#5b9186"/>
+    <rect x="387" y="156" width="258" height="50" rx="7" fill="#e3f1ed" stroke="#5b9186"/>
+    <rect x="220" y="242" width="240" height="47" rx="7"/>
+    <rect x="482" y="242" width="161" height="47" rx="7"/>
+    <rect x="31" y="337" width="208" height="54" rx="7"/>
+    <rect x="275" y="337" width="203" height="54" rx="7"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#18383e">
+    <text x="340" y="36">Preview validates material and case</text>
+    <text x="340" y="107">Start launches the worker</text>
+    <text x="164" y="177" font-weight="bold">Spatial</text><text x="164" y="196" font-size="14">Local gas, solid, wall and heater</text>
+    <text x="516" y="177" font-weight="bold">Lumped</text><text x="516" y="196" font-size="14">One well-mixed bed temperature</text>
+    <text x="340" y="263" font-weight="bold">Completed job</text><text x="340" y="282" font-size="14">RESULT.json</text>
+    <text x="562" y="263">Reviewed result</text><text x="562" y="282" font-size="14">Saved JSON</text>
+    <text x="135" y="360" font-weight="bold">Export</text><text x="135" y="380" font-size="14">Job JSON or trace CSV</text>
+    <text x="376" y="360" font-weight="bold">Engineering</text><text x="376" y="380" font-size="14">Result-bound worksheet</text>
+  </g>
+</svg>

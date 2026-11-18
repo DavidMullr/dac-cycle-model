@@ -1,0 +1,95 @@
+{
+  "schema": "mof-screening-material/1",
+  "material_id": "lewatit_vp_oc_1065_young2021_wadst_conditional",
+  "name": "Lewatit VP OC 1065, Young 2021 coupled water-CO2 conditional",
+  "equilibrium_family": "young2021_wadst_gab",
+  "synthetic": false,
+  "evidence": {
+    "status": "CONDITIONAL_SOURCE_REPRODUCED_COUPLED_EQUILIBRIUM_NOT_HUMID_CYCLE_VALIDATED",
+    "basis": "Published Young 2021 dry/wet Toth and GAB fits are evaluated with local bed temperature and water activity. The native cycle transfer and caloric constants are explicit process-model assumptions.",
+    "not_for": "measured humid-cycle validation, independent coadsorption validation, hot-vacuum kinetic validation, hardware qualification, cyclic steady state, lifetime, or annual production."
+  },
+  "shaped_material": {
+    "basis": "The app case supplies a dry shaped resin mass; the source measured resin sample is not a shaped device.",
+    "binder_support": "Commercial resin beads are represented as the dry resin solid; no binder or support is added.",
+    "particle_geometry": "The case particle diameter is a transfer assumption and is not fitted to this source."
+  },
+  "reference_temperature_K": 298.15,
+  "maximum_bed_temperature_C": 70.0,
+  "solid_cp_J_kg_K": 1580.0,
+  "co2_water_penalty_per_mol_kg": 0.0,
+  "co2": {
+    "heat_J_mol": 70000.0,
+    "support": {
+      "temperature_K": [298.15, 343.15],
+      "relative_humidity": [0.0, 0.55],
+      "co2_partial_pressure_Pa": [0.0, 100000.0],
+      "relative_humidity_basis": "local p_H2O / p_sat(T_bed)"
+    },
+    "source_locator": "Young et al. 2021 DOI 10.1039/D1EE01272J Tables 2 and 4; process heat from SI Table S9"
+  },
+  "water": {
+    "model": "young2021_gab",
+    "heat_J_mol": 46000.0,
+    "source_locator": "Young et al. 2021 DOI 10.1039/D1EE01272J equations 5-8 and 25-26; process heat from SI Table S9",
+    "basis": "GAB is fitted to unary water data. CO2 is assumed not to modify the water equilibrium."
+  },
+  "nitrogen": {
+    "henry_mol_kg_Pa_at_reference": 0.0,
+    "heat_J_mol": 0.0
+  },
+  "oxygen": {
+    "henry_mol_kg_Pa_at_reference": 0.0,
+    "heat_J_mol": 0.0
+  },
+  "adsorbed_phase_cp_J_kg_K": [
+    852.0887535645713,
+    1887.2867921009274
+  ],
+  "kinetics": {
+    "adsorption_rate_s_inv": [0.003, 0.0086],
+    "desorption_rate_s_inv": [0.003, 0.0086],
+    "evidence_status": "Process-model constants from Young 2021 SI Table S9. Equal adsorption/desorption, humid-CO2 transfer and hot-vacuum transfer are assumptions, not measured validation."
+  },
+  "provenance": {
+    "equilibrium": {
+      "class": "source-reproduced published equilibrium fit",
+      "source_doi": "10.1039/D1EE01272J",
+      "source_sha256": "e9f81c1a9fab6fd6e66fa6fffaa6ce5d463467230473456c5453ddd41a34374f"
+    },
+    "cycle_kinetics": {
+      "class": "conditional source process-model assumptions",
+      "source_locator": "Supporting Information Table S9"
+    },
+    "adsorbed_energy": {
+      "class": "native energy-closure assumption",
+      "basis": "Constant CP_GAS and process heats 70/46 kJ/mol preserve the existing reference convention."
+    }
+  },
+  "assumptions": [
+    "Local relative humidity is p_H2O / p_sat(T_bed) from the evolving bed gas inventory, including evacuation and regeneration.",
+    "Relative-humidity values between the source dry, 30% and 55% evidence conditions are a continuous conditional interpolation, not independently sampled or validated states.",
+    "Water loading is the GAB target from local gas conditions and, through LDF, affects the WADST CO2 target.",
+    "CO2 does not modify the unary water equilibrium; this reverse coupling is unavailable in the source fit.",
+    "Adsorption and desorption LDF constants are equal and applied to a humid mixed feed and hot vacuum without kinetic validation.",
+    "The 70 and 46 kJ/mol process heats and native constant gas Cp are a conditional energy closure, not a complete reciprocal WADST thermodynamic model.",
+    "No water-dependent kinetic multiplier is introduced because supporting data are unavailable."
+  ],
+  "validity": {
+    "equilibrium": "Reproduced bounded Young 2021 fit; graphical coadsorption evidence is not an independent validation data set.",
+    "water": "Conditional local-activity behavior inside RH 0-0.55; the unresolved 80% RH extension is rejected.",
+    "cycle": "No measured humid adsorption or hot-vacuum trajectory establishes native kinetic or caloric predictive validity.",
+    "initial_state_interpretation": "Equilibrated initialization is a numerical scenario state, not cyclic steady state."
+  },
+  "missing_evidence": {
+    "measured_humid_cycle": null,
+    "hot_vacuum_kinetics": null,
+    "reciprocal_wadst_caloric_model": null,
+    "shaped_device_transfer": null,
+    "complete_condition_holdout": null
+  },
+  "uncertainty": {
+    "classification": "CONDITIONAL_PROCESS_ASSUMPTIONS",
+    "statement": "Equilibrium is source reproduced within the declared domain; native humid-cycle kinetics and energy closure remain conditional and are not experimentally validated."
+  }
+}

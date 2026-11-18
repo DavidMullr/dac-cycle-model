@@ -1,0 +1,622 @@
+{
+  "schema": "mof-screening-material/1",
+  "material_id": "mil101_pei800_glycerin_measured_water_diagnostic_v1",
+  "name": "PEI800-30/MIL-101(Cr) glycerin OH/N=1 exploratory stored-water candidate v1",
+  "material_class": "MOF composite",
+  "equilibrium_family": "activity_shift_reference_isotherm",
+  "synthetic": false,
+  "evidence": {
+    "status": "CONDITIONAL_25C_DRY_ONLY_FAILED_333K_HOLDOUT_RETAINED_NOT_MODEL_READY",
+    "basis": "A finite-time digitized 25 C dry adsorption branch supports a conditional one-pool dry reference shape. The 333.15 K withheld-temperature failure is retained unchanged.",
+    "not_for": "repairing or passing the failed 333.15 K representation, global caloric closure, humid coadsorption, hot CO2-rich vacuum equilibrium, shaped-device prediction, lifetime, CSS, annual production, hardware qualification or a measured winner."
+  },
+  "shaped_material": {
+    "basis": "Measured source mol/kg loading on the dry activated composite is mapped to the shared 10 kg complete dry shaped inventory under an explicit unity loading-retention and mass-transfer assumption; this is not a final-composition or binder-free shaped-body claim.",
+    "binder_support": "Nominal feed contains PEI and glycerin, but final composition and any pellet binder/support are not fully identified.",
+    "particle_geometry": "Source particles are 425-825 micrometers in the breakthrough test; pellet density, binder and effective transport remain unavailable."
+  },
+  "reference_temperature_K": 298.15,
+  "maximum_bed_temperature_C": 100.0,
+  "solid_cp_J_kg_K": 2020.0,
+  "co2_water_penalty_per_mol_kg": 0.0,
+  "co2": {
+    "heat_J_mol": 70000.0,
+    "basis": "Digitized finite-time 25 C adsorption branch. The constant 70 kJ/mol hot shift is a named screening assumption because the source energies refer to a different amine/MIL system and do not close this material's equilibrium and calorimetry.",
+    "reference_curve": {
+      "class": "measured digitized finite-time 25 C adsorption branch",
+      "temperature_K": 298.15,
+      "pressure_Pa": [
+        23.685451002757592,
+        43.25583073203635,
+        83.6312178427141,
+        101.77837260326777,
+        503.7408036946368,
+        10102.16043702338,
+        20126.089446526432,
+        29763.514416313195,
+        39882.2569402024,
+        50118.72336272719,
+        59495.16299801179,
+        70229.4916164861,
+        80267.03209811686,
+        89842.22012110909
+      ],
+      "loading_mol_kg": [
+        0.26076555023923453,
+        0.3510765550239233,
+        0.4604235197368421,
+        0.49790669856459313,
+        0.7923387096774195,
+        1.5152801358234296,
+        1.800986842105263,
+        2.008223684210526,
+        2.1966374269005846,
+        2.383223684210526,
+        2.531997607655502,
+        2.66893039049236,
+        2.796846642468239,
+        2.9165959252971136
+      ],
+      "source_doi": "10.1016/j.seppur.2025.135627",
+      "source_asset": "Research/Material_comparison_2026-10-30/prepared/song_co2_digitized.csv",
+      "source_asset_sha256": "ce4843288bb3d66298946678531dfd537030ceab98463fc127e45d51f759b7bc",
+      "source_image": "Research\\Material_comparison_2026-10-30\\sources\\pei_glycerin_mil101_2026\\image4.png",
+      "source_image_sha256": "b93c15926dfe09c64ff652db359df3ac084c554eef2d6c34e726b33b7a4bc326",
+      "source_locator": "Figure S4a, OH/N=1"
+    },
+    "support": {
+      "policy": "named_extrapolation_scenario",
+      "scenario_name": "dry_25C_reference_with_assumed_hot_shift_not_validated",
+      "measured_temperature_range_K": [
+        298.15,
+        298.15
+      ],
+      "displayed_scenario_temperature_range_K": [
+        253.15,
+        373.15
+      ]
+    }
+  },
+  "water": {
+    "model": "dry_only",
+    "physical_storage_mol_kg": 0.0,
+    "solver_normalizer_mol_kg": 0.05,
+    "basis": "No defensible reciprocal CO2/water equilibrium, hot humid law or shaped humid kinetics is represented. Water storage, rates, heat and adsorbed Cp are exactly zero; any nonzero RH is rejected."
+  },
+  "nitrogen": {
+    "henry_mol_kg_Pa_at_reference": 0.0,
+    "heat_J_mol": 0.0
+  },
+  "oxygen": {
+    "henry_mol_kg_Pa_at_reference": 0.0,
+    "heat_J_mol": 0.0
+  },
+  "adsorbed_phase_cp_J_kg_K": [
+    852.0887535645713,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "kinetics": {
+    "adsorption_rate_s_inv": [
+      0.0001,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "desorption_rate_s_inv": [
+      0.0001,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "evidence_status": "ASSUMED_LDF_SCREENING_SCALE plus assumed exact-zero inert rates: no intrinsic CO2 or inert-gas rates are measured. The CO2 LDF is a named 1e-4 s^-1 scenario in both directions."
+  },
+  "missing_evidence": {
+    "candidate_specific_binder_or_shaped_mass_fraction": null,
+    "candidate_specific_effective_conductivity": null,
+    "candidate_specific_pellet_density": null,
+    "candidate_specific_water_and_co2_caloric_closure": null,
+    "direct_hot_co2_rich_vacuum_equilibrium": null,
+    "fit_tested_hot_temperature_representation": null,
+    "humid_coadsorption_kinetics": null,
+    "intrinsic_adsorption_desorption_rates": null,
+    "measured_true_inert_gas_henry_coefficients": null,
+    "measured_true_inert_gas_isosteric_heats": null,
+    "measured_true_inert_gas_sorption_rates": null,
+    "shaped_particle_effective_diffusivity": null
+  },
+  "provenance": {
+    "sample_identity": {
+      "class": "measured source formulation with unresolved final composition",
+      "description": "PEI800-30/MIL-101(Cr) glycerin OH/N=1, 2026 25 C dry conditional"
+    },
+    "co2": {
+      "class": "measured finite-time digitized adsorption plus assumed hot transfer",
+      "source_formulation_record_sha256": "d7a10e98ffe6cdb7a8469a5d54c9e2dde29709869d9e69a592bc37a0aeff1fda"
+    },
+    "co2_reference_curve": {
+      "class": "measured digitized finite-time adsorption branch",
+      "source_asset": "Research/Material_comparison_2026-10-30/prepared/song_co2_digitized.csv",
+      "source_asset_sha256": "ce4843288bb3d66298946678531dfd537030ceab98463fc127e45d51f759b7bc",
+      "point_count": 14,
+      "rows": [
+        {
+          "source_row": 2,
+          "pixel_x": 136.57575757575756,
+          "pixel_y": 331.57575757575756,
+          "area": 33,
+          "loading_envelope_mol_kg": 0.029605263157894735,
+          "pressure_factor": 1.075422076112561
+        },
+        {
+          "source_row": 3,
+          "pixel_x": 161.42424242424244,
+          "pixel_y": 322.42424242424244,
+          "area": 33,
+          "loading_envelope_mol_kg": 0.029605263157894735,
+          "pressure_factor": 1.075422076112561
+        },
+        {
+          "source_row": 4,
+          "pixel_x": 188.625,
+          "pixel_y": 311.34375,
+          "area": 32,
+          "loading_envelope_mol_kg": 0.029605263157894735,
+          "pressure_factor": 1.075422076112561
+        },
+        {
+          "source_row": 5,
+          "pixel_x": 196.72727272727272,
+          "pixel_y": 307.54545454545456,
+          "area": 33,
+          "loading_envelope_mol_kg": 0.029605263157894735,
+          "pressure_factor": 1.075422076112561
+        },
+        {
+          "source_row": 6,
+          "pixel_x": 262.7096774193548,
+          "pixel_y": 277.7096774193548,
+          "area": 31,
+          "loading_envelope_mol_kg": 0.029605263157894735,
+          "pressure_factor": 1.075422076112561
+        },
+        {
+          "source_row": 7,
+          "pixel_x": 386.4193548387097,
+          "pixel_y": 204.4516129032258,
+          "area": 31,
+          "loading_envelope_mol_kg": 0.029605263157894735,
+          "pressure_factor": 1.075422076112561
+        },
+        {
+          "source_row": 8,
+          "pixel_x": 414.85714285714283,
+          "pixel_y": 175.5,
+          "area": 28,
+          "loading_envelope_mol_kg": 0.029605263157894735,
+          "pressure_factor": 1.075422076112561
+        },
+        {
+          "source_row": 9,
+          "pixel_x": 431.0,
+          "pixel_y": 154.5,
+          "area": 30,
+          "loading_envelope_mol_kg": 0.029605263157894735,
+          "pressure_factor": 1.075422076112561
+        },
+        {
+          "source_row": 10,
+          "pixel_x": 443.0740740740741,
+          "pixel_y": 135.40740740740742,
+          "area": 27,
+          "loading_envelope_mol_kg": 0.029605263157894735,
+          "pressure_factor": 1.075422076112561
+        },
+        {
+          "source_row": 11,
+          "pixel_x": 452.5,
+          "pixel_y": 116.5,
+          "area": 32,
+          "loading_envelope_mol_kg": 0.029605263157894735,
+          "pressure_factor": 1.075422076112561
+        },
+        {
+          "source_row": 12,
+          "pixel_x": 459.57575757575756,
+          "pixel_y": 101.42424242424242,
+          "area": 33,
+          "loading_envelope_mol_kg": 0.029605263157894735,
+          "pressure_factor": 1.075422076112561
+        },
+        {
+          "source_row": 13,
+          "pixel_x": 466.4193548387097,
+          "pixel_y": 87.54838709677419,
+          "area": 31,
+          "loading_envelope_mol_kg": 0.029605263157894735,
+          "pressure_factor": 1.075422076112561
+        },
+        {
+          "source_row": 14,
+          "pixel_x": 471.9310344827586,
+          "pixel_y": 74.58620689655173,
+          "area": 29,
+          "loading_envelope_mol_kg": 0.029605263157894735,
+          "pressure_factor": 1.075422076112561
+        },
+        {
+          "source_row": 15,
+          "pixel_x": 476.5806451612903,
+          "pixel_y": 62.45161290322581,
+          "area": 31,
+          "loading_envelope_mol_kg": 0.029605263157894735,
+          "pressure_factor": 1.075422076112561
+        }
+      ],
+      "equilibration_is_finite_time": true
+    },
+    "co2_temperature_shift": {
+      "class": "assumed",
+      "constant_isosteric_heat_J_mol": 70000.0,
+      "broad_scenario_range_J_mol": [
+        40000.0,
+        100000.0
+      ],
+      "withheld_temperature_K": 333.15,
+      "withheld_relative_RMS": 0.4355820244,
+      "training_relative_RMS": 0.3966,
+      "required_withheld_relative_RMS_max": 0.3,
+      "gate_pass": false,
+      "failure_note": "The 333.15 K withheld-temperature representation failure is neither repaired nor hidden by the 25 C scenario.",
+      "fit_report": "Research\\Material_cycle_comparison_2026-11-01\\results\\v9\\fit_report.json",
+      "fit_report_sha256": "79aa3aa08381ba6681ef6ca6fdaba9b59a29440c3349f505724c1ee80e2e5fd6"
+    },
+    "kinetics": {
+      "class": "assumed",
+      "adsorption_rate_s_inv": 0.0001,
+      "desorption_rate_s_inv": 0.0001,
+      "intrinsic_coefficients_available": false
+    },
+    "solid_cp": {
+      "class": "source table value selected for named scenario; conflict retained",
+      "selected_J_kg_K": 2020.0,
+      "corrected_figure_range_J_kg_K": [
+        1584.0,
+        1908.0
+      ],
+      "conflict_id": "SONG_CP_TABLE_VS_CORRECTED_FIGURE",
+      "conditioning_basis_explicit": false
+    },
+    "thermal": {
+      "class": "source-table selection with unresolved conflict",
+      "statement": "Selected the source-table composite Cp only for this scenario; the corrected figure and conditioning basis remain unresolved."
+    },
+    "inert_gases": {
+      "class": "assumed executable zero",
+      "nitrogen_henry_mol_kg_Pa_at_reference": 0.0,
+      "nitrogen_heat_J_mol": 0.0,
+      "nitrogen_rate_s_inv": 0.0,
+      "oxygen_henry_mol_kg_Pa_at_reference": 0.0,
+      "oxygen_heat_J_mol": 0.0,
+      "oxygen_rate_s_inv": 0.0,
+      "basis": "No candidate-specific N2/O2 equilibrium, calorimetry or rates are available. The executable zeros are assumptions that affect gas retention and pumping; the true values remain null."
+    },
+    "water": {
+      "class": "numerical structural mode; no physical coefficients",
+      "physical_storage_mol_kg": 0.0,
+      "solver_normalizer_mol_kg": 0.05
+    },
+    "composition": {
+      "nominal_feed": {
+        "dry_mof_mg": 300,
+        "pei800_mg": 129,
+        "glycerin_mg": 92,
+        "interpretation": "30 wt% naming excludes glycerin from its denominator; normalized feed masses are calculated, not measured final composition or binder fractions"
+      },
+      "published_total_organic_loading_wt_percent": 40,
+      "feed_composition_is_final_composition": false,
+      "final_pei_glycerin_split_available": false
+    },
+    "finite_time_conditioning": {
+      "class": "source protocol",
+      "co2_pretreatment": "60 C and <0.1 mbar vacuum for 3 h",
+      "equilibration": "three-minute source sampling interval",
+      "conditioning_loss_or_steady_state_is_unresolved": true
+    },
+    "mass_mapping": {
+      "class": "assumed",
+      "source_loading_basis": "per kg dry activated composite as reported",
+      "executable_inventory_basis": "per kg complete dry shaped inventory",
+      "unity_loading_retention_and_mass_transfer": true,
+      "final_binder_mass_fraction": null,
+      "shaped_density": null,
+      "shaped_effective_transport": null
+    },
+    "sources": {
+      "supporting_document": "Research\\Material_comparison_2026-10-30\\sources\\pei_glycerin_mil101_2026\\1-s2.0-S1383586625042248-mmc1.docx",
+      "supporting_document_sha256": "d4024efa4a51804961ad3b6914ea62785fdde528823971d5f30c6b6c39c3b1cb",
+      "support_audit": "Research\\Material_comparison_2026-10-30\\prepared\\song_support_audit.json",
+      "support_audit_sha256": "8bba952d817c7f18571623247677d508ae11582ec9555140abcfa6c707b017a8"
+    },
+    "regeneration_context": {
+      "class": "measured protocol, not a hot CO2-rich vacuum law",
+      "sweep": "pure N2 at 65 sccm",
+      "ramp_C_min": 0.5,
+      "maximum_temperature_C": 80.0,
+      "hold_minutes": 120.0
+    }
+  },
+  "assumptions": [
+    "The 25 C digitized adsorption branch is a finite-time source measurement and only a conditional dry reference shape.",
+    "A constant 70 kJ/mol hot shift is a named scenario assumption, not a fit or measured exact-material heat.",
+    "A 1e-4 s^-1 CO2 LDF rate in both directions is a named scenario assumption.",
+    "N2 and O2 Henry coefficients, heats and rates are exact executable zero assumptions because candidate-specific values are unavailable; true properties remain null.",
+    "The source-table composite Cp is selected for this scenario while its conflict with the corrected temperature-dependent figure is retained.",
+    "Nominal feed composition is not final composition, and the final PEI/glycerin split is unavailable.",
+    "Source mol/kg loading maps to complete dry shaped inventory under explicit unity retention and mass transfer; density, binder and effective transport remain missing.",
+    "Dry-only water handling has zero physical water storage, rates, heat and adsorbed Cp; nonzero RH is rejected."
+  ],
+  "uncertainty": {
+    "classification": "CONDITIONAL_25C_DRY_ONLY_FAILED_HOT_HOLDOUT",
+    "statement": "The 25 C reference curve is usable only as a conditional dry shape. The failed 333.15 K withheld test, composition discrepancies, Cp conflict, finite-time conditioning and missing shaped properties prevent model-ready status."
+  },
+  "validity": {
+    "co2": "Conditional 25 C finite-time dry reference shape with named hot transfer.",
+    "hot_holdout": "Failed at 333.15 K; no repaired representation or model-ready claim.",
+    "kinetics": "CO2 rates are assumptions and inert rates are assumed exact zero.",
+    "thermal": "Table Cp is selected only for the scenario; figure conflict and shaped transport remain unresolved.",
+    "water": "Dry-only; any nonzero RH is rejected."
+  },
+  "humidity_candidate": {
+    "schema": "mof-screening-humidity-candidate/1",
+    "candidate_id": "mil101_pei800_glycerin_measured_water_diagnostic_v1",
+    "evidence_tier": "MEASURED_UNARY_WATER_WITH_ONE_WAY_CO2_SHIFT",
+    "dry_origin_material_id": "mil101_pei800_30_glycerin_2026_25c_dry_conditional",
+    "dry_origin_package_sha256": "65a947f58fc3997070422aba3de2c74616deb1f57e3b2d334b20962e6ef89e6c",
+    "dry_origin_package_canonical_sha256": "b5af8303ba2428a814233143de19e4ef9632d70ab4d7d1d37e793ae5c0d75390",
+    "dry_limit": {
+      "definition": "EXACT_NATIVE_DELEGATION_REQUIRES_ZERO_STORED_AND_EXTERNAL_WATER",
+      "stored_water_mol_kg": 0.0,
+      "external_water_partial_pressure_Pa": 0.0
+    },
+    "storage": {
+      "contract": "CO2, H2O, N2, O2",
+      "labels": [
+        "CO2",
+        "H2O",
+        "N2",
+        "O2"
+      ]
+    },
+    "water_law": {
+      "kind": "temperature_activity_table",
+      "reference_temperature_K": 298.15,
+      "heat_J_mol": 52964.9232,
+      "adsorbed_cp_J_kg_K": 4180.0,
+      "adsorption_rate_s_inv": 0.0001,
+      "desorption_rate_s_inv": 0.0001,
+      "extrapolation_policy": "linear_extension_then_hold_nearest_temperature",
+      "assumptions": [
+        "The 25 Figure S10b water markers at 5 and 25 C are interpolated linearly across temperature and with declared edge extension.",
+        "The 52.9649232 kJ/mol water latent heat is explicitly borrowed by the source from another amine/MIL-101(Cr) system.",
+        "Water Cp is taken from the source table and the symmetric 1e-4 s^-1 water rate is an exploratory assumption.",
+        "The corrected composite Cp trace is excluded because moisture state and separation from latent effects are unresolved."
+      ],
+      "provenance": {
+        "source": "Research\\next_stage_2026-11-08\\humid_remaining_material_evidence\\data\\water_points.csv",
+        "source_locator": "Song 2026 Figure S10b",
+        "measured_points": 25,
+        "borrowed_water_heat_J_mol": 52964.9232,
+        "sha256": "aeb943bbfcd4a8c62441eb539b311fb795ee623bcba4a2f23706b1c334b87d86",
+        "materialized_rows": 25,
+        "temperature_count": 2
+      },
+      "temperatures_K": [
+        278.15,
+        298.15
+      ],
+      "activity_nodes": [
+        [
+          0.0,
+          0.18979721166032967,
+          0.29643460628590734,
+          0.34065438871473364,
+          0.3717043856284363,
+          0.4497343565525384,
+          0.5191334396597553,
+          0.5942006269592477,
+          0.6566724941724942,
+          0.7461616161616162,
+          0.8273933363485602,
+          0.8984848484848484,
+          0.9293412384716734
+        ],
+        [
+          0.0,
+          0.12727272727272726,
+          0.16624552231580972,
+          0.21292477490560555,
+          0.25664447017950215,
+          0.3945117845117844,
+          0.4106060606060606,
+          0.4334169618260527,
+          0.5451631701631703,
+          0.5839239035724659,
+          0.668939393939394,
+          0.7660835484179332,
+          0.8827956989247313,
+          0.9202981427174977
+        ]
+      ],
+      "loading_table_mol_kg": [
+        [
+          0.0,
+          3.288880645460445,
+          8.973070994650463,
+          11.344407064760308,
+          12.96243696614181,
+          19.936331960722203,
+          20.887976037655115,
+          22.043397813288475,
+          22.984990619136962,
+          24.288180112570355,
+          27.06467661691542,
+          30.048780487804876,
+          33.23860021208908
+        ],
+        [
+          0.0,
+          1.8162812796959193,
+          2.5824047377853985,
+          3.8319956362502903,
+          5.492931489824447,
+          13.203252032520329,
+          15.7358251504593,
+          18.404814697497617,
+          20.55972482801751,
+          21.054157250837687,
+          22.195121951219512,
+          23.86089097484035,
+          28.390243902439025,
+          32.19952793076318
+        ]
+      ],
+      "support_activity": [
+        0.0,
+        0.9293412384716734
+      ],
+      "evidence_class": "MEASURED_TEMPERATURE_ACTIVITY_TABLE"
+    },
+    "co2_coupling": {
+      "kind": "water_fraction_quadratic",
+      "temperature_exponent": 0.0,
+      "qualification": "EXPLORATORY_ONE_WAY_25C_ONLY",
+      "assumptions": [
+        "Only the 25 C 30/50/70% RH humid endpoints calibrate the one-way correction.",
+        "The colder MIL endpoints remain validation constraints and are not silently used to identify temperature dependence.",
+        "The delivered 400 ppm basis and total pressure are unresolved, so mapping finite-time capacity onto a 40 Pa dry curve is a named transfer assumption.",
+        "No reciprocal thermodynamics or interaction enthalpy is inferred.",
+        "Only 3 eligible positive-RH capacity nodes identify the fitted coefficients.",
+        "Pressure-dependent form is a chemical-potential candidate, not a fitted binary isotherm."
+      ],
+      "provenance": {
+        "capacity_nodes": "humid_remaining_material_evidence/data/humid_co2_endpoints.csv, 25 C grid",
+        "class": "underidentified exploratory calibration",
+        "dry_curve": "native MIL glycerin finite-time 25 C reference curve"
+      },
+      "calibration_status": "IN_SAMPLE_EXPLORATORY_UNDERIDENTIFIED",
+      "coefficients": [
+        7.267011144224847,
+        -7.878608014431463
+      ],
+      "holdout_status": "LEAVE_ONE_OUT_PASSES_CAPACITY_TOLERANCE",
+      "normalizer_mol_kg": 33.23860021208908,
+      "reference_temperature_K": 298.15
+    },
+    "parameter_ranges": {
+      "water_activity": [
+        0.0,
+        1.0
+      ],
+      "saturation_temperature_K": [
+        255.9,
+        647.096
+      ],
+      "measured_protocol_rh_nodes": [
+        0.3,
+        0.5,
+        0.7
+      ]
+    },
+    "support_envelope": {
+      "saturation_pressure_law": {
+        "ambient_cold": "Antoine, 255.9-373.0 K",
+        "hot": "IAPWS SR1-86(1992), 373.0-647.096 K"
+      },
+      "water_activity": [
+        0.0,
+        1.0
+      ],
+      "source_support": [
+        0.0,
+        0.9293412384716734
+      ],
+      "named_extrapolation_policy": "linear_extension_then_hold_nearest_temperature",
+      "hot_co2_rich_vacuum_isotherm": "unsupported"
+    },
+    "assumptions": [
+      "The 25 Figure S10b water markers at 5 and 25 C are interpolated linearly across temperature and with declared edge extension.",
+      "The 52.9649232 kJ/mol water latent heat is explicitly borrowed by the source from another amine/MIL-101(Cr) system.",
+      "Water Cp is taken from the source table and the symmetric 1e-4 s^-1 water rate is an exploratory assumption.",
+      "The corrected composite Cp trace is excluded because moisture state and separation from latent effects are unresolved.",
+      "Only the 25 C 30/50/70% RH humid endpoints calibrate the one-way correction.",
+      "The colder MIL endpoints remain validation constraints and are not silently used to identify temperature dependence.",
+      "The delivered 400 ppm basis and total pressure are unresolved, so mapping finite-time capacity onto a 40 Pa dry curve is a named transfer assumption.",
+      "No reciprocal thermodynamics or interaction enthalpy is inferred.",
+      "Only 3 eligible positive-RH capacity nodes identify the fitted coefficients.",
+      "Pressure-dependent form is a chemical-potential candidate, not a fitted binary isotherm.",
+      "This candidate is exploratory and is not a validated humid-cycle or reciprocal thermodynamic model."
+    ],
+    "limitations": [
+      "Delivered 400 ppm basis and total pressure are unresolved.",
+      "Per-run same-batch dry mass is unavailable, so raw-gas reconstruction is not possible.",
+      "Water is integrated only to the CO2 pseudo-equilibrium cutoff.",
+      "The failed 333 K dry holdout remains failed.",
+      "No hot vacuum or shaped transport closure is claimed."
+    ],
+    "missing_evidence": [
+      "validated reciprocal CO2-water equilibrium",
+      "hot CO2-rich vacuum equilibrium",
+      "candidate-specific shaped transport",
+      "experimental humid-cycle validation",
+      "Delivered 400 ppm basis and total pressure are unresolved.",
+      "Per-run same-batch dry mass is unavailable, so raw-gas reconstruction is not possible.",
+      "Water is integrated only to the CO2 pseudo-equilibrium cutoff.",
+      "The failed 333 K dry holdout remains failed.",
+      "No hot vacuum or shaped transport closure is claimed."
+    ],
+    "provenance": {
+      "class": "accepted bounded evidence plus named exploratory adapter",
+      "dry_origin_material_id": "mil101_pei800_30_glycerin_2026_25c_dry_conditional",
+      "dry_origin_package": "Initial_screening_model\\model\\materials\\screening\\mil101_pei800_30_glycerin_2026_25c_dry_conditional.json",
+      "staging_candidate_config": "Research\\next_stage_2026-11-08\\humid_cycle_readiness\\config\\humid_candidates.json",
+      "staging_config_sha256": "b22491f44b36d98e98a71b467218e18d10a95a366e5095cb03db6702262ee212",
+      "coupling_calibration": "Research\\next_stage_2026-11-08\\humid_cycle_readiness\\data\\cof_coupling_calibration.json",
+      "coupling_calibration_sha256": "e0153f6c05b83055a4b1660f9fb27b7de5e2a01da170d67f9979f231ea66d3e8",
+      "lead_native_scope": "Research/next_stage_2026-11-08/humid_cycle_lead/NATIVE_IMPLEMENTATION_SCOPE.md",
+      "protocol_anchors": {
+        "source": "humid_remaining_material_evidence/data/humid_co2_endpoints.csv",
+        "temperature_C": [
+          -5.0,
+          5.0,
+          25.0
+        ],
+        "rh_fraction": [
+          0.3,
+          0.5,
+          0.7
+        ],
+        "endpoint_count": 9,
+        "ambient_co2_nodes": [
+          {
+            "rh_fraction": 0.3,
+            "loading_mol_kg": 0.5516245487364622
+          },
+          {
+            "rh_fraction": 0.5,
+            "loading_mol_kg": 0.6007220216606498
+          },
+          {
+            "rh_fraction": 0.7,
+            "loading_mol_kg": 0.5660649819494585
+          }
+        ],
+        "CO2_cutoff_Cout_over_Cin": 0.95,
+        "evidence_class": "dry-mass-normalized dynamic pseudo-equilibrium endpoint matrix"
+      }
+    },
+    "reciprocal_thermodynamics": false,
+    "validated_humid_cycle": false
+  }
+}

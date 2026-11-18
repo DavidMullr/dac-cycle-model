@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Direct-air-capture model and results</title>
+  <style>
+
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+</style>
+  <style type="text/css">:root { --carbon-ink: #17353e; --carbon-accent: #24756c; }body { max-width: 55rem; margin: 2rem auto 5rem; padding: 0 1.25rem; font-family: system-ui, sans-serif; color: #243c44; font-size: 1.02rem; line-height: 1.65; }h1,h2,h3 { color: var(--carbon-ink); }h2 { margin-top: 2.4rem; border-bottom: 1px solid #d9e5e4; padding-bottom: .4rem; }a { color: #176e68; }.report-nav { display: flex; flex-wrap: wrap; gap: .65rem 1.3rem; margin: 1rem auto 2rem; padding: 1rem 1.3rem; border: 1px solid #d2e2df; border-radius: .4rem; background: #f0f6f5; max-width: 1180px; font-size: .92rem; }.report-nav span { font-weight: 700; color: var(--carbon-ink); }#title-block-header .title { font-weight: 650; }.subtitle { max-width: 54rem; color: #546b72; }.quarto-figure { margin: 1.6rem 0 2rem; }figure img { display: block; max-width: 100%; height: auto; margin-inline: auto; }figcaption { font-size: .9rem; color: #4f666e; line-height: 1.5; }table { font-size: .92rem; }.table-responsive { overflow-x: auto; }.source-note { font-size: .85rem; color: #5d7076; }math[display="block"] { overflow-x: auto; padding: .7rem 0; }code { overflow-wrap: anywhere; }@media print { .report-nav, #TOC { display: none; } body { font-size: 10pt; } h2 { break-after: avoid; } figure, table { break-inside: avoid; } }#TOC { padding: .7rem 1.2rem; border-left: .25rem solid #55938b; background: #f4f8f7; }#TOC > ul { margin: .5rem 0; }table { display: block; overflow-x: auto; border-collapse: collapse; margin: 1rem 0; }th, td { padding: .4rem .7rem; vertical-align: top; border-bottom: 1px solid #d9e5e4; }th { background: #edf5f2; }#refs > div { margin-bottom: .5rem; }</style>
+</head>
+<body>
+<nav class="report-nav" aria-label="Project documentation">
+<span>Carbon Team · Astérix</span>
+<a href="index.html">Model and results</a>
+<a href="model_reference.html">Equations</a>
+<a href="evidence.html">Evidence and validation</a>
+<a href="user_guide.html">User guide</a>
+</nav>
+<header id="title-block-header">
+<h1 class="title">Direct-air-capture model and results</h1>
+<p class="subtitle">Carbon Team · Astérix · Technical review edition</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#purpose-and-main-finding" id="toc-purpose-and-main-finding">Purpose and main finding</a></li>
+<li><a href="#what-the-model-represents" id="toc-what-the-model-represents">What the model represents</a></li>
+<li><a href="#common-comparison-conditions" id="toc-common-comparison-conditions">Common comparison
+conditions</a></li>
+<li><a href="#completed-baseline-results" id="toc-completed-baseline-results">Completed baseline results</a></li>
+<li><a href="#humidity-and-regeneration-sensitivity" id="toc-humidity-and-regeneration-sensitivity">Humidity and regeneration
+sensitivity</a></li>
+<li><a href="#evidence-and-limits" id="toc-evidence-and-limits">Evidence
+and limits</a></li>
+<li><a href="#small-prototype-next-use-of-the-same-model" id="toc-small-prototype-next-use-of-the-same-model">Small prototype:
+next use of the same model</a></li>
+<li><a href="#sources-and-reproducibility" id="toc-sources-and-reproducibility">Sources and
+reproducibility</a></li>
+</ul>
+</nav>
+<h2 id="purpose-and-main-finding">Purpose and main finding</h2>
+<p><a href="model_and_results.pdf">Download the four-page report
+(PDF)</a>.</p>
+<p>The model compares adsorbents and operating conditions for a
+temperature-vacuum swing adsorption (TVSA) unit. The full-size design
+objective is maximum collected CO₂ per day with about <strong>10 kg of
+dry shaped adsorbent</strong> and <strong>CHF 24,000 incremental
+equipment cost</strong>. Cost is a design constraint; a complete
+installed cost has not yet been established.</p>
+<p><strong>Lewatit VP OC 1065 is the provisional material for the small
+prototype.</strong> In the common humid screening case it gives 2.570 kg
+CO₂/day and 5.47 kWh/kg CO₂ within the model’s electricity boundary.
+This is the strongest output in the retained baseline comparison. It is
+a conditional calculation, not measured prototype performance or a
+validated ranking of the materials.</p>
+<p>The useful conclusion is that humidity, regeneration behavior and the
+complete cycle matter more than a single adsorption-capacity value. The
+model provides a common way to examine those effects and decide what to
+measure next. It does not yet select a final operating point or
+demonstrate the proposed equipment.</p>
+<h2 id="what-the-model-represents">What the model represents</h2>
+<p>The spatial model resolves gas inventory, adsorbed loading and
+temperature through a symmetric half of a flat bed. Sixteen cells cover
+the 8 mm half-thickness in the reported case. Gas paths act as parallel
+channels, while heat conducts through the bed. Heater and wall states,
+finite heat transfer, pressure control, water removal and electrical
+loads are coupled to the adsorption balances. An optional lumped model
+represents a single well-mixed bed; its results must be identified
+separately.</p>
+<p>The cycle contains adsorption, evacuation, heated desorption, cooling
+and repressurization. Product is collected during desorption and
+cooling. An ideal cooler and knockout condition the pump inlet to a 55°C
+target. The wall and inlet conditioner share a 2 kW cooling budget.
+Axial breakthrough, manifold maldistribution and a physical
+resistance-wire layout are not resolved.</p>
+<p>Material packages contain equilibrium, kinetics, thermal properties,
+shaping basis and source information. Measured data, fitted responses
+and transferred assumptions remain identifiable. Missing evidence is not
+filled by borrowing an unlabelled value from another adsorbent.</p>
+<h2 id="common-comparison-conditions">Common comparison conditions</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Setting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ambient feed</td>
+<td>25°C, 100 kPa absolute, 420 ppm dry CO₂, 65% relative humidity</td>
+</tr>
+<tr>
+<td>Simulation basis</td>
+<td>48 hours from a clean, dry bed; 10 kg complete dry shaped
+material</td>
+</tr>
+<tr>
+<td>Bed</td>
+<td>16 mm full thickness; 1.736 m² face area; void fraction 0.40</td>
+</tr>
+<tr>
+<td>Particle diameter and airflow</td>
+<td>1.5 mm; 0.18 m³/s</td>
+</tr>
+<tr>
+<td>Adsorption / desorption</td>
+<td>2 hours / 2 hours</td>
+</tr>
+<tr>
+<td>Evacuation / maximum cooling / maximum repressurization</td>
+<td>5 minutes / 30 minutes / 10 minutes</td>
+</tr>
+<tr>
+<td>Regeneration requests</td>
+<td>116°C and 16 kPa absolute</td>
+</tr>
+<tr>
+<td>Heater / combined cooling</td>
+<td>2 kW / 2 kW; cooling COP 3</td>
+</tr>
+<tr>
+<td>Vacuum reference</td>
+<td>KNF N922, 50 Hz flow curve; 135 W running input</td>
+</tr>
+<tr>
+<td>Spatial calculation</td>
+<td>16 cells; relative tolerance 10⁻⁷; maximum time step 10 seconds</td>
+</tr>
+</tbody>
+</table>
+<p>The requests do not guarantee that every cell reaches the requested
+temperature or pressure. Achieved states and target misses are reported
+separately from conservation, numerical reliability and known material
+limits. The geometry, thermal properties and ideal conditioning
+assumptions describe a common screening case, not the chosen small
+prototype.</p>
+<h2 id="completed-baseline-results">Completed baseline results</h2>
+<table>
+<thead>
+<tr>
+<th>Material</th>
+<th style="text-align: right;">Collected CO₂ (kg/day)</th>
+<th style="text-align: right;">Electricity (kWh/kg CO₂)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lewatit VP OC 1065</td>
+<td style="text-align: right;">2.570</td>
+<td style="text-align: right;">5.47</td>
+</tr>
+<tr>
+<td>TEPA(50)</td>
+<td style="text-align: right;">0.944</td>
+<td style="text-align: right;">12.55</td>
+</tr>
+<tr>
+<td>COF-1000</td>
+<td style="text-align: right;">0.434</td>
+<td style="text-align: right;">21.38</td>
+</tr>
+<tr>
+<td>mmen-Mg2(dobpdc)</td>
+<td style="text-align: right;">0.417</td>
+<td style="text-align: right;">36.00</td>
+</tr>
+<tr>
+<td>MOF-808-Lys</td>
+<td style="text-align: right;">0.405</td>
+<td style="text-align: right;">25.95</td>
+</tr>
+<tr>
+<td>MIL-101/PEI/glycerin</td>
+<td style="text-align: right;">0.315</td>
+<td style="text-align: right;">47.66</td>
+</tr>
+<tr>
+<td>mmen-Mg2(hob)/PVDF</td>
+<td style="text-align: right;">0.312</td>
+<td style="text-align: right;">33.10</td>
+</tr>
+<tr>
+<td>COF-999</td>
+<td style="text-align: right;">0.193</td>
+<td style="text-align: right;">53.37</td>
+</tr>
+<tr>
+<td>MOF-808-TAPA</td>
+<td style="text-align: right;">0.149</td>
+<td style="text-align: right;">57.84</td>
+</tr>
+<tr>
+<td>CALF-20</td>
+<td style="text-align: right;">0.059</td>
+<td style="text-align: right;">236.40</td>
+</tr>
+</tbody>
+</table>
+<p>These daily rates are the total product collected over the exact
+48-hour horizon divided by two days. They include collected product from
+the unfinished final cycle. Ten full cycles were completed in each
+baseline case. A late-cycle plateau is visible, but cyclic steady state
+(CSS) and mesh independence have not been established for this material
+comparison.</p>
+<p>For CALF-20 and COF-1000 the saved loading trace gives half the total
+CO₂ loading across two sites. The collection and electricity meters used
+in the table are independent of that trace.</p>
+<p>The cases use identical operating inputs after removing their labels.
+Their material laws, evidence quality and source releases differ. In
+particular, hot humid equilibrium and several rate coefficients are
+extrapolated or transferred. The table therefore compares the specified
+scenarios; it cannot isolate an intrinsic material advantage.</p>
+<p>Electricity includes the reported heater, fan, vacuum and cooling
+loads. It excludes unresolved upstream drying, downstream compression,
+product treatment, storage and life-cycle burdens. Collected CO₂ is not
+net atmospheric removal. Product fractions also depend on the moisture
+basis: the Lewatit result is 99.43% CO₂ on a dry basis and 56.51% on a
+wet basis at the modelled collection boundary.</p>
+<h2 id="humidity-and-regeneration-sensitivity">Humidity and regeneration
+sensitivity</h2>
+<p>Using the same Lewatit package and executable source, changing only
+feed humidity from dry air to 65% RH raises the calculated output from
+<strong>1.186 to 2.570 kg/day</strong>, a factor of
+<strong>2.168</strong>. Electricity intensity falls from 7.41 to 5.47
+kWh/kg. This is a response of the adopted coupled water–CO₂ law; it is
+not independent experimental validation of that response.</p>
+<p>A separate sensitivity sets the CO₂ desorption rate to 0.001 s⁻¹
+while retaining adsorption and water-rate assumptions. The completed
+results are:</p>
+<table>
+<thead>
+<tr>
+<th>Material</th>
+<th style="text-align: right;">Baseline (kg/day)</th>
+<th style="text-align: right;">Faster desorption (kg/day)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TEPA(50)</td>
+<td style="text-align: right;">0.944</td>
+<td style="text-align: right;">1.339</td>
+</tr>
+<tr>
+<td>mmen-Mg2(dobpdc)</td>
+<td style="text-align: right;">0.417</td>
+<td style="text-align: right;">0.862</td>
+</tr>
+<tr>
+<td>MOF-808-Lys</td>
+<td style="text-align: right;">0.405</td>
+<td style="text-align: right;">0.630</td>
+</tr>
+<tr>
+<td>MIL-101/PEI/glycerin</td>
+<td style="text-align: right;">0.315</td>
+<td style="text-align: right;">0.521</td>
+</tr>
+<tr>
+<td>MOF-808-TAPA</td>
+<td style="text-align: right;">0.149</td>
+<td style="text-align: right;">0.218</td>
+</tr>
+</tbody>
+</table>
+<p>The faster-rate values are exploratory assumptions, not new fitted
+kinetic coefficients. The mmen and TAPA cases use a reviewed numerical
+solver extension whose source is included with the evidence. The
+HOB/PVDF and COF-999 attempts ended after their workers exited and have
+no complete 48-hour result. Neither is assigned a rate-sensitivity
+performance value.</p>
+<p>Retained CO₂ helps explain the low working output of several
+scenarios. Slow release matters for mmen and TEPA, while a high modelled
+hot equilibrium loading also limits COF and TAPA scenarios. The
+sensitivity does not establish how much of the real behavior is due to
+kinetics, equilibrium, water or heat transfer.</p>
+<h2 id="evidence-and-limits">Evidence and limits</h2>
+<p>Software checks cover material parsing, source identity, balances,
+numerical derivatives, job handling and result display. Saved-result
+audits check raw accounting and time coverage. These checks support
+traceability and internal consistency. They do not replace
+experiments.</p>
+<p>The current predictive-validation work includes fresh protocol-curve
+refits for COF-1000 and COF-999. Both retain failed humidity-condition
+tests; COF-999 also fails the withheld 100°C response test. Protocol
+fits do not identify intrinsic vacuum-desorption kinetics. The current
+HOB hot equilibrium representation is also unsuitable for an unqualified
+prediction: its temperature-transfer behavior needs a same-specimen fit
+and consistent caloric treatment. No confidence interval for device
+CO₂/day is justified by the available evidence.</p>
+<p>The highest immediate risks to a prototype prediction are the hot
+humid material law, shaped-bed kinetics, actual particle size and
+packing, wire-to-bed heat transfer, leakage and pump performance under
+simultaneous vacuum inlet and pressurized discharge. The saved Lewatit
+case requests 116°C and reaches about 120°C locally. It must not be used
+as a prototype temperature recommendation; the actual material limit and
+margin for local hot spots need to be established first.</p>
+<h2 id="small-prototype-next-use-of-the-same-model">Small prototype:
+next use of the same model</h2>
+<p>The working basis is Lewatit, resistance wire inside the bed and the
+KNF N922 stainless-steel IP54 pump family. The downstream requirement is
+approximately 1% CO₂ at at least 3 bar absolute. The dry/wet
+concentration basis, delivery flow and duty remain to be confirmed.
+Published vacuum and discharge ratings do not establish pump throughput
+when both conditions occur together.</p>
+<p>The next step is to enter the team’s actual dimensions, dry mass,
+bead distribution, packing, heater layout and flow path as a new case in
+this model. Measure pressure drop versus airflow, temperature near the
+wire and in colder regions, bed pressure, product amount and
+composition, condensate and electrical input. Use those measurements to
+test the model before optimizing the cycle or selecting the fan. The
+present full-size output should not be scaled by mass alone.</p>
+<h2 id="sources-and-reproducibility">Sources and reproducibility</h2>
+<p>The accompanying results dataset contains 16 completed exports, the
+status of two incomplete sensitivity attempts, audit records and source
+hashes. The technical reference gives the equations and numerical
+conventions. The evidence page distinguishes numerical checks from
+material validation. All headline values above are computed from the
+supplied result exports.</p>
+<p>Key external sources are Young et al. (2021), <em>The impact of
+binary water–CO₂ isotherm models on the optimal performance of
+sorbent-based direct air capture processes</em>, DOI <a href="https://doi.org/10.1039/D1EE01272J">10.1039/D1EE01272J</a>; Low et
+al. (2023), Lewatit property and equilibrium measurements, DOI <a href="https://doi.org/10.1021/acs.jced.3c00401">10.1021/acs.jced.3c00401</a>;
+and the <a href="https://knf.com/en/global/solutions/pumps/series/diaphragm-gas-pump-n-922-st">KNF
+N922 ST manufacturer information</a>. Each material package retains its
+own source references and transfer restrictions.</p>
+<p><a href="../../../docs/data/submission/results.json">Result table and
+exact exports</a> · <a href="../../../docs/data/submission/results.csv">CSV table</a> · <a href="model_reference.html">Equations</a> · <a href="evidence.html">Evidence and validation</a> · <a href="user_guide.html">User guide</a></p>
+</body>
+</html>
