@@ -440,6 +440,18 @@
       "package_semantic_sha256": "1fc267efbd6fae44d09cff7c8e821c7bc3db5c290f1f616a2441dbcbfd3db7be",
       "physical_degradation_limit_C": null,
       "review_record": "Research/next_stage_2026-11-08/humid_cycle_lead/NATIVE_IMPLEMENTATION_SCOPE.md"
+    },
+    "d731282b5a3e9219b201d173d8a989d39a33e2c737d9052d497a923670322562": {
+      "basis": "120 C dry vacuum pretreatment in Piscina et al., section 3.2. A scenario guard for wet cycling.",
+      "classification": "unqualified_scenario_guard",
+      "declared_guard_C": 120.0,
+      "material_id": "purolite_a110_humid",
+      "package_canonical_sha256": "d731282b5a3e9219b201d173d8a989d39a33e2c737d9052d497a923670322562",
+      "package_raw_sha256": "b3efeec969e390b627a97e0f0646861ae5a50e059322ec40e823054cf61b2685",
+      "package_relative_path": "Initial_screening_model/model/materials/screening/purolite_a110_humid.json",
+      "package_semantic_sha256": "6c911cdec4205418aa847c748996e6f12a2c32edf4ac01bea1d0655c3cffddf4",
+      "physical_degradation_limit_C": null,
+      "review_record": "model/materials/screening/purolite_a110_humid.json"
     }
   },
   "schema": "mof-screening-temperature-registry/2",
@@ -479,7 +491,8 @@
     "f0d6f3a3fbe695a15862bd295ef6a351ce518afb9ab860bab5231be36766ce59": "c95462dedc403175597fdccb1578ce4728ef651590ae7bec98e85e9790b683d0",
     "f88ab1264c1273b6a70e558d2f16c2f36392320f0fb2bf49d85ba699f95e4a45": "efa43fd7f1dad804dbc7efd2fa82ec36f8b88993a3f5cec89fd7ae02d8dd2839",
     "f8c662040a19bbdaa66412f30a5562ef042fdfd2246682dc5e3a9d7af20ce661": "f3723efede5c32eefe699067c5bfaab195e55aea359cecb0cc8f26feed892f73",
-    "ff34d0db41c2fdc169e64f3d6e70384afbd4680ea140a49d222b275ef8bc51ae": "320ab7a20fd33aa3daad864f402d8418e3c150ab0d69371d4fa84b932089fa53"
+    "ff34d0db41c2fdc169e64f3d6e70384afbd4680ea140a49d222b275ef8bc51ae": "320ab7a20fd33aa3daad864f402d8418e3c150ab0d69371d4fa84b932089fa53",
+    "6c911cdec4205418aa847c748996e6f12a2c32edf4ac01bea1d0655c3cffddf4": "d731282b5a3e9219b201d173d8a989d39a33e2c737d9052d497a923670322562"
   },
   "source_registry": "Initial_screening_model/model/config/mof_screening/temperature_registry.json",
   "source_registry_sha256": "601c844669df78386d40fc12ee5a13b658af75ed20b0f318efd14cd542565e5d"

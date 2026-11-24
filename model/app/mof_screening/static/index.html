@@ -207,6 +207,8 @@
             <div class="screening-actions">
               <button type="button" class="secondary" id="loadHumidYoungDemo">Load 1-hour coupled-humidity diagnostic</button>
               <button type="button" class="secondary" id="loadReviewedLewatitHumid">Reviewed Lewatit (65% RH, 48 h)</button>
+              <button type="button" class="secondary" id="loadPuroliteHumid">Purolite A110 (55% RH, 1 h)</button>
+              <button type="button" class="secondary" id="loadDirectSteam">Direct steam · Lewatit (1 h)</button>
               <button type="button" class="secondary" id="loadReviewedLewatitDry">Reviewed Lewatit (dry, 48 h)</button>
               <button type="button" class="secondary" id="loadDryAirBaseline">Dry-air comparison baseline (48 h)</button>
               <button type="button" class="secondary" id="loadHumidCandidate48h">Humid exploration baseline (48 h)</button>
@@ -294,9 +296,38 @@
               <label class="screening-field"><span>Gas-solid heat transfer (W/m²/K)</span><input id="eqHeatTransfer" type="number" step="1"></label>
               <label class="screening-field"><span>Wall heat capacity (J/K)</span><input id="eqWallCapacity" type="number" step="100"></label>
               <label class="screening-field"><span>Wall loss UA (W/K)</span><input id="eqWallLoss" type="number" step="0.1"></label>
+              <label class="screening-field"><span>Additional gas volume (m³)</span><input id="eqDead" type="number" step="any" min="0" value="0.0005"></label>
+              <label class="screening-field"><span>Shared cooling capacity (W)</span><input id="eqCooler" type="number" step="any" min="0.000001" value="2000"></label>
+              <label class="screening-field"><span>Air leakage (Pa·m³/s)</span><input id="eqLeak" type="number" step="any" min="0" value="0.00001"></label>
               <label class="screening-field"><span>Wall cooling UA (W/K)</span><input id="eqWallCooling" type="number" step="1"></label>
             </div>
-            <p id="equipmentApplicability" class="screening-field-note">Fixed shared assumptions: one KNF N922 50 Hz pump curve at 135 W running input, 2 kW heater, combined 2 kW cooling at COP 3, and an ideal 55 °C pump-inlet knockout.</p>
+            <p id="equipmentApplicability" class="screening-field-note">Pump reference: KNF N922 at 50 Hz, 135 W running input. Wall and pump-inlet cooling share the specified capacity at COP 3.</p>
+          </details>
+
+          <details class="screening-fieldset" open>
+            <summary>Regeneration heat source</summary>
+            <label class="screening-field"><span>Method</span><select id="regenMethod"><option value="electrical">Electrical heater</option><option value="steam_jacket">Indirect steam jacket</option><option value="direct_steam">Direct steam injection</option></select></label>
+            <div id="steamSettings" hidden>
+              <div class="screening-grid three">
+              <label class="screening-field"><span>Saturated steam supply (Pa absolute)</span><input id="steamSupply" type="number" step="any" min="620" max="1500000" value="100000"></label>
+              <label class="screening-field"><span>Feedwater temperature (°C)</span><input id="steamFeed" type="number" step="any" min="0.01" max="190" value="20"></label>
+              <label class="screening-field"><span>Generator efficiency (fraction)</span><input id="steamEfficiency" type="number" step="any" min="0.001" max="1" value="0.9"></label>
+              <label class="screening-field"><span>Generator energy source</span><select id="steamCarrier"><option value="electricity">Electricity</option><option value="external_heat">External heat</option></select></label>
+              </div>
+            </div>
+            <div id="jacketSettings" hidden>
+              <label class="screening-field"><span>Jacket-to-wall conductance (W/K)</span><input id="jacketUA" type="number" step="any" min="0.000001" value="60"></label>
+            </div>
+            <div id="directSettings" hidden>
+              <p class="screening-field-note">Use the reviewed humid Lewatit material. These illustrative film and drainage times and wet sorption plateau can be changed for sensitivity studies.</p>
+              <div class="screening-grid three">
+              <label class="screening-field"><span>Maximum injected steam (kg/h)</span><input id="steamFlow" type="number" step="any" min="0" value="1"></label>
+              <label class="screening-field"><span>Condensation and evaporation time (s)</span><input id="filmTime" type="number" step="any" min="0.0001" value="2"></label>
+              <label class="screening-field"><span>Bed drainage time (s)</span><input id="drainTime" type="number" step="any" min="0.0001" value="120"></label>
+              <label class="screening-field"><span>Water activity at sorption plateau</span><input id="wetActivity" type="number" step="any" min="0.01" max="0.999" value="0.85"></label>
+              <label class="screening-check"><input id="steamTrim" type="checkbox"><span>Enable electric trim heat during desorption</span></label>
+              </div>
+            </div>
           </details>
 
           <details class="screening-fieldset">
@@ -311,7 +342,7 @@
               <label class="screening-field"><span>Regeneration pressure (Pa)</span><input id="cyPressure" type="number" step="1000"></label>
               <label class="screening-field"><span>Initial purge (s)</span><input id="cyPurge" type="number" step="10"></label>
               <label class="screening-field"><span>Product route</span><select id="collectionRoute"><option value="all_desorption_and_cooling">All desorption and cooling</option><option value="desorption_only">Desorption only</option></select></label>
-              <label class="screening-field"><span>Knockout</span><input value="Ideal equilibrium at 55 °C" disabled></label>
+              <label class="screening-field"><span>Pump-inlet knockout target (°C)</span><input id="knockoutC" type="number" step="any" min="0.01" max="100" value="55"></label>
               <label class="screening-field"><span>Initial state</span><select id="initialBasis"><option value="equilibrated_with_first_weather">Equilibrated with first weather interval</option><option value="clean_dry">Clean dry initial state</option></select></label>
               <label class="screening-check"><input id="initialCold" type="checkbox"><span>Label as cold start</span></label>
             </div>
@@ -321,7 +352,7 @@
             <summary>Numerical resolution</summary>
             <p id="transportApplicability" class="screening-field-note">Spatial only: through-thickness cells, bed conductivity and gas-solid heat transfer affect the local finite-transfer solution.</p>
             <div class="screening-grid three">
-              <label class="screening-field"><span>Through-thickness cells</span><input id="solverCells" type="number" min="1" max="32" step="1"></label>
+              <label class="screening-field"><span>Spatial cells</span><input id="solverCells" type="number" min="1" max="32" step="1"></label>
               <label class="screening-field"><span>Relative tolerance</span><input id="solverRtol" type="number" min="0.000000001" max="0.01" step="0.0001"></label>
               <label class="screening-field"><span>Maximum integration step (s)</span><input id="solverStep" type="number" min="1" step="10"></label>
               <label class="screening-field"><span>Samples per phase</span><input id="solverSamples" type="number" min="3" max="121" step="2"></label>

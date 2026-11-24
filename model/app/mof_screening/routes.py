@@ -129,9 +129,8 @@ def get(handler, path: str, query: dict) -> bool:
                     },
                     "engines": {
                         "spatial": (
-                            "Transverse symmetric half-bed with local gas, "
-                            "solid, wall and site-energy states; no axial or "
-                            "manifold resolution."
+                            "Transverse symmetric half-bed for wall heating. Direct injection uses axial "
+                            "cells with gas, solid and free-liquid inventories."
                         ),
                         "lumped": (
                             "Portable accepted Matched_material_weather "
@@ -145,7 +144,7 @@ def get(handler, path: str, query: dict) -> bool:
                         "Requested regeneration, vacuum and cooling targets are advisory outcomes; target misses do not by themselves invalidate a case.",
                         "Humidity is shared gas forcing; competitive humid-mixture laws require an explicit material adapter.",
                         "Electricity excludes upstream drying, downstream compression and storage.",
-                        "No annual production, CSS, lifetime, hardware or real-material winner claim is produced.",
+                        "Fixed-weather spatial runs report numerical cycle repeatability. Annual, lifetime and prototype performance require additional evidence.",
                         "A 0.2% mesh-family gate is reported separately and is not inferred from a single run.",
                     ],
                     "history": manager.history(),

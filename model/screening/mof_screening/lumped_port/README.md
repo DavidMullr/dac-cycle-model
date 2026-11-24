@@ -1,8 +1,6 @@
 # Lumped cycle engine
 
-This engine treats the bed as well mixed. It shares the material laws, weather,
-equipment inputs and actuator policy used by the spatial model. The runtime
-translates the selected case into its configuration.
+The lumped engine treats the electrically heated bed as well mixed. It shares the material laws and weather inputs with the spatial model, including the humid Purolite A110 law. Direct steam and the steam jacket use the spatial engine. The runtime translates the selected electrical case into the configuration used here.
 
 `engine.py` defines the state balances. `weather_driver.py` advances the phases
 and accounts for finite-horizon results. The remaining modules handle pressure

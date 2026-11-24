@@ -42,6 +42,7 @@ STOP_AT_SCENARIO_GUARD = "stop_at_scenario_guard"
 RECORD_SCENARIO_EXCURSIONS = "record_scenario_excursions"
 
 SUPPORTED_FAMILIES = (
+    "purolite_a110_rh_curves_gab",
     "independent_langmuir_sips",
     "activity_shift_reference_isotherm",
     "split_rate_activity_shift_reference_isotherm",
@@ -1268,6 +1269,7 @@ def _original_loaded_evidence(evidence: Mapping) -> dict:
 
 def _mark_builtin_edits(material: dict) -> dict:
     builtins = {
+        "purolite_a110_humid": MATERIAL_ROOT / "purolite_a110_humid.json",
         "hypothetical_mmen_like": MATERIAL_ROOT / "hypothetical_mmen_like.json",
         "calf20_nguyen2024_80_20_shaped": MATERIAL_ROOT / "calf20_shaped.json",
         "synthetic_independent_demo": MATERIAL_ROOT / "synthetic_independent_demo.json",
@@ -1668,6 +1670,28 @@ def validate_material(document: Any) -> dict:
             for key in ("henry_mol_kg_Pa_at_reference", "heat_J_mol"):
                 _number(block, key, f"material.{gas}", minimum=0.0)
         n_ads = 5 if family == "split_rate_activity_shift_reference_isotherm" else 4
+    elif family == "purolite_a110_rh_curves_gab":
+        if material["reference_temperature_K"] != 298.15:
+            raise MofScreeningError("The Purolite reference curves require 298.15 K",
+                                    field="material.reference_temperature_K")
+        for key, block in (("co2", co2), ("water", water)):
+            _number(block, "heat_J_mol", f"material.{key}", minimum=0., exclusive_minimum=True)
+        rows = co2.get("curves")
+        if not isinstance(rows, list) or len(rows) != 4:
+            raise MofScreeningError("Expected four Purolite humidity curves", field="material.co2.curves")
+        for i, (row, rh) in enumerate(zip(rows, (0., 0.30, 0.55, 0.80))):
+            field = f"material.co2.curves[{i}]"
+            row = _mapping(row, field)
+            if _number(row, "relative_humidity", field) != rh:
+                raise MofScreeningError("Unexpected Purolite RH node", field=field)
+            p = row.get("pressure_Pa")
+            if not isinstance(p, list) or len(p) < 2:
+                raise MofScreeningError("Expected at least two pressure points", field=field)
+            p = _positive_array(row, "pressure_Pa", field, length=len(p))
+            q = _positive_array(row, "loading_mol_kg", field, length=len(p))
+            if any(b <= a for a, b in zip(p, p[1:])) or any(b < a for a, b in zip(q, q[1:])):
+                raise MofScreeningError("Expected increasing pressures and nondecreasing loadings", field=field)
+        n_ads = 2
     elif family in (
         "young2021_wadst_gab",
         "young2021_hot_wadst_gab_extrapolated",
@@ -2149,6 +2173,37 @@ def validate_case(document: Any) -> dict:
             field="case.equipment.bed_void_fraction",
         )
 
+    for key, floor, ceiling in (
+        ("dead_volume_m3", 0.0, None), ("knockout_C", 0.01, 100.0),
+        ("cooler_power_W", 1e-6, None), ("leak_Pa_m3_s", 0.0, None),
+    ):
+        if key in equipment:
+            _number(equipment, key, "case.equipment", minimum=floor, maximum=ceiling)
+    if engine != SPATIAL and "leak_Pa_m3_s" in equipment and equipment["leak_Pa_m3_s"] != 1e-5:
+        raise MofScreeningError("The adjustable leak uses the spatial engine.", field="case.equipment.leak_Pa_m3_s")
+    regeneration = _mapping(case.get("regeneration", {"kind": "electrical"}), "case.regeneration")
+    kind = _string(regeneration, "kind", "case.regeneration")
+    if kind not in ("electrical", "direct_steam", "steam_jacket"):
+        raise MofScreeningError("Unknown regeneration method.", field="case.regeneration.kind")
+    if kind != "electrical":
+        if engine != SPATIAL:
+            raise MofScreeningError("Select the spatial engine for steam regeneration.", field="case.engine")
+        from ..water_properties import saturation_temperature_K
+        pressure = _number(regeneration, "supply_pressure_Pa", "case.regeneration", minimum=620, maximum=1500000)
+        feed_C = _number(regeneration, "feedwater_C", "case.regeneration", minimum=0.01, maximum=190)
+        if feed_C + 273.15 > saturation_temperature_K(pressure):
+            raise MofScreeningError("Feedwater must be at or below the supply boiling point.", field="case.regeneration.feedwater_C")
+        _number(regeneration, "generator_efficiency", "case.regeneration", minimum=0.001, maximum=1)
+        if regeneration.get("generator_carrier") not in ("electricity", "external_heat"):
+            raise MofScreeningError("Select electricity or external heat for steam generation.", field="case.regeneration.generator_carrier")
+        if kind == "direct_steam":
+            _number(regeneration, "flow_kg_h", "case.regeneration", minimum=0)
+            _number(regeneration, "phase_transfer_s", "case.regeneration", minimum=1e-4)
+            _number(regeneration, "drain_time_s", "case.regeneration", minimum=1e-4)
+            _number(regeneration, "sorption_plateau_activity", "case.regeneration", minimum=0.01, maximum=0.999)
+            _boolean(regeneration, "trim_heater", "case.regeneration")
+        else:
+            _number(regeneration, "jacket_UA_W_K", "case.regeneration", minimum=1e-6)
     cycle = _mapping(case.get("cycle"), "case.cycle")
     for key in (
         "adsorption_s",
@@ -2219,9 +2274,10 @@ def validate_case(document: Any) -> dict:
         "all_desorption_and_cooling", "desorption_only"
     ):
         raise MofScreeningError("Unknown product collection route", field="case.collection.product_route")
-    if collection.get("knockout_model") != "ideal_pump_inlet_55C":
+    condenser_name = "ideal_pump_inlet_configured" if equipment.get("knockout_C", 55.0) != 55.0 else "ideal_pump_inlet_55C"
+    if collection.get("knockout_model") != condenser_name:
         raise MofScreeningError(
-            "case.collection.knockout_model must be " "'ideal_pump_inlet_55C'",
+            f"case.collection.knockout_model must be {condenser_name!r}",
             field="case.collection.knockout_model",
         )
     if engine == LUMPED and (
@@ -2240,6 +2296,23 @@ def validate_case(document: Any) -> dict:
     case["solver"]["samples_per_phase"] = samples
     case["engine"] = engine
     case["operating_policy"] = deepcopy(SHARED_ACTUATOR_POLICY)
+    policy = case["operating_policy"]
+    if kind != "electrical":
+        policy["regeneration"] = deepcopy(dict(regeneration))
+        policy["source"] = "Metered direct steam injection" if kind == "direct_steam" else "Indirect condensing-steam jacket"
+        if kind == "direct_steam":
+            policy["representation_difference"]["spatial"] = "Axial wet packed bed with distributed wall contact"
+            policy["representation_difference"]["pressure_control"] = "Outlet pressure controls pump withdrawal"
+            if not regeneration["trim_heater"]:
+                policy["phases"]["desorption"]["heater"] = "disabled"
+        else:
+            for name in ("adsorption", "evacuation", "repressurization"):
+                policy["phases"][name]["heater"] = "disabled"
+    policy["hardware"]["heater_power_W"] = float(equipment["heater_power_W"])
+    if "cooler_power_W" in equipment:
+        policy["hardware"]["combined_cooling_power_W"] = equipment["cooler_power_W"]
+    if "knockout_C" in equipment:
+        policy["hardware"]["conditioner_target_C"] = equipment["knockout_C"]
     return case
 
 
@@ -2251,6 +2324,7 @@ def load_builtin_material(material_id: str) -> dict:
     if not isinstance(material_id, str) or "/" in material_id or "\\" in material_id:
         raise MofScreeningError("invalid material id", field="material.material_id")
     candidates = {
+        "purolite_a110_humid": MATERIAL_ROOT / "purolite_a110_humid.json",
         "hypothetical_mmen_like": MATERIAL_ROOT / "hypothetical_mmen_like.json",
         "calf20_shaped": MATERIAL_ROOT / "calf20_shaped.json",
         "synthetic_independent_demo": MATERIAL_ROOT / "synthetic_independent_demo.json",
@@ -2346,6 +2420,9 @@ def load_builtin_material(material_id: str) -> dict:
 def build_case(material_document: Any, case_document: Any) -> tuple[dict, dict]:
     material = validate_material(material_document)
     case = validate_case(case_document)
+    if (case.get("regeneration", {}).get("kind") == "direct_steam"
+            and material["equilibrium_family"] != "young2021_advisory_wadst_gab"):
+        raise MofScreeningError("Direct steam currently supports the advisory Young Lewatit wet-material packages. Load the reviewed humid Lewatit material.", field="material.equilibrium_family")
     temperature_policy = effective_temperature_policy(case, material)
     maximum_temperature = temperature_policy["enforcement_limit_C"]
     regeneration = float(case["cycle"]["regeneration_temperature_C"])
@@ -2524,17 +2601,28 @@ def preview_payload(material: dict, case: dict, *, source: str) -> dict:
     from .spatial import state_layout
     adapter = build_material_adapter(material)
     cells = int(case["solver"]["cells"])
-    state_count = (state_layout(cells, extended=True, n_storage=adapter.n_storage).size
+    state_count = (state_layout(cells, extended=True, n_storage=adapter.n_storage,
+                                wet=case.get("regeneration", {}).get("kind") == "direct_steam").size
                    if case["engine"] == SPATIAL else adapter.n_sites + 45)
+    direct_contact = case.get("regeneration", {}).get("kind") == "direct_steam"
     warnings = [
         "Screening diagnostic; it is not hardware qualification or a measured winner.",
         "Requested regeneration, vacuum and cooling targets are advisory outcomes; a target miss alone does not reject or rank down a case.",
         "Humidity is shared gas forcing and is not a validated competitive humid-mixture law unless the selected adapter explicitly provides one.",
         "Electricity covers modeled heater, fan, pump and cooling inside this boundary. Upstream drying and downstream compression are excluded.",
-        "The spatial engine resolves the transverse half-bed with parallel channels; it does not resolve axial breakthrough or manifold redistribution.",
+        ("Direct steam uses an axial packed bed with a finite-rate liquid film, distributed drainage and an assumed sorption plateau. Calibrate these inputs on wet beads." if direct_contact else
+         "The spatial engine resolves the transverse half-bed with parallel channels; it does not resolve axial breakthrough or manifold redistribution."),
         "Execution runtime controls are operational; stopping or imposing a selected wall-time limit does not change physical operating conditions.",
         "The package temperature scalar is reported through its exact-package guard classification; an unqualified scenario guard is not a measured physical degradation limit.",
     ]
+    if material["equilibrium_family"] == "purolite_a110_rh_curves_gab":
+        warnings.append(
+            "A110 CO2 curves were measured on water-presaturated beads at 25 C and "
+            "0/30/55/80% RH. Above 80% the CO2 curve is held fixed while modeled water "
+            "uptake continues. Humid feed near 400 ppm is below the first humid "
+            "pressure points (52-65 Pa). Other temperatures and hot wet desorption "
+            "use screening assumptions."
+        )
     if material.get("synthetic"):
         warnings.append(
             "This material package is a synthetic interface fixture, not evidence about a real MOF."

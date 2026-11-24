@@ -1,12 +1,12 @@
-"""Transverse gas/solid adsorption model with parallel gas channels.
+"""Spatial gas/solid adsorption with wall heating or direct steam.
 
 Each cell has a local gas inventory, solid loading, temperature and pressure.
-Feed, leakage and withdrawal follow the declared channel shares; transverse gas
-exchange is not resolved. Effective bulk conductivity supplies through-thickness
-heat transfer, without counting gas conduction twice.
+Wall-heated runs use transverse conduction and parallel gas channels.
+Direct steam uses axial advection, distributed wall exchange, free-liquid
+storage and separate drain and generator meters.
 
 Heater and wall states, pressure control and shared cooling are coupled to the
-material balances. An ideal pump-inlet cooler and knockout targets 55 C. Storage
+material balances. The pump-inlet cooler uses its configured knockout temperature. Storage
 supports one or two CO2 sites, water and optional inert adsorbates."""
 from __future__ import annotations
 
@@ -41,6 +41,8 @@ from .lumped_port.pump_conditioner import (
     evaluate_pump_conditioner,
     pump_conditioner_config,
 )
+from . import direct_steam
+from ..water_properties import liquid_enthalpy_J_mol
 from .spatial_jacobian import (
     SpatialJacobianAudit,
     bounded_spatial_jacobian,
@@ -193,6 +195,11 @@ class CoupledLayout:
     E_loss: int = 19
     E_netflow: int = 20
     E_electric_total: int = 21
+    liquid: slice | None = None
+    steam_in: int | None = None
+    bed_drain: int | None = None
+    bed_condensed: int | None = None
+    bed_evaporated: int | None = None
     raw: slice | None = None
     condensate: int | None = None
     condensate_product: int | None = None
@@ -204,7 +211,10 @@ class CoupledLayout:
 
     def as_dict(self) -> dict:
         return {
-            "model": "local_gas_parallel_channel",
+            **({"liquid": [self.liquid.start, self.liquid.stop], "steam_in": self.steam_in,
+                "bed_drain": self.bed_drain, "bed_condensed": self.bed_condensed,
+                "bed_evaporated": self.bed_evaporated} if self.liquid is not None else {}),
+            "model": "axial_wet_packed_bed" if self.liquid is not None else "local_gas_parallel_channel",
             "n_cells_half": self.n_cells,
             "n_storage": self.n_storage,
             "size": self.size,
@@ -233,11 +243,14 @@ class CoupledLayout:
         }
 
 
-def state_layout(n_cells: int, *, extended: bool, n_storage: int = 4) -> CoupledLayout:
+def state_layout(n_cells: int, *, extended: bool, n_storage: int = 4, wet: bool = False) -> CoupledLayout:
     if isinstance(n_cells, bool) or not isinstance(n_cells, int) or n_cells < 1:
         raise ValueError("n_cells_half must be a positive integer.")
+    if wet and not extended:
+        raise ValueError("Direct steam requires liquid and utility meters.")
     q0 = 2 + 2 * n_cells
-    n0 = q0 + n_storage * n_cells
+    liquid0 = q0 + n_storage * n_cells
+    n0 = liquid0 + (n_cells if wet else 0)
     inlet0 = n0 + 4 * n_cells
     vent0 = inlet0 + 4
     product0 = vent0 + 4
@@ -247,7 +260,8 @@ def state_layout(n_cells: int, *, extended: bool, n_storage: int = 4) -> Coupled
         n_cells=n_cells, size=base, extended=extended,
         n_storage=n_storage,
         T_bed=slice(2, 2 + n_cells), T_gas=slice(2 + n_cells, 2 + 2 * n_cells),
-        q=slice(q0, n0), n_gas=slice(n0, inlet0),
+        q=slice(q0, liquid0), n_gas=slice(n0, inlet0),
+        liquid=slice(liquid0, n0) if wet else None,
         inlet=slice(inlet0, vent0), vent=slice(vent0, product0),
         product=slice(product0, e0),
         E_heat=e0, E_cool=e0 + 1, E_fan=e0 + 2, E_vac=e0 + 3,
@@ -258,7 +272,9 @@ def state_layout(n_cells: int, *, extended: bool, n_storage: int = 4) -> Coupled
         return layout
     raw0 = base
     return replace(
-        layout, size=base + 11, extended=True,
+        layout, size=base + 11 + (4 if wet else 0), extended=True,
+        steam_in=base+11 if wet else None, bed_drain=base+12 if wet else None,
+        bed_condensed=base+13 if wet else None, bed_evaporated=base+14 if wet else None,
         raw=slice(raw0, raw0 + 4), condensate=raw0 + 4,
         condensate_product=raw0 + 5, e_source=raw0 + 6,
         e_source_input=raw0 + 7, e_source_aux=raw0 + 8,
@@ -277,6 +293,8 @@ class CoupledModel:
     half_gas_volume_m3: float
     cell_volume_m3: np.ndarray
     cell_gas_volume_m3: np.ndarray
+    sorption_plateau_activity: float | None
+    cell_pore_volume_m3: np.ndarray
     cell_mass_kg: np.ndarray
     cell_flow_share: np.ndarray
     solid_capacity_J_K: np.ndarray
@@ -292,7 +310,7 @@ class CoupledModel:
 
     def as_dict(self) -> dict:
         return {
-            "model": "local_gas_parallel_channel",
+            "model": "axial_wet_packed_bed" if self.layout.liquid is not None else "local_gas_parallel_channel",
             "n_cells_half": self.n_cells,
             "n_storage": self.n_storage,
             "dx_m": self.dx_m,
@@ -343,12 +361,16 @@ def build_model(c: dict, material, g: Geometry, *, systems: Systems | None = Non
     if area <= 0.0 or not isfinite(area):
         raise ValueError("gas-solid specific area must be positive and finite.")
 
+    wet = "direct_steam" in c
     L = float(g.heat_path_m)
     A_h = 0.5 * float(g.heated_area_m2)
     V_bh = 0.5 * float(g.bed_volume_m3)
     V_gh = 0.5 * float(g.gas_volume_m3)
     dx = L / n
     V_bj = np.full(n, A_h * dx)
+    if wet:
+        dx = g.flow_path_m / n
+        V_bj = np.full(n, V_bh / n)
     V_gj = V_gh * (V_bj / V_bj.sum())
     m_j = np.full(n, 0.5 * float(c["bed"]["dry_sorbent_mass_kg"]) / n)
     share = V_bj / V_bj.sum()
@@ -370,18 +392,20 @@ def build_model(c: dict, material, g: Geometry, *, systems: Systems | None = Non
         layout=state_layout(
             n,
             extended=systems.layout.extended,
-            n_storage=material.n_storage,
+            n_storage=material.n_storage, wet=wet,
         ),
         n_cells=n, n_storage=material.n_storage, dx_m=dx, half_face_area_m2=A_h,
         half_bed_volume_m3=V_bh, half_gas_volume_m3=V_gh,
         cell_volume_m3=V_bj, cell_gas_volume_m3=V_gj, cell_mass_kg=m_j,
+        cell_pore_volume_m3=V_bj * c["bed"]["bed_void_fraction"],
+        sorption_plateau_activity=c["direct_steam"]["sorption_plateau_activity"] if wet else None,
         cell_flow_share=share,
         solid_capacity_J_K=m_j * float(material.data["solid_cp_J_kg_K"]),
         wall_capacity_J_K=wall_capacity,
         heater_capacity_J_K=heater_capacity,
         heater_wall_conductance_W_K=0.5 * float(th["heater_wall_conductance_W_K"]),
         wall_bed_resistance_K_W=r_wb,
-        cell_conductance_W_K=k * A_h / dx,
+        cell_conductance_W_K=k * (0.5 * g.flow_area_m2 if wet else A_h) / dx,
         gas_solid_area_m2=area * V_bj,
         gas_solid_h_W_m2_K=hgs,
         wall_cooling_capacity_W=wall_cap,
@@ -392,7 +416,7 @@ def state_pressures(state: np.ndarray, model: CoupledModel) -> np.ndarray:
     lay = model.layout
     n = state[lay.n_gas].reshape(model.n_cells, 4)
     T = state[lay.T_gas]
-    return np.maximum(n, 0.0).sum(axis=1) * R * T / model.cell_gas_volume_m3
+    return np.maximum(n, 0.0).sum(axis=1) * R * T / direct_steam.gas_volume(model, state)
 
 
 def check_inventory(state: np.ndarray, model: CoupledModel, *, where: str = "state") -> None:
@@ -402,6 +426,11 @@ def check_inventory(state: np.ndarray, model: CoupledModel, *, where: str = "sta
                         ("q", state[lay.q]), ("n_gas", state[lay.n_gas])):
         if not np.all(np.isfinite(block)):
             raise ExpectedScenarioError(f"Non-finite {name} at {where}.")
+    if lay.liquid is not None:
+        film = state[lay.liquid]
+        if not np.all(np.isfinite(film)) or np.min(film) < -1e-8:
+            raise ExpectedScenarioError(f"Invalid free-liquid inventory at {where}.")
+        direct_steam.gas_volume(model, state)
     if float(np.min(state[lay.n_gas])) < -1e-7:
         raise ExpectedScenarioError(
             f"Negative local gas inventory at {where}: minimum {float(np.min(state[lay.n_gas])):g} mol.")
@@ -441,6 +470,8 @@ def initial_state(c: dict, material, g: Geometry, model: CoupledModel) -> np.nda
     state[lay.n_gas] = (n_cell[:, None] * y[None, :]).ravel()
     if c.get("initial_state", {}).get("basis") == "equilibrated":
         partials = y * float(c["ambient"]["pressure_Pa"])
+        if lay.liquid is not None:
+            partials[1] = min(partials[1], direct_steam.saturation_pressure_Pa(Ta) * model.sorption_plateau_activity)
         loading = material.equilibrium(Ta, partials)
         state[lay.q] = np.tile(loading, model.n_cells)
     return state
@@ -472,7 +503,10 @@ def energy_inventory(c: dict, material, g: Geometry, state: np.ndarray,
     gas = float(np.sum(n * gas_internal_energy_mol(Tg[:, None], ref)))
     heater = 0.0 if systems.source is not None else model.heater_capacity_J_K * (state[lay.T_h] - ref)
     metal = model.wall_capacity_J_K * (state[lay.T_w] - ref)
-    return {"total_J": float(heater + metal + solid + adsorbed + gas),
+    liquid = 0.0
+    if lay.liquid is not None:
+        liquid = float(state[lay.liquid] @ np.array([liquid_enthalpy_J_mol(t, ref) for t in T]))
+    return {"total_J": float(heater + metal + solid + adsorbed + gas + liquid), "liquid_J": liquid,
             "heater_J": float(heater), "metal_J": float(metal),
             "solid_J": solid, "adsorbed_J": adsorbed, "gas_J": gas,
             "reference_temperature_K": ref}
@@ -616,6 +650,8 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
     reviewed_conditioner = (
         pump_conditioner_config(c) if pump_on else None
     )
+    steam = c.get("direct_steam")
+    supply = direct_steam.SteamSupply.from_case(steam, ref) if steam else None
     hgs = model.gas_solid_h_W_m2_K
     share = model.cell_flow_share
     pump_off = {"molar_flow_mol_s": 0.0, "electric_power_W": 0.0,
@@ -720,7 +756,14 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
         ng = np.maximum(y[lay.n_gas].reshape(model.n_cells, 4), 0.0)
         ntot = ng.sum(axis=1)
         ygas = ng / np.maximum(ntot[:, None], 1e-30)
-        p = ntot * R * Tg / model.cell_gas_volume_m3
+        volume = direct_steam.gas_volume(model, y)
+        p = ntot * R * Tg / volume
+        if steam:
+            liquid = np.maximum(y[lay.liquid], 0.0)
+            saturation, film_rate, drain = direct_steam.film_rates(
+                ng[:, 1], Tg, Tbed, volume, liquid, steam)
+            liquid_h = np.array([liquid_enthalpy_J_mol(t, ref) for t in Tbed])
+            steam_in = 0.5 * supply.flow(p[0]) if phase == "desorption" else 0.0
         storage_rates = []
         species_rates = []
         storage_cp_rows = []
@@ -728,6 +771,9 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
         species_energy_for_storage_rows = []
         for j in range(model.n_cells):
             partials_Pa = ygas[j] * p[j]
+            if steam:
+                # The empirical plateau applies only to the sorption target.
+                partials_Pa[1] = min(partials_Pa[1], saturation[j] * steam["sorption_plateau_activity"])
             try:
                 dq, dn_species = material.rates(
                     float(Tbed[j]), partials_Pa, q[j]
@@ -815,6 +861,12 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
         h_mix_mol = float(np.sum(share[:, None] * ygas
                                  * gas_enthalpy_mol(Tg[:, None], ref)))
         T_mix = float(ref + (h_mix_mol - R * ref) / max(float(y_mix @ CP_GAS), 1e-30))
+        if steam:
+            y_mix = ygas[-1]
+            T_mix = float(Tg[-1])
+            if pump_on:
+                p_suction = float(p[-1])
+                p_control = p_suction
         if pump_on:
             if reviewed_conditioner is not None:
                 opening = float(np.clip((p_control - c["cycle"]["regeneration_pressure_Pa"])
@@ -841,7 +893,7 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
 
         # Adsorption has a cell-wise pressure-following vent.  Pumped phases use
         # the declared total withdrawal shares.
-        if phase == "adsorption":
+        if phase == "adsorption" and not steam:
             W = np.zeros(model.n_cells)
             for j in range(model.n_cells):
                 F_j = share[j] * feed_half
@@ -868,11 +920,35 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
         elif pump_on:
             L = share * leak_half
 
+        if steam:
+            # One half-area lane from inlet to outlet. The identical second lane
+            # is included by the existing full-device meter convention.
+            F.fill(0.0)
+            W.fill(0.0)
+            if phase == "adsorption":
+                F[0] = feed_half
+                outlet_band = max(float(flow["minor_drop_Pa"]), 1.0)
+                W[-1] = feed_half * max(p[-1] - Patm, 0.0) / outlet_band
+            elif phase == "repressurization":
+                F[0] = repress_half * np.clip((Patm - p[0]) / (0.01 * Patm), 0.0, 1.0)
+            elif pump_on:
+                W[-1] = w_total_half
         # Gas equations and boundary terms.
         dng = F[:, None] * y_feed[None, :] + L[:, None] * y_leak[None, :] \
             - W[:, None] * ygas - S
         dTg = ((F * float(y_feed @ CP_GAS) + L * float(y_leak @ CP_GAS)) * (Ta - Tg)
                + R * Tg * (F + L - W) - phi) / (ntot * cv_mix)
+
+        if steam:
+            gas_void = (model.cell_pore_volume_m3 - liquid * direct_steam.LIQUID_VOLUME_M3_MOL) / model.cell_volume_m3
+            adv_species, adv_h = direct_steam.axial_exchange(
+                p, Tg, ygas, gas_void, 0.5 * g.flow_area_m2, model.dx_m,
+                c["bed"]["particle_diameter_m"], c["airflow"]["air_viscosity_Pa_s"], ref)
+            adv_species[0, 1] += steam_in
+            adv_h[0] += steam_in * supply.vapour_h
+            dTg += (adv_h - (ug * adv_species).sum(axis=1)) / (ntot * cv_mix)
+            dng += adv_species
+            dng[:, 1] -= film_rate
 
         # Solid network, wall and heater.
         G = model.cell_conductance_W_K
@@ -884,12 +960,20 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
                 qcond[j] += G * (Tbed[j + 1] - Tbed[j])
         Tw = float(y[lay.T_w])
         q_wb = (Tw - Tbed[-1]) / model.wall_bed_resistance_K_W
-        qcond[-1] += q_wb
+        if steam:
+            local_wall = c["thermal"]["wall_contact_h_W_m2_K"] * model.half_face_area_m2 * share * (Tw - Tbed)
+            q_wb = float(local_wall.sum())
+            qcond += local_wall
+        else:
+            qcond[-1] += q_wb
         C_s = model.solid_capacity_J_K + model.cell_mass_kg * cp_ads
         phase_heat = np.sum(
             model.cell_mass_kg[:, None] * dq * (ua_species - h_ads),
             axis=1,
         )
+        if steam:
+            C_s = C_s + liquid * direct_steam.LIQUID_CP
+            phase_heat += film_rate * (ug[:, 1] - liquid_h)
         dT = (qcond + phi + phase_heat) / C_s
 
         T_control = float(np.min(Tbed))
@@ -905,6 +989,8 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
                 fixed_bed_balance_W=fixed_bed_balance_W,
             )
         )
+        if steam and phase == "desorption" and not steam["trim_heater"]:
+            heat_request_full = 0.0
         command = min(
             0.5 * heat_request_full,
             0.5 * float(c["thermal"]["heater_power_W"]),
@@ -912,7 +998,7 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
         ceiling = target_K + float(
             c["thermal"]["heater_temperature_margin_K"]
         )
-        heating = heat_request_full > 0.0
+        heating = heat_request_full > 0.0 and (source_half is None or phase == "desorption")
         if source_half is not None:
             delivered, limit = source_half.delivered_W(Tw, T_control, command, heating=heating)
             q_hw = 0.0
@@ -969,10 +1055,11 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
             excess = cooling_request_unmet_half
         prepump_duty_full_W = 0.0 if stream is None else float(stream.duty_W)
         combined_cooling_full_W = 2.0 * q_cool + prepump_duty_full_W
-        if combined_cooling_full_W > 2000.0 + 1e-8:
+        cooling_capacity = float(c["utilities"]["wall_cooling"]["max_cooling_capacity_W"])
+        if combined_cooling_full_W > cooling_capacity + 1e-8:
             raise ExpectedScenarioError(
                 "Shared cooling budget exceeded: "
-                f"{combined_cooling_full_W:g} W > 2000 W."
+                f"{combined_cooling_full_W:g} W > {cooling_capacity:g} W."
             )
 
         derivative = np.zeros(lay.size)
@@ -992,6 +1079,13 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
                       or (phase == "cooling" and product_route == "all_desorption_and_cooling"))
         inlet = F[:, None] * y_feed[None, :] + L[:, None] * y_leak[None, :]
         derivative[lay.inlet] = inlet.sum(axis=0)
+        if steam:
+            derivative[lay.inlet][1] += steam_in
+            derivative[lay.liquid] = film_rate - drain
+            derivative[lay.steam_in] = steam_in
+            derivative[lay.bed_drain] = float(drain.sum())
+            derivative[lay.bed_condensed] = float(np.maximum(film_rate, 0).sum())
+            derivative[lay.bed_evaporated] = float(np.maximum(-film_rate, 0).sum())
         if phase == "adsorption":
             derivative[lay.vent] = (W[:, None] * ygas).sum(axis=0)
             derivative[lay.product] = 0.0
@@ -1005,7 +1099,11 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
             derivative[lay.product] = 0.0
         derivative[lay.E_heat] = q_heater
         derivative[lay.E_cool] = q_cool
-        derivative[lay.E_fan] = 0.5 * flow["fan_power_W"] if phase == "adsorption" else 0.0
+        fan_power = flow["fan_power_W"]
+        if steam and phase == "adsorption":
+            bed_drop = direct_steam.wet_bed_drop(flow, c["bed"]["bed_void_fraction"], gas_void)
+            fan_power = flow["bed_volume_flow_m3_s"] * bed_drop / c["airflow"]["fan_efficiency"]
+        derivative[lay.E_fan] = 0.5 * fan_power if phase == "adsorption" else 0.0
         derivative[lay.E_vac] = 0.0
         # The total installed bank is evaluated once at the actual pump inlet.
         if pump_on:
@@ -1021,6 +1119,8 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
         net = (F * float(y_feed @ h_in_feed) + L * float(y_leak @ h_in_leak)
                - W * np.sum(ygas * gas_enthalpy_mol(Tg[:, None], ref), axis=1))
         derivative[lay.E_netflow] = float(np.sum(net))
+        if steam:
+            derivative[lay.E_netflow] += steam_in * supply.vapour_h - float(drain @ liquid_h)
         utility_electric_full = None
         if utilities is not None:
             utility_now = utilities.convert(
@@ -1038,6 +1138,8 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
                if conditioner_spec is not None else 0.0)
             + 0.5 * utility_electric_full
         ) if electric_boundary_complete else 0.0
+        if c.get("regeneration", {}).get("generator_carrier") == "electricity":
+            electric_boundary_half += steam_in * supply.generator_J_mol if steam else q_source * source_input_factor
         derivative[lay.E_electric_total] = electric_boundary_half
         if lay.extended:
             derivative[lay.raw] = (W[:, None] * ygas).sum(axis=0)
@@ -1046,7 +1148,7 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
             derivative[lay.condensate_product] = cond if collecting else 0.0
             derivative[lay.e_source] = q_source
             if source_half is None:
-                derivative[lay.e_source_input] = 0.0
+                derivative[lay.e_source_input] = steam_in * supply.generator_J_mol if steam else 0.0
             else:
                 derivative[lay.e_source_input] = (
                     q_source * source_input_factor
@@ -1070,12 +1172,14 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
               + float(np.sum(model.cell_mass_kg[:, None] * dq * storage_h))
               + float(np.sum(ntot * cv_mix * dTg))
               + float(np.sum(np.sum(dng * ug, axis=1))))
+        if steam:
+            dU += float(derivative[lay.liquid] @ liquid_h)
         boundary = (q_heater + q_source - q_cool - q_loss + derivative[lay.E_netflow])
         residual = dU - boundary
         mw_mix = ygas @ MW
         rho_gas = p * mw_mix / (R * Tg)
         local_q_full = 2.0 * W * R * Tg / np.maximum(p, 1e-20)
-        local_area_full = share * float(g.flow_area_m2)
+        local_area_full = (1.0 if steam else share) * float(g.flow_area_m2)
         local_u = local_q_full / np.maximum(local_area_full, 1e-20)
         local_u_i = local_u / float(c["bed"]["bed_void_fraction"])
         mu = float(c["airflow"]["air_viscosity_Pa_s"])
@@ -1084,7 +1188,7 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
             "pressure_Pa": float(np.max(p)),
             "minimum_pressure_Pa": float(np.min(p)),
             "pump_suction_pressure_Pa": p_suction,
-            "pressure_control_observable": control_observable,
+            "pressure_control_observable": "outlet" if steam else control_observable,
             "pressure_control_pressure_Pa": p_control,
             "pressure_control_opening": opening,
             "pump_inlet_pressure_Pa": p_pump_inlet,
@@ -1145,7 +1249,7 @@ def cycle_rhs(c: dict, material, g: Geometry, phase: str, *, systems: Systems | 
             "cooling_W": q_cool,
             "prepump_cooling_full_W": prepump_duty_full_W,
             "combined_cooling_full_W": combined_cooling_full_W,
-            "combined_cooling_capacity_W": 2000.0,
+            "combined_cooling_capacity_W": cooling_capacity,
             "cooler_duty_W": 0.0 if stream is None else float(stream.duty_W),
             "cooler_shortfall_K": 0.0 if stream is None else float(stream.target_shortfall_K),
             "cooler_auxiliary_W": (
@@ -1216,6 +1320,7 @@ def _atol(model: CoupledModel) -> np.ndarray:
         np.full(n, 1e-5),
         np.full(n, 1e-5),
         np.full(model.n_storage * n, 1e-9),
+        np.full(n if model.layout.liquid is not None else 0, 1e-10),
         np.full(4 * n, 1e-10),
         np.full(12, 1e-9),
         np.full(8, 1e-3),
@@ -1223,6 +1328,8 @@ def _atol(model: CoupledModel) -> np.ndarray:
     if model.layout.extended:
         atol = np.r_[atol, np.full(4, 1e-9), np.full(1, 1e-9),
                      np.full(1, 1e-9), np.full(5, 1e-3)]
+    if model.layout.liquid is not None:
+        atol = np.r_[atol, np.full(4, 1e-9)]
     return atol
 
 
@@ -1350,6 +1457,9 @@ def one_cycle(c: dict, material, g: Geometry, initial: np.ndarray, *, systems=No
             layout=lay,
             material=material,
             audit=jacobian_audit,
+            # Larger probes reverse flow across faces with very small pressure differences.
+            **({"base_relative_step": 2e-9, "minimum_relative_step": 2e-12}
+               if lay.liquid is not None else {}),
         )
 
     def record_jacobian_audit() -> None:

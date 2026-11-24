@@ -8,7 +8,7 @@
 <script src="assets/ui/app-shell.js" defer></script>
 <style>main{max-width:1100px}main table{width:100%;border-collapse:collapse;margin:1.5rem 0}th,td{text-align:left;padding:.65rem;border-bottom:1px solid var(--border,#dce3e8)}main p,main li{max-width:85ch;line-height:1.65}pre{overflow-x:auto;padding:1rem;border-radius:8px;background:var(--surface-2,#eef3f5)}@media(max-width:650px){table{display:block;overflow-x:auto}}@media print{.ct-sidebar,.ct-topbar,.ct-skip{display:none!important}.ct-workspace{margin:0!important}}</style>
 </head><body class="ct-app">
-<header><div class="eyebrow">Carbon Team &middot; 17 November 2026</div><h1>Project map</h1></header>
+<header><div class="eyebrow">Carbon Team &middot; DAC model</div><h1>Project map</h1></header>
 <main><p>This directory is a complete working project. Its app and solver do
 not need the surrounding research archive.</p>
 <p>Read <a href="../model/report/project/user_guide.html">Using the DAC
@@ -171,6 +171,28 @@ run</strong> reads a local completed job or a native result JSON through
 <code>add-run.js</code>. <code>native-result.mjs</code> maps the saved
 phase records and bed states into cycle-relative samples for the same
 playback controls. Browser storage keeps the compact replay.</p>
+<h3 id="follow-a-steam-purolite-or-aging-result">Follow a steam,
+Purolite or aging result</h3>
+<p>For a direct-steam case, the spatial runtime uses the axial wet-bed
+calculation in <code>screening/mof_screening/direct_steam.py</code>.
+Read its steam inlet, free-liquid, drain and generator meters alongside
+the outlet product. The indirect steam jacket transfers heat across the
+wall and keeps steam outside the bed. <a
+href="../model/report/project/model_reference.html#direct-steam-screening-results">Heat-source
+equations and accounting</a></p>
+<p>The Purolite record is
+<code>materials/screening/purolite_a110_humid.json</code>. Its
+equilibrium family selects
+<code>screening/mof_screening/purolite.py</code>, which computes a water
+loading, a humidity-conditioned CO₂ target and both rates. For the
+equal-mass comparison, the <a
+href="data/resin-comparison-65rh.csv">CSV</a> identifies the exact case
+and solver shared by the two runs.</p>
+<p><strong>Bed aging</strong> reads <a
+href="data/bed-aging-lewatit.json">four fixed-capacity runs</a> through
+<code>docs/assets/ui/bed-aging.js</code>. The page maps cycle count or
+measured capacity to capture and electricity. There is no time-evolving
+degradation state in the cycle solver.</p>
 <h2 id="files-and-directories">Files and directories</h2>
 <table>
 <thead>

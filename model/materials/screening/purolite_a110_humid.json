@@ -1,0 +1,174 @@
+{
+  "schema": "mof-screening-material/1",
+  "material_id": "purolite_a110_humid",
+  "name": "Purolite A110 resin beads, humidity screening",
+  "material_class": "Amine resin",
+  "equilibrium_family": "purolite_a110_rh_curves_gab",
+  "synthetic": false,
+  "evidence": {
+    "status": "CONDITIONAL_DIGITIZED_HUMID_EQUILIBRIUM",
+    "basis": "A110 water-presaturated CO2 isotherms at 25 C plus unary water and kinetic fits. Local relative humidity above 80% uses the 80% CO2 curve."
+  },
+  "shaped_material": {
+    "basis": "Dry commercial free-base resin bead mass.",
+    "binder_support": "No added binder.",
+    "particle_geometry": "Supplier bead diameter range 0.3-1.2 mm. The equipment geometry controls pressure drop. Kinetic rates refer to resin beads."
+  },
+  "reference_temperature_K": 298.15,
+  "maximum_bed_temperature_C": 120.0,
+  "solid_cp_J_kg_K": 1327.145,
+  "co2": {
+    "heat_J_mol": 70100.0,
+    "curves": [
+      {
+        "relative_humidity": 0,
+        "pressure_Pa": [
+          18.29,
+          48.36,
+          79.84,
+          122.71,
+          720.74,
+          2958.77,
+          10000.0,
+          49355.25,
+          97974.06
+        ],
+        "loading_mol_kg": [
+          0.92,
+          1.23,
+          1.39,
+          1.52,
+          2.09,
+          2.55,
+          2.94,
+          3.61,
+          3.99
+        ]
+      },
+      {
+        "relative_humidity": 0.3,
+        "pressure_Pa": [
+          51.95,
+          79.84,
+          102.07,
+          278.26,
+          1866.86,
+          10000.0,
+          20054.98,
+          59948.43,
+          97974.06
+        ],
+        "loading_mol_kg": [
+          2.04,
+          2.12,
+          2.16,
+          2.33,
+          2.81,
+          3.29,
+          3.5,
+          3.87,
+          4.09
+        ]
+      },
+      {
+        "relative_humidity": 0.55,
+        "pressure_Pa": [
+          65.06,
+          102.07,
+          133.18,
+          264.38,
+          618.17,
+          959.89,
+          1177.91,
+          10964.78,
+          21107.87,
+          40633.94,
+          61188.06,
+          97974.06
+        ],
+        "loading_mol_kg": [
+          2.24,
+          2.32,
+          2.36,
+          2.48,
+          2.64,
+          2.74,
+          2.77,
+          3.33,
+          3.49,
+          3.69,
+          3.82,
+          4.02
+        ]
+      },
+      {
+        "relative_humidity": 0.8,
+        "pressure_Pa": [
+          56.38,
+          261.68,
+          406.34,
+          884.44,
+          3051.02,
+          10000.0,
+          20054.98,
+          40220.22,
+          59948.43,
+          79027.42,
+          97974.06
+        ],
+        "loading_mol_kg": [
+          2.0,
+          2.1,
+          2.15,
+          2.25,
+          2.46,
+          2.69,
+          2.83,
+          2.99,
+          3.09,
+          3.17,
+          3.23
+        ]
+      }
+    ]
+  },
+  "water": {
+    "heat_J_mol": 50000.0
+  },
+  "adsorbed_phase_cp_J_kg_K": [
+    852.0887535645713,
+    1887.2867921009274
+  ],
+  "kinetics": {
+    "adsorption_rate_s_inv": [
+      0.00024393509758686735,
+      0.007466666666666668
+    ],
+    "desorption_rate_s_inv": [
+      0.00024393509758686735,
+      0.007466666666666668
+    ],
+    "evidence_status": "Dry CO2 LDF at 298.15 K from Low et al. (2025). Water reference rate from the spherical LDF approximation with an assumed 0.30 mm dry bead radius. Relative diffusivities adjust both rates. Desorption mirrors adsorption as a scenario."
+  },
+  "provenance": {
+    "humid_co2": "Piscina, Young, Garcia & van der Spek (2026), DOI 10.1021/acs.iecr.5c05049, Fig. 9b. Approximate marker centres digitized on the log-pressure axis, bar converted to Pa. Source m_ie5c05049_0009.png SHA256 2c1cb0149d7471554d9639482a9a58eeade9e7684a7f4fd8b4137ae17245bff. Loading read-off precision roughly 0.03 mol/kg.",
+    "diffusivity": "Same paper, Tables 3 and 4. CO2 effective diffusivity measured near 400-500 ppm. Relative rate scaling is a modeling assumption.",
+    "unary": "Low et al. (2023), DOI 10.1021/acs.jced.3c00401, Tables 6, 7, 9 and 10 for heat capacity, CO2 affinity/low-pressure shape, water GAB fit and water heat.",
+    "dry_rate": "Low et al., DOI 10.1016/j.cherd.2025.01.048, dry CO2 LDF with ln(k0)=11 and Ea=47.89 kJ/mol."
+  },
+  "assumptions": [
+    "Between humidity curves the CO2 target interpolates linearly in the relative humidity corresponding to the stored water loading. Water-presaturation data constrain equilibrium. Transfer to simultaneous uptake is a transient assumption.",
+    "Pressure interpolation is linear in log pressure. Below each curve, the normalized dry Toth shape extends to zero. Above the last pressure the loading is held constant. The first humid markers lie at about 52-65 Pa, above 400 ppm at 1 bar.",
+    "A constant-heat pressure shift transfers the 25 C curves to other temperatures. Local RH above 80% holds the last CO2 curve. Water GAB shape parameters use the nearest fit temperature outside 288-308 K and water activity is capped at saturation.",
+    "N2 and O2 stay in the gas phase. Species heats are constant, with no extra heat of interaction. Water hysteresis, bead swelling and material degradation are omitted.",
+    "Relative diffusivities transfer to LDF rates. The dry CO2 Arrhenius factor uses endpoint temperatures beyond 20-70 C. Particle size changes in the equipment do not rescale the material rates."
+  ],
+  "validity": {
+    "adsorption": "CO2 coadsorption curves at 25 C and 0, 30, 55 and 80% RH. Other temperatures, hot cycles and the near-saturation response are screening assumptions.",
+    "regeneration": "120 C is a scenario guard based on published dry vacuum treatment. Hot wet kinetics and steam regeneration are unqualified."
+  },
+  "uncertainty": {
+    "classification": "CONDITIONAL",
+    "statement": "The plotted isotherms, humidity interpolation, finite-rate water loading and hot desorption limit confidence in kg CO2/day."
+  }
+}

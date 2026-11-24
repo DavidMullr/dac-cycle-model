@@ -27,6 +27,11 @@
       "status": "conditional_measured_source"
     },
     {
+      "id": "purolite_a110_humid",
+      "name": "Purolite A110 resin beads, humidity screening",
+      "status": "conditional_digitized_humid_equilibrium"
+    },
+    {
       "id": "lewatit_vp_oc_1065_young2021_wadst_conditional",
       "name": "Lewatit VP OC 1065, Young 2021 coupled water-CO2 conditional",
       "status": "conditional_source_reproduced_coupled_model"
@@ -225,6 +230,89 @@
         "collection": {
           "product_route": "all_desorption_and_cooling",
           "knockout_model": "ideal_pump_inlet_55C"
+        }
+      }
+    },
+    {
+      "id": "lewatit_direct_steam_1h",
+      "label": "Direct steam · Lewatit (1 h)",
+      "material_id": "lewatit_vp_oc_1065_young2021_dry_bdf_recovery_v1",
+      "case_sha256": "d2c99dc7802014530e13dc34a168e02ce7dc2274aeb5c6c79449dd048b4257eb",
+      "evidence_context": "One-hour wet-bed diagnostic at 75% RH with 10 kg/h maximum steam. Phase-transfer, drainage and wet sorption are assumptions. The short horizon includes initial stored CO2.",
+      "case": {
+        "schema": "mof-screening-case/1",
+        "label": "Direct steam on humid Lewatit, 1 h",
+        "engine": "spatial",
+        "runtime_policy": {
+          "schema": "mof-screening-runtime-policy/1",
+          "mode": "manual_stop",
+          "time_limit_s": null,
+          "classification": "operational_runtime_control",
+          "physical_operating_condition": false
+        },
+        "temperature_policy": {
+          "mode": "record_scenario_excursions",
+          "schema": "mof-screening-temperature-policy/1"
+        },
+        "weather": {
+          "mode": "fixed",
+          "hours": 1,
+          "temperature_C": 30.0,
+          "relative_humidity": 0.75,
+          "pressure_Pa": 100000.0,
+          "co2_ppm_dry": 400.0,
+          "start_utc": "2023-01-15T00:00:00Z"
+        },
+        "equipment": {
+          "dry_shaped_mass_kg": 10.0,
+          "bed_thickness_m": 0.016,
+          "bed_face_area_m2": 1.7361111111111112,
+          "particle_diameter_m": 0.0015,
+          "bed_void_fraction": 0.4,
+          "airflow_m3_s": 0.18,
+          "heater_power_W": 2000.0,
+          "effective_bed_conductivity_W_m_K": 0.1,
+          "gas_solid_heat_transfer_W_m2_K": 80.0,
+          "wall_heat_capacity_J_K": 12000.0,
+          "wall_loss_UA_W_K": 2.0,
+          "wall_cooling_UA_W_K": 100.0,
+          "knockout_C": 25.0
+        },
+        "cycle": {
+          "adsorption_s": 600.0,
+          "evacuation_s": 60.0,
+          "desorption_s": 600.0,
+          "cooling_max_s": 300.0,
+          "repressurization_max_s": 120.0,
+          "regeneration_temperature_C": 55.0,
+          "regeneration_pressure_Pa": 20000.0,
+          "purge_s": 0.0
+        },
+        "solver": {
+          "cells": 4,
+          "rtol": 1e-07,
+          "max_step_s": 10.0,
+          "samples_per_phase": 31
+        },
+        "initial_state": {
+          "basis": "equilibrated_with_first_weather",
+          "cold_start": false
+        },
+        "collection": {
+          "product_route": "all_desorption_and_cooling",
+          "knockout_model": "ideal_pump_inlet_configured"
+        },
+        "regeneration": {
+          "kind": "direct_steam",
+          "supply_pressure_Pa": 100000.0,
+          "flow_kg_h": 10.0,
+          "generator_efficiency": 0.9,
+          "generator_carrier": "electricity",
+          "feedwater_C": 20.0,
+          "phase_transfer_s": 2.0,
+          "drain_time_s": 120.0,
+          "sorption_plateau_activity": 0.85,
+          "trim_heater": false
         }
       }
     },
@@ -1435,6 +1523,76 @@
           "relative_humidity": 0,
           "start_utc": "2023-01-15T00:00:00Z",
           "temperature_C": 25
+        }
+      }
+    },
+    {
+      "id": "purolite_a110_humid_1h",
+      "label": "Purolite A110 at 25 C and 55% RH (1 hour)",
+      "material_id": "purolite_a110_humid",
+      "case_sha256": "180bcd47507228c539c7c57c7640eb3faf967a6ffc7bd3cae4168cf55d3c3dea",
+      "evidence_context": "Water-presaturated bead data at 25 C. Edit feed RH to screen intermediate humidities. The humid pressure extension, hot regeneration and productivity are conditional.",
+      "case": {
+        "schema": "mof-screening-case/1",
+        "label": "Purolite A110 at 25 C and 55% RH",
+        "engine": "spatial",
+        "runtime_policy": {
+          "schema": "mof-screening-runtime-policy/1",
+          "mode": "manual_stop",
+          "time_limit_s": null,
+          "classification": "operational_runtime_control",
+          "physical_operating_condition": false
+        },
+        "temperature_policy": {
+          "schema": "mof-screening-temperature-policy/1",
+          "mode": "stop_at_scenario_guard"
+        },
+        "weather": {
+          "mode": "fixed",
+          "hours": 1,
+          "temperature_C": 25.0,
+          "relative_humidity": 0.55,
+          "pressure_Pa": 100000.0,
+          "co2_ppm_dry": 400.0,
+          "start_utc": "2023-01-15T00:00:00Z"
+        },
+        "equipment": {
+          "dry_shaped_mass_kg": 10.0,
+          "bed_thickness_m": 0.016,
+          "bed_face_area_m2": 1.7361111111111112,
+          "particle_diameter_m": 0.0015,
+          "bed_void_fraction": 0.4,
+          "airflow_m3_s": 0.18,
+          "heater_power_W": 2000.0,
+          "effective_bed_conductivity_W_m_K": 0.1,
+          "gas_solid_heat_transfer_W_m2_K": 80.0,
+          "wall_heat_capacity_J_K": 12000.0,
+          "wall_loss_UA_W_K": 2.0,
+          "wall_cooling_UA_W_K": 100.0
+        },
+        "cycle": {
+          "adsorption_s": 600.0,
+          "evacuation_s": 60.0,
+          "desorption_s": 600.0,
+          "cooling_max_s": 300.0,
+          "repressurization_max_s": 120.0,
+          "regeneration_temperature_C": 55.0,
+          "regeneration_pressure_Pa": 20000.0,
+          "purge_s": 0.0
+        },
+        "solver": {
+          "cells": 4,
+          "rtol": 1e-07,
+          "max_step_s": 10.0,
+          "samples_per_phase": 31
+        },
+        "initial_state": {
+          "basis": "equilibrated_with_first_weather",
+          "cold_start": false
+        },
+        "collection": {
+          "product_route": "all_desorption_and_cooling",
+          "knockout_model": "ideal_pump_inlet_55C"
         }
       }
     }

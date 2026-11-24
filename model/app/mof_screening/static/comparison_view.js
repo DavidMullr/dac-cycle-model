@@ -41,12 +41,22 @@
       : [];
     return rows.map(row => ({
       jobId: row.job_id,
+      caseLabel: row.case_label,
       materialId: row.material_id,
       materialName: row.material_name || row.material_id || 'Unavailable material',
       collectedKgDay: finiteMetric(row.collected_CO2_kg_day),
+      lastCycle: Number.isFinite(row.last_complete_cycle_CO2_kg_day)
+        ? finiteMetric(row.last_complete_cycle_CO2_kg_day) : null,
+      repeatability: row.cycle_repeatability_established,
       electricityKWhDay: finiteMetric(row.electricity_kWh_day),
       electricityKWhKg: finiteMetric(row.electricity_kWh_kg_CO2, 4),
       dryProductFraction: percent(row.dry_product_CO2_fraction),
+      wetProductFraction: percent(row.wet_product_CO2_fraction),
+      steamIntensity: Number.isFinite(row.steam_kg_per_kg_CO2)
+        ? finiteMetric(row.steam_kg_per_kg_CO2, 2) : null,
+      externalHeatIntensity: row.steam_generator_carrier === 'external_heat'
+        && Number.isFinite(row.steam_generator_kWh_kg_CO2)
+        ? finiteMetric(row.steam_generator_kWh_kg_CO2, 2) : null,
       evidence: evidenceLabel(row.material_evidence_status),
       numerical: statusLabel(row.numerical_status),
       conservation: statusLabel(row.conservation_status),

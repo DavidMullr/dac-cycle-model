@@ -31,6 +31,9 @@
   function costs() {
     const parse = field => field.value.trim() === '' ? null : Number(field.value);
     return {electricity_CHF_kWh:parse($('electricity-price')),
+      ...(report?.regeneration?.generator_carrier ? {
+        external_heat_CHF_kWh:parse($('external-heat-price')), feedwater_CHF_m3:parse($('feedwater-price')),
+        makeup_fraction:parse($('makeup-fraction'))} : {}),
       components:[...$('cost-inputs').children].map(row => ({name:row.dataset.name,
         quantity:parse(row.querySelector('[data-field="quantity"]')),
         unit_cost_CHF:parse(row.querySelector('[data-field="price"]')),
@@ -43,7 +46,7 @@
     for (const [title, metric, unit] of [
       ['Collected CO₂', value.production.collected_CO2_kg_day, 'kg/day'],
       ['Electricity', value.electricity.kWh_kg_CO2, 'kWh/kg CO₂'],
-      ['Condensate', value.water.condensate_kg_day, 'kg/day']
+      ['Pump-inlet condensate', value.water.condensate_kg_day, 'kg/day']
     ]) {
       const card = node('article'); const figure = node('p', `${format(metric, 3)} ${unit}`); figure.className = 'current-metric';
       card.append(node('h3', title), figure); $('run-metrics').append(card);
@@ -55,6 +58,13 @@
       ['Airflow', `${format(value.fan.airflow_m3_s * 3600)} m³/h`, 'Selected case'],
       ['Bed pressure loss', `${format(value.fan.bed_pressure_drop_max_Pa)} Pa`, value.fan.scope],
       ['Fan electrical input', `${format(value.fan.model_fan_input_max_W)} W`, 'Model pressure loss and scenario efficiency'],
+      ...(value.regeneration?.generator_carrier ? [
+        ['Steam generator input', `${format(value.regeneration.generator_input_kWh_day)} kWh/day`, value.regeneration.generator_carrier],
+        ...(value.regeneration.method === 'direct_steam' ? [
+          ['Injected steam', `${format(value.regeneration.injected_kg_day)} kg/day`, 'At the bed inlet'],
+          ['Bed drain', `${format(value.regeneration.bed_drain_kg_day)} kg/day`, 'Free liquid leaving the bed']
+        ] : [])
+      ] : []),
       ['Heater power request', `${format(value.thermal.heater_request_W)} W`, 'Capacity requested in the selected case'],
       ['Combined cooling limit', `${format(value.thermal.combined_cooling_limit_W)} W`, `Scenario cooling COP ${format(value.thermal.cooling_COP)}`],
       ['Mean heater electrical input', `${format(value.thermal.heater_average_electric_W)} W`, 'Saved heater energy / complete horizon'],
@@ -70,6 +80,11 @@
     for (const values of rows) { const tr = node('tr'); tr.append(...values.map(v => node('td', v))); $('duties').append(tr); }
     if (replaceInputs) {
       $('electricity-price').value = value.costs.electricity_CHF_kWh ?? '';
+      $('steam-prices').hidden = !value.regeneration?.generator_carrier;
+      $('external-heat-label').hidden = value.regeneration?.generator_carrier !== 'external_heat';
+      $('external-heat-price').value = value.costs.external_heat_CHF_kWh ?? '';
+      $('feedwater-price').value = value.costs.feedwater_CHF_m3 ?? '';
+      $('makeup-fraction').value = value.costs.makeup_fraction ?? '';
       $('cost-inputs').replaceChildren();
       for (const component of value.costs.components) {
         const tr = node('tr'); tr.dataset.name = component.name; tr.append(node('td', component.name));
@@ -84,6 +99,11 @@
     const complete = price === null ? `Incomplete: ${value.costs.unpriced_components.length} unpriced components.` : `Listed component total: CHF ${format(price)}.`;
     const electric = value.costs.electricity_cost_CHF_day === null ? 'Enter an electricity price to calculate its running cost.' : `Modelled electricity cost: CHF ${format(value.costs.electricity_cost_CHF_day)}/day.`;
     $('cost-summary').textContent = `Priced subtotal: CHF ${format(value.costs.known_subtotal_CHF)}. ${complete} ${electric}`;
+    if (value.regeneration?.generator_carrier) {
+      const utility = value.costs.utilities_CHF_day;
+      $('cost-summary').textContent += utility == null ? ' Enter applicable utility prices and the makeup fraction for a combined cost.'
+        : ` Electricity, heat and makeup water total CHF ${format(utility)}/day.`;
+    }
     $('source-identity').textContent = JSON.stringify({result:value.binding.selector, sha256:value.binding.result_sha256, input_identity:value.binding.input_identity}, null, 2);
     $('open-inputs').replaceChildren(...value.open_inputs.map(text => node('li', text)));
   }

@@ -13,6 +13,11 @@
 <p>Fan pressure loss covers the modelled bed and declared minor losses. Filters, screens and ducts need measurements. The pump calculation does not establish simultaneous inlet vacuum and pressurised delivery. The observed peak temperature is not a recommended material limit.</p>
 <h2>Cost worksheet</h2><p>Enter supplier quotes or stated assumptions. Blank prices remain unknown; an entered zero also needs a basis. Changing runs loads that run's own worksheet.</p>
 <label for="electricity-price">Electricity price (CHF/kWh)</label><input type="number" min="0" step="0.01" id="electricity-price" placeholder="Not entered">
+<div id="steam-prices" hidden>
+  <label id="external-heat-label">External heat (CHF/kWh) <input type="number" min="0" step="any" id="external-heat-price"></label>
+  <label>Feedwater (CHF/m³) <input type="number" min="0" step="any" id="feedwater-price"></label>
+  <label>Steam supply made up with fresh water (fraction, 0–1) <input type="number" min="0" max="1" step="any" id="makeup-fraction"></label>
+</div>
 <div class="table-scroll"><table><thead><tr><th>Component</th><th>Quantity</th><th>Unit price (CHF)</th><th>Quote or assumption</th></tr></thead><tbody id="cost-inputs"></tbody></table></div>
 <div class="current-actions"><button id="calculate-costs">Update calculation</button><button id="save-costs">Save worksheet</button><button id="export-json">Export JSON</button><button id="export-csv">Export CSV</button></div>
 <p id="cost-summary"></p><p class="muted">The total covers the listed components only. It does not include an unentered installation cost, replacement schedule or downstream compression.</p>

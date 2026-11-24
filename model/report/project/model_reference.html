@@ -2,18 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="pandoc 3.10" />
+  <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Model equations and assumptions</title>
   <style>
 
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 
 ul.task-list[class]{list-style: none;}
@@ -75,6 +72,10 @@ balance</a>
 reference-curve models</a></li>
 <li><a href="#how-humidity-changes-the-reviewed-lewatit-result" id="toc-how-humidity-changes-the-reviewed-lewatit-result">How humidity
 changes the reviewed Lewatit result</a></li>
+<li><a href="#purolite-a110-under-humid-air" id="toc-purolite-a110-under-humid-air">Purolite A110 under humid
+air</a></li>
+<li><a href="#lewatit-bed-aging" id="toc-lewatit-bed-aging">Lewatit bed
+aging</a></li>
 <li><a href="#other-stored-water-scenarios" id="toc-other-stored-water-scenarios">Other stored-water
 scenarios</a></li>
 </ul></li>
@@ -95,6 +96,12 @@ product</a></li>
 <li><a href="#cycle-and-reporting-basis" id="toc-cycle-and-reporting-basis">Cycle and reporting basis</a>
 <ul>
 <li><a href="#switching-conditions" id="toc-switching-conditions">Switching conditions</a></li>
+<li><a href="#direct-steam-and-the-water-balance" id="toc-direct-steam-and-the-water-balance">Direct steam and the water
+balance</a></li>
+<li><a href="#direct-steam-screening-results" id="toc-direct-steam-screening-results">Direct steam screening
+results</a></li>
+<li><a href="#comparing-the-48-hour-steam-and-electrical-cases" id="toc-comparing-the-48-hour-steam-and-electrical-cases">Comparing the
+48-hour steam and electrical cases</a></li>
 <li><a href="#component-conservation-and-a-worked-export" id="toc-component-conservation-and-a-worked-export">Component
 conservation and a worked export</a></li>
 <li><a href="#reading-saved-diagnostics" id="toc-reading-saved-diagnostics">Reading saved diagnostics</a></li>
@@ -108,8 +115,8 @@ inspect</a></li>
 </ul>
 </nav>
 <h2 id="domain-and-state-variables">Domain and state variables</h2>
-<p>The spatial engine is
-<code>screening/mof_screening/spatial.py</code>. It resolves the
+<p>In the reviewed electrical case the spatial engine
+(<code>screening/mof_screening/spatial.py</code>) resolves the
 <strong>transverse thermal thickness</strong> of a symmetric bed, with
 parallel gas paths. It is not an axial breakthrough model. In the
 reported case the full bed is 16 mm thick and the half-domain has 16
@@ -307,6 +314,12 @@ rate coefficients</td>
 relation</td>
 </tr>
 <tr>
+<td>Purolite A110</td>
+<td>Water-conditioned CO₂ isotherms and GAB water</td>
+<td>Curves at four humidities, pressure shift with temperature and
+humidity-dependent rate coefficients</td>
+</tr>
+<tr>
 <td>Young et al. Lewatit</td>
 <td>Water-weighted dry and wet Toth curves, plus GAB water</td>
 <td>Published parameter sets, evolving stored water, kinetic
@@ -426,6 +439,63 @@ regeneration request the model extrapolates the equations. The advisory
 implementation uses IAPWS for local saturation pressure, while the
 original strict Young implementation uses Buck. The saved RH trace has a
 separate diagnostic convention described <a href="#reading-saved-diagnostics">below</a>.</p>
+<h3 id="purolite-a110-under-humid-air">Purolite A110 under humid
+air</h3>
+<p>The A110 adapter uses the commercial free-base resin on a dry bead
+mass basis. Piscina et al. measured CO₂ uptake on water-presaturated
+resin at 25 °C. The four digitized curves represent dry air and 30%, 55%
+and 80% RH. Within each curve the model interpolates loading in log CO₂
+pressure. The first humid points lie at 52–65 Pa. At 420 ppm in 100 kPa
+air, the CO₂ partial pressure is only about 42 Pa, so all three humid
+curves use the dry Toth shape below their first point, matched to that
+point. Above the last pressure the loading stays constant. <span class="citation" data-cites="piscina2026 lowresins2023">(Piscina et al.
+2026; <span class="nocase">Low et al.</span> 2023)</span></p>
+<p>During a cycle the water loading approaches a GAB equilibrium at the
+local gas humidity. Inverting that relation at the
+<strong>stored</strong> water loading gives the humidity used to
+interpolate between CO₂ curves. A newly exposed dry bead therefore takes
+time to reach the humid response. Above 80% the CO₂ target uses the last
+curve, while the water target continues to saturation. The GAB shape
+coefficients use the nearest fitted temperature outside 15–35 °C.</p>
+<p>For temperature
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>,
+the pressure read on the 25 °C isotherm is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mrow><mi mathvariant="normal">C</mi><msub><mi mathvariant="normal">O</mi><mn mathvariant="normal">2</mn></msub></mrow></msub><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">[</mo><mo stretchy="false" form="prefix">(</mo><mn>70100</mn><mi>/</mi><mi>R</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mi>/</mi><mi>T</mi><mo>−</mo><mn>1</mn><mi>/</mi><mn>298.15</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">p_{\mathrm{CO_2}}\exp[(70100/R)(1/T-1/298.15)]</annotation></semantics></math>,
+with heat in J/mol and temperatures in K. A dry CO₂ rate fit supplies
+the reference linear driving force coefficient. The rate scales with
+temperature between 20 and 70 °C and with relative diffusivity at the
+bead humidity. The water rate uses diffusivity at the gas humidity.
+Desorption uses the same coefficients as adsorption. Hot wet release,
+humidity-induced swelling and changes in packed-bed resistance need
+separate measurements. The 120 °C scenario guard does not establish a
+material operating limit. <span class="citation" data-cites="lowkinetics2025">(<span class="nocase">Low et al.</span>
+2025)</span></p>
+<h3 id="lewatit-bed-aging">Lewatit bed aging</h3>
+<p>The <strong>Bed aging</strong> estimate uses four 48-hour electrical
+runs at fixed resin conditions. Each multiplies the dry and wet Toth
+saturation capacities by the same retained fraction
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>.
+The water isotherm, adsorption and desorption rate coefficients,
+geometry and equipment retain their fresh-bed values. Each run starts
+with a clean, dry 10 kg bed and one pump. Between the simulated
+capacities (68.8%, 75%, 90% and 100%) the app interpolates each reported
+metric separately. A measured aged/fresh capacity ratio obtained under
+the same test conditions can be entered directly.</p>
+<p>For a cycle count
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+from 0 to 180, the two scenarios use
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mrow><mi mathvariant="normal">l</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">r</mi></mrow></msub><mo>=</mo><mn>1</mn><mo>−</mo><mn>0.312</mn><mi>n</mi><mi>/</mi><mn>180</mn></mrow><annotation encoding="application/x-tex">r_{\mathrm{linear}}=1-0.312n/180</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mrow><mi mathvariant="normal">e</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">p</mi></mrow></msub><mo>=</mo><msup><mn>0.688</mn><mrow><mi>n</mi><mi>/</mi><mn>180</mn></mrow></msup></mrow><annotation encoding="application/x-tex">r_{\mathrm{exp}}=0.688^{n/180}</annotation></semantics></math>.
+Hunt et al. measured a 31.2% loss at 180 cycles with regeneration at 80
+°C and 10 kPa absolute. Our one-pump case uses a 91.5 °C heater setpoint
+and a 16 kPa vacuum target. Neither curve predicts damage from the
+simulated temperature or oxygen history. The interface reports the last
+complete cycle in kg/day and startup-inclusive 48-hour electricity in
+kWh/kg. It gives estimates only within the simulated capacity range.
+<span class="citation" data-cites="hunt2024">(Hunt et al. 2024)</span>
+<a href="../../../docs/data/bed-aging-lewatit.json">Reference
+runs</a></p>
 <h3 id="other-stored-water-scenarios">Other stored-water scenarios</h3>
 <p>For the COFs, MOF-808 variants and PEI/MIL variants that specify a
 chemical-potential shift, the wrapper evaluates the dry CO₂ law with an
@@ -724,9 +794,12 @@ different denominators and are kept separate.</p>
 e_{\mathrm{CO_2}}=\frac{E_{\mathrm{electric}}}{M_{c,\mathrm{product}}},\qquad
 E_{\mathrm{electric}}=E_h+E_f+E_p+E_{\mathrm{cool}}+E_{\mathrm{conditioning}}.
 </annotation></semantics></math></p>
-<p>Components are taken from the saved meters so shared cooling is not
-counted twice. Dry product purity excludes water; wet purity includes
-it. These fractions refer to the model’s collection boundary.</p>
+<p>This electricity sum applies to the electrical reference. With
+electric steam generation, add the metered generator electricity once.
+An externally heated generator reports its thermal input separately. Use
+the collection meter for the denominator in both cases. Dry product
+purity excludes water; wet purity includes it. These fractions refer to
+the model’s collection boundary.</p>
 <h3 id="switching-conditions">Switching conditions</h3>
 <table>
 <colgroup>
@@ -781,6 +854,223 @@ temperature and pressure. A time limit can advance a phase with an unmet
 target. The export records endpoint attainment separately from horizon
 completion. When the horizon falls inside a phase, only the elapsed
 portion contributes to inventories, energy and product.</p>
+<h3 id="direct-steam-and-the-water-balance">Direct steam and the water
+balance</h3>
+<p>Select <strong>Direct steam injection</strong> to resolve the gas
+path from the steam inlet to the pump. The 1D finite volumes exchange
+gas species and enthalpy by upwind advection. Each internal face solves
+the viscous and inertial Ergun terms for signed velocity using its
+pressure gradient and available void. Liquid displaces gas in the
+equation of state. Equal half-area lanes represent the full device. Each
+axial cell exchanges heat with the shared wall, which removes the
+transverse temperature resolution of the reviewed electrical case. The
+steam supply delivers saturated vapour during desorption, limited by the
+specified flow. The ideal regulator tapers linearly within 5% of
+absolute supply pressure and closes at backpressure. The outlet pump
+uses its existing conditioned suction curve. Adsorption uses imposed air
+flow with the corresponding wet-bed fan duty.</p>
+<p>In one cell let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>n</mi><mi>v</mi></msub><annotation encoding="application/x-tex">n_v</annotation></semantics></math>
+denote gas-phase water,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>n</mi><mi>l</mi></msub><annotation encoding="application/x-tex">n_l</annotation></semantics></math>
+the free liquid,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>V</mi><mi>g</mi></msub><annotation encoding="application/x-tex">V_g</annotation></semantics></math>
+the gas volume and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mi>w</mi></msub><annotation encoding="application/x-tex">q_w</annotation></semantics></math>
+the material’s adsorbed water. Saturation uses the bead temperature
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi>s</mi></msub><annotation encoding="application/x-tex">T_s</annotation></semantics></math>.
+With gas temperature
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi>g</mi></msub><annotation encoding="application/x-tex">T_g</annotation></semantics></math>,
+phase transfer and drainage are</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mrow><mi>v</mi><mo>,</mo><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">t</mi></mrow></mrow></msub><mo>=</mo><mfrac><mrow><msub><mi>p</mi><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">t</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>s</mi></msub><mo stretchy="false" form="postfix">)</mo><msub><mi>V</mi><mi>g</mi></msub></mrow><mrow><mi>R</mi><msub><mi>T</mi><mi>g</mi></msub></mrow></mfrac><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>r</mi><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">h</mi></mrow></msub><mo>=</mo><mfrac><mrow><mrow><mi mathvariant="normal">max</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>n</mi><mi>v</mi></msub><mo>−</mo><msub><mi>n</mi><mrow><mi>v</mi><mo>,</mo><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">t</mi></mrow></mrow></msub><mo>,</mo><mi>−</mi><msub><mi>n</mi><mi>l</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><msub><mi>τ</mi><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">h</mi></mrow></msub></mfrac><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>r</mi><mi>d</mi></msub><mo>=</mo><mfrac><msub><mi>n</mi><mi>l</mi></msub><msub><mi>τ</mi><mi>d</mi></msub></mfrac><mo>,</mo><mspace width="2.0em"></mspace><msub><mover><mi>n</mi><mo accent="true">̇</mo></mover><mi>l</mi></msub><mo>=</mo><msub><mi>r</mi><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">h</mi></mrow></msub><mo>−</mo><msub><mi>r</mi><mi>d</mi></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+n_{v,\mathrm{sat}}=\frac{p_{\mathrm{sat}}(T_s)V_g}{RT_g},\qquad
+r_{\mathrm{ph}}=\frac{\max(n_v-n_{v,\mathrm{sat}},-n_l)}{\tau_{\mathrm{ph}}},\qquad
+r_d=\frac{n_l}{\tau_d},\qquad
+\dot n_l=r_{\mathrm{ph}}-r_d .
+</annotation></semantics></math></p>
+<p>Positive
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>r</mi><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">h</mi></mrow></msub><annotation encoding="application/x-tex">r_{\mathrm{ph}}</annotation></semantics></math>
+condenses vapour. Negative values evaporate available liquid. The gas
+loses
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>r</mi><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">h</mi></mrow></msub><annotation encoding="application/x-tex">r_{\mathrm{ph}}</annotation></semantics></math>
+in addition to water adsorbed by the sorbent. The sorbent equilibrium
+law uses an explicit activity plateau near saturation. The actual water
+partial pressure drives condensation, including when the material’s
+fitted equilibrium law reaches its plateau. The liquid has bulk-water
+heat capacity and remains at the solid temperature. Excess liquid drains
+locally. Reaching the packed void volume stops the calculation.</p>
+<p>The bed energy inventory includes gas internal energy, adsorbed-phase
+energy, free-liquid sensible energy and the solid, heater and wall.
+Incoming steam carries vapour enthalpy and drain water leaves with
+liquid enthalpy on the same reference. On the gas-internal-energy basis,
+the heat released to the solid and film is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">h</mi></mrow></msub><mo stretchy="false" form="prefix">[</mo><msub><mi>u</mi><mi>v</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>g</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>−</mo><msub><mi>h</mi><mi>l</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>s</mi></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">r_{\mathrm{ph}}[u_v(T_g)-h_l(T_s)]</annotation></semantics></math>.
+Adsorption heat is calculated from the change in adsorbed inventory.
+Saturation follows IAPWS. Vapour and liquid enthalpies use the project’s
+constant-heat-capacity closure anchored at 100 °C. Only the indirect
+jacket applies heat directly to the wall. For direct injection the
+generator input is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∫</mo><msub><mover><mi>n</mi><mo accent="true">̇</mo></mover><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">m</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>h</mi><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">m</mi></mrow></msub><mo>−</mo><msub><mi>h</mi><mrow><mi mathvariant="normal">f</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">d</mi><mi mathvariant="normal">w</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">r</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mi>η</mi><mspace width="0.167em"></mspace><mi>d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">\int\dot n_{\mathrm{steam}}(h_{\mathrm{steam}}-h_{\mathrm{feedwater}})/\eta\,dt</annotation></semantics></math>.
+Choosing an electric generator includes this input in electricity once.
+External heat is metered separately. The pump-inlet knockout and its
+cooling duty are downstream of the bed drain.</p>
+<p><strong>Interpreting the film model.</strong> The phase-transfer
+time, drain time, gas-path geometry, valve law and sorption plateau are
+screening assumptions. The model resolves bulk liquid holdup. Pore-scale
+capillary condensation, liquid migration between cells, droplet
+entrainment, dissolved CO₂, sorbent degradation and two-phase flooding
+hydraulics require additional closures and measurements. Inspect peak
+local
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>w</mi></msub><mi>/</mi><msub><mi>p</mi><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">t</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mi>s</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">p_w/p_{\mathrm{sat}}(T_s)</annotation></semantics></math>,
+drainage and steam breakthrough. Large transient supersaturation makes
+the phase-transfer assumption especially consequential. Vary both time
+constants and the plateau, refine cell size and time tolerance, and
+compare with measured axial temperatures, bed pressures, steam inlet,
+separate bed and knockout drain weights, outlet humidity and net CO₂.
+Experiments on amine-functionalized monoliths and a dynamic condensation
+study establish useful trends for this comparison. Transferring their
+times or rates to Lewatit beads requires independent evidence. <a href="https://doi.org/10.1016/j.cej.2025.171584">Direct-heating
+experiments</a> and <a href="https://doi.org/10.1016/j.cej.2026.175574">dynamic condensation
+study</a>.</p>
+<h3 id="direct-steam-screening-results">Direct steam screening
+results</h3>
+<p>All settings use 10 kg of equilibrated Lewatit VP OC 1065, 30 °C
+inlet air at 75% RH and 400 ppm dry CO₂, 10 min of adsorption, 1 min of
+evacuation, 10 min of regeneration, up to 5 min of cooling, up to 2 min
+of refill and a 25 °C pump-inlet knockout. The table covers the first
+hour and includes the partial final cycle. The direct-steam cases and
+their electrical control use four axial cells. The indirect jacket uses
+four transverse cells. The electrical control uses the wet-bed equations
+with zero injected steam and a 2 kW heater.</p>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>Regeneration setting</th>
+<th style="text-align: right;">Collected CO₂ (g)</th>
+<th style="text-align: right;">Net air uptake (g CO₂)</th>
+<th style="text-align: right;">Wet product CO₂ (mol%)</th>
+<th style="text-align: right;">Electricity (kWh)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Electrical heater, same axial grid</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">-2.94</td>
+<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">0.508</td>
+</tr>
+<tr>
+<td>Indirect steam jacket, 60 W/K</td>
+<td style="text-align: right;">0.59</td>
+<td style="text-align: right;">-9.74</td>
+<td style="text-align: right;">4.7</td>
+<td style="text-align: right;">0.962</td>
+</tr>
+<tr>
+<td>Direct steam, 2.5 kg/h</td>
+<td style="text-align: right;">7.05</td>
+<td style="text-align: right;">+10.70</td>
+<td style="text-align: right;">35.9</td>
+<td style="text-align: right;">1.015</td>
+</tr>
+<tr>
+<td>Direct steam, 10 kg/h</td>
+<td style="text-align: right;">92.29</td>
+<td style="text-align: right;">+21.65</td>
+<td style="text-align: right;">85.0</td>
+<td style="text-align: right;">2.384</td>
+</tr>
+<tr>
+<td>Direct steam, 10 kg/h with electric trim</td>
+<td style="text-align: right;">96.24</td>
+<td style="text-align: right;">+22.72</td>
+<td style="text-align: right;">85.4</td>
+<td style="text-align: right;">2.394</td>
+</tr>
+</tbody>
+</table>
+<p>Net air uptake is CO₂ entering in air, including leaks, minus CO₂
+vented. The difference between net uptake and collected product equals
+the signed change in CO₂ stored in the bed and its gas. At 10 kg/h the
+bed supplied 70.6 g from its initial inventory during the first hour.
+Steam supply was capped at 100 kPa absolute. The outlet finished the
+second desorption at 98.0 kPa against a 20 kPa pump request. Actual
+injected mass was 2.44 kg. The bed drain removed 1.11 kg and the
+downstream knockout removed 1.28 kg.</p>
+<p>All steam generators in this comparison use electricity, 20 °C
+feedwater and 90% efficiency. Generator input at full flow is
+approximately 2 kW at 2.5 kg/h and 8 kW at 10 kg/h. The electricity
+column includes the metered generator, heater, fan, pump and cooling.
+The lower-flow run compares the same nominal heating input as the
+electrical control. Delivered heat and total electricity depend on the
+case.</p>
+<p><strong>Repeated cycles.</strong> The six-hour run at 10 kg/h
+completed 13 cycles and averaged 1.763 kg collected CO₂/day over the
+full horizon. Net uptake from air averaged 1.398 kg/day over those six
+hours. In the last 26.10-minute cycle, the model collected 29.61 g and
+took up 29.61 g net from air, equivalent to 1.633 kg/day. The product
+contained 80.5 mol% CO₂ on a wet basis. The cycle used 40.0 kg of steam
+and 39.2 kWh of electricity per kg of collected CO₂. It met the
+fixed-weather repeatability criterion. Product usability depends on the
+required outlet composition and pressure.</p>
+<figure>
+<img role="img" aria-label="Collected CO₂ and net atmospheric uptake in each complete cycle of the six-hour direct-steam run." src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgd2lkdGg9IjUxOC40cHQiIGhlaWdodD0iMjQxLjJwdCIgdmlld0JveD0iMCAwIDUxOC40IDI0MS4yIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSI+CiA8bWV0YWRhdGE+CiAgPHJkZjpSREYgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIiB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICA8Y2M6V29yaz4KICAgIDxkYzp0eXBlIHJkZjpyZXNvdXJjZT0iaHR0cDovL3B1cmwub3JnL2RjL2RjbWl0eXBlL1N0aWxsSW1hZ2UiLz4KICAgIDxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PgogICAgPGRjOmNyZWF0b3I+CiAgICAgPGNjOkFnZW50PgogICAgICA8ZGM6dGl0bGU+TWF0cGxvdGxpYiB2My4xMS4yLCBodHRwczovL21hdHBsb3RsaWIub3JnLzwvZGM6dGl0bGU+CiAgICAgPC9jYzpBZ2VudD4KICAgIDwvZGM6Y3JlYXRvcj4KICAgPC9jYzpXb3JrPgogIDwvcmRmOlJERj4KIDwvbWV0YWRhdGE+CiA8ZGVmcz4KICA8c3R5bGUgdHlwZT0idGV4dC9jc3MiPip7c3Ryb2tlLWxpbmVqb2luOiByb3VuZDsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHR9PC9zdHlsZT4KIDwvZGVmcz4KIDxnIGlkPSJmaWd1cmVfMSI+CiAgPGcgaWQ9InBhdGNoXzEiPgogICA8cGF0aCBkPSJNIDAgMjQxLjIgCkwgNTE4LjQgMjQxLjIgCkwgNTE4LjQgMCAKTCAwIDAgCnoKIiBzdHlsZT0iZmlsbDogI2ZmZmZmZiIvPgogIDwvZz4KICA8ZyBpZD0iYXhlc18xIj4KICAgPGcgaWQ9InBhdGNoXzIiPgogICAgPHBhdGggZD0iTSAzNi4yMjYwMjEgMjA3LjY5ODk3OSAKTCA1MTUuMzk5NzYgMjA3LjY5ODk3OSAKTCA1MTUuMzk5NzYgMy4wMDAyNCAKTCAzNi4yMjYwMjEgMy4wMDAyNCAKegoiIHN0eWxlPSJmaWxsOiAjZmZmZmZmIi8+CiAgIDwvZz4KICAgPGcgaWQ9Im1hdHBsb3RsaWIuYXhpc18xIj4KICAgIDxnIGlkPSJ4dGlja18xIj4KICAgICA8ZyBpZD0ibGluZTJkXzEiPgogICAgICA8ZGVmcz4KICAgICAgIDxwYXRoIGlkPSJtNzJlNWJjNzkwMSIgZD0iTSAwIDAgCkwgMCAzIAoiIHN0eWxlPSJzdHJva2U6ICM4NTkyOWE7IHN0cm9rZS13aWR0aDogMC44Ii8+CiAgICAgIDwvZGVmcz4KICAgICAgPGc+CiAgICAgICA8dXNlIHhsaW5rOmhyZWY9IiNtNzJlNWJjNzkwMSIgeD0iNDUuODA5NDk2IiB5PSIyMDcuNjk4OTc5IiBzdHlsZT0iZmlsbDogIzg1OTI5YTsgc3Ryb2tlOiAjODU5MjlhOyBzdHJva2Utd2lkdGg6IDAuOCIvPgogICAgICA8L2c+CiAgICAgPC9nPgogICAgIDxnIGlkPSJ0ZXh0XzEiPgogICAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiAxMHB4OyBmb250LWZhbWlseTogJ0RlamFWdSBTYW5zJzsgdGV4dC1hbmNob3I6IG1pZGRsZSIgeD0iNDUuODA5NDk2IiB5PSIyMjEuNzk2NjM1IiB0cmFuc2Zvcm09InJvdGF0ZSgtMCA0NS44MDk0OTYgMjIxLjc5NjYzNSkiPjE8L3RleHQ+CiAgICAgPC9nPgogICAgPC9nPgogICAgPGcgaWQ9Inh0aWNrXzIiPgogICAgIDxnIGlkPSJsaW5lMmRfMiI+CiAgICAgIDxnPgogICAgICAgPHVzZSB4bGluazpocmVmPSIjbTcyZTViYzc5MDEiIHg9Ijg0LjE0MzM5NSIgeT0iMjA3LjY5ODk3OSIgc3R5bGU9ImZpbGw6ICM4NTkyOWE7IHN0cm9rZTogIzg1OTI5YTsgc3Ryb2tlLXdpZHRoOiAwLjgiLz4KICAgICAgPC9nPgogICAgIDwvZz4KICAgICA8ZyBpZD0idGV4dF8yIj4KICAgICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogMTBweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2Fucyc7IHRleHQtYW5jaG9yOiBtaWRkbGUiIHg9Ijg0LjE0MzM5NSIgeT0iMjIxLjc5NjYzNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTAgODQuMTQzMzk1IDIyMS43OTY2MzUpIj4yPC90ZXh0PgogICAgIDwvZz4KICAgIDwvZz4KICAgIDxnIGlkPSJ4dGlja18zIj4KICAgICA8ZyBpZD0ibGluZTJkXzMiPgogICAgICA8Zz4KICAgICAgIDx1c2UgeGxpbms6aHJlZj0iI203MmU1YmM3OTAxIiB4PSIxMjIuNDc3Mjk0IiB5PSIyMDcuNjk4OTc5IiBzdHlsZT0iZmlsbDogIzg1OTI5YTsgc3Ryb2tlOiAjODU5MjlhOyBzdHJva2Utd2lkdGg6IDAuOCIvPgogICAgICA8L2c+CiAgICAgPC9nPgogICAgIDxnIGlkPSJ0ZXh0XzMiPgogICAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiAxMHB4OyBmb250LWZhbWlseTogJ0RlamFWdSBTYW5zJzsgdGV4dC1hbmNob3I6IG1pZGRsZSIgeD0iMTIyLjQ3NzI5NCIgeT0iMjIxLjc5NjYzNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTAgMTIyLjQ3NzI5NCAyMjEuNzk2NjM1KSI+MzwvdGV4dD4KICAgICA8L2c+CiAgICA8L2c+CiAgICA8ZyBpZD0ieHRpY2tfNCI+CiAgICAgPGcgaWQ9ImxpbmUyZF80Ij4KICAgICAgPGc+CiAgICAgICA8dXNlIHhsaW5rOmhyZWY9IiNtNzJlNWJjNzkwMSIgeD0iMTYwLjgxMTE5MyIgeT0iMjA3LjY5ODk3OSIgc3R5bGU9ImZpbGw6ICM4NTkyOWE7IHN0cm9rZTogIzg1OTI5YTsgc3Ryb2tlLXdpZHRoOiAwLjgiLz4KICAgICAgPC9nPgogICAgIDwvZz4KICAgICA8ZyBpZD0idGV4dF80Ij4KICAgICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogMTBweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2Fucyc7IHRleHQtYW5jaG9yOiBtaWRkbGUiIHg9IjE2MC44MTExOTMiIHk9IjIyMS43OTY2MzUiIHRyYW5zZm9ybT0icm90YXRlKC0wIDE2MC44MTExOTMgMjIxLjc5NjYzNSkiPjQ8L3RleHQ+CiAgICAgPC9nPgogICAgPC9nPgogICAgPGcgaWQ9Inh0aWNrXzUiPgogICAgIDxnIGlkPSJsaW5lMmRfNSI+CiAgICAgIDxnPgogICAgICAgPHVzZSB4bGluazpocmVmPSIjbTcyZTViYzc5MDEiIHg9IjE5OS4xNDUwOTIiIHk9IjIwNy42OTg5NzkiIHN0eWxlPSJmaWxsOiAjODU5MjlhOyBzdHJva2U6ICM4NTkyOWE7IHN0cm9rZS13aWR0aDogMC44Ii8+CiAgICAgIDwvZz4KICAgICA8L2c+CiAgICAgPGcgaWQ9InRleHRfNSI+CiAgICAgIDx0ZXh0IHN0eWxlPSJmb250LXNpemU6IDEwcHg7IGZvbnQtZmFtaWx5OiAnRGVqYVZ1IFNhbnMnOyB0ZXh0LWFuY2hvcjogbWlkZGxlIiB4PSIxOTkuMTQ1MDkyIiB5PSIyMjEuNzk2NjM1IiB0cmFuc2Zvcm09InJvdGF0ZSgtMCAxOTkuMTQ1MDkyIDIyMS43OTY2MzUpIj41PC90ZXh0PgogICAgIDwvZz4KICAgIDwvZz4KICAgIDxnIGlkPSJ4dGlja182Ij4KICAgICA8ZyBpZD0ibGluZTJkXzYiPgogICAgICA8Zz4KICAgICAgIDx1c2UgeGxpbms6aHJlZj0iI203MmU1YmM3OTAxIiB4PSIyMzcuNDc4OTkyIiB5PSIyMDcuNjk4OTc5IiBzdHlsZT0iZmlsbDogIzg1OTI5YTsgc3Ryb2tlOiAjODU5MjlhOyBzdHJva2Utd2lkdGg6IDAuOCIvPgogICAgICA8L2c+CiAgICAgPC9nPgogICAgIDxnIGlkPSJ0ZXh0XzYiPgogICAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiAxMHB4OyBmb250LWZhbWlseTogJ0RlamFWdSBTYW5zJzsgdGV4dC1hbmNob3I6IG1pZGRsZSIgeD0iMjM3LjQ3ODk5MiIgeT0iMjIxLjc5NjYzNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTAgMjM3LjQ3ODk5MiAyMjEuNzk2NjM1KSI+NjwvdGV4dD4KICAgICA8L2c+CiAgICA8L2c+CiAgICA8ZyBpZD0ieHRpY2tfNyI+CiAgICAgPGcgaWQ9ImxpbmUyZF83Ij4KICAgICAgPGc+CiAgICAgICA8dXNlIHhsaW5rOmhyZWY9IiNtNzJlNWJjNzkwMSIgeD0iMjc1LjgxMjg5MSIgeT0iMjA3LjY5ODk3OSIgc3R5bGU9ImZpbGw6ICM4NTkyOWE7IHN0cm9rZTogIzg1OTI5YTsgc3Ryb2tlLXdpZHRoOiAwLjgiLz4KICAgICAgPC9nPgogICAgIDwvZz4KICAgICA8ZyBpZD0idGV4dF83Ij4KICAgICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogMTBweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2Fucyc7IHRleHQtYW5jaG9yOiBtaWRkbGUiIHg9IjI3NS44MTI4OTEiIHk9IjIyMS43OTY2MzUiIHRyYW5zZm9ybT0icm90YXRlKC0wIDI3NS44MTI4OTEgMjIxLjc5NjYzNSkiPjc8L3RleHQ+CiAgICAgPC9nPgogICAgPC9nPgogICAgPGcgaWQ9Inh0aWNrXzgiPgogICAgIDxnIGlkPSJsaW5lMmRfOCI+CiAgICAgIDxnPgogICAgICAgPHVzZSB4bGluazpocmVmPSIjbTcyZTViYzc5MDEiIHg9IjMxNC4xNDY3OSIgeT0iMjA3LjY5ODk3OSIgc3R5bGU9ImZpbGw6ICM4NTkyOWE7IHN0cm9rZTogIzg1OTI5YTsgc3Ryb2tlLXdpZHRoOiAwLjgiLz4KICAgICAgPC9nPgogICAgIDwvZz4KICAgICA8ZyBpZD0idGV4dF84Ij4KICAgICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogMTBweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2Fucyc7IHRleHQtYW5jaG9yOiBtaWRkbGUiIHg9IjMxNC4xNDY3OSIgeT0iMjIxLjc5NjYzNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTAgMzE0LjE0Njc5IDIyMS43OTY2MzUpIj44PC90ZXh0PgogICAgIDwvZz4KICAgIDwvZz4KICAgIDxnIGlkPSJ4dGlja185Ij4KICAgICA8ZyBpZD0ibGluZTJkXzkiPgogICAgICA8Zz4KICAgICAgIDx1c2UgeGxpbms6aHJlZj0iI203MmU1YmM3OTAxIiB4PSIzNTIuNDgwNjg5IiB5PSIyMDcuNjk4OTc5IiBzdHlsZT0iZmlsbDogIzg1OTI5YTsgc3Ryb2tlOiAjODU5MjlhOyBzdHJva2Utd2lkdGg6IDAuOCIvPgogICAgICA8L2c+CiAgICAgPC9nPgogICAgIDxnIGlkPSJ0ZXh0XzkiPgogICAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiAxMHB4OyBmb250LWZhbWlseTogJ0RlamFWdSBTYW5zJzsgdGV4dC1hbmNob3I6IG1pZGRsZSIgeD0iMzUyLjQ4MDY4OSIgeT0iMjIxLjc5NjYzNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTAgMzUyLjQ4MDY4OSAyMjEuNzk2NjM1KSI+OTwvdGV4dD4KICAgICA8L2c+CiAgICA8L2c+CiAgICA8ZyBpZD0ieHRpY2tfMTAiPgogICAgIDxnIGlkPSJsaW5lMmRfMTAiPgogICAgICA8Zz4KICAgICAgIDx1c2UgeGxpbms6aHJlZj0iI203MmU1YmM3OTAxIiB4PSIzOTAuODE0NTg4IiB5PSIyMDcuNjk4OTc5IiBzdHlsZT0iZmlsbDogIzg1OTI5YTsgc3Ryb2tlOiAjODU5MjlhOyBzdHJva2Utd2lkdGg6IDAuOCIvPgogICAgICA8L2c+CiAgICAgPC9nPgogICAgIDxnIGlkPSJ0ZXh0XzEwIj4KICAgICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogMTBweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2Fucyc7IHRleHQtYW5jaG9yOiBtaWRkbGUiIHg9IjM5MC44MTQ1ODgiIHk9IjIyMS43OTY2MzUiIHRyYW5zZm9ybT0icm90YXRlKC0wIDM5MC44MTQ1ODggMjIxLjc5NjYzNSkiPjEwPC90ZXh0PgogICAgIDwvZz4KICAgIDwvZz4KICAgIDxnIGlkPSJ4dGlja18xMSI+CiAgICAgPGcgaWQ9ImxpbmUyZF8xMSI+CiAgICAgIDxnPgogICAgICAgPHVzZSB4bGluazpocmVmPSIjbTcyZTViYzc5MDEiIHg9IjQyOS4xNDg0ODciIHk9IjIwNy42OTg5NzkiIHN0eWxlPSJmaWxsOiAjODU5MjlhOyBzdHJva2U6ICM4NTkyOWE7IHN0cm9rZS13aWR0aDogMC44Ii8+CiAgICAgIDwvZz4KICAgICA8L2c+CiAgICAgPGcgaWQ9InRleHRfMTEiPgogICAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiAxMHB4OyBmb250LWZhbWlseTogJ0RlamFWdSBTYW5zJzsgdGV4dC1hbmNob3I6IG1pZGRsZSIgeD0iNDI5LjE0ODQ4NyIgeT0iMjIxLjc5NjYzNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTAgNDI5LjE0ODQ4NyAyMjEuNzk2NjM1KSI+MTE8L3RleHQ+CiAgICAgPC9nPgogICAgPC9nPgogICAgPGcgaWQ9Inh0aWNrXzEyIj4KICAgICA8ZyBpZD0ibGluZTJkXzEyIj4KICAgICAgPGc+CiAgICAgICA8dXNlIHhsaW5rOmhyZWY9IiNtNzJlNWJjNzkwMSIgeD0iNDY3LjQ4MjM4NiIgeT0iMjA3LjY5ODk3OSIgc3R5bGU9ImZpbGw6ICM4NTkyOWE7IHN0cm9rZTogIzg1OTI5YTsgc3Ryb2tlLXdpZHRoOiAwLjgiLz4KICAgICAgPC9nPgogICAgIDwvZz4KICAgICA8ZyBpZD0idGV4dF8xMiI+CiAgICAgIDx0ZXh0IHN0eWxlPSJmb250LXNpemU6IDEwcHg7IGZvbnQtZmFtaWx5OiAnRGVqYVZ1IFNhbnMnOyB0ZXh0LWFuY2hvcjogbWlkZGxlIiB4PSI0NjcuNDgyMzg2IiB5PSIyMjEuNzk2NjM1IiB0cmFuc2Zvcm09InJvdGF0ZSgtMCA0NjcuNDgyMzg2IDIyMS43OTY2MzUpIj4xMjwvdGV4dD4KICAgICA8L2c+CiAgICA8L2c+CiAgICA8ZyBpZD0ieHRpY2tfMTMiPgogICAgIDxnIGlkPSJsaW5lMmRfMTMiPgogICAgICA8Zz4KICAgICAgIDx1c2UgeGxpbms6aHJlZj0iI203MmU1YmM3OTAxIiB4PSI1MDUuODE2Mjg1IiB5PSIyMDcuNjk4OTc5IiBzdHlsZT0iZmlsbDogIzg1OTI5YTsgc3Ryb2tlOiAjODU5MjlhOyBzdHJva2Utd2lkdGg6IDAuOCIvPgogICAgICA8L2c+CiAgICAgPC9nPgogICAgIDxnIGlkPSJ0ZXh0XzEzIj4KICAgICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogMTBweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2Fucyc7IHRleHQtYW5jaG9yOiBtaWRkbGUiIHg9IjUwNS44MTYyODUiIHk9IjIyMS43OTY2MzUiIHRyYW5zZm9ybT0icm90YXRlKC0wIDUwNS44MTYyODUgMjIxLjc5NjYzNSkiPjEzPC90ZXh0PgogICAgIDwvZz4KICAgIDwvZz4KICAgIDxnIGlkPSJ0ZXh0XzE0Ij4KICAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiAxMHB4OyBmb250LWZhbWlseTogJ0RlamFWdSBTYW5zJzsgdGV4dC1hbmNob3I6IG1pZGRsZSIgeD0iMjc1LjgxMjg5MSIgeT0iMjM1Ljc5NzQxNiIgdHJhbnNmb3JtPSJyb3RhdGUoLTAgMjc1LjgxMjg5MSAyMzUuNzk3NDE2KSI+Q29tcGxldGUgY3ljbGU8L3RleHQ+CiAgICA8L2c+CiAgIDwvZz4KICAgPGcgaWQ9Im1hdHBsb3RsaWIuYXhpc18yIj4KICAgIDxnIGlkPSJ5dGlja18xIj4KICAgICA8ZyBpZD0ibGluZTJkXzE0Ij4KICAgICAgPHBhdGggZD0iTSAzNi4yMjYwMjEgMTk4LjM3NzIzMSAKTCA1MTUuMzk5NzYgMTk4LjM3NzIzMSAKIiBjbGlwLXBhdGg9InVybCgjcGVmNWQ1ZjU4MjEpIiBzdHlsZT0iZmlsbDogbm9uZTsgc3Ryb2tlOiAjYjBiMGIwOyBzdHJva2Utb3BhY2l0eTogMC4yMjsgc3Ryb2tlLXdpZHRoOiAwLjg7IHN0cm9rZS1saW5lY2FwOiBzcXVhcmUiLz4KICAgICA8L2c+CiAgICAgPGcgaWQ9ImxpbmUyZF8xNSI+CiAgICAgIDxkZWZzPgogICAgICAgPHBhdGggaWQ9Im01ZjJlZmM0ZGM3IiBkPSJNIDAgMCAKTCAtMyAwIAoiIHN0eWxlPSJzdHJva2U6ICM4NTkyOWE7IHN0cm9rZS13aWR0aDogMC44Ii8+CiAgICAgIDwvZGVmcz4KICAgICAgPGc+CiAgICAgICA8dXNlIHhsaW5rOmhyZWY9IiNtNWYyZWZjNGRjNyIgeD0iMzYuMjI2MDIxIiB5PSIxOTguMzc3MjMxIiBzdHlsZT0iZmlsbDogIzg1OTI5YTsgc3Ryb2tlOiAjODU5MjlhOyBzdHJva2Utd2lkdGg6IDAuOCIvPgogICAgICA8L2c+CiAgICAgPC9nPgogICAgIDxnIGlkPSJ0ZXh0XzE1Ij4KICAgICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogMTBweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2Fucyc7IHRleHQtYW5jaG9yOiBlbmQiIHg9IjI5LjcyNjAyMSIgeT0iMjAyLjE3NjA2IiB0cmFuc2Zvcm09InJvdGF0ZSgtMCAyOS43MjYwMjEgMjAyLjE3NjA2KSI+MDwvdGV4dD4KICAgICA8L2c+CiAgICA8L2c+CiAgICA8ZyBpZD0ieXRpY2tfMiI+CiAgICAgPGcgaWQ9ImxpbmUyZF8xNiI+CiAgICAgIDxwYXRoIGQ9Ik0gMzYuMjI2MDIxIDE2Mi4xMjM4NDQgCkwgNTE1LjM5OTc2IDE2Mi4xMjM4NDQgCiIgY2xpcC1wYXRoPSJ1cmwoI3BlZjVkNWY1ODIxKSIgc3R5bGU9ImZpbGw6IG5vbmU7IHN0cm9rZTogI2IwYjBiMDsgc3Ryb2tlLW9wYWNpdHk6IDAuMjI7IHN0cm9rZS13aWR0aDogMC44OyBzdHJva2UtbGluZWNhcDogc3F1YXJlIi8+CiAgICAgPC9nPgogICAgIDxnIGlkPSJsaW5lMmRfMTciPgogICAgICA8Zz4KICAgICAgIDx1c2UgeGxpbms6aHJlZj0iI201ZjJlZmM0ZGM3IiB4PSIzNi4yMjYwMjEiIHk9IjE2Mi4xMjM4NDQiIHN0eWxlPSJmaWxsOiAjODU5MjlhOyBzdHJva2U6ICM4NTkyOWE7IHN0cm9rZS13aWR0aDogMC44Ii8+CiAgICAgIDwvZz4KICAgICA8L2c+CiAgICAgPGcgaWQ9InRleHRfMTYiPgogICAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiAxMHB4OyBmb250LWZhbWlseTogJ0RlamFWdSBTYW5zJzsgdGV4dC1hbmNob3I6IGVuZCIgeD0iMjkuNzI2MDIxIiB5PSIxNjUuOTIyNjcyIiB0cmFuc2Zvcm09InJvdGF0ZSgtMCAyOS43MjYwMjEgMTY1LjkyMjY3MikiPjEwPC90ZXh0PgogICAgIDwvZz4KICAgIDwvZz4KICAgIDxnIGlkPSJ5dGlja18zIj4KICAgICA8ZyBpZD0ibGluZTJkXzE4Ij4KICAgICAgPHBhdGggZD0iTSAzNi4yMjYwMjEgMTI1Ljg3MDQ1NyAKTCA1MTUuMzk5NzYgMTI1Ljg3MDQ1NyAKIiBjbGlwLXBhdGg9InVybCgjcGVmNWQ1ZjU4MjEpIiBzdHlsZT0iZmlsbDogbm9uZTsgc3Ryb2tlOiAjYjBiMGIwOyBzdHJva2Utb3BhY2l0eTogMC4yMjsgc3Ryb2tlLXdpZHRoOiAwLjg7IHN0cm9rZS1saW5lY2FwOiBzcXVhcmUiLz4KICAgICA8L2c+CiAgICAgPGcgaWQ9ImxpbmUyZF8xOSI+CiAgICAgIDxnPgogICAgICAgPHVzZSB4bGluazpocmVmPSIjbTVmMmVmYzRkYzciIHg9IjM2LjIyNjAyMSIgeT0iMTI1Ljg3MDQ1NyIgc3R5bGU9ImZpbGw6ICM4NTkyOWE7IHN0cm9rZTogIzg1OTI5YTsgc3Ryb2tlLXdpZHRoOiAwLjgiLz4KICAgICAgPC9nPgogICAgIDwvZz4KICAgICA8ZyBpZD0idGV4dF8xNyI+CiAgICAgIDx0ZXh0IHN0eWxlPSJmb250LXNpemU6IDEwcHg7IGZvbnQtZmFtaWx5OiAnRGVqYVZ1IFNhbnMnOyB0ZXh0LWFuY2hvcjogZW5kIiB4PSIyOS43MjYwMjEiIHk9IjEyOS42NjkyODUiIHRyYW5zZm9ybT0icm90YXRlKC0wIDI5LjcyNjAyMSAxMjkuNjY5Mjg1KSI+MjA8L3RleHQ+CiAgICAgPC9nPgogICAgPC9nPgogICAgPGcgaWQ9Inl0aWNrXzQiPgogICAgIDxnIGlkPSJsaW5lMmRfMjAiPgogICAgICA8cGF0aCBkPSJNIDM2LjIyNjAyMSA4OS42MTcwNjkgCkwgNTE1LjM5OTc2IDg5LjYxNzA2OSAKIiBjbGlwLXBhdGg9InVybCgjcGVmNWQ1ZjU4MjEpIiBzdHlsZT0iZmlsbDogbm9uZTsgc3Ryb2tlOiAjYjBiMGIwOyBzdHJva2Utb3BhY2l0eTogMC4yMjsgc3Ryb2tlLXdpZHRoOiAwLjg7IHN0cm9rZS1saW5lY2FwOiBzcXVhcmUiLz4KICAgICA8L2c+CiAgICAgPGcgaWQ9ImxpbmUyZF8yMSI+CiAgICAgIDxnPgogICAgICAgPHVzZSB4bGluazpocmVmPSIjbTVmMmVmYzRkYzciIHg9IjM2LjIyNjAyMSIgeT0iODkuNjE3MDY5IiBzdHlsZT0iZmlsbDogIzg1OTI5YTsgc3Ryb2tlOiAjODU5MjlhOyBzdHJva2Utd2lkdGg6IDAuOCIvPgogICAgICA8L2c+CiAgICAgPC9nPgogICAgIDxnIGlkPSJ0ZXh0XzE4Ij4KICAgICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogMTBweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2Fucyc7IHRleHQtYW5jaG9yOiBlbmQiIHg9IjI5LjcyNjAyMSIgeT0iOTMuNDE1ODk3IiB0cmFuc2Zvcm09InJvdGF0ZSgtMCAyOS43MjYwMjEgOTMuNDE1ODk3KSI+MzA8L3RleHQ+CiAgICAgPC9nPgogICAgPC9nPgogICAgPGcgaWQ9Inl0aWNrXzUiPgogICAgIDxnIGlkPSJsaW5lMmRfMjIiPgogICAgICA8cGF0aCBkPSJNIDM2LjIyNjAyMSA1My4zNjM2ODIgCkwgNTE1LjM5OTc2IDUzLjM2MzY4MiAKIiBjbGlwLXBhdGg9InVybCgjcGVmNWQ1ZjU4MjEpIiBzdHlsZT0iZmlsbDogbm9uZTsgc3Ryb2tlOiAjYjBiMGIwOyBzdHJva2Utb3BhY2l0eTogMC4yMjsgc3Ryb2tlLXdpZHRoOiAwLjg7IHN0cm9rZS1saW5lY2FwOiBzcXVhcmUiLz4KICAgICA8L2c+CiAgICAgPGcgaWQ9ImxpbmUyZF8yMyI+CiAgICAgIDxnPgogICAgICAgPHVzZSB4bGluazpocmVmPSIjbTVmMmVmYzRkYzciIHg9IjM2LjIyNjAyMSIgeT0iNTMuMzYzNjgyIiBzdHlsZT0iZmlsbDogIzg1OTI5YTsgc3Ryb2tlOiAjODU5MjlhOyBzdHJva2Utd2lkdGg6IDAuOCIvPgogICAgICA8L2c+CiAgICAgPC9nPgogICAgIDxnIGlkPSJ0ZXh0XzE5Ij4KICAgICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogMTBweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2Fucyc7IHRleHQtYW5jaG9yOiBlbmQiIHg9IjI5LjcyNjAyMSIgeT0iNTcuMTYyNTEiIHRyYW5zZm9ybT0icm90YXRlKC0wIDI5LjcyNjAyMSA1Ny4xNjI1MSkiPjQwPC90ZXh0PgogICAgIDwvZz4KICAgIDwvZz4KICAgIDxnIGlkPSJ5dGlja182Ij4KICAgICA8ZyBpZD0ibGluZTJkXzI0Ij4KICAgICAgPHBhdGggZD0iTSAzNi4yMjYwMjEgMTcuMTEwMjk0IApMIDUxNS4zOTk3NiAxNy4xMTAyOTQgCiIgY2xpcC1wYXRoPSJ1cmwoI3BlZjVkNWY1ODIxKSIgc3R5bGU9ImZpbGw6IG5vbmU7IHN0cm9rZTogI2IwYjBiMDsgc3Ryb2tlLW9wYWNpdHk6IDAuMjI7IHN0cm9rZS13aWR0aDogMC44OyBzdHJva2UtbGluZWNhcDogc3F1YXJlIi8+CiAgICAgPC9nPgogICAgIDxnIGlkPSJsaW5lMmRfMjUiPgogICAgICA8Zz4KICAgICAgIDx1c2UgeGxpbms6aHJlZj0iI201ZjJlZmM0ZGM3IiB4PSIzNi4yMjYwMjEiIHk9IjE3LjExMDI5NCIgc3R5bGU9ImZpbGw6ICM4NTkyOWE7IHN0cm9rZTogIzg1OTI5YTsgc3Ryb2tlLXdpZHRoOiAwLjgiLz4KICAgICAgPC9nPgogICAgIDwvZz4KICAgICA8ZyBpZD0idGV4dF8yMCI+CiAgICAgIDx0ZXh0IHN0eWxlPSJmb250LXNpemU6IDEwcHg7IGZvbnQtZmFtaWx5OiAnRGVqYVZ1IFNhbnMnOyB0ZXh0LWFuY2hvcjogZW5kIiB4PSIyOS43MjYwMjEiIHk9IjIwLjkwOTEyMyIgdHJhbnNmb3JtPSJyb3RhdGUoLTAgMjkuNzI2MDIxIDIwLjkwOTEyMykiPjUwPC90ZXh0PgogICAgIDwvZz4KICAgIDwvZz4KICAgIDxnIGlkPSJ0ZXh0XzIxIj4KICAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiAxMHB4OyBmb250LWZhbWlseTogJ0RlamFWdSBTYW5zJzsgdGV4dC1hbmNob3I6IG1pZGRsZSIgeD0iMTAuNTk4Njc4IiB5PSIxMDUuMzQ5NjA5IiB0cmFuc2Zvcm09InJvdGF0ZSgtOTAgMTAuNTk4Njc4IDEwNS4zNDk2MDkpIj5DT+KCgiBwZXIgY3ljbGUgKGcpPC90ZXh0PgogICAgPC9nPgogICA8L2c+CiAgIDxnIGlkPSJsaW5lMmRfMjYiPgogICAgPHBhdGggZD0iTSA0NS44MDk0OTYgMTIuMzA0NzI4IApMIDg0LjE0MzM5NSA0OS44NTcxMDMgCkwgMTIyLjQ3NzI5NCA3Ni40MTY4NjEgCkwgMTYwLjgxMTE5MyA4Ni4zMDgzMDEgCkwgMTk5LjE0NTA5MiA4OS41ODAyODEgCkwgMjM3LjQ3ODk5MiA5MC41OTcyMjIgCkwgMjc1LjgxMjg5MSA5MC45MDE2NjEgCkwgMzE0LjE0Njc5IDkwLjk5MDkzMiAKTCAzNTIuNDgwNjg5IDkxLjAxNjg3MyAKTCAzOTAuODE0NTg4IDkxLjAyNDM3NCAKTCA0MjkuMTQ4NDg3IDkxLjAyNjUzOSAKTCA0NjcuNDgyMzg2IDkxLjAyNzE3OCAKTCA1MDUuODE2Mjg1IDkxLjAyNzM1OCAKIiBjbGlwLXBhdGg9InVybCgjcGVmNWQ1ZjU4MjEpIiBzdHlsZT0iZmlsbDogbm9uZTsgc3Ryb2tlOiAjMTQ0ZDY1OyBzdHJva2Utd2lkdGg6IDI7IHN0cm9rZS1saW5lY2FwOiBzcXVhcmUiLz4KICAgIDxkZWZzPgogICAgIDxwYXRoIGlkPSJtNzc1MzU0YTgzMCIgZD0iTSAwIDIgCkMgMC41MzA0MDYgMiAxLjAzOTE2IDEuNzg5MjY3IDEuNDE0MjE0IDEuNDE0MjE0IApDIDEuNzg5MjY3IDEuMDM5MTYgMiAwLjUzMDQwNiAyIDAgCkMgMiAtMC41MzA0MDYgMS43ODkyNjcgLTEuMDM5MTYgMS40MTQyMTQgLTEuNDE0MjE0IApDIDEuMDM5MTYgLTEuNzg5MjY3IDAuNTMwNDA2IC0yIDAgLTIgCkMgLTAuNTMwNDA2IC0yIC0xLjAzOTE2IC0xLjc4OTI2NyAtMS40MTQyMTQgLTEuNDE0MjE0IApDIC0xLjc4OTI2NyAtMS4wMzkxNiAtMiAtMC41MzA0MDYgLTIgMCAKQyAtMiAwLjUzMDQwNiAtMS43ODkyNjcgMS4wMzkxNiAtMS40MTQyMTQgMS40MTQyMTQgCkMgLTEuMDM5MTYgMS43ODkyNjcgLTAuNTMwNDA2IDIgMCAyIAp6CiIgc3R5bGU9InN0cm9rZTogIzE0NGQ2NSIvPgogICAgPC9kZWZzPgogICAgPGcgY2xpcC1wYXRoPSJ1cmwoI3BlZjVkNWY1ODIxKSI+CiAgICAgPHVzZSB4bGluazpocmVmPSIjbTc3NTM1NGE4MzAiIHg9IjQ1LjgwOTQ5NiIgeT0iMTIuMzA0NzI4IiBzdHlsZT0iZmlsbDogIzE0NGQ2NTsgc3Ryb2tlOiAjMTQ0ZDY1Ii8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjbTc3NTM1NGE4MzAiIHg9Ijg0LjE0MzM5NSIgeT0iNDkuODU3MTAzIiBzdHlsZT0iZmlsbDogIzE0NGQ2NTsgc3Ryb2tlOiAjMTQ0ZDY1Ii8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjbTc3NTM1NGE4MzAiIHg9IjEyMi40NzcyOTQiIHk9Ijc2LjQxNjg2MSIgc3R5bGU9ImZpbGw6ICMxNDRkNjU7IHN0cm9rZTogIzE0NGQ2NSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI203NzUzNTRhODMwIiB4PSIxNjAuODExMTkzIiB5PSI4Ni4zMDgzMDEiIHN0eWxlPSJmaWxsOiAjMTQ0ZDY1OyBzdHJva2U6ICMxNDRkNjUiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNtNzc1MzU0YTgzMCIgeD0iMTk5LjE0NTA5MiIgeT0iODkuNTgwMjgxIiBzdHlsZT0iZmlsbDogIzE0NGQ2NTsgc3Ryb2tlOiAjMTQ0ZDY1Ii8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjbTc3NTM1NGE4MzAiIHg9IjIzNy40Nzg5OTIiIHk9IjkwLjU5NzIyMiIgc3R5bGU9ImZpbGw6ICMxNDRkNjU7IHN0cm9rZTogIzE0NGQ2NSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI203NzUzNTRhODMwIiB4PSIyNzUuODEyODkxIiB5PSI5MC45MDE2NjEiIHN0eWxlPSJmaWxsOiAjMTQ0ZDY1OyBzdHJva2U6ICMxNDRkNjUiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNtNzc1MzU0YTgzMCIgeD0iMzE0LjE0Njc5IiB5PSI5MC45OTA5MzIiIHN0eWxlPSJmaWxsOiAjMTQ0ZDY1OyBzdHJva2U6ICMxNDRkNjUiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNtNzc1MzU0YTgzMCIgeD0iMzUyLjQ4MDY4OSIgeT0iOTEuMDE2ODczIiBzdHlsZT0iZmlsbDogIzE0NGQ2NTsgc3Ryb2tlOiAjMTQ0ZDY1Ii8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjbTc3NTM1NGE4MzAiIHg9IjM5MC44MTQ1ODgiIHk9IjkxLjAyNDM3NCIgc3R5bGU9ImZpbGw6ICMxNDRkNjU7IHN0cm9rZTogIzE0NGQ2NSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI203NzUzNTRhODMwIiB4PSI0MjkuMTQ4NDg3IiB5PSI5MS4wMjY1MzkiIHN0eWxlPSJmaWxsOiAjMTQ0ZDY1OyBzdHJva2U6ICMxNDRkNjUiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNtNzc1MzU0YTgzMCIgeD0iNDY3LjQ4MjM4NiIgeT0iOTEuMDI3MTc4IiBzdHlsZT0iZmlsbDogIzE0NGQ2NTsgc3Ryb2tlOiAjMTQ0ZDY1Ii8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjbTc3NTM1NGE4MzAiIHg9IjUwNS44MTYyODUiIHk9IjkxLjAyNzM1OCIgc3R5bGU9ImZpbGw6ICMxNDRkNjU7IHN0cm9rZTogIzE0NGQ2NSIvPgogICAgPC9nPgogICA8L2c+CiAgIDxnIGlkPSJsaW5lMmRfMjciPgogICAgPHBhdGggZD0iTSA0NS44MDk0OTYgMTk4LjM5NDQ5MSAKTCA4NC4xNDMzOTUgMTc0LjAzMjg1NyAKTCAxMjIuNDc3Mjk0IDEyMS43NjMyMjIgCkwgMTYwLjgxMTE5MyAxMDEuMTU3NDk3IApMIDE5OS4xNDUwOTIgOTQuMTc0NjQ4IApMIDIzNy40Nzg5OTIgOTEuOTY5NTg4IApMIDI3NS44MTI4OTEgOTEuMzAzNzgyIApMIDMxNC4xNDY3OSA5MS4xMDc3MSAKTCAzNTIuNDgwNjg5IDkxLjA1MDY3OSAKTCAzOTAuODE0NTg4IDkxLjAzNDE0OCAKTCA0MjkuMTQ4NDg3IDkxLjAyOTM4MyAKTCA0NjcuNDgyMzg2IDkxLjAyNzk4MyAKTCA1MDUuODE2Mjg1IDkxLjAyNzU5NSAKIiBjbGlwLXBhdGg9InVybCgjcGVmNWQ1ZjU4MjEpIiBzdHlsZT0iZmlsbDogbm9uZTsgc3Ryb2tlOiAjYTk0YTE5OyBzdHJva2Utd2lkdGg6IDI7IHN0cm9rZS1saW5lY2FwOiBzcXVhcmUiLz4KICAgIDxkZWZzPgogICAgIDxwYXRoIGlkPSJtNWNmMWYyYjE2YiIgZD0iTSAtMiAyIApMIDIgMiAKTCAyIC0yIApMIC0yIC0yIAp6CiIgc3R5bGU9InN0cm9rZTogI2E5NGExOTsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlciIvPgogICAgPC9kZWZzPgogICAgPGcgY2xpcC1wYXRoPSJ1cmwoI3BlZjVkNWY1ODIxKSI+CiAgICAgPHVzZSB4bGluazpocmVmPSIjbTVjZjFmMmIxNmIiIHg9IjQ1LjgwOTQ5NiIgeT0iMTk4LjM5NDQ5MSIgc3R5bGU9ImZpbGw6ICNhOTRhMTk7IHN0cm9rZTogI2E5NGExOTsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlciIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI201Y2YxZjJiMTZiIiB4PSI4NC4xNDMzOTUiIHk9IjE3NC4wMzI4NTciIHN0eWxlPSJmaWxsOiAjYTk0YTE5OyBzdHJva2U6ICNhOTRhMTk7IHN0cm9rZS1saW5lam9pbjogbWl0ZXIiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNtNWNmMWYyYjE2YiIgeD0iMTIyLjQ3NzI5NCIgeT0iMTIxLjc2MzIyMiIgc3R5bGU9ImZpbGw6ICNhOTRhMTk7IHN0cm9rZTogI2E5NGExOTsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlciIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI201Y2YxZjJiMTZiIiB4PSIxNjAuODExMTkzIiB5PSIxMDEuMTU3NDk3IiBzdHlsZT0iZmlsbDogI2E5NGExOTsgc3Ryb2tlOiAjYTk0YTE5OyBzdHJva2UtbGluZWpvaW46IG1pdGVyIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjbTVjZjFmMmIxNmIiIHg9IjE5OS4xNDUwOTIiIHk9Ijk0LjE3NDY0OCIgc3R5bGU9ImZpbGw6ICNhOTRhMTk7IHN0cm9rZTogI2E5NGExOTsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlciIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI201Y2YxZjJiMTZiIiB4PSIyMzcuNDc4OTkyIiB5PSI5MS45Njk1ODgiIHN0eWxlPSJmaWxsOiAjYTk0YTE5OyBzdHJva2U6ICNhOTRhMTk7IHN0cm9rZS1saW5lam9pbjogbWl0ZXIiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNtNWNmMWYyYjE2YiIgeD0iMjc1LjgxMjg5MSIgeT0iOTEuMzAzNzgyIiBzdHlsZT0iZmlsbDogI2E5NGExOTsgc3Ryb2tlOiAjYTk0YTE5OyBzdHJva2UtbGluZWpvaW46IG1pdGVyIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjbTVjZjFmMmIxNmIiIHg9IjMxNC4xNDY3OSIgeT0iOTEuMTA3NzEiIHN0eWxlPSJmaWxsOiAjYTk0YTE5OyBzdHJva2U6ICNhOTRhMTk7IHN0cm9rZS1saW5lam9pbjogbWl0ZXIiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNtNWNmMWYyYjE2YiIgeD0iMzUyLjQ4MDY4OSIgeT0iOTEuMDUwNjc5IiBzdHlsZT0iZmlsbDogI2E5NGExOTsgc3Ryb2tlOiAjYTk0YTE5OyBzdHJva2UtbGluZWpvaW46IG1pdGVyIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjbTVjZjFmMmIxNmIiIHg9IjM5MC44MTQ1ODgiIHk9IjkxLjAzNDE0OCIgc3R5bGU9ImZpbGw6ICNhOTRhMTk7IHN0cm9rZTogI2E5NGExOTsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlciIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI201Y2YxZjJiMTZiIiB4PSI0MjkuMTQ4NDg3IiB5PSI5MS4wMjkzODMiIHN0eWxlPSJmaWxsOiAjYTk0YTE5OyBzdHJva2U6ICNhOTRhMTk7IHN0cm9rZS1saW5lam9pbjogbWl0ZXIiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNtNWNmMWYyYjE2YiIgeD0iNDY3LjQ4MjM4NiIgeT0iOTEuMDI3OTgzIiBzdHlsZT0iZmlsbDogI2E5NGExOTsgc3Ryb2tlOiAjYTk0YTE5OyBzdHJva2UtbGluZWpvaW46IG1pdGVyIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjbTVjZjFmMmIxNmIiIHg9IjUwNS44MTYyODUiIHk9IjkxLjAyNzU5NSIgc3R5bGU9ImZpbGw6ICNhOTRhMTk7IHN0cm9rZTogI2E5NGExOTsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlciIvPgogICAgPC9nPgogICA8L2c+CiAgIDxnIGlkPSJsaW5lMmRfMjgiPgogICAgPHBhdGggZD0iTSAzNi4yMjYwMjEgMTk4LjM3NzIzMSAKTCA1MTUuMzk5NzYgMTk4LjM3NzIzMSAKIiBjbGlwLXBhdGg9InVybCgjcGVmNWQ1ZjU4MjEpIiBzdHlsZT0iZmlsbDogbm9uZTsgc3Ryb2tlOiAjOWFhNmFjOyBzdHJva2Utd2lkdGg6IDAuODsgc3Ryb2tlLWxpbmVjYXA6IHNxdWFyZSIvPgogICA8L2c+CiAgIDxnIGlkPSJwYXRjaF8zIj4KICAgIDxwYXRoIGQ9Ik0gMzYuMjI2MDIxIDIwNy42OTg5NzkgCkwgMzYuMjI2MDIxIDMuMDAwMjQgCiIgc3R5bGU9ImZpbGw6IG5vbmU7IHN0cm9rZTogI2E3YWZiMzsgc3Ryb2tlLXdpZHRoOiAwLjg7IHN0cm9rZS1saW5lam9pbjogbWl0ZXI7IHN0cm9rZS1saW5lY2FwOiBzcXVhcmUiLz4KICAgPC9nPgogICA8ZyBpZD0icGF0Y2hfNCI+CiAgICA8cGF0aCBkPSJNIDM2LjIyNjAyMSAyMDcuNjk4OTc5IApMIDUxNS4zOTk3NiAyMDcuNjk4OTc5IAoiIHN0eWxlPSJmaWxsOiBub25lOyBzdHJva2U6ICNhN2FmYjM7IHN0cm9rZS13aWR0aDogMC44OyBzdHJva2UtbGluZWpvaW46IG1pdGVyOyBzdHJva2UtbGluZWNhcDogc3F1YXJlIi8+CiAgIDwvZz4KICAgPGcgaWQ9ImxlZ2VuZF8xIj4KICAgIDxnIGlkPSJsaW5lMmRfMjkiPgogICAgIDxwYXRoIGQ9Ik0gMzgwLjcwMTMyMiAxNi4wOTg2NzcgCkwgMzkwLjcwMTMyMiAxNi4wOTg2NzcgCkwgNDAwLjcwMTMyMiAxNi4wOTg2NzcgCiIgc3R5bGU9ImZpbGw6IG5vbmU7IHN0cm9rZTogIzE0NGQ2NTsgc3Ryb2tlLXdpZHRoOiAyOyBzdHJva2UtbGluZWNhcDogc3F1YXJlIi8+CiAgICAgPGc+CiAgICAgIDx1c2UgeGxpbms6aHJlZj0iI203NzUzNTRhODMwIiB4PSIzOTAuNzAxMzIyIiB5PSIxNi4wOTg2NzciIHN0eWxlPSJmaWxsOiAjMTQ0ZDY1OyBzdHJva2U6ICMxNDRkNjUiLz4KICAgICA8L2c+CiAgICA8L2c+CiAgICA8ZyBpZD0idGV4dF8yMiI+CiAgICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogMTBweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2Fucyc7IHRleHQtYW5jaG9yOiBzdGFydCIgeD0iNDA4LjcwMTMyMiIgeT0iMTkuNTk4Njc3IiB0cmFuc2Zvcm09InJvdGF0ZSgtMCA0MDguNzAxMzIyIDE5LjU5ODY3NykiPkNvbGxlY3RlZCBwcm9kdWN0PC90ZXh0PgogICAgPC9nPgogICAgPGcgaWQ9ImxpbmUyZF8zMCI+CiAgICAgPHBhdGggZD0iTSAzODAuNzAxMzIyIDMxLjA5OTQ1OSAKTCAzOTAuNzAxMzIyIDMxLjA5OTQ1OSAKTCA0MDAuNzAxMzIyIDMxLjA5OTQ1OSAKIiBzdHlsZT0iZmlsbDogbm9uZTsgc3Ryb2tlOiAjYTk0YTE5OyBzdHJva2Utd2lkdGg6IDI7IHN0cm9rZS1saW5lY2FwOiBzcXVhcmUiLz4KICAgICA8Zz4KICAgICAgPHVzZSB4bGluazpocmVmPSIjbTVjZjFmMmIxNmIiIHg9IjM5MC43MDEzMjIiIHk9IjMxLjA5OTQ1OSIgc3R5bGU9ImZpbGw6ICNhOTRhMTk7IHN0cm9rZTogI2E5NGExOTsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlciIvPgogICAgIDwvZz4KICAgIDwvZz4KICAgIDxnIGlkPSJ0ZXh0XzIzIj4KICAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiAxMHB4OyBmb250LWZhbWlseTogJ0RlamFWdSBTYW5zJzsgdGV4dC1hbmNob3I6IHN0YXJ0IiB4PSI0MDguNzAxMzIyIiB5PSIzNC41OTk0NTkiIHRyYW5zZm9ybT0icm90YXRlKC0wIDQwOC43MDEzMjIgMzQuNTk5NDU5KSI+TmV0IHVwdGFrZSBmcm9tIGFpcjwvdGV4dD4KICAgIDwvZz4KICAgPC9nPgogIDwvZz4KIDwvZz4KIDxkZWZzPgogIDxjbGlwUGF0aCBpZD0icGVmNWQ1ZjU4MjEiPgogICA8cmVjdCB4PSIzNi4yMjYwMjEiIHk9IjMuMDAwMjQiIHdpZHRoPSI0NzkuMTczNzM5IiBoZWlnaHQ9IjIwNC42OTg3MzkiLz4KICA8L2NsaXBQYXRoPgogPC9kZWZzPgo8L3N2Zz4K" alt="Collected CO₂ and net atmospheric uptake in each complete cycle of the six-hour direct-steam run." />
+<figcaption aria-hidden="true">Collected CO₂ and net atmospheric uptake
+in each complete cycle of the six-hour direct-steam run.</figcaption>
+</figure>
+<p><strong>Numerical and physical sensitivity.</strong> Halving the
+maximum time step from 10 to 5 s and the relative tolerance from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mi>−</mi><mn>7</mn></mrow></msup><annotation encoding="application/x-tex">10^{-7}</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>×</mo><msup><mn>10</mn><mrow><mi>−</mi><mn>8</mn></mrow></msup></mrow><annotation encoding="application/x-tex">5\times10^{-8}</annotation></semantics></math>
+changed the one-hour collected mass by 0.000004%. Refining four axial
+cells to eight changed it from 92.29 to 96.90 g (+4.99%). During the
+first desorption, saved outlet samples bracketed the rise through 50
+mol% water at 48.9–57.7 s with four cells and 50.9–55.3 s with eight.
+This tracks outlet moisture from all modeled sources. The difference
+between the grids limits the precision of comparisons between nearby
+settings.</p>
+<p>Changing the assumed phase-transfer time from 2 to 0.5 s gave 119.69
+g (+29.7%). The baseline reached a sampled local water saturation ratio
+of 8.3 and a peak sampled bed temperature of 92.7 °C. The material
+package records coupled measurements at 25–70 °C and up to 55% RH.
+Establishing a prototype production rate requires measured steam
+delivery, bed and knockout drain masses, axial temperatures and outlet
+CO₂ and water.</p>
+<p>Across the nine saved runs, the largest independently recomputed
+species balance residual was 8.8e-15 relative to species throughput. The
+largest energy residual was 1.5e-07 on the model’s gross-exchange basis.
+These checks include the partial final cycle.</p>
+<p>The <a href="../../../docs/data/direct_steam_screening.csv">case
+results and numerical settings</a> include the input settings varied
+here, run identifiers, source identities and export checksums. Run
+<code>python tools/audit_lewatit_regeneration.py RESULT.json</code> from
+the repository root to read a saved Lewatit JSON export and reconstruct
+product, net air uptake, four species balances, the energy balance,
+steam and electricity from the full run.</p>
+<h3 id="comparing-the-48-hour-steam-and-electrical-cases">Comparing the
+48-hour steam and electrical cases</h3>
+<p>The later timing study starts with an empty CO₂ inventory in a clean,
+dry 10 kg bed at 25 °C and 65% RH. Its 28 min adsorption / 40 min
+direct-steam case gave 5.689 kg collected over 48 hours, or 2.845 kg/day
+over that horizon. The last complete cycle gave 2.993 kg/day. The study
+runner integrated nine cycles explicitly and reused 27 repeating cycles.
+It admitted air at a 55 °C wall and hottest-cell threshold, which
+differs from the cooling rule in the archived comparison. The comparable
+electrical timing series integrated every cycle. At 50/70 min it gave
+6.122 kg in 48 hours and 3.181 kg/day on the last complete cycle. Direct
+steam used one pump and the electrical case used two. These are
+operating designs with different equipment and timings. To isolate the
+heating mechanism, use the matched axial control described above. <a href="../../../docs/data/adsorption-duration.csv">Cycle durations,
+collection and energy</a></p>
 <h3 id="component-conservation-and-a-worked-export">Component
 conservation and a worked export</h3>
 <p>For species
@@ -793,10 +1083,13 @@ On a consistent device basis the integrated residual is</p>
 r_i=\Delta N_i-N_{i,\mathrm{in}}+N_{i,\mathrm{vent}}+N_{i,\mathrm{prod}}
 +\mathbf{1}_{i=\mathrm{H_2O}}N_{\mathrm{drain}}.
 </annotation></semantics></math></p>
-<p>Inlet includes leakage where present. Conditioned product and vent
-carry vapour, and the separate liquid drain carries water. The spatial
-runtime divides the absolute residual by the larger of boundary
-throughput and a floor of
+<p>With direct steam, include the free-liquid inventory in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>N</mi><mrow><msub><mi mathvariant="normal">H</mi><mn mathvariant="normal">2</mn></msub><mi mathvariant="normal">O</mi></mrow></msub><annotation encoding="application/x-tex">N_{\mathrm{H_2O}}</annotation></semantics></math>,
+steam in the inlet, and both the in-bed drain and the downstream
+knockout in liquid outflow. Inlet includes leakage where present.
+Conditioned product and vent carry vapour, and the separate liquid drain
+carries water. The spatial runtime divides the absolute residual by the
+larger of boundary throughput and a floor of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mi>−</mi><mn>9</mn></mrow></msup><annotation encoding="application/x-tex">10^{-9}</annotation></semantics></math>
 mol, on the half-device ledger. The export uses a
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mi>−</mi><mn>5</mn></mrow></msup><annotation encoding="application/x-tex">10^{-5}</annotation></semantics></math>
@@ -898,6 +1191,34 @@ exports</a></p>
 <div id="ref-ergun1952" class="csl-entry" role="listitem">
 Ergun, Sabri. 1952. <span>“Fluid Flow Through Packed Columns.”</span>
 <em>Chemical Engineering Progress</em> 48 (2): 89–94.
+</div>
+<div id="ref-hunt2024" class="csl-entry" role="listitem">
+Hunt, Russell, Jeremy Gillbanks, Jason Czapla, et al. 2024.
+<span>“Representative Longevity Testing of Direct Air Capture
+Materials.”</span> <em>Chemical Engineering Journal</em> 481: 148901. <a href="https://doi.org/10.1016/j.cej.2024.148901">https://doi.org/10.1016/j.cej.2024.148901</a>.
+</div>
+<div id="ref-lowresins2023" class="csl-entry" role="listitem">
+<span class="nocase">Low, May-Yin Ashlyn et al.</span> 2023.
+<span>“Measurement of Physicochemical Properties and <span>CO2</span>,
+<span>N2</span>, <span>Ar</span>, <span>O2</span>, and <span>H2O</span>
+Unary Adsorption Isotherms of Purolite <span>A110</span> and Lewatit
+<span>VP OC 1065</span> for Application in Direct Air Capture.”</span>
+<em>Journal of Chemical &amp; Engineering Data</em>, ahead of print. <a href="https://doi.org/10.1021/acs.jced.3c00401">https://doi.org/10.1021/acs.jced.3c00401</a>.
+</div>
+<div id="ref-lowkinetics2025" class="csl-entry" role="listitem">
+<span class="nocase">Low, May-Yin Ashlyn et al.</span> 2025.
+<span>“Quantification of Temperature-Dependent <span>CO2</span>
+Adsorption Kinetics in Lewatit <span>VP OC 1065</span>, Purolite
+<span>A110</span>, and <span>TIFSIX-3-Ni</span> for Direct Air
+Capture.”</span> <em>Chemical Engineering Research and Design</em> 215:
+443–52. <a href="https://doi.org/10.1016/j.cherd.2025.01.048">https://doi.org/10.1016/j.cherd.2025.01.048</a>.
+</div>
+<div id="ref-piscina2026" class="csl-entry" role="listitem">
+Piscina, Katia, John Young, Susana Garcia, and Mijndert van der Spek.
+2026. <span>“Humidity-Driven Swelling and Mass Transfer in Lewatit
+<span>VP OC 1065</span> and Purolite <span>A110</span> for Direct Air
+<span>CO2</span> Capture.”</span> <em>Industrial &amp; Engineering
+Chemistry Research</em>, ahead of print. <a href="https://doi.org/10.1021/acs.iecr.5c05049">https://doi.org/10.1021/acs.iecr.5c05049</a>.
 </div>
 <div id="ref-young2021" class="csl-entry" role="listitem">
 <span class="nocase">Young, J. et al.</span> 2021. <span>“The Impact of

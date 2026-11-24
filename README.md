@@ -2,7 +2,7 @@
 
 A Python model for screening solid adsorbents and testing operating conditions for direct air capture (DAC). Use the spatial model to follow temperature and loading through the bed thickness, or the lumped model for a well-mixed bed. Both let you vary weather, cycle timing, regeneration conditions and equipment settings.
 
-Start with the [operating guide](https://davidmullr.github.io/dac-cycle-model/user_guide.html) to run a case, or read the [four-page results report (PDF)](https://davidmullr.github.io/dac-cycle-model/model_and_results.pdf) for the findings. You can read all chapters online. For offline reading, open `model/report/project/index.html` in your downloaded copy.
+In the app, open **Model and results** under **Help & evidence**, or use **Quick start** for your first run. To read the checked-out reports offline, open `model/report/project/index.html` or the [four-page PDF](model/report/project/model_and_results.pdf). The [published operating guide](https://davidmullr.github.io/dac-cycle-model/user_guide.html) follows the public repository.
 
 ## Run a case
 
@@ -20,11 +20,13 @@ Open <http://127.0.0.1:8772/>. Use `STOP.cmd` to stop the background server. If 
 3. **Preview, run and export.** Select **Preview exact case** to check the inputs and warnings, then **Start screening**. Follow the job in **Monitor runs**. Export the completed result as JSON for the case, material, states and meters, or CSV for the sampled traces.
 4. **Replay the cycle.** In **3D DAC setup**, **Add run** opens a completed local job or an exported result JSON. Select a cycle and scrub the timeline to see grams of CO₂ adsorbed in the whole bed. The schematic geometry is illustrative. The [replay notes](docs/assets/geometry/PROCESS_REPLAY.md) explain the sampling times and the separate collected-product meter.
 
+For direct-contact regeneration, choose **Direct steam · Lewatit (1 h)** in **Materials & simulations**. The spatial model tracks steam, adsorbed water, free liquid, drainage and generator input. **Regeneration heat source** also offers the indirect steam jacket and electrical heater. The [operating guide](model/report/project/user_guide.md#compare-heat-sources-and-cycle-timing) explains matched comparisons and the wet-material assumptions.
+
 ## Where to find the explanations and results
 
 | What you want to understand | Where to look |
 |---|---|
-| Which materials and conditions were compared, and what did the simulations predict? | The [model and results report](https://davidmullr.github.io/dac-cycle-model/) gives the common case, baseline results and humidity and regeneration sensitivities. [Quarto source](model/report/project/index.qmd). |
+| Which materials and conditions were compared, and what did the simulations predict? | The [model and results report](https://davidmullr.github.io/dac-cycle-model/) opens with the optimized Lewatit cycle in Pully weather, followed by the eleven-material baseline and sensitivity studies. [Quarto source](model/report/project/index.qmd). |
 | What physics and numerics does the model use? | The [physics reference](https://davidmullr.github.io/dac-cycle-model/model_reference.html) derives the material laws, species and energy balances, phase switches and reporting units. It also explains the solver controls and walks through a saved export. [Quarto source](model/report/project/model_reference.qmd). |
 | What calls what when I press Preview or Start? | [Follow one calculation](https://davidmullr.github.io/dac-cycle-model/project_map.html#follow-one-calculation) traces the form through validation, material selection, the spatial or lumped solver, monitoring, export and Engineering. It names the functions and files at each step. |
 | Which claims have evidence, and what still needs measuring? | The [evidence chapter](https://davidmullr.github.io/dac-cycle-model/evidence.html) distinguishes material measurements, assumptions and numerical checks. [Prototype data needed](https://davidmullr.github.io/dac-cycle-model/DATA_NEEDED.html) lists the geometry, material and equipment measurements needed to model the small device. |
@@ -32,9 +34,15 @@ Open <http://127.0.0.1:8772/>. Use `STOP.cmd` to stop the background server. If 
 | Which files support a reported number? | Start with the [comparison table (CSV)](docs/data/submission/results.csv) or [result index (JSON)](docs/data/submission/results.json). Follow a completed row to its [native export](docs/data/submission/results/) for the exact inputs, phase records and integrated meters. The index also records why two sensitivities stopped early. [Per-case audits](docs/data/submission/audits/) accompany the exports. |
 | How do I check a result or change the project? | [Review checks](https://davidmullr.github.io/dac-cycle-model/REVIEW_CHECKS.html) gives the commands and what each verifies. [Contributing](CONTRIBUTING.md) covers scientific changes, [maintenance](docs/MAINTENANCE.md) covers rebuilding the documentation, and [packaging](docs/PUBLISHING.md) explains the release manifest and ZIP. |
 
-## What the reference case shows
+For Purolite A110, load **Purolite A110 (55% RH, 1 h)** or select the resin in the material list to keep your current case. The preset uses 25 °C. Edit the inlet relative humidity for a sweep. The CO₂ curves interpolate between dry, 30%, 55% and 80% RH. Beyond 80%, the calculation holds the 80% CO₂ curve while water uptake continues. At atmospheric CO₂ the humid curves use a short low-pressure extension. Hot regeneration and daily productivity are screening estimates.
 
-Lewatit VP OC 1065 is the provisional material for the small prototype. In the common 48-hour humid case with 10 kg of dry shaped material, the model gives **2.570 kg CO₂/day** and **5.47 kWh/kg CO₂**. The matched dry case gives **1.186 kg CO₂/day**. The electricity figure excludes upstream drying and downstream compression.
+Open **Bed aging** for the 10 kg, one-pump electrical Lewatit case. Enter a measured retained capacity, or compare two loss curves up to the 180-cycle literature endpoint. A fresh bed collected 5.52 kg in the first 48 hours and a bed at 68.8% capacity collected 4.66 kg. [Reference conditions and data](docs/data/bed-aging-lewatit.json)
+
+## Results for the prototype
+
+With hourly Pully weather, the selected 10 kg Lewatit bed and one vacuum pump collected **5.27–6.12 kg CO₂ in 48 hours** across four two-day windows in 2023. All four use 48 min adsorption, 2 min evacuation and 83 min electrical heating, with air admitted again at 55 °C. The same cycle at fixed 25 °C and 65% RH collected 5.52 kg. [Seasonal results](docs/data/pully-seasonal-one-pump-summary.csv) · [Four-page report](model/report/project/model_and_results.pdf)
+
+The separate eleven-material baseline uses two-hour adsorption and desorption steps. For Lewatit VP OC 1065 in this 48-hour humid case with 10 kg of dry shaped material, the model gives **2.570 kg CO₂/day** and **5.47 kWh/kg CO₂**. The matched dry case gives **1.186 kg CO₂/day**. Under the same humid electrical settings, Purolite A110 gave **1.290 kg CO₂/day** and **9.01 kWh/kg CO₂**. [Paired resin simulations](docs/data/resin-comparison-65rh.csv). The electricity figure excludes upstream drying and downstream compression.
 
 The review set contains 16 complete exports and two incomplete sensitivities. These screening results do not establish a material ranking, cyclic steady state, mesh independence or prototype performance. To study the small prototype, enter its measured geometry, material properties, wire heating and pump duty as a separate operating case.
 

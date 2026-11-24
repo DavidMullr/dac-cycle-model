@@ -90,9 +90,9 @@ def enable_pump_conditioner(
     target_temperature_C: float = DEFAULT_TARGET_TEMPERATURE_C,
 ) -> dict:
     """Return a deep-copied config with the common conditioner option enabled."""
-    if float(target_temperature_C) != DEFAULT_TARGET_TEMPERATURE_C:
+    if not 0.0 <= float(target_temperature_C) <= 100.0:
         raise ValueError(
-            "released pump conditioner requires the common 55 C target"
+            "conditioner temperature must be within 0–100 C"
         )
     result = deepcopy(config)
     cooling = result["utilities"]["wall_cooling"]
@@ -136,12 +136,8 @@ def pump_conditioner_config(config: dict) -> PumpConditionerConfig | None:
     }
     if not all(math.isfinite(value) for value in values.values()):
         raise ValueError("pump-conditioner configuration must be finite")
-    if values["target_temperature_K"] != (
-        DEFAULT_TARGET_TEMPERATURE_C + 273.15
-    ):
-        raise ValueError(
-            "pump-conditioner target must equal the common 55 C"
-        )
+    if values["target_temperature_K"] > 373.15:
+        raise ValueError("pump-conditioner target exceeds 100 C")
     if values["target_temperature_K"] < 273.15:
         raise ValueError("pump-conditioner target must remain above freezing")
     if total <= 0.0 or cop <= 0.0:
@@ -175,7 +171,7 @@ def pump_conditioner_identity(config: dict) -> dict | None:
         "target_temperature_C": (
             normalized.target_temperature_K - 273.15
         ),
-        "target_rule": "Tout=min(Tbed,328.15K); never heat",
+        "target_rule": "Tout=min(Tbed,target); never heat",
         "total_cooling_power_W": normalized.total_cooling_power_W,
         "cooling_cop": normalized.cooling_cop,
         "cooling_allocation": "conditioner_first_then_bed",

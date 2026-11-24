@@ -96,13 +96,16 @@ def finite(value, name, *, minimum=0, optional=False):
     return float(value)
 
 
-def default_costs():
+def default_costs(steam=False):
+    names = (*COMPONENTS, 'Steam generator and feedwater system') if steam else COMPONENTS
     return {'electricity_CHF_kWh':None,
-            'components':[{'name':name, 'quantity':1, 'unit_cost_CHF':None, 'basis':''} for name in COMPONENTS]}
+            'components':[{'name':name, 'quantity':1, 'unit_cost_CHF':None, 'basis':''} for name in names]}
 
 
-def costs_for(value, metrics):
-    if not isinstance(value, dict) or set(value) != {'electricity_CHF_kWh', 'components'}:
+def costs_for(value, metrics, days):
+    required = {'electricity_CHF_kWh', 'components'}
+    optional = {'external_heat_CHF_kWh', 'feedwater_CHF_m3', 'makeup_fraction'}
+    if not isinstance(value, dict) or not required <= value.keys() or value.keys() - required - optional:
         error('Cost worksheet must contain electricity_CHF_kWh and components')
     price = finite(value['electricity_CHF_kWh'], 'Electricity price', optional=True)
     if not isinstance(value['components'], list) or not 1 <= len(value['components']) <= 30:
@@ -128,11 +131,29 @@ def costs_for(value, metrics):
     subtotal = sum(row['subtotal_CHF'] or 0 for row in items)
     intensity = metrics['electricity_kWh_kg_CO2']
     daily = None if price is None else price * metrics['electricity_kWh_day']
-    return {'electricity_CHF_kWh':price, 'components':items, 'known_subtotal_CHF':subtotal,
+    extra = {}
+    if metrics.get('steam_generator_carrier') is not None:
+        heat_price = finite(value.get('external_heat_CHF_kWh'), 'External heat price', optional=True)
+        water_price = finite(value.get('feedwater_CHF_m3'), 'Feedwater price', optional=True)
+        makeup = finite(value.get('makeup_fraction'), 'Feedwater makeup fraction', optional=True)
+        if makeup is not None and makeup > 1:
+            error('Feedwater makeup fraction must be between zero and one')
+        heat = metrics['steam_generator_input_kWh'] / days if metrics['steam_generator_carrier'] == 'external_heat' else 0
+        gross_water = metrics.get('steam_in_kg', metrics.get('jacket_steam_kg', 0)) / (1000 * days)
+        heat_cost = 0 if heat == 0 else (None if heat_price is None else heat * heat_price)
+        water_cost = (0 if gross_water == 0 or makeup == 0 or water_price == 0 else
+                      None if makeup is None or water_price is None else gross_water * makeup * water_price)
+        utilities = (None if any(cost is None for cost in (daily, heat_cost, water_cost))
+                     else daily + heat_cost + water_cost)
+        production = metrics['collected_CO2_kg_day']
+        extra = {'external_heat_CHF_kWh':heat_price, 'feedwater_CHF_m3':water_price, 'makeup_fraction':makeup,
+                 'external_heat_cost_CHF_day':heat_cost, 'feedwater_cost_CHF_day':water_cost,
+                 'utilities_CHF_day':utilities, 'utilities_CHF_kg_CO2':utilities / production if utilities is not None and production > 0 else None}
+    return {**extra, 'electricity_CHF_kWh':price, 'components':items, 'known_subtotal_CHF':subtotal,
             'listed_components_total_CHF':None if missing else subtotal, 'unpriced_components':missing,
             'electricity_cost_CHF_day':daily,
             'electricity_cost_CHF_kg_CO2':None if price is None or intensity is None else price * intensity,
-            'scope':'Listed components and modeled electricity only. Quotes and completeness require review; no installed-cost or life-cycle claim.'}
+            'scope':'Listed components and modeled utilities. Steam feedwater makeup is an entered assumption. Downstream delivery equipment and energy are outside the boundary.'}
 
 
 def fan_duties(result):
@@ -171,6 +192,24 @@ def fan_duties(result):
     }
     geometry = build_bare_geometry(config)
     rows = [airflow({**config, 'ambient': interval.as_dict()}, geometry) for interval in weather.rows]
+    if case.get('regeneration', {}).get('kind') == 'direct_steam':
+        from screening.mof_screening.direct_steam import LIQUID_VOLUME_M3_MOL, wet_bed_drop
+        import numpy as np
+        samples = []
+        for trace in result.get('traces', []):
+            if trace.get('phase') != 'adsorption' or not trace.get('bed_liquid_mol_by_cell'):
+                continue
+            liquid = np.maximum(trace['bed_liquid_mol_by_cell'], 0)
+            volume = geometry.bed_volume_m3 / len(liquid)
+            dry_void = equipment['bed_void_fraction']
+            void = dry_void - liquid * LIQUID_VOLUME_M3_MOL / volume
+            interval = weather.at(trace['elapsed_s'])
+            dry_flow = airflow({**config, 'ambient': interval.as_dict()}, geometry)
+            samples.append(wet_bed_drop(dry_flow, dry_void, void))
+        drop = max(samples, default=None)
+        return {**duties, 'bed_pressure_drop_max_Pa': drop,
+                'model_fan_input_max_W': None if drop is None else flow * drop / settings['fan_efficiency'],
+                'assumptions': settings, 'scope': 'Maximum at saved adsorption samples using the local retained liquid and imposed air flow.'}
     return {**duties, 'bed_pressure_drop_max_Pa': max(row['pressure_drop_Pa'] for row in rows),
             'model_fan_input_max_W': max(row['fan_power_W'] for row in rows),
             'assumptions': config['airflow'],
@@ -207,6 +246,13 @@ def assess(result, binding, costs=None):
                'face_area_m2':equipment['bed_face_area_m2'], 'thickness_m':equipment['bed_thickness_m'],
                'particle_diameter_m':equipment['particle_diameter_m'], 'void_fraction':equipment['bed_void_fraction']},
         'fan':fan_duties(result),
+        'regeneration':{'method':case.get('regeneration', {}).get('kind', 'electrical'),
+                        'generator_carrier':metrics.get('steam_generator_carrier'),
+                        'generator_input_kWh_day':(metrics['steam_generator_input_kWh'] / days
+                                                   if 'steam_generator_input_kWh' in metrics else None),
+                        'injected_kg_day':metrics.get('steam_in_kg', 0) / days,
+                        'bed_drain_kg_day':metrics.get('bed_drain_kg', 0) / days,
+                        'retained_bed_liquid_kg':metrics.get('bed_liquid_final_kg')},
         'thermal':{'heater_request_W':equipment['heater_power_W'],
                    'combined_cooling_limit_W':shared['combined_cooling_power_full_W'],
                    'cooling_COP':shared['cooling_cop'],
@@ -223,7 +269,7 @@ def assess(result, binding, costs=None):
         'electricity':{'kWh_day':total / days, 'kWh_kg_CO2':metrics['electricity_kWh_kg_CO2'],
                        'average_input_W':total * 3.6e6 / seconds,
                        'components_kWh_day':{key:value / days for key, value in components.items()}},
-        'costs':costs_for(default_costs() if costs is None else costs, metrics),
+        'costs':costs_for(default_costs('steam_generator_carrier' in metrics) if costs is None else costs, metrics, days),
         'open_inputs':['Actual prototype dimensions and wire layout', 'Material temperature limit and local hot spots',
                        'Measured complete-system pressure loss', 'Pump flow at simultaneous inlet vacuum and discharge pressure',
                        'Supplier quotes, component life and installation scope'],
@@ -237,7 +283,7 @@ def worksheet_path(binding, manager):
 def read_worksheet(binding, manager):
     path = worksheet_path(binding, manager)
     if not path.is_file():
-        return {'revision':0, 'costs':default_costs()}
+        return {'revision':0, 'costs':None}
     data = read(path)
     if data.get('result_sha256') != binding['result_sha256']:
         error('Cost worksheet belongs to a different result', 409)
@@ -254,7 +300,7 @@ def calculate(selector, manager, costs=None):
 
 def save(selector, manager, costs, expected_revision):
     result, binding = load_result(selector, manager)
-    costs_for(costs, result['metrics'])
+    costs_for(costs, result['metrics'], result['horizon']['simulated_s'] / 86400)
     if isinstance(expected_revision, bool) or not isinstance(expected_revision, int) or expected_revision < 0:
         error('A nonnegative integer worksheet revision is required')
     with LOCK:

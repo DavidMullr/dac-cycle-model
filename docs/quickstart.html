@@ -8,7 +8,7 @@
 <script src="assets/ui/app-shell.js" defer></script>
 <style>main{max-width:1100px}main table{width:100%;border-collapse:collapse;margin:1.5rem 0}th,td{text-align:left;padding:.65rem;border-bottom:1px solid var(--border,#dce3e8)}main p,main li{max-width:85ch;line-height:1.65}pre{overflow-x:auto;padding:1rem;border-radius:8px;background:var(--surface-2,#eef3f5)}@media(max-width:650px){table{display:block;overflow-x:auto}}@media print{.ct-sidebar,.ct-topbar,.ct-skip{display:none!important}.ct-workspace{margin:0!important}}</style>
 </head><body class="ct-app">
-<header><div class="eyebrow">Carbon Team &middot; 17 November 2026</div><h1>Quick start</h1></header>
+<header><div class="eyebrow">Carbon Team &middot; DAC model</div><h1>Quick start</h1></header>
 <main><p>Use a 64-bit CPython 3.12 virtual environment from the project
 root:</p>
 <pre class="text"><code>python -m pip install -r model/requirements-lock.txt
@@ -22,6 +22,16 @@ reviewed results. For a new calculation, use <strong>Materials &amp;
 simulations</strong>, then <strong>Preview exact case</strong> and
 <strong>Start screening</strong>. Opening the app or previewing inputs
 starts no simulation.</p>
+<p>For <strong>Purolite A110</strong>, select <strong>Purolite A110 (55%
+RH, 1 h)</strong>. For <strong>direct steam</strong>, select
+<strong>Direct steam · Lewatit (1 h)</strong> and use the spatial
+engine. Both presets load a material and a case. Keep the case fixed
+when comparing resins.</p>
+<p>Open <strong>Bed aging</strong> to see how measured capacity loss
+affects the one-pump electrical Lewatit cycle. Enter retained CO₂
+capacity or try a count up to the published 180-cycle endpoint. The page
+shows the first 48 hours of collection alongside the last complete
+cycle’s rate.</p>
 <p>Read <a href="../model/report/project/user_guide.html">Using the DAC
 model</a> for the workflow, input choices, calculation steps and
 interpretation of results. The <a href="project_map.html">project

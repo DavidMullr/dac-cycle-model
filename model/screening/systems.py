@@ -313,7 +313,7 @@ def build_heating_source(config: dict) -> SourceSpec | None:
         basis = ("prescribed supply temperature of a hypothetical rated-loop heat-transfer fluid (analyst "
                  "assumption; a 165 C loop is a pressurised or high-boiling rated circuit, not atmospheric hot "
                  "water, and no fluid, loop, boiler or equipment is selected or confirmed)")
-    if source_K <= t_target:
+    if source_K <= t_target and not section.get("advisory_temperature_target", False):
         raise ValueError("The heating source temperature must exceed the bed regeneration target to provide a "
                          f"driving difference; source {source_K - 273.15:.2f} C vs target {t_target - 273.15:.2f} C.")
     return SourceSpec(kind=kind, source_temperature_K=source_K, source_to_wall_UA_W_K=UA, power_limit_W=limit,

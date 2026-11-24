@@ -1,4 +1,4 @@
-/* Shared five-destination navigation and appearance. Existing controllers stay untouched. */
+/* Shared workspace navigation and appearance. Existing controllers stay untouched. */
 (() => {
   'use strict';
 
@@ -24,6 +24,7 @@
     ['/', 'Overview', 'overview'],
     ['/screening/', 'Materials &amp; simulations', 'material'],
     ['/docs/workspace/results.html', 'Results &amp; comparison', 'results'],
+    ['/docs/workspace/bed-aging.html', 'Bed aging', 'layers'],
     ['/docs/geometry.html', '3D DAC setup', 'layers'],
     ['/docs/workspace/engineering.html', 'Engineering &amp; costs', 'engineering']
   ];

@@ -3,7 +3,7 @@ title: "Evidence and validation"
 subtitle: "How far the present results can be trusted"
 ---
 
-The model is a research screening tool. Its equations, input checks and accounting can be tested independently of whether a particular material package predicts a physical prototype. That distinction governs the interpretation of the results.
+A closed mass balance tells us that the model accounts for the CO₂ entering and leaving the bed. To judge the predicted daily capture, we also need uptake, desorption and collection measurements at the intended operating conditions.
 
 ## What has been checked
 
@@ -26,11 +26,19 @@ The HOB temperature-shift representation needs further work. Source-curve irregu
 
 TEPA, MOF-808 derivatives, MIL/PEI and the other humid scenarios have differing combinations of measured unary data, protocol fits and transferred water or kinetic assumptions. These differences limit cross-material interpretation even with the same operating case.
 
+## Evidence for the resin and regeneration studies
+
+**Purolite A110.** Water-presaturated isotherms at 25 °C cover dry, 30%, 55% and 80% RH. The humid curves begin above atmospheric CO₂ partial pressure. The model extends them to the feed concentration and uses a temperature shift for hot desorption. Dry uptake rates and measured relative diffusivities help constrain adsorption. Hot wet desorption uses the same rate law in reverse. In a matched 48-hour run at 65% RH A110 collected 2.58 kg and Lewatit 5.14 kg. A dry isotherm comparison at imposed endpoints answers a different question because it omits bed heat transfer and collection losses. [Material law](model_reference.html#purolite-a110-under-humid-air) · [Paired runs and solver identities](../../../docs/data/resin-comparison-65rh.csv)
+
+**Direct steam.** Generator input, injected steam, liquid left in the bed, bed drainage and knockout condensate have separate meters. The one-hour preset starts with CO₂ on the resin. In that test, product can exceed net uptake from air as the initial inventory falls. The 48-hour timing study starts clean and dry. Its steam cases use fixed-weather cycle reuse. The controlling uncertainties are the wet equilibrium at high humidity, the rate of condensation and evaporation, and delivered steam flow against backpressure. We need simultaneous outlet CO₂ and moisture, bed temperatures and separate drain weights to test that calculation. [Steam checks and sensitivities](model_reference.html#direct-steam-screening-results)
+
+**Lewatit aging.** Hunt et al. measured 68.8% retained capacity after 180 cycles at their operating conditions. The team simulated four fixed capacities on one electrical cycle. At the lowest capacity the model still collected 4.66 kg in 48 h, compared with 5.52 kg fresh. Linear and exponential scenarios connect the fresh and published endpoints. The loss rate for our bed, its response to steam and its service life remain open. A useful first comparison is CO₂ uptake on fresh and cycled beads at the same temperature, humidity, concentration and conditioning history. [Cycling study](https://doi.org/10.1016/j.cej.2024.148901) · [Model inputs and results](../../../docs/data/bed-aging-lewatit.json)
+
 ## Current result boundary
 
 The [review dataset](../../../docs/data/submission/results.json) contains ten humid baseline results, one matched dry Lewatit result and five completed desorption-rate sensitivities. HOB/PVDF and COF-999 sensitivities are incomplete after worker exits. Their partial calculations are not performance estimates.
 
-All primary operating cases match after removing labels. Executable source releases remain identified per case. CALF-20 and COF-1000 use the accepted re-audits of their existing results, with the original trace-coverage audit failures retained in the evidence record. A re-audit changes the accounting verdict, not the simulated output.
+The ten archived humid baseline cases match after removing labels. Executable source releases remain identified per case. CALF-20 and COF-1000 use the accepted re-audits of their existing results, with the original trace-coverage audit failures retained in the evidence record. A re-audit changes the accounting verdict, not the simulated output.
 
 Model output uncertainty has not been quantified. Source uncertainty, parameter uncertainty, model discrepancy and numerical error must remain separate. Neither material-family spread nor a successful conservation check is a confidence interval.
 

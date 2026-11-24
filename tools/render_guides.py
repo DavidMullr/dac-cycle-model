@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import html
 from pathlib import Path
+import re
 import shutil
 import subprocess
 
@@ -13,6 +14,23 @@ GUIDES = {
     "QUICKSTART.md": "quickstart.html",
     "REVIEW_CHECKS.md": "REVIEW_CHECKS.html",
 }
+
+
+def update_workspace_tables(report_html: Path) -> None:
+    """Keep the app's two published comparisons identical to the standalone report."""
+    report = report_html.read_text(encoding="utf-8")
+    page = ROOT / "docs/workspace/results.html"
+    workspace = page.read_text(encoding="utf-8")
+    for table_id in ("weather-comparison-table", "purolite-a110-and-lewatit"):
+        table = re.search(rf'<div id="{table_id}">\s*(<table\b.*?</table>)\s*</div>', report, re.S)
+        start = f"<!-- {table_id} -->"
+        end = f"<!-- /{table_id} -->"
+        if not table or workspace.count(start) != 1 or workspace.count(end) != 1:
+            raise ValueError(f"Could not locate comparison table {table_id} in the report and workspace")
+        before, rest = workspace.split(start)
+        _, after = rest.split(end)
+        workspace = before + start + "\n" + table[1] + "\n" + end + after
+    page.write_text(workspace, encoding="utf-8")
 
 
 def main():
@@ -38,6 +56,7 @@ def main():
                         "--include-before-body=_navigation.html", "--citeproc", "--bibliography=../references.bib",
                         "--metadata=lang:en", "--output=" + name + ".html"], cwd=report, input=source, text=True, encoding="utf-8", check=True)
         print(name + ".html")
+    update_workspace_tables(report / "index.html")
     for source, target in GUIDES.items():
         text = (ROOT / "docs" / source).read_text(encoding="utf-8")
         title = text.splitlines()[0].removeprefix("# ")
@@ -58,7 +77,7 @@ def main():
 <script src="assets/ui/app-shell.js" defer></script>
 <style>main{{max-width:1100px}}main table{{width:100%;border-collapse:collapse;margin:1.5rem 0}}th,td{{text-align:left;padding:.65rem;border-bottom:1px solid var(--border,#dce3e8)}}main p,main li{{max-width:85ch;line-height:1.65}}pre{{overflow-x:auto;padding:1rem;border-radius:8px;background:var(--surface-2,#eef3f5)}}@media(max-width:650px){{table{{display:block;overflow-x:auto}}}}@media print{{.ct-sidebar,.ct-topbar,.ct-skip{{display:none!important}}.ct-workspace{{margin:0!important}}}}</style>
 </head><body class="ct-app">
-<header><div class="eyebrow">Carbon Team &middot; 17 November 2026</div><h1>{html.escape(title)}</h1></header>
+<header><div class="eyebrow">Carbon Team &middot; DAC model</div><h1>{html.escape(title)}</h1></header>
 <main>{body}<p><a href="../model/report/project/index.html">Model and results</a> &middot; <a href="../model/report/project/model_and_results.pdf">Four-page PDF</a> &middot; <a href="{html.escape(source)}">Markdown source</a></p></main>
 </body></html>
 '''

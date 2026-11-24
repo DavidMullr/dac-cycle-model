@@ -4,9 +4,157 @@
 <script src="/docs/assets/ui/theme-init.js"></script><link rel="stylesheet" href="/docs/assets/ui/app.css">
 <link rel="stylesheet" href="/docs/assets/ui/current.css"><script src="/docs/assets/ui/app-shell.js" defer></script>
 <script src="/docs/assets/ui/current-results.js" defer></script></head>
-<body class="ct-app"><header><div class="eyebrow">Carbon Team · DAC model</div><h1>Results &amp; comparison</h1><p>Reviewed complete exports and completed runs from this installation.</p></header>
+<body class="ct-app"><header><div class="eyebrow">Carbon Team · DAC model</div><h1>Results &amp; comparison</h1><p>Seasonal capture with the selected Lewatit cycle, followed by the common material baseline and individual run exports.</p></header>
 <main>
+<section aria-labelledby="weather-heading">
+<h2 id="weather-heading">Lewatit under Lausanne weather</h2>
+<p>One 10 kg bed, one vacuum pump and electrical heating. The same 48 min adsorption and 83 min regeneration settings were used in each two-day window at Pully. Daily production includes startup. The last row uses the same cycle at a fixed inlet.</p>
+<div class="table-scroll"><!-- weather-comparison-table -->
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr>
+<th>Inlet, 2023 (UTC)</th>
+<th style="text-align: right;">Air °C</th>
+<th style="text-align: right;">RH (%)</th>
+<th style="text-align: right;">CO₂ in 48 h (kg)</th>
+<th style="text-align: right;">CO₂ (kg/day)</th>
+<th style="text-align: right;">Electricity (kWh/kg CO₂)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Winter, 15–16 Jan</td>
+<td style="text-align: right;">4.8</td>
+<td style="text-align: right;">83.0</td>
+<td style="text-align: right;">6.125</td>
+<td style="text-align: right;">3.062</td>
+<td style="text-align: right;">7.45</td>
+</tr>
+<tr>
+<td>Spring, 15–16 Apr</td>
+<td style="text-align: right;">7.6</td>
+<td style="text-align: right;">87.5</td>
+<td style="text-align: right;">6.010</td>
+<td style="text-align: right;">3.005</td>
+<td style="text-align: right;">7.87</td>
+</tr>
+<tr>
+<td>Summer, 15–16 Jul</td>
+<td style="text-align: right;">24.2</td>
+<td style="text-align: right;">51.9</td>
+<td style="text-align: right;">5.274</td>
+<td style="text-align: right;">2.637</td>
+<td style="text-align: right;">6.65</td>
+</tr>
+<tr>
+<td>Autumn, 15–16 Oct</td>
+<td style="text-align: right;">10.4</td>
+<td style="text-align: right;">67.8</td>
+<td style="text-align: right;">6.065</td>
+<td style="text-align: right;">3.032</td>
+<td style="text-align: right;">6.87</td>
+</tr>
+<tr>
+<td>Fixed inlet, same cycle</td>
+<td style="text-align: right;">25.0</td>
+<td style="text-align: right;">65.0</td>
+<td style="text-align: right;">5.519</td>
+<td style="text-align: right;">2.759</td>
+<td style="text-align: right;">7.16</td>
+</tr>
+</tbody>
+</table>
+<!-- /weather-comparison-table --></div>
+<p><a href="/project-report/index.html#lewatit-under-lausanne-weather">Weather and cycle settings</a> · <a href="/docs/data/pully-seasonal-one-pump-summary.csv">Download weather results (CSV)</a></p>
+</section>
+<section aria-labelledby="baseline-heading">
+<h2 id="baseline-heading">All adsorbents on the same baseline</h2>
+<p>Each material uses a 10 kg dry charge at 25 °C and 65% RH, with two hours each for adsorption and electrical desorption. CO₂ per day is total product over 48 hours divided by two.</p>
+<div class="table-scroll"><!-- purolite-a110-and-lewatit -->
+<table>
+<thead>
+<tr>
+<th>Material</th>
+<th style="text-align: right;">Collected CO₂ (kg/day)</th>
+<th style="text-align: right;">Electricity (kWh/kg CO₂)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lewatit VP OC 1065</td>
+<td style="text-align: right;">2.570</td>
+<td style="text-align: right;">5.47</td>
+</tr>
+<tr>
+<td>Purolite A110</td>
+<td style="text-align: right;">1.290</td>
+<td style="text-align: right;">9.01</td>
+</tr>
+<tr>
+<td>TEPA(50)</td>
+<td style="text-align: right;">0.944</td>
+<td style="text-align: right;">12.55</td>
+</tr>
+<tr>
+<td>COF-1000</td>
+<td style="text-align: right;">0.434</td>
+<td style="text-align: right;">21.38</td>
+</tr>
+<tr>
+<td>mmen-Mg2(dobpdc)</td>
+<td style="text-align: right;">0.417</td>
+<td style="text-align: right;">36.00</td>
+</tr>
+<tr>
+<td>MOF-808-Lys</td>
+<td style="text-align: right;">0.405</td>
+<td style="text-align: right;">25.95</td>
+</tr>
+<tr>
+<td>MIL-101/PEI/glycerin</td>
+<td style="text-align: right;">0.315</td>
+<td style="text-align: right;">47.66</td>
+</tr>
+<tr>
+<td>mmen-Mg2(hob)/PVDF</td>
+<td style="text-align: right;">0.312</td>
+<td style="text-align: right;">33.10</td>
+</tr>
+<tr>
+<td>COF-999</td>
+<td style="text-align: right;">0.193</td>
+<td style="text-align: right;">53.37</td>
+</tr>
+<tr>
+<td>MOF-808-TAPA</td>
+<td style="text-align: right;">0.149</td>
+<td style="text-align: right;">57.84</td>
+</tr>
+<tr>
+<td>CALF-20</td>
+<td style="text-align: right;">0.059</td>
+<td style="text-align: right;">236.40</td>
+</tr>
+</tbody>
+</table>
+<!-- /purolite-a110-and-lewatit --></div>
+<p><a href="/project-report/index.html#completed-baseline-results">Baseline conditions and sources</a></p>
+</section>
+<section><h2>Sensitivity studies</h2>
+<p><a href="/project-report/index.html#humidity-and-regeneration-sensitivity">Humidity and faster desorption</a> · <a href="/project-report/index.html#steam-electricity-and-cycle-timing">Steam and electrical heating</a> · <a href="/docs/workspace/bed-aging.html">Bed aging</a></p>
+</section>
+<section><h2>Individual run exports</h2>
+<p>Open a completed result to inspect its inputs, download its JSON or use its engineering worksheet. <a href="/screening/#parallelHeading">View live simulations</a>.</p>
+
 <p id="result-status" role="status">Loading results…</p>
 <div class="table-scroll"><table><thead><tr><th>Selected run</th><th>Source</th><th>CO₂ (kg/day)</th><th>Electricity (kWh/kg CO₂)</th><th>Inspect</th></tr></thead><tbody id="results-body"></tbody></table></div>
-<p>The common humid baseline cases have the same operating inputs. Their material laws and evidence quality differ, so these results do not establish an intrinsic material ranking.</p>
-<p id="incomplete-results"></p><p><a href="/project-report/index.html#humidity-and-regeneration-sensitivity">Comparison conditions and sensitivities</a> · <a href="/screening/">Local job controls and detailed comparison</a></p></main></body></html>
+<p id="incomplete-results"></p><p><a href="/screening/">Local job controls and detailed comparison</a></p>
+</section></main></body></html>

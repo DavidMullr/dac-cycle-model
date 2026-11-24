@@ -6,7 +6,7 @@ bibliography: ../references.bib
 
 ## Domain and state variables
 
-The spatial engine is `screening/mof_screening/spatial.py`. It resolves the **transverse thermal thickness** of a symmetric bed, with parallel gas paths. It is not an axial breakthrough model. In the reported case the full bed is 16 mm thick and the half-domain has 16 cells. Gas and solid temperatures, gas species inventories and adsorbate storage are local states. Heater, wall and cumulative boundary meters complete the state vector.
+In the reviewed electrical case the spatial engine (`screening/mof_screening/spatial.py`) resolves the **transverse thermal thickness** of a symmetric bed, with parallel gas paths. It is not an axial breakthrough model. In the reported case the full bed is 16 mm thick and the half-domain has 16 cells. Gas and solid temperatures, gas species inventories and adsorbate storage are local states. Heater, wall and cumulative boundary meters complete the state vector.
 
 The gas species are CO₂, H₂O, N₂ and O₂. Adsorbate storage can have extra CO₂ reservoirs or sites; a fixed species mapping sums their gas-phase contributions. All loadings refer to the complete dry shaped material. The full-device dry mass is split once for the half-domain. Reported device totals apply the symmetry factor once.
 
@@ -91,6 +91,7 @@ The material records identify pressure and temperature support separately from t
 | mmen-Mg₂(dobpdc), HOB powder and PVDF, MOF-808-Lys and TAPA, TEPA(50), both PEI/MIL-101 variants, COF-999, Low et al. Lewatit | Reference isotherm shifted in pressure | Recorded curve, its measurement temperature, assumed or fitted heat and rates |
 | COF-1000 | Two rates sharing one shifted isotherm | One equilibrium curve, capacity fractions and separate fast/slow rate coefficients |
 | Shaped CALF-20 | Two concentration-based Langmuir sites | Separate capacities, affinities and energies, with a tabulated water relation |
+| Purolite A110 | Water-conditioned CO₂ isotherms and GAB water | Curves at four humidities, pressure shift with temperature and humidity-dependent rate coefficients |
 | Young et al. Lewatit | Water-weighted dry and wet Toth curves, plus GAB water | Published parameter sets, evolving stored water, kinetic coefficients and the record's temperature policy |
 
 ### Langmuir, Sips and reference-curve models
@@ -151,6 +152,20 @@ q_c^*=(1-w)q_{\mathrm{dry}}+w q_{\mathrm{wet}}.
 $$
 
 Water therefore affects CO₂ after it has loaded onto the material. An instantaneous change in inlet RH does not immediately impose a new wet-site fraction. Both loadings approach their targets with the applicable directional rates. The matched exports use the advisory-temperature material with the named BDF trial-recovery policy. Its identifier contains `dry_bdf_recovery` in both exports. Feed humidity is defined in `case.weather`. The material's measured coupled temperature range is 25–70 °C. At the 116 °C regeneration request the model extrapolates the equations. The advisory implementation uses IAPWS for local saturation pressure, while the original strict Young implementation uses Buck. The saved RH trace has a separate diagnostic convention described [below](#reading-saved-diagnostics).
+
+### Purolite A110 under humid air
+
+The A110 adapter uses the commercial free-base resin on a dry bead mass basis. Piscina et al. measured CO₂ uptake on water-presaturated resin at 25 °C. The four digitized curves represent dry air and 30%, 55% and 80% RH. Within each curve the model interpolates loading in log CO₂ pressure. The first humid points lie at 52–65 Pa. At 420 ppm in 100 kPa air, the CO₂ partial pressure is only about 42 Pa, so all three humid curves use the dry Toth shape below their first point, matched to that point. Above the last pressure the loading stays constant. [@piscina2026; @lowresins2023]
+
+During a cycle the water loading approaches a GAB equilibrium at the local gas humidity. Inverting that relation at the **stored** water loading gives the humidity used to interpolate between CO₂ curves. A newly exposed dry bead therefore takes time to reach the humid response. Above 80% the CO₂ target uses the last curve, while the water target continues to saturation. The GAB shape coefficients use the nearest fitted temperature outside 15–35 °C.
+
+For temperature $T$, the pressure read on the 25 °C isotherm is $p_{\mathrm{CO_2}}\exp[(70100/R)(1/T-1/298.15)]$, with heat in J/mol and temperatures in K. A dry CO₂ rate fit supplies the reference linear driving force coefficient. The rate scales with temperature between 20 and 70 °C and with relative diffusivity at the bead humidity. The water rate uses diffusivity at the gas humidity. Desorption uses the same coefficients as adsorption. Hot wet release, humidity-induced swelling and changes in packed-bed resistance need separate measurements. The 120 °C scenario guard does not establish a material operating limit. [@lowkinetics2025]
+
+### Lewatit bed aging
+
+The **Bed aging** estimate uses four 48-hour electrical runs at fixed resin conditions. Each multiplies the dry and wet Toth saturation capacities by the same retained fraction $r$. The water isotherm, adsorption and desorption rate coefficients, geometry and equipment retain their fresh-bed values. Each run starts with a clean, dry 10 kg bed and one pump. Between the simulated capacities (68.8%, 75%, 90% and 100%) the app interpolates each reported metric separately. A measured aged/fresh capacity ratio obtained under the same test conditions can be entered directly.
+
+For a cycle count $n$ from 0 to 180, the two scenarios use $r_{\mathrm{linear}}=1-0.312n/180$ and $r_{\mathrm{exp}}=0.688^{n/180}$. Hunt et al. measured a 31.2% loss at 180 cycles with regeneration at 80 °C and 10 kPa absolute. Our one-pump case uses a 91.5 °C heater setpoint and a 16 kPa vacuum target. Neither curve predicts damage from the simulated temperature or oxygen history. The interface reports the last complete cycle in kg/day and startup-inclusive 48-hour electricity in kWh/kg. It gives estimates only within the simulated capacity range. [@hunt2024] [Reference runs](../../../docs/data/bed-aging-lewatit.json)
 
 ### Other stored-water scenarios
 
@@ -327,7 +342,7 @@ e_{\mathrm{CO_2}}=\frac{E_{\mathrm{electric}}}{M_{c,\mathrm{product}}},\qquad
 E_{\mathrm{electric}}=E_h+E_f+E_p+E_{\mathrm{cool}}+E_{\mathrm{conditioning}}.
 $$
 
-Components are taken from the saved meters so shared cooling is not counted twice. Dry product purity excludes water; wet purity includes it. These fractions refer to the model's collection boundary.
+This electricity sum applies to the electrical reference. With electric steam generation, add the metered generator electricity once. An externally heated generator reports its thermal input separately. Use the collection meter for the denominator in both cases. Dry product purity excludes water; wet purity includes it. These fractions refer to the model's collection boundary.
 
 ### Switching conditions
 
@@ -341,6 +356,57 @@ Components are taken from the saved meters so shared cooling is not counted twic
 
 The lumped driver can also end evacuation on reaching the regeneration pressure. Its cooling and refill events use its single temperature and pressure. A time limit can advance a phase with an unmet target. The export records endpoint attainment separately from horizon completion. When the horizon falls inside a phase, only the elapsed portion contributes to inventories, energy and product.
 
+### Direct steam and the water balance
+
+Select **Direct steam injection** to resolve the gas path from the steam inlet to the pump. The 1D finite volumes exchange gas species and enthalpy by upwind advection. Each internal face solves the viscous and inertial Ergun terms for signed velocity using its pressure gradient and available void. Liquid displaces gas in the equation of state. Equal half-area lanes represent the full device. Each axial cell exchanges heat with the shared wall, which removes the transverse temperature resolution of the reviewed electrical case. The steam supply delivers saturated vapour during desorption, limited by the specified flow. The ideal regulator tapers linearly within 5% of absolute supply pressure and closes at backpressure. The outlet pump uses its existing conditioned suction curve. Adsorption uses imposed air flow with the corresponding wet-bed fan duty.
+
+In one cell let $n_v$ denote gas-phase water, $n_l$ the free liquid, $V_g$ the gas volume and $q_w$ the material's adsorbed water. Saturation uses the bead temperature $T_s$. With gas temperature $T_g$, phase transfer and drainage are
+
+$$
+n_{v,\mathrm{sat}}=\frac{p_{\mathrm{sat}}(T_s)V_g}{RT_g},\qquad
+r_{\mathrm{ph}}=\frac{\max(n_v-n_{v,\mathrm{sat}},-n_l)}{\tau_{\mathrm{ph}}},\qquad
+r_d=\frac{n_l}{\tau_d},\qquad
+\dot n_l=r_{\mathrm{ph}}-r_d .
+$$
+
+Positive $r_{\mathrm{ph}}$ condenses vapour. Negative values evaporate available liquid. The gas loses $r_{\mathrm{ph}}$ in addition to water adsorbed by the sorbent. The sorbent equilibrium law uses an explicit activity plateau near saturation. The actual water partial pressure drives condensation, including when the material's fitted equilibrium law reaches its plateau. The liquid has bulk-water heat capacity and remains at the solid temperature. Excess liquid drains locally. Reaching the packed void volume stops the calculation.
+
+The bed energy inventory includes gas internal energy, adsorbed-phase energy, free-liquid sensible energy and the solid, heater and wall. Incoming steam carries vapour enthalpy and drain water leaves with liquid enthalpy on the same reference. On the gas-internal-energy basis, the heat released to the solid and film is $r_{\mathrm{ph}}[u_v(T_g)-h_l(T_s)]$. Adsorption heat is calculated from the change in adsorbed inventory. Saturation follows IAPWS. Vapour and liquid enthalpies use the project's constant-heat-capacity closure anchored at 100 °C. Only the indirect jacket applies heat directly to the wall. For direct injection the generator input is $\int\dot n_{\mathrm{steam}}(h_{\mathrm{steam}}-h_{\mathrm{feedwater}})/\eta\,dt$. Choosing an electric generator includes this input in electricity once. External heat is metered separately. The pump-inlet knockout and its cooling duty are downstream of the bed drain.
+
+**Interpreting the film model.** The phase-transfer time, drain time, gas-path geometry, valve law and sorption plateau are screening assumptions. The model resolves bulk liquid holdup. Pore-scale capillary condensation, liquid migration between cells, droplet entrainment, dissolved CO₂, sorbent degradation and two-phase flooding hydraulics require additional closures and measurements. Inspect peak local $p_w/p_{\mathrm{sat}}(T_s)$, drainage and steam breakthrough. Large transient supersaturation makes the phase-transfer assumption especially consequential. Vary both time constants and the plateau, refine cell size and time tolerance, and compare with measured axial temperatures, bed pressures, steam inlet, separate bed and knockout drain weights, outlet humidity and net CO₂. Experiments on amine-functionalized monoliths and a dynamic condensation study establish useful trends for this comparison. Transferring their times or rates to Lewatit beads requires independent evidence. [Direct-heating experiments](https://doi.org/10.1016/j.cej.2025.171584) and [dynamic condensation study](https://doi.org/10.1016/j.cej.2026.175574).
+
+### Direct steam screening results
+
+All settings use 10 kg of equilibrated Lewatit VP OC 1065, 30 °C inlet air at 75% RH and 400 ppm dry CO₂, 10 min of adsorption, 1 min of evacuation, 10 min of regeneration, up to 5 min of cooling, up to 2 min of refill and a 25 °C pump-inlet knockout. The table covers the first hour and includes the partial final cycle. The direct-steam cases and their electrical control use four axial cells. The indirect jacket uses four transverse cells. The electrical control uses the wet-bed equations with zero injected steam and a 2 kW heater.
+
+| Regeneration setting | Collected CO₂ (g) | Net air uptake (g CO₂) | Wet product CO₂ (mol%) | Electricity (kWh) |
+|---|---:|---:|---:|---:|
+| Electrical heater, same axial grid | 0.02 | -2.94 | 0.4 | 0.508 |
+| Indirect steam jacket, 60 W/K | 0.59 | -9.74 | 4.7 | 0.962 |
+| Direct steam, 2.5 kg/h | 7.05 | +10.70 | 35.9 | 1.015 |
+| Direct steam, 10 kg/h | 92.29 | +21.65 | 85.0 | 2.384 |
+| Direct steam, 10 kg/h with electric trim | 96.24 | +22.72 | 85.4 | 2.394 |
+
+Net air uptake is CO₂ entering in air, including leaks, minus CO₂ vented. The difference between net uptake and collected product equals the signed change in CO₂ stored in the bed and its gas. At 10 kg/h the bed supplied 70.6 g from its initial inventory during the first hour. Steam supply was capped at 100 kPa absolute. The outlet finished the second desorption at 98.0 kPa against a 20 kPa pump request. Actual injected mass was 2.44 kg. The bed drain removed 1.11 kg and the downstream knockout removed 1.28 kg.
+
+All steam generators in this comparison use electricity, 20 °C feedwater and 90% efficiency. Generator input at full flow is approximately 2 kW at 2.5 kg/h and 8 kW at 10 kg/h. The electricity column includes the metered generator, heater, fan, pump and cooling. The lower-flow run compares the same nominal heating input as the electrical control. Delivered heat and total electricity depend on the case.
+
+**Repeated cycles.** The six-hour run at 10 kg/h completed 13 cycles and averaged 1.763 kg collected CO₂/day over the full horizon. Net uptake from air averaged 1.398 kg/day over those six hours. In the last 26.10-minute cycle, the model collected 29.61 g and took up 29.61 g net from air, equivalent to 1.633 kg/day. The product contained 80.5 mol% CO₂ on a wet basis. The cycle used 40.0 kg of steam and 39.2 kWh of electricity per kg of collected CO₂. It met the fixed-weather repeatability criterion. Product usability depends on the required outlet composition and pressure.
+
+![Collected CO₂ and net atmospheric uptake in each complete cycle of the six-hour direct-steam run.](../../../docs/assets/steam_cycle_balance.svg)
+
+**Numerical and physical sensitivity.** Halving the maximum time step from 10 to 5 s and the relative tolerance from $10^{-7}$ to $5\times10^{-8}$ changed the one-hour collected mass by 0.000004%. Refining four axial cells to eight changed it from 92.29 to 96.90 g (+4.99%). During the first desorption, saved outlet samples bracketed the rise through 50 mol% water at 48.9–57.7 s with four cells and 50.9–55.3 s with eight. This tracks outlet moisture from all modeled sources. The difference between the grids limits the precision of comparisons between nearby settings.
+
+Changing the assumed phase-transfer time from 2 to 0.5 s gave 119.69 g (+29.7%). The baseline reached a sampled local water saturation ratio of 8.3 and a peak sampled bed temperature of 92.7 °C. The material package records coupled measurements at 25–70 °C and up to 55% RH. Establishing a prototype production rate requires measured steam delivery, bed and knockout drain masses, axial temperatures and outlet CO₂ and water.
+
+Across the nine saved runs, the largest independently recomputed species balance residual was 8.8e-15 relative to species throughput. The largest energy residual was 1.5e-07 on the model's gross-exchange basis. These checks include the partial final cycle.
+
+The [case results and numerical settings](../../../docs/data/direct_steam_screening.csv) include the input settings varied here, run identifiers, source identities and export checksums. Run `python tools/audit_lewatit_regeneration.py RESULT.json` from the repository root to read a saved Lewatit JSON export and reconstruct product, net air uptake, four species balances, the energy balance, steam and electricity from the full run.
+
+### Comparing the 48-hour steam and electrical cases
+
+The later timing study starts with an empty CO₂ inventory in a clean, dry 10 kg bed at 25 °C and 65% RH. Its 28 min adsorption / 40 min direct-steam case gave 5.689 kg collected over 48 hours, or 2.845 kg/day over that horizon. The last complete cycle gave 2.993 kg/day. The study runner integrated nine cycles explicitly and reused 27 repeating cycles. It admitted air at a 55 °C wall and hottest-cell threshold, which differs from the cooling rule in the archived comparison. The comparable electrical timing series integrated every cycle. At 50/70 min it gave 6.122 kg in 48 hours and 3.181 kg/day on the last complete cycle. Direct steam used one pump and the electrical case used two. These are operating designs with different equipment and timings. To isolate the heating mechanism, use the matched axial control described above. [Cycle durations, collection and energy](../../../docs/data/adsorption-duration.csv)
+
 ### Component conservation and a worked export
 
 For species $i$, form $N_i$ from gas inventory plus all adsorbed reservoirs mapped to that species. On a consistent device basis the integrated residual is
@@ -350,7 +416,7 @@ r_i=\Delta N_i-N_{i,\mathrm{in}}+N_{i,\mathrm{vent}}+N_{i,\mathrm{prod}}
 +\mathbf{1}_{i=\mathrm{H_2O}}N_{\mathrm{drain}}.
 $$
 
-Inlet includes leakage where present. Conditioned product and vent carry vapour, and the separate liquid drain carries water. The spatial runtime divides the absolute residual by the larger of boundary throughput and a floor of $10^{-9}$ mol, on the half-device ledger. The export uses a $10^{-5}$ relative mass criterion. The energy residual audits heat and enthalpy across its control volume. Fan and pump electrical inputs also count in reported operating electricity even though they do not all heat the bed.
+With direct steam, include the free-liquid inventory in $N_{\mathrm{H_2O}}$, steam in the inlet, and both the in-bed drain and the downstream knockout in liquid outflow. Inlet includes leakage where present. Conditioned product and vent carry vapour, and the separate liquid drain carries water. The spatial runtime divides the absolute residual by the larger of boundary throughput and a floor of $10^{-9}$ mol, on the half-device ledger. The export uses a $10^{-5}$ relative mass criterion. The energy residual audits heat and enthalpy across its control volume. Fan and pump electrical inputs also count in reported operating electricity even though they do not all heat the bed.
 
 The [humid Lewatit export](../../../docs/data/submission/results/lewatit_humid.json) illustrates the accounting. At 172,800 s its meters show 5.140642 kg of collected CO₂ and 28.113042 kWh of electricity. Dividing by two days gives **2.570321 kg/day**. Dividing electricity by the collected mass gives **5.468780 kWh/kg CO₂**. The electricity comprises 19.635473 kWh for heat, 0.098594 for the fan, 3.506436 for the pump, 4.872540 for cooling and zero additional conditioning electricity. The last value is an auxiliary component; the cooler duty is already included under cooling. The dry and wet product CO₂ mole fractions are 0.99433 and 0.56508 because wet purity includes water vapour in the collected gas. The meters cover ten complete cycles and part of the eleventh.
 

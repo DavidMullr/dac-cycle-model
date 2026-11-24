@@ -126,12 +126,14 @@ def _physical_layout(layout) -> tuple[int, set[int], set[int]]:
     temperature_columns.update(range(layout.T_gas.start, layout.T_gas.stop))
     nonnegative_columns = set(range(layout.q.start, layout.q.stop))
     nonnegative_columns.update(range(layout.n_gas.start, layout.n_gas.stop))
+    if getattr(layout, "liquid", None) is not None:
+        nonnegative_columns.update(range(layout.liquid.start, layout.liquid.stop))
     classified = (
         {0, 1}
         | set(range(layout.T_bed.start, layout.T_bed.stop))
         | set(range(layout.T_gas.start, layout.T_gas.stop))
         | set(range(layout.q.start, layout.q.stop))
-        | set(range(layout.n_gas.start, layout.n_gas.stop))
+        | nonnegative_columns
     )
     if classified != set(range(physical_columns)):
         raise SpatialJacobianError(

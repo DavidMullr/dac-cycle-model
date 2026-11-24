@@ -29,6 +29,14 @@ For the humid Lewatit example, `case.weather.relative_humidity = 0.65` becomes i
 
 For a new case, edit the equipment, weather or phase settings. For a material of an existing equilibrium family, follow its JSON inputs into `materials.build_material_adapter`. When reviewing a genuinely new constitutive law, check its equilibrium target, directional rates, map from storage sites to gas species and energy derivatives together. The **3D DAC setup** follows a separate path through `docs/assets/geometry/` and `docs/data/`. The default replay reads `lewatit_humid_cycle.json`, extracted from the reviewed humid Lewatit export by `tools/build_lewatit_replay.py`. Three dry cases use `process_saved_cycles_v1.json`. **Add run** reads a local completed job or a native result JSON through `add-run.js`. `native-result.mjs` maps the saved phase records and bed states into cycle-relative samples for the same playback controls. Browser storage keeps the compact replay.
 
+### Follow a steam, Purolite or aging result
+
+For a direct-steam case, the spatial runtime uses the axial wet-bed calculation in `screening/mof_screening/direct_steam.py`. Read its steam inlet, free-liquid, drain and generator meters alongside the outlet product. The indirect steam jacket transfers heat across the wall and keeps steam outside the bed. [Heat-source equations and accounting](../model/report/project/model_reference.html#direct-steam-screening-results)
+
+The Purolite record is `materials/screening/purolite_a110_humid.json`. Its equilibrium family selects `screening/mof_screening/purolite.py`, which computes a water loading, a humidity-conditioned CO₂ target and both rates. For the equal-mass comparison, the [CSV](data/resin-comparison-65rh.csv) identifies the exact case and solver shared by the two runs.
+
+**Bed aging** reads [four fixed-capacity runs](data/bed-aging-lewatit.json) through `docs/assets/ui/bed-aging.js`. The page maps cycle count or measured capacity to capture and electricity. There is no time-evolving degradation state in the cycle solver.
+
 ## Files and directories
 
 | Location | Purpose |

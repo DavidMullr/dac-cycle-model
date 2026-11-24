@@ -46,6 +46,14 @@ def _target_check(
     }
 
 
+def phase_endpoint_pressure(row: dict):
+    """Use pump-end pressure during axial withdrawal and minimum pressure for refill."""
+    axial = row.get("axial_pressure_Pa")
+    if axial and row.get("phase") in ("evacuation", "desorption", "cooling"):
+        return axial[-1]
+    return row.get("min_pressure_Pa")
+
+
 def _trace_phase_endpoint(
     result: dict, cycle: int, phase: str
 ) -> dict:
@@ -64,7 +72,7 @@ def _trace_phase_endpoint(
             if phase == "desorption"
             else "bed_temperature_max_K"
         ),
-        "pressure_end_Pa": row.get("min_pressure_Pa"),
+        "pressure_end_Pa": phase_endpoint_pressure(row),
     }
     top_endpoint = result.get("endpoint") or {}
     if phase == "desorption":
@@ -646,7 +654,12 @@ def evaluate_existing_result(result: dict) -> dict:
         }
     return {
         "schema": EVALUATION_SCHEMA,
-        "target_attainment": deepcopy(result["target_attainment"]),
+        "target_attainment": (
+            target_attainment(result)
+            if (result.get("engine_identity") == "axial-direct-steam/1"
+                and (result.get("endpoint") or {}).get("desorption_pressure_basis") != "axial_outlet")
+            else deepcopy(result["target_attainment"])
+        ),
         "temperature_guard": temperature_guard(result),
         "hard_limits": deepcopy(result["hard_limits"]),
         "conservation": deepcopy(result["conservation"]),

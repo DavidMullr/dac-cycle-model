@@ -2014,6 +2014,9 @@ def build_material_adapter(data: Mapping) -> MaterialAdapter:
             dry_base_package=dry_data,
         )
     family = data.get("equilibrium_family")
+    if family == "purolite_a110_rh_curves_gab":
+        from .purolite import PuroliteAdapter
+        return PuroliteAdapter(data)
     if family == "independent_langmuir_sips":
         return IndependentLangmuirSipsAdapter(data)
     if family == "site_resolved_concentration_langmuir":

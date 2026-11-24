@@ -292,6 +292,22 @@
     setValue('weatherCo2', caseDocument.weather.co2_ppm_dry);
     setValue('weatherStart', caseDocument.weather.start_utc);
     const equipment = caseDocument.equipment;
+    setValue('eqDead', equipment.dead_volume_m3 ?? 0.0005);
+    setValue('eqCooler', equipment.cooler_power_W ?? 2000);
+    setValue('eqLeak', equipment.leak_Pa_m3_s ?? 1e-5);
+    setValue('knockoutC', equipment.knockout_C ?? 55);
+    const regen = caseDocument.regeneration || {};
+    setValue('regenMethod', regen.kind || 'electrical');
+    setValue('steamSupply', regen.supply_pressure_Pa ?? (regen.kind === 'steam_jacket' ? 300000 : 100000));
+    setValue('steamFeed', regen.feedwater_C ?? 20);
+    setValue('steamEfficiency', regen.generator_efficiency ?? 0.9);
+    setValue('steamCarrier', regen.generator_carrier || 'electricity');
+    setValue('jacketUA', regen.jacket_UA_W_K ?? 60);
+    setValue('steamFlow', regen.flow_kg_h ?? 1);
+    setValue('filmTime', regen.phase_transfer_s ?? 2);
+    setValue('drainTime', regen.drain_time_s ?? 120);
+    setValue('wetActivity', regen.sorption_plateau_activity ?? 0.85);
+    $('steamTrim').checked = Boolean(regen.trim_heater);
     setValue('eqMass', equipment.dry_shaped_mass_kg);
     setValue('eqThickness', equipment.bed_thickness_m);
     setValue('eqArea', equipment.bed_face_area_m2);
@@ -339,6 +355,22 @@
 
   function readNumber(id) { return Number($(id).value); }
 
+  function regenerationInput() {
+    const kind = $('regenMethod').value;
+    if (kind === 'electrical') return {};
+    const regeneration = {kind, supply_pressure_Pa: readNumber('steamSupply'),
+      feedwater_C: readNumber('steamFeed'), generator_efficiency: readNumber('steamEfficiency'),
+      generator_carrier: $('steamCarrier').value};
+    if (kind === 'direct_steam') {
+      Object.assign(regeneration, {flow_kg_h: readNumber('steamFlow'), phase_transfer_s: readNumber('filmTime'),
+        drain_time_s: readNumber('drainTime'), sorption_plateau_activity: readNumber('wetActivity'),
+        trim_heater: $('steamTrim').checked});
+    } else {
+      regeneration.jacket_UA_W_K = readNumber('jacketUA');
+    }
+    return {regeneration};
+  }
+
   function readCase() {
     const mode = selectedWeatherMode();
     const engine = selectedEngine();
@@ -346,6 +378,7 @@
       schema: 'mof-screening-case/1',
       label: $('caseLabel').value.trim(),
       engine,
+      ...regenerationInput(),
       runtime_policy: {
         schema: 'mof-screening-runtime-policy/1',
         mode: selectedRuntimePolicyMode(),
@@ -369,6 +402,10 @@
         start_utc: $('weatherStart').value.trim()
       },
       equipment: {
+        ...(readNumber('eqDead') === 0.0005 ? {} : {dead_volume_m3: readNumber('eqDead')}),
+        ...(readNumber('eqCooler') === 2000 ? {} : {cooler_power_W: readNumber('eqCooler')}),
+        ...(engine === 'spatial' && readNumber('eqLeak') !== 1e-5 ? {leak_Pa_m3_s: readNumber('eqLeak')} : {}),
+        ...(readNumber('knockoutC') === 55 ? {} : {knockout_C: readNumber('knockoutC')}),
         dry_shaped_mass_kg: readNumber('eqMass'),
         bed_thickness_m: readNumber('eqThickness'),
         bed_face_area_m2: readNumber('eqArea'),
@@ -404,7 +441,7 @@
       },
       collection: {
         product_route: $('collectionRoute').value,
-        knockout_model: 'ideal_pump_inlet_55C'
+        knockout_model: readNumber('knockoutC') === 55 ? 'ideal_pump_inlet_55C' : 'ideal_pump_inlet_configured'
       }
     };
   }
@@ -418,12 +455,19 @@
 
   function updateEngineApplicability() {
     const spatial = selectedEngine() === 'spatial';
+    $('regenMethod').disabled = !spatial;
+    $('eqLeak').disabled = !spatial;
+    if (!spatial) $('regenMethod').value = 'electrical';
+    const method = $('regenMethod').value;
+    $('steamSettings').hidden = method === 'electrical';
+    $('jacketSettings').hidden = method !== 'steam_jacket';
+    $('directSettings').hidden = method !== 'direct_steam';
     for (const id of ['eqConductivity', 'eqHeatTransfer', 'eqWallCooling']) {
       $(id).disabled = !spatial;
       $(id).setAttribute('aria-disabled', String(!spatial));
     }
     $('transportApplicability').textContent = spatial
-      ? 'Spatial only: through-thickness cells, bed conductivity and gas-solid heat transfer affect the local finite-transfer solution.'
+      ? (method === 'direct_steam' ? 'Cells run along the gas path from the steam inlet to the pump outlet.' : 'Cells resolve conduction through the bed thickness, with parallel gas paths.')
       : 'Lumped companion: well-mixed transport and its reviewed cooling request are used. Bed conductivity, wall cooling UA, gas-solid heat transfer and through-thickness cells are retained in the case record but do not alter lumped execution.';
   }
 
@@ -465,7 +509,7 @@
       fact('material', preview.material_name, `${preview.material_id} · ${preview.engine}`),
       fact('horizon', `${preview.horizon_s / 3600} h`, `${preview.maximum_cycle_starts} bounded cycle starts`),
       preview.engine === 'spatial'
-        ? fact('representation', `${preview.solver.cells} through-thickness cells`, 'spatial finite-transfer representation')
+        ? fact('representation', `${preview.solver.cells} ${preview.case?.regeneration?.kind === 'direct_steam' ? 'axial' : 'through-thickness'} cells`, 'spatial finite-transfer representation')
         : fact('representation', 'Lumped, well mixed', 'no through-thickness spatial cells'),
       fact(
         'execution control',
@@ -919,11 +963,23 @@
       ['Numerical reliability', `${String(numerical.status || 'not established').replaceAll('_', ' ')} · single runs do not qualify a numerical family`],
       ['Initial basis', result.horizon?.initial_state],
       ['CSS', result.horizon?.css_established ? 'Established' : 'Not established by this horizon'],
-      ['Water handling', `${number(metrics.water_condensed_mol, 4)} mol condensed · ${number(metrics.water_in_product_mol, 4)} mol carried in product`],
+      ['Water handling', `${number(metrics.water_condensed_mol, 4)} mol in pump-inlet knockout · ${number(metrics.water_in_product_mol, 4)} mol carried in product`],
       ['Water burden', `${number(metrics.water_loading_minimum_mol_kg, 4)}–${number(metrics.water_loading_maximum_mol_kg, 4)} mol/kg dry · ${number(metrics.local_relative_humidity_minimum, 4)}–${number(metrics.local_relative_humidity_maximum, 4)} local RH`],
       ['Humidity basis', result.water_burden?.local_relative_humidity_basis || 'not recorded'],
       ['Limits', 'No annual, hardware or measured-winner claim.']
     ];
+    if (metrics.apparent_CO2_recovery_fraction != null)
+      detailRows.push(['Collected / inlet CO₂', fraction(metrics.apparent_CO2_recovery_fraction)],
+        ['Change in stored CO₂ over horizon', number(metrics.CO2_inventory_change_kg, 4) + ' kg (gas and sorbent)']);
+    if (Number.isFinite(metrics.CO2_inlet_kg) && Number.isFinite(metrics.CO2_vented_kg))
+      detailRows.push(['Net CO₂ taken from air', number(metrics.CO2_inlet_kg - metrics.CO2_vented_kg, 4) + ' kg (inlet minus vent over the full run)']);
+    if (metrics.last_complete_cycle_CO2_kg_day != null)
+      detailRows.push(['Last complete cycle', number(metrics.last_complete_cycle_CO2_kg_day, 4) + ' kg CO₂/day at that cycle duration']);
+    if (metrics.steam_generator_input_kWh != null)
+      detailRows.push(['Steam generation', number(metrics.steam_generator_input_kWh, 4) + ' kWh · ' + metrics.steam_generator_carrier]);
+    if (metrics.steam_in_kg != null)
+      detailRows.push(['Injected steam', number(metrics.steam_in_kg, 4) + ' kg'],
+        ['Bed water', number(metrics.bed_condensed_kg, 4) + ' kg condensed · ' + number(metrics.bed_evaporated_kg, 4) + ' kg evaporated · ' + number(metrics.bed_drain_kg, 4) + ' kg drained · ' + number(metrics.bed_liquid_final_kg, 4) + ' kg retained']);
     for (const [label, value] of detailRows) {
       const row = document.createElement('div');
       const strong = document.createElement('strong');
@@ -1318,18 +1374,25 @@
       const identity = document.createElement('div');
       identity.className = 'screening-comparison-summary-material';
       const name = document.createElement('strong');
-      name.textContent = item.materialName;
+      name.textContent = item.caseLabel || item.materialName;
       const meta = document.createElement('small');
-      meta.textContent = `${item.jobId.slice(0, 8)} · ${item.evidence}`;
+      meta.textContent = `${item.materialName} · ${item.jobId.slice(0, 8)} · ${item.evidence}`;
       identity.append(name, meta);
 
       const objective = document.createElement('div');
       objective.className = 'screening-comparison-summary-objective';
       const objectiveLabel = document.createElement('small');
-      objectiveLabel.textContent = 'Collected CO₂/day';
+      objectiveLabel.textContent = 'Collected CO₂/day over the full run';
       const objectiveValue = document.createElement('strong');
       objectiveValue.textContent = `${item.collectedKgDay} kg/day`;
       objective.append(objectiveLabel, objectiveValue);
+      if (item.lastCycle !== null) {
+        const cycle = document.createElement('small');
+        const repeat = item.repeatability === true ? ' · cycles repeat'
+          : item.repeatability === false ? ' · repeatability unestablished' : '';
+        cycle.textContent = `Last complete cycle ${item.lastCycle} kg/day${repeat}`;
+        objective.append(cycle);
+      }
 
       const energy = document.createElement('div');
       energy.className = 'screening-comparison-summary-energy';
@@ -1338,11 +1401,19 @@
       const energyValue = document.createElement('span');
       energyValue.textContent = `${item.electricityKWhDay} kWh/day · ${item.electricityKWhKg} kWh/kg`;
       energy.append(energyLabel, energyValue);
+      if (item.steamIntensity !== null || item.externalHeatIntensity !== null) {
+        const utilities = [];
+        if (item.steamIntensity !== null) utilities.push(`${item.steamIntensity} kg injected steam/kg CO₂`);
+        if (item.externalHeatIntensity !== null) utilities.push(`${item.externalHeatIntensity} kWh external heat/kg CO₂`);
+        const detail = document.createElement('small');
+        detail.textContent = utilities.join(' · ');
+        energy.append(detail);
+      }
 
       const condition = document.createElement('div');
       condition.className = 'screening-comparison-summary-status';
       const purity = document.createElement('span');
-      purity.textContent = `Dry CO₂ ${item.dryProductFraction}`;
+      purity.textContent = `CO₂ ${item.wetProductFraction} wet · ${item.dryProductFraction} dry`;
       const numerical = document.createElement('span');
       numerical.textContent = `Numerical ${item.numerical}`;
       const conservation = document.createElement('span');
@@ -1383,7 +1454,7 @@
       const values = [
         row.case_label,
         `${row.material_name} · ${String(row.material_evidence_status || (row.synthetic ? 'synthetic' : 'evidence unavailable')).replaceAll('_', ' ')}`,
-        row.engine,
+        row.regeneration_method && row.regeneration_method !== 'electrical' ? row.engine + ' · ' + row.regeneration_method.replaceAll('_', ' ') : row.engine,
         number(row.collected_CO2_kg_day, 4),
         number(row.electricity_kWh_day, 3),
         number(row.electricity_kWh_kg_CO2, 3),
@@ -1459,6 +1530,8 @@
     for (const [buttonId, presetId] of [
       ['loadReviewedLewatitHumid', 'reviewed_lewatit_humid_48h'],
       ['loadReviewedLewatitDry', 'reviewed_lewatit_dry_48h'],
+      ['loadPuroliteHumid', 'purolite_a110_humid_1h'],
+      ['loadDirectSteam', 'lewatit_direct_steam_1h'],
       ['loadHotYoungDry48h', window.MofCasePresets.YOUNG2021_HOT116_RH0_48H_ID],
       ['loadHotYoungRh03048h', window.MofCasePresets.YOUNG2021_HOT116_RH030_48H_ID],
       ['loadYoungAdvisoryRh048h', window.MofCasePresets.YOUNG2021_ADVISORY_RH0_48H_ID],
@@ -1509,6 +1582,11 @@
       } catch (error) {
         showGlobalError(`Material JSON: ${error.message}`);
       }
+    });
+    $('regenMethod').addEventListener('change', () => {
+      if ($('regenMethod').value === 'steam_jacket' && readNumber('steamSupply') === 100000) setValue('steamSupply', 300000);
+      updateEngineApplicability();
+      setPreviewInvalid();
     });
     $('caseForm').addEventListener('input', setPreviewInvalid);
     $('materialJson').addEventListener('input', markMaterialDirty);

@@ -20,6 +20,7 @@ from scipy.integrate._ivp import bdf as scipy_bdf
 
 POLICY_SCHEMA = "bdf-water-trial-recovery/1"
 SUPPORTED_SCIPY = (1, 17)
+PINNED_SCIPY = "1.18.1"
 
 
 class BDFRecoveryConfigurationError(RuntimeError):
@@ -56,14 +57,14 @@ def _supported_scipy() -> dict:
     missing = [
         name for name in required_methods if not hasattr(scipy_bdf.BDF, name)
     ]
-    if version != SUPPORTED_SCIPY or missing:
+    if (version != SUPPORTED_SCIPY and scipy.__version__ != PINNED_SCIPY) or missing:
         raise BDFRecoveryConfigurationError(
             "unsupported SciPy BDF implementation: "
             f"version={scipy.__version__} missing={missing}"
         )
     return {
         "scipy_version": scipy.__version__,
-        "supported_major_minor": list(SUPPORTED_SCIPY),
+        "supported_major_minor": list(version),
         "required_methods_present": True,
         "history_attributes_checked_on_instantiation": True,
     }
@@ -224,13 +225,19 @@ def _recoverable(
                 query_state[layout.n_gas].reshape(model.n_cells, 4), 0.0
             )
             total = gas.sum(axis=1)
+            from .direct_steam import gas_volume, saturation_pressure_Pa
+            wet = getattr(layout, "liquid", None) is not None
+            volume = gas_volume(model, query_state) if wet else model.cell_gas_volume_m3
             derived_partials = (
                 gas
                 / np.maximum(total[:, None], 1e-30)
                 * (total * 8.31446261815324)[:, None]
                 * query_state[layout.T_gas][:, None]
-                / model.cell_gas_volume_m3[:, None]
+                / volume[:, None]
             )
+            if wet:
+                derived_partials[cell, 1] = min(derived_partials[cell, 1],
+                    saturation_pressure_Pa(temperature_K) * model.sorption_plateau_activity)
             if (
                 not math.isclose(
                     temperature_K,

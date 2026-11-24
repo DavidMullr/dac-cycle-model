@@ -1,48 +1,48 @@
 ---
 title: "Direct-air-capture model and results"
-subtitle: "Carbon Team · Astérix · Technical review edition"
+subtitle: "Carbon Team · Astérix"
 ---
 
-## Purpose and main finding
+## Lewatit under Lausanne weather
 
 [Download the four-page report (PDF)](model_and_results.pdf).
 
-The model compares adsorbents and operating conditions for a temperature-vacuum swing adsorption (TVSA) unit. The full-size design objective is maximum collected CO₂ per day with about **10 kg of dry shaped adsorbent** and **CHF 24,000 incremental equipment cost**. Cost is a design constraint; a complete installed cost has not yet been established.
+**A 10 kg Lewatit VP OC 1065 bed with one vacuum pump and electrical heating collected 5.27 to 6.12 kg of CO₂ over 48 hours** across four Pully weather records. This is the cycle we would test first. The design objective is collected CO₂ per day within a CHF 24,000 incremental equipment budget. The figures below are simulations of the full bed. Installed cost still needs supplier quotes.
 
-**Lewatit VP OC 1065 is the provisional material for the small prototype.** In the common humid screening case it gives 2.570 kg CO₂/day and 5.47 kWh/kg CO₂ within the model's electricity boundary. This is the strongest output in the retained baseline comparison. It is a conditional calculation, not measured prototype performance or a validated ranking of the materials.
+We kept the selected cycle settings fixed across seasons. The bed adsorbs for 48 min, evacuates for 2 min, then heats for 83 min at a 91.5 °C setpoint and a 16 kPa absolute pressure target. The pump-inlet knockout targets 35 °C. Air returns once the wall and hottest bed cell have both cooled to 55 °C. Cooling took about 11 min on average in each weather window.
 
-The useful conclusion is that humidity, regeneration behavior and the complete cycle matter more than a single adsorption-capacity value. The model provides a common way to examine those effects and decide what to measure next. It does not yet select a final operating point or demonstrate the proposed equipment.
+::: {#weather-comparison-table}
 
-## What the model represents
+| Inlet, 2023 (UTC) | Air °C | RH (%) | CO₂ in 48 h (kg) | CO₂ (kg/day) | Electricity (kWh/kg CO₂) |
+|---|---:|---:|---:|---:|---:|
+| Winter, 15–16 Jan | 4.8 | 83.0 | 6.125 | 3.062 | 7.45 |
+| Spring, 15–16 Apr | 7.6 | 87.5 | 6.010 | 3.005 | 7.87 |
+| Summer, 15–16 Jul | 24.2 | 51.9 | 5.274 | 2.637 | 6.65 |
+| Autumn, 15–16 Oct | 10.4 | 67.8 | 6.065 | 3.032 | 6.87 |
+| Fixed inlet, same cycle | 25.0 | 65.0 | 5.519 | 2.759 | 7.16 |
 
-The spatial model resolves gas inventory, adsorbed loading and temperature through a symmetric half of a flat bed. Sixteen cells cover the 8 mm half-thickness in the reported case. Gas paths act as parallel channels, while heat conducts through the bed. Heater and wall states, finite heat transfer, pressure control, water removal and electrical loads are coupled to the adsorption balances. An optional lumped model represents a single well-mixed bed; its results must be identified separately.
+:::
 
-The cycle contains adsorption, evacuation, heated desorption, cooling and repressurization. Product is collected during desorption and cooling. An ideal cooler and knockout condition the pump inlet to a 55°C target. The wall and inlet conditioner share a 2 kW cooling budget. Axial breakthrough, manifold maldistribution and a physical resistance-wire layout are not resolved.
+Each run starts with a clean, dry bed at 420 ppm inlet CO₂. For the four weather runs, temperature, humidity and pressure follow 48 hourly observations at Pully. The table gives the mean inlet temperature and RH. Throughout this report, daily capture means all CO₂ collected in the first 48 hours divided by two, including startup and any partial final cycle. Electricity is the total metered over those same hours divided by the product collected. [Four Pully runs](../../../docs/data/pully-seasonal-one-pump-summary.csv) · [Fixed-inlet control](../../../docs/data/bed-aging-lewatit.json)
 
-Material packages contain equilibrium, kinetics, thermal properties, shaping basis and source information. Measured data, fitted responses and transferred assumptions remain identifiable. Missing evidence is not filled by borrowing an unlabelled value from another adsorbent.
+January collected 0.85 kg more than July over two days. July nevertheless used the least electricity per kilogram. Each weather run completed 19 cycles. The four windows are examples from 2023. Seasonal or annual production estimates would need longer weather records. The coupled Lewatit uptake data cover 25–70 °C, so both the colder inlets and hot regeneration require extrapolation.
 
-## Common comparison conditions
+## Why we chose this cycle
 
-| Quantity | Setting |
-|---|---|
-| Ambient feed | 25°C, 100 kPa absolute, 420 ppm dry CO₂, 65% relative humidity |
-| Simulation basis | 48 hours from a clean, dry bed; 10 kg complete dry shaped material |
-| Bed | 16 mm full thickness; 1.736 m² face area; void fraction 0.40 |
-| Particle diameter and airflow | 1.5 mm; 0.18 m³/s |
-| Adsorption / desorption | 2 hours / 2 hours |
-| Evacuation / maximum cooling / maximum repressurization | 5 minutes / 30 minutes / 10 minutes |
-| Regeneration requests | 116°C and 16 kPa absolute |
-| Heater / combined cooling | 2 kW / 2 kW; cooling COP 3 |
-| Vacuum reference | KNF N922, 50 Hz flow curve; 135 W running input |
-| Spatial calculation | 16 cells; relative tolerance 10⁻⁷; maximum time step 10 seconds |
+We selected the timings at a fixed 25 °C and 65% RH before applying the weather records. A close alternative with 50 min adsorption, 90 s evacuation and 85 min heating gave a slightly higher rate in its last complete cycle (2.817 versus 2.805 kg/day). Over the full 48 hours it collected 5.42 kg, compared with 5.52 kg for the selected cycle. [One-pump timing runs](../../../docs/data/one-pump-timings.csv)
 
-The requests do not guarantee that every cell reaches the requested temperature or pressure. Achieved states and target misses are reported separately from conservation, numerical reliability and known material limits. The geometry, thermal properties and ideal conditioning assumptions describe a common screening case, not the chosen small prototype.
+<!-- pagebreak -->
 
-## Completed baseline results
+## All adsorbents on the same baseline {#completed-baseline-results}
+
+The material screen asks which sorbent collects more CO₂ under one common operating schedule. All eleven rows use 10 kg of dry shaped material, a clean, dry start, and a fixed inlet at 25 °C, 65% RH, 100 kPa and 420 ppm dry CO₂. This baseline uses 120 min adsorption, 5 min evacuation and 120 min electrical desorption at a requested 116 °C and 16 kPa absolute. It allows up to 30 min cooling and 10 min repressurization.
+
+::: {#purolite-a110-and-lewatit}
 
 | Material | Collected CO₂ (kg/day) | Electricity (kWh/kg CO₂) |
 |---|---:|---:|
 | Lewatit VP OC 1065 | 2.570 | 5.47 |
+| Purolite A110 | 1.290 | 9.01 |
 | TEPA(50) | 0.944 | 12.55 |
 | COF-1000 | 0.434 | 21.38 |
 | mmen-Mg2(dobpdc) | 0.417 | 36.00 |
@@ -53,21 +53,27 @@ The requests do not guarantee that every cell reaches the requested temperature 
 | MOF-808-TAPA | 0.149 | 57.84 |
 | CALF-20 | 0.059 | 236.40 |
 
-These daily rates are the total product collected over the exact 48-hour horizon divided by two days. They include collected product from the unfinished final cycle. Ten full cycles were completed in each baseline case. A late-cycle plateau is visible, but cyclic steady state (CSS) and mesh independence have not been established for this material comparison.
+:::
 
-For CALF-20 and COF-1000 the saved loading trace gives half the total CO₂ loading across two sites. The collection and electricity meters used in the table are independent of that trace.
+Lewatit collected 5.14 kg in 48 hours and Purolite 2.58 kg. A repeat Lewatit run using the same case and solver version as Purolite reproduced the archived Lewatit figures to the precision shown here. The other nine materials come from the original humid screen. [Archived baseline results](../../../docs/data/submission/results.csv) · [Matched Purolite and Lewatit runs](../../../docs/data/resin-comparison-65rh.csv)
 
-The cases use identical operating inputs after removing their labels. Their material laws, evidence quality and source releases differ. In particular, hot humid equilibrium and several rate coefficients are extrapolated or transferred. The table therefore compares the specified scenarios; it cannot isolate an intrinsic material advantage.
+The common bed is 16 mm thick, with 1.736 m² face area, 0.40 void fraction, 1.5 mm particles and 0.18 m³/s airflow. The electrical heater and combined cooling each have 2 kW available. Sixteen cells resolve the half-thickness of the bed. Electricity includes the heater, fan, vacuum pump and cooling. Downstream compression and product treatment fall outside this boundary.
 
-Electricity includes the reported heater, fan, vacuum and cooling loads. It excludes unresolved upstream drying, downstream compression, product treatment, storage and life-cycle burdens. Collected CO₂ is not net atmospheric removal. Product fractions also depend on the moisture basis: the Lewatit result is 99.43% CO₂ on a dry basis and 56.51% on a wet basis at the modelled collection boundary.
+These figures compare the material models at the stated conditions. Several packages extrapolate hot, humid uptake or use rate coefficients measured under other conditions. For example, the Purolite model uses humidity-dependent CO₂ measurements at 25 °C and extrapolates to hot regeneration. We use 116 °C for the material screen and 91.5 °C for the Pully weather runs. [Purolite and Lewatit measurements](https://doi.org/10.1021/acs.iecr.5c05049)
+
+## What fits in one cartridge?
+
+The baseline gives every resin the same dry mass. In a separate 27.78 L cartridge comparison, the dry packed densities used in the model give charges of 11.78 kg Purolite and 13.22 kg Lewatit. At 75% RH and a 100 °C heater setpoint, those charges collected 2.19 and 3.27 kg respectively in 48 hours. For procurement, the relevant measurement is how much dry resin our cartridge actually holds. [Equal-volume resin runs](../../../docs/data/resin-comparison-fixed-volume.csv)
+
+<!-- pagebreak -->
 
 ## Humidity and regeneration sensitivity
 
-Using the same Lewatit package and executable source, changing only feed humidity from dry air to 65% RH raises the calculated output from **1.186 to 2.570 kg/day**, a factor of **2.168**. Electricity intensity falls from 7.41 to 5.47 kWh/kg. This is a response of the adopted coupled water–CO₂ law; it is not independent experimental validation of that response.
+We changed one input at a time from the common material baseline. With Lewatit, changing only the feed from 65% RH to dry air reduced collection from 2.570 to 1.186 kg/day and raised electricity use from 5.47 to 7.41 kWh/kg. This comparison tests the coupled water and CO₂ adsorption law under fixed conditions. Temperature, RH and pressure vary together in the Pully runs.
 
-A separate sensitivity sets the CO₂ desorption rate to 0.001 s⁻¹ while retaining adsorption and water-rate assumptions. The completed results are:
+For the rate test we set the CO₂ desorption coefficient to 0.001 s⁻¹ and kept the adsorption and water rates fixed. Five materials completed the 48 hours. Each row compares a material with its own baseline.
 
-| Material | Baseline (kg/day) | Faster desorption (kg/day) |
+| Material | Baseline CO₂ (kg/day) | Faster desorption (kg/day) |
 |---|---:|---:|
 | TEPA(50) | 0.944 | 1.339 |
 | mmen-Mg2(dobpdc) | 0.417 | 0.862 |
@@ -75,28 +81,43 @@ A separate sensitivity sets the CO₂ desorption rate to 0.001 s⁻¹ while reta
 | MIL-101/PEI/glycerin | 0.315 | 0.521 |
 | MOF-808-TAPA | 0.149 | 0.218 |
 
-The faster-rate values are exploratory assumptions, not new fitted kinetic coefficients. The mmen and TAPA cases use a reviewed numerical solver extension whose source is included with the evidence. The HOB/PVDF and COF-999 attempts ended after their workers exited and have no complete 48-hour result. Neither is assigned a rate-sensitivity performance value.
+Faster release roughly doubled the calculated output for mmen-Mg2(dobpdc). The rate was imposed for this test. A desorption measurement on the candidate would establish whether it can achieve that gain. The HOB/PVDF and COF-999 runs stopped early and have no 48-hour value. [Baseline and sensitivity exports](../../../docs/data/submission/results.json)
 
-Retained CO₂ helps explain the low working output of several scenarios. Slow release matters for mmen and TEPA, while a high modelled hot equilibrium loading also limits COF and TAPA scenarios. The sensitivity does not establish how much of the real behavior is due to kinetics, equilibrium, water or heat transfer.
+## Steam, electricity and cycle timing
 
-## Evidence and limits
+For Lewatit at 25 °C and 65% RH we also tested different regeneration systems. The first row below is the fixed-inlet control for the Pully study. All rows use the full 48-hour collection metric.
 
-Software checks cover material parsing, source identity, balances, numerical derivatives, job handling and result display. Saved-result audits check raw accounting and time coverage. These checks support traceability and internal consistency. They do not replace experiments.
+| Regeneration system | Adsorption / heating (min) | CO₂ in 48 h (kg) | Electricity (kWh/kg CO₂) |
+|---|---:|---:|---:|
+| Electrical, one pump | 48 / 83 | 5.52 | 7.16 |
+| Direct steam, one pump | 28 / 40 | 5.69 | 19.03 |
+| Electrical, two pumps | 50 / 70 | 6.12 | 7.44 |
 
-The current predictive-validation work includes fresh protocol-curve refits for COF-1000 and COF-999. Both retain failed humidity-condition tests; COF-999 also fails the withheld 100°C response test. Protocol fits do not identify intrinsic vacuum-desorption kinetics. The current HOB hot equilibrium representation is also unsuitable for an unqualified prediction: its temperature-transfer behavior needs a same-specimen fit and consistent caloric treatment. No confidence interval for device CO₂/day is justified by the available evidence.
+The one-pump steam case collected 0.17 kg more in two days than the one-pump electrical case. Producing the steam electrically raised electricity use to 19.03 kWh/kg. The steam case injected up to 10 kg/h and follows gas through cells in series. The electrical model uses parallel gas paths. Phase times also differ, so this comparison describes the complete operating choices. The fixed-weather steam run reused repeating cycles. [Steam and electrical timing runs](../../../docs/data/adsorption-duration.csv)
 
-The highest immediate risks to a prototype prediction are the hot humid material law, shaped-bed kinetics, actual particle size and packing, wire-to-bed heat transfer, leakage and pump performance under simultaneous vacuum inlet and pressurized discharge. The saved Lewatit case requests 116°C and reaches about 120°C locally. It must not be used as a prototype temperature recommendation; the actual material limit and margin for local hot spots need to be established first.
+<!-- pagebreak -->
 
-## Small prototype: next use of the same model
+## How aging changes capture
 
-The working basis is Lewatit, resistance wire inside the bed and the KNF N922 stainless-steel IP54 pump family. The downstream requirement is approximately 1% CO₂ at at least 3 bar absolute. The dry/wet concentration basis, delivery flow and duty remain to be confirmed. Published vacuum and discharge ratings do not establish pump throughput when both conditions occur together.
+We repeated the one-pump electrical cycle used in the weather study at a fixed 25 °C and 65% RH. Each run starts with a clean, dry bed at the stated fraction of fresh CO₂ capacity. Water uptake parameters and rate coefficients stay fixed.
 
-The next step is to enter the team's actual dimensions, dry mass, bead distribution, packing, heater layout and flow path as a new case in this model. Measure pressure drop versus airflow, temperature near the wire and in colder regions, bed pressure, product amount and composition, condensate and electrical input. Use those measurements to test the model before optimizing the cycle or selecting the fan. The present full-size output should not be scaled by mass alone.
+| Lewatit capacity retained | CO₂ in 48 h (kg) | Electricity (kWh/kg CO₂) |
+|---|---:|---:|
+| 100% (fresh control) | 5.52 | 7.16 |
+| 90% | 5.30 | 7.45 |
+| 75% | 4.88 | 8.09 |
+| 68.8% | 4.66 | 8.43 |
+
+A 31.2% loss of equilibrium capacity reduced the CO₂ collected in two days by about 16%. The 68.8% capacity comes from Hunt and colleagues’ measurements after 180 cycles at 80 °C and 10 kPa absolute. The team’s 91.5 °C cycle has a different exposure history. A replacement interval would require uptake and operating-cost measurements on our own bed. [Four fixed-capacity runs](../../../docs/data/bed-aging-lewatit.json) · [Hunt et al.](https://doi.org/10.1016/j.cej.2024.148901)
+
+## Measurements for the small prototype
+
+Lewatit is our first candidate for a prototype with resistance wire and a KNF N922 vacuum pump. The first test should measure bed pressure drop and resin temperature near the wire and in the coldest region. Record the hottest temperature when air returns. Measure product flow, CO₂ and moisture through a complete cycle. Weigh the condensate and meter electricity over the same interval. These measurements tie daily capture and electricity use to a physical bed.
+
+The delivery target is approximately 1% CO₂ at at least 3 bar absolute. The concentration basis, required flow and pump throughput at simultaneous suction and discharge pressures still need confirmation. Collected CO₂ describes the product at the model boundary. Net atmospheric removal would also require downstream energy and life-cycle accounting. [Pump reference](https://knf.com/en/global/solutions/pumps/series/diaphragm-gas-pump-n-922-st)
 
 ## Sources and reproducibility
 
-The accompanying results dataset contains 16 completed exports, the status of two incomplete sensitivity attempts, audit records and source hashes. The technical reference gives the equations and numerical conventions. The evidence page distinguishes numerical checks from material validation. All headline values above are computed from the supplied result exports.
-
-Key external sources are Young et al. (2021), *The impact of binary water–CO₂ isotherm models on the optimal performance of sorbent-based direct air capture processes*, DOI [10.1039/D1EE01272J](https://doi.org/10.1039/D1EE01272J); Low et al. (2023), Lewatit property and equilibrium measurements, DOI [10.1021/acs.jced.3c00401](https://doi.org/10.1021/acs.jced.3c00401); and the [KNF N922 ST manufacturer information](https://knf.com/en/global/solutions/pumps/series/diaphragm-gas-pump-n-922-st). Each material package retains its own source references and transfer restrictions.
+The archived comparison has 16 complete exports and two interrupted sensitivities. The paired-resin and later operating studies have their own data tables. The technical reference gives the balances and the evidence chapter records their limits. The archived CALF-20 and COF-1000 loading traces show half the sum over two sites. Their collection and electricity meters are independent of those traces. [Lewatit equilibrium model](https://doi.org/10.1039/D1EE01272J)
 
 [Result table and exact exports](../../../docs/data/submission/results.json) · [CSV table](../../../docs/data/submission/results.csv) · [Equations](model_reference.html) · [Evidence and validation](evidence.html) · [User guide](user_guide.html)

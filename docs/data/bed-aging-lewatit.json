@@ -1,0 +1,43 @@
+{
+  "material": "Lewatit VP OC 1065",
+  "reference_case": "10 kg, one pump, electrical regeneration, 25 C, 65% RH, 420 ppm CO2",
+  "benchmark": {
+    "cycles": 180,
+    "retained_pct": 68.8,
+    "doi": "10.1016/j.cej.2024.148901"
+  },
+  "runs": [
+    {
+      "retained_pct": 100,
+      "steady_kg_day": 2.8045642547262792,
+      "kg48": 5.518641536498719,
+      "kwh_kg": 7.158998115758991,
+      "source_export": "one-pump-retained-100-spatial.json.gz",
+      "source_json_sha256": "c05d25bddfcb3203d72442d48eb5a9a49fe4f451a71877b27d27752abf7f243e"
+    },
+    {
+      "retained_pct": 90,
+      "steady_kg_day": 2.6809384965898726,
+      "kg48": 5.304206293284079,
+      "kwh_kg": 7.453152204231645,
+      "source_export": "one-pump-retained-90-spatial.json.gz",
+      "source_json_sha256": "17ea4b95eaafc9a005954a7e41df489b441b129467dfff0894d7e7527defb6f9"
+    },
+    {
+      "retained_pct": 75,
+      "steady_kg_day": 2.452009646025979,
+      "kg48": 4.882298050663218,
+      "kwh_kg": 8.085011966617252,
+      "source_export": "one-pump-retained-75-spatial.json.gz",
+      "source_json_sha256": "34b775ef21fafe2dcaa27d203e91642fdab4056b78f77c56dda961386f4b85e2"
+    },
+    {
+      "retained_pct": 68.8,
+      "steady_kg_day": 2.3387842147794102,
+      "kg48": 4.658341447993891,
+      "kwh_kg": 8.428823600709633,
+      "source_export": "one-pump-retained-68.8-spatial.json.gz",
+      "source_json_sha256": "34958a05e4f315084b4686b2489447cd0406aa4cd61f933baa9991be97f4f856"
+    }
+  ]
+}

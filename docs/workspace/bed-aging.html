@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Bed aging | Carbon Team</title>
+  <link rel="stylesheet" href="/docs/style.css">
+  <script src="/docs/assets/ui/theme-init.js"></script>
+  <link rel="stylesheet" href="/docs/assets/ui/app.css">
+  <link rel="stylesheet" href="/docs/assets/ui/current.css">
+  <script src="/docs/assets/ui/app-shell.js" defer></script>
+  <script src="/docs/assets/ui/bed-aging.js" defer></script>
+</head>
+<body class="ct-app">
+<header><h1>Bed aging</h1><p>Explore how a loss of CO₂ capacity changes daily capture and electricity use for the 10 kg Lewatit VP OC 1065 bed with one vacuum pump and electrical heating.</p></header>
+<main>
+  <section aria-labelledby="estimate-heading">
+    <h2 id="estimate-heading">Estimate bed performance</h2>
+    <label for="aging-basis">Resin condition from</label>
+    <select id="aging-basis" disabled>
+      <option value="cycles">Number of completed cycles</option>
+      <option value="measured">Measured CO₂ capacity</option>
+    </select>
+    <p id="cycles-field">
+      <label for="aging-cycles">Completed cycles</label>
+      <input id="aging-cycles" type="number" min="0" max="180" step="1" value="90" required disabled aria-describedby="cycles-help aging-status"><br>
+      <small id="cycles-help">Use 0–180 cycles to compare two curves fitted to the same experimental endpoint.</small>
+    </p>
+    <p id="measured-field" hidden>
+      <label for="aging-measured">Capacity retained (% of fresh)</label>
+      <input id="aging-measured" type="number" min="0" step="any" required disabled placeholder="e.g. 85" aria-describedby="measured-help aging-status"><br>
+      <small id="measured-help">Divide aged CO₂ uptake by fresh uptake measured under the same conditions, then multiply by 100. You can use a measurement taken after any number of cycles.</small>
+    </p>
+    <p id="aging-status" role="status">Loading reference runs…</p>
+    <div id="estimate-results" class="table-scroll" hidden>
+      <table><thead><tr><th scope="col">Resin condition</th><th scope="col">Capacity retained</th><th scope="col">CO₂ (kg/day)¹</th><th scope="col">CO₂ in first 48 h (kg)</th><th scope="col">Electricity (kWh/kg CO₂)²</th></tr></thead>
+      <tbody id="estimate-rows"></tbody></table>
+    </div>
+    <p><small>¹ Last complete cycle, expressed per day. &nbsp; ² Total electricity divided by CO₂ collected over the first 48 hours, including startup.</small></p>
+  </section>
+  <section aria-labelledby="reference-heading">
+    <h2 id="reference-heading">Reference simulations</h2>
+    <p>Each 48-hour run starts with a clean, dry bed at a fixed resin capacity. Feed is 25 °C, 65% RH and 420 ppm CO₂. The cycle uses 48 min of adsorption, 2 min of evacuation and 83 min of electrical regeneration at a 91.5 °C heater setpoint and 16 kPa absolute vacuum target. Air returns once the hottest bed cell and the wall are both at or below 55 °C.</p>
+    <details><summary>View the four completed runs</summary>
+      <div class="table-scroll"><table><thead><tr><th scope="col">Capacity retained</th><th scope="col">CO₂ (kg/day)¹</th><th scope="col">CO₂ in first 48 h (kg)</th><th scope="col">Electricity (kWh/kg CO₂)²</th><th scope="col">Run export</th></tr></thead><tbody id="reference-rows"></tbody></table></div>
+      <a href="/docs/data/bed-aging-lewatit.json" download>Download reference values (JSON)</a>
+    </details>
+    <p>The model scales the dry and humid CO₂ equilibrium capacities. It holds water uptake parameters and adsorption kinetics fixed. Estimates between reference runs use linear interpolation. Steam regeneration, other resins and seasonal feeds need their own reference runs.</p>
+  </section>
+  <section aria-labelledby="evidence-heading">
+    <h2 id="evidence-heading">What 180 cycles tells us</h2>
+    <p>Hunt and colleagues measured 68.8% of fresh Lewatit capacity after 180 cycles with regeneration at 80 °C and 10 kPa absolute. The linear scenario loses an equal amount of capacity per cycle. The exponential scenario loses an equal fraction of the remaining capacity. Both use that published endpoint. Their spread only shows the effect of choosing a curve. <a href="https://doi.org/10.1016/j.cej.2024.148901">Hunt et al. (2024)</a></p>
+    <p>Our bed runs at different conditions, so its loss rate and service life still require measurements. Cycle 180 marks the end of the experiment. A replacement decision can use measured capture, electricity and resin cost. <a href="/project-report/model_reference.html#lewatit-bed-aging">See the aging equations and assumptions</a>.</p>
+  </section>
+</main></body></html>

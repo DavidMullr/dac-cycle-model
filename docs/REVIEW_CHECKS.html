@@ -8,7 +8,7 @@
 <script src="assets/ui/app-shell.js" defer></script>
 <style>main{max-width:1100px}main table{width:100%;border-collapse:collapse;margin:1.5rem 0}th,td{text-align:left;padding:.65rem;border-bottom:1px solid var(--border,#dce3e8)}main p,main li{max-width:85ch;line-height:1.65}pre{overflow-x:auto;padding:1rem;border-radius:8px;background:var(--surface-2,#eef3f5)}@media(max-width:650px){table{display:block;overflow-x:auto}}@media print{.ct-sidebar,.ct-topbar,.ct-skip{display:none!important}.ct-workspace{margin:0!important}}</style>
 </head><body class="ct-app">
-<header><div class="eyebrow">Carbon Team &middot; 17 November 2026</div><h1>Review checks</h1></header>
+<header><div class="eyebrow">Carbon Team &middot; DAC model</div><h1>Review checks</h1></header>
 <main><p>The standalone review used 64-bit CPython 3.12.3 with the 17 pinned
 packages. Run from the repository root:</p>
 <pre class="text"><code>python -B -m pytest -c pytest.ini -q
@@ -53,6 +53,17 @@ href="../model/report/project/model_reference.html#reading-saved-diagnostics">te
 reference</a> explains the two-site loading correction and the scope of
 historical humidity diagnostics. Reviewed exports keep their original
 bytes. The bounded runs did not replace any published case.</p>
+<p>The 16-export audit covers the archived comparison. For later runs,
+use the job and source hashes in the <a
+href="data/resin-comparison-65rh.csv">matched-resin table</a> and the
+export hashes in the <a href="data/bed-aging-lewatit.json">aging
+reference data</a>. The <a href="data/adsorption-duration.csv">timing
+study</a> records how many cycles were integrated or reused. To audit a
+native Lewatit export with steam, run
+<code>python tools/audit_lewatit_regeneration.py RESULT.json</code> and
+check net uptake, collected CO₂, both drains and generator input.
+A110-specific tests exercise the humidity curves, low-pressure extension
+and rates. The aging page interpolates the four completed cases.</p>
 <p>The independent raw-energy helper handles constant-heat laws.
 Material-specific historical energy audits accompany the corresponding
 exports. Hosted CI, a second computer, mesh convergence, cyclic steady

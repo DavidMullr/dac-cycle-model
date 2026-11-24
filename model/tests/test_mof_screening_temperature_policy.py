@@ -39,7 +39,8 @@ def test_registry_has_all_exact_normalized_package_records():
         assert guard['matched'] is True
         assert guard['declared_guard_C'] == record['declared_guard_C']
         checked.add(material['material_id'])
-    assert len(checked) == 28
+    assert "purolite_a110_humid" in checked
+    assert len(checked) == 29
 
 
 def test_shared_case_hash_is_identical_across_material_guard_classes():

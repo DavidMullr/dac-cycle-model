@@ -18,7 +18,7 @@ Go to **Materials & simulations**. The material package defines adsorption and
 water laws, rate coefficients, thermal properties and their evidence. The case
 defines the device and how it operates. Keep that distinction when comparing runs.
 
-1. **Choose the material.** The selector has 29 records, including dry and humid scenarios for the same adsorbent and two examples. Check the selected record’s evidence, humidity model and temperature range. Use Import
+1. **Choose the material.** The selector has 30 records, including dry and humid scenarios for the same adsorbent and two examples. Check the selected record’s evidence, humidity model and temperature range. Use Import
    JSON or Create material for a custom package. The default hypothetical package
    is an interface example, not the reported Lewatit case.
 2. **Choose the representation.** Spatial resolves temperature and loading
@@ -45,6 +45,10 @@ To reproduce the inputs shown in the report, select **Reviewed Lewatit (65% RH, 
 `material_package` and `case` are embedded in each result JSON, together with its
 source and numerical-policy identities.
 
+### Compare Purolite A110 and Lewatit
+
+Choose **Purolite A110 (55% RH, 1 h)** to inspect the new resin at 25 °C. For a material comparison, load **Reviewed Lewatit (65% RH, 48 h)** first, then change just the material in the selector and preview again. Loading a different case preset can also change the weather and timing. The completed equal-mass pair used identical case and solver hashes. Purolite collected 2.58 kg in 48 hours and the Lewatit control collected 5.14 kg. If cartridge volume is the design constraint, set the dry charge from each resin’s packed density. [Equal-mass comparison](../../../docs/data/resin-comparison-65rh.csv) · [Equal-volume comparison](../../../docs/data/resin-comparison-fixed-volume.csv)
+
 ## What the model calculates
 
 The cycle advances through **adsorption, evacuation, heated desorption, cooling
@@ -53,11 +57,7 @@ at the local temperature and gas composition. Rate laws determine how quickly
 loading approaches that state. Gas and adsorbed inventories change together,
 while heat transfer and adsorption energies change temperatures and pressures.
 
-The spatial model divides a symmetric half-bed into cells. It resolves heat
-conduction through the thickness with parallel gas paths, plus heater and wall
-states. It does not resolve an axial breakthrough front or manifold flow
-maldistribution. The lumped model uses the same material interface and case
-inputs with a well-mixed transport description.
+For electrical heating and the indirect steam jacket, the spatial model resolves heat conduction across the bed with parallel gas paths. Direct steam flows through axial cells in series and can condense in the bed. Neither geometry resolves manifold maldistribution. The lumped companion uses electrical heating and one well-mixed bed state.
 
 Pump withdrawal, pressure control, heating and the shared cooling budget act
 through the cycle. An ideal inlet cooler and knockout account for water removal
@@ -85,6 +85,24 @@ modeled electricity excludes upstream drying and downstream compression.
 Under **Monitor runs**, open the completed local job. **Export JSON** includes the exact inputs and full accounting. **Export CSV traces** gives sampled observations. For the reviewed comparison, use its [summary CSV](../../../docs/data/submission/results.csv) and the individual JSON exports on the Results page.
 
 Before plotting saved COF-1000 or CALF-20 loadings, or interpreting the saved Lewatit local humidity traces, see [Reading saved diagnostics](model_reference.qmd#reading-saved-diagnostics).
+
+## Compare heat sources and cycle timing
+
+Under **Materials & simulations**, select **Direct steam · Lewatit (1 h)**, then **Preview exact case** and **Start screening**. Direct injection requires the Young advisory Lewatit law and the spatial engine. This preset selects that material, four axial cells and a 25 °C pump-inlet knockout. The 10 kg/h setting is the maximum steam flow during injection. Actual steam consumption comes from the inlet meter. Open **Regeneration heat source** to change supply pressure, flow, generator energy carrier, transfer/drainage times or the wet sorption plateau. **Indirect steam jacket** heats through the wall and has its own heat-transfer conductance. **Electrical heater** uses the reviewed wall-heated spatial representation. The well-mixed companion supports electrical heating.
+
+For a heat-source comparison on the same axial grid, duplicate the direct-steam case, set the steam flow to zero and enable electric trim heat. Keep the same material, initial state, weather, geometry, timing and resolution. Compare collected CO₂/day, kg of steam per kg of product CO₂, wet purity, generator energy and peak local relative humidity. The first hour starts with CO₂ already on the sorbent. For sustained production, compare complete cycles and check whether inventories repeat. The collected/inlet CO₂ ratio includes changes in the initial inventory. Read the signed change in stored CO₂ beside it. Engineering can price electricity, external heat and makeup water. Set the fraction of steam that needs fresh feedwater from the intended condensate-return arrangement. The numerical repeatability check uses three consecutive fixed-weather comparisons of cycle duration, collected CO₂ and all physical endpoint states, including retained liquid.
+
+Use pressure and cooling setpoints to operate the equipment. Rank physically usable, conserved cases on **collected kg CO₂ per elapsed day**. A missed setpoint alone carries no ranking penalty. A longer cooling phase can improve the next adsorption step while reducing how many cycles fit in a day. Vary one timing or pressure setting per run. Check dry and wet product purity, achieved pressures, temperatures and pump operation against any actual delivery or equipment limits. For hardware still being selected, enter measurements when available. The flow, cooler capacity, leak and dead volume can be varied independently in the spatial setup.
+
+The [direct steam screening results](model_reference.qmd#direct-steam-screening-results) compare the matched electrical control, two steam rates and electric trim. The per-cycle plot shows how the initial CO₂ inventory affects the product meter.
+
+The later 48-hour timing and Pully studies used a separate study runner that admits air once both the wall and hottest resin cell reach 55 °C. It could reuse repeating cycles for fixed-weather steam cases. The one-hour steam preset and the archived two-hour-phase Lewatit preset have their own cooling rules. Loading either preset alone will therefore give different inputs from the timing study. [Timing results](../../../docs/data/adsorption-duration.csv) · [One-pump weather results](../../../docs/data/pully-seasonal-one-pump-summary.csv)
+
+## Estimate the effect of bed aging
+
+Open **Bed aging** in the sidebar. Choose **Number of completed cycles** to compare linear and exponential loss over the first 180 cycles, or **Measured CO₂ capacity** if you have a resin sample. For a sample, divide its CO₂ uptake by fresh uptake under the same test conditions and enter the percentage. A sample taken after cycle 180 can still be used. Estimates cover 68.8–100% retained capacity.
+
+The page reads four completed Lewatit simulations for a 10 kg bed with one vacuum pump, electrical heating and a 25 °C, 65% RH feed. It gives CO₂ collected in 48 hours, the last complete cycle’s daily rate and electricity per kg over the full run. Changing the input updates the estimate on this page. The simulation form runs its selected material law at fixed properties. A steam cycle or a different material needs its own capacity runs. [Aging assumptions](model_reference.qmd#lewatit-bed-aging)
 
 ## Engineering and the next prototype
 

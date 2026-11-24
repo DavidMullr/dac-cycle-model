@@ -19,4 +19,6 @@ python -B tools/release.py verify
 
 The [verification record](data/submission/review_checks.json) records the observed counts. The [technical reference](../model/report/project/model_reference.html#reading-saved-diagnostics) explains the two-site loading correction and the scope of historical humidity diagnostics. Reviewed exports keep their original bytes. The bounded runs did not replace any published case.
 
+The 16-export audit covers the archived comparison. For later runs, use the job and source hashes in the [matched-resin table](data/resin-comparison-65rh.csv) and the export hashes in the [aging reference data](data/bed-aging-lewatit.json). The [timing study](data/adsorption-duration.csv) records how many cycles were integrated or reused. To audit a native Lewatit export with steam, run `python tools/audit_lewatit_regeneration.py RESULT.json` and check net uptake, collected CO₂, both drains and generator input. A110-specific tests exercise the humidity curves, low-pressure extension and rates. The aging page interpolates the four completed cases.
+
 The independent raw-energy helper handles constant-heat laws. Material-specific historical energy audits accompany the corresponding exports. Hosted CI, a second computer, mesh convergence, cyclic steady state, hardware limits and physical performance require separate evidence.

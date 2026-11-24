@@ -14,6 +14,10 @@ Start with **Results & comparison** to inspect the reviewed results. For a new
 calculation, use **Materials & simulations**, then **Preview exact case** and
 **Start screening**. Opening the app or previewing inputs starts no simulation.
 
+For **Purolite A110**, select **Purolite A110 (55% RH, 1 h)**. For **direct steam**, select **Direct steam · Lewatit (1 h)** and use the spatial engine. Both presets load a material and a case. Keep the case fixed when comparing resins.
+
+Open **Bed aging** to see how measured capacity loss affects the one-pump electrical Lewatit cycle. Enter retained CO₂ capacity or try a count up to the published 180-cycle endpoint. The page shows the first 48 hours of collection alongside the last complete cycle’s rate.
+
 Read [Using the DAC model](../model/report/project/user_guide.html) for the
 workflow, input choices, calculation steps and interpretation of results.
 The [project map](PROJECT_MAP.md) explains where those steps live in the code.

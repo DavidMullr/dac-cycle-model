@@ -27,10 +27,11 @@ from .contract import (
     runtime_wall_limit_s,
     temperature_guard_assessment,
 )
-from .evaluation import annotate_result
+from .evaluation import annotate_result, phase_endpoint_pressure
 from .energy_balance import evaluate_energy_balance
 from .materials import MaterialAdapter, build_material_adapter
 from .young2021 import buck_saturation_pressure_Pa
+from . import direct_steam
 from .spatial import (
     PUMPED_PHASES,
     STEPS,
@@ -243,7 +244,7 @@ def build_spatial_config(material: dict, case: dict, weather) -> dict:
         "metal_cp_J_kg_K": 900.0,
         "frame_mass_kg": float(equipment["wall_heat_capacity_J_K"])
         / 900.0,
-        "extra_dead_volume_m3": 0.0005,
+        "extra_dead_volume_m3": float(equipment.get("dead_volume_m3", 0.0005)),
     }
     profile["airflow"].update(
         {
@@ -328,7 +329,7 @@ def build_spatial_config(material: dict, case: dict, weather) -> dict:
         "bank_contract": "ideal_parallel_unit_curve",
         "pressure_control_observable": "maximum",
         "throttle_band_Pa": 500.0,
-        "air_leak_Pa_m3_s": 1e-5,
+        "air_leak_Pa_m3_s": float(equipment.get("leak_Pa_m3_s", 1e-5)),
     }
     profile["conditioner"] = {
         "cooling_target_C": 55.0,
@@ -357,7 +358,7 @@ def build_spatial_config(material: dict, case: dict, weather) -> dict:
             "gas_solid_heat_transfer_W_m2_K": float(
                 equipment["gas_solid_heat_transfer_W_m2_K"]
             ),
-            "gas_solid_specific_area_m2_m3": 2400.0,
+            "gas_solid_specific_area_m2_m3": 6.0 * (1.0 - equipment["bed_void_fraction"]) / equipment["particle_diameter_m"],
             "pump_flow_basis": "reference_fixed_inlet_speed",
             "transport_status": "EXPLICIT_ANALYST_ASSUMPTION",
         }
@@ -421,23 +422,39 @@ def build_spatial_config(material: dict, case: dict, weather) -> dict:
             ),
         },
     }
-    profile["operating_policy"] = deepcopy(SHARED_ACTUATOR_POLICY)
+    regen = case.get("regeneration", {"kind": "electrical"})
+    profile["regeneration"] = deepcopy(regen)
+    if regen["kind"] == "direct_steam":
+        profile["direct_steam"] = deepcopy(regen)
+    if regen["kind"] == "steam_jacket":
+        profile["heating_source"] = {
+            "kind": "condensing_steam", "advisory_temperature_target": True, "source_to_wall_UA_W_K": regen["jacket_UA_W_K"],
+            "steam": {"pressure_Pa_abs": regen["supply_pressure_Pa"],
+                      "generator_efficiency": regen["generator_efficiency"],
+                      "feedwater_temperature_C": regen["feedwater_C"]},
+        }
+    profile["operating_policy"] = deepcopy(case.get("operating_policy", SHARED_ACTUATOR_POLICY))
     profile["source_identity"] = {
         "spatial_control": "shared-phase-actuators/2",
         "spatial_engine": "screening/mof_screening/spatial.py",
-        "model_basis": "transverse gas/solid, heater/wall and pressure balances",
+        "model_basis": ("axial gas, solid, free liquid and wall balances" if regen["kind"] == "direct_steam"
+                        else "transverse gas/solid, heater/wall and pressure balances"),
         "components": [
             "site-resolved storage vector",
             "site energy and Cp from the shared material adapter",
-            "reviewed ideal 55 C pump conditioner with zero pressure drop",
+            "ideal pump conditioner with zero pressure drop at the configured target",
             "shared phase-level actuator availability and targets",
             "shared-case weather and geometry translation",
             "result source identity",
         ],
     }
-    profile = enable_pump_conditioner(
-        profile, target_temperature_C=55.0
-    )
+    cooler = float(equipment.get("cooler_power_W", 2000.0))
+    knockout = float(equipment.get("knockout_C", 55.0))
+    for utility in profile["utilities"].values():
+        utility["max_cooling_capacity_W"] = cooler
+    profile["conditioner"].update(cooling_target_C=knockout, max_cooling_duty_W=cooler)
+    profile["shared_equipment"].update(combined_cooling_power_full_W=cooler, conditioner_target_C=knockout)
+    profile = enable_pump_conditioner(profile, target_temperature_C=knockout)
     return profile
 
 
@@ -492,6 +509,8 @@ def _electric_terms(config: dict, state: np.ndarray, layout, windows) -> dict:
             None if utility_block is None else utility_block["total_electric_J"]
         ),
     }
+    if config.get("regeneration", {}).get("generator_carrier") == "electricity":
+        terms["steam_generator"] = 2.0 * float(state[layout.e_source_input])
     complete = all(value is not None for value in terms.values())
     total = (
         sum(float(value) for value in terms.values() if value is not None)
@@ -537,6 +556,9 @@ def mass_closure(
     if layout.extended:
         condensate[1] = final[layout.condensate]
         residual[1] += condensate[1]
+    if layout.liquid is not None:
+        residual[1] += (final[layout.liquid] - initial[layout.liquid]).sum() + final[layout.bed_drain]
+        condensate[1] += final[layout.bed_drain]
     throughput = (
         final[layout.inlet]
         + final[layout.vent]
@@ -548,6 +570,34 @@ def mass_closure(
         1e-9,
     )
     return residual, np.abs(residual) / scale
+
+
+def cycle_repeatability(cycles, layout, *, fixed_weather):
+    """Compare physical states at equivalent boundaries, ignoring integrated meters."""
+    groups = {"solid_K": (layout.T_bed, 0.1, 0), "gas_K": (layout.T_gas, 0.1, 0),
+              "hardware_K": (slice(0, 2), 0.1, 0), "loading_mol_kg": (layout.q, 1e-4, 0.002),
+              "gas_mol": (layout.n_gas, 1e-8, 0.002)}
+    if layout.liquid is not None:
+        groups["liquid_mol"] = (layout.liquid, 1e-7, 0.002)
+    complete = [row for row in cycles if row["complete"]]
+    consecutive = 0
+    errors = {}
+    for i, row in enumerate(complete):
+        before = np.asarray(row["state_before"])
+        after = np.asarray(row["state_after"])
+        errors = {}
+        for name, (block, absolute, relative) in groups.items():
+            scale = absolute + relative * np.maximum(np.abs(before[block]), np.abs(after[block]))
+            errors[name] = float(np.max(np.abs(after[block] - before[block]) / scale))
+        if i:
+            for key, absolute in (("cycle_time_s", 0.1), ("product_CO2_mol_half", 1e-8)):
+                a, b = row[key], complete[i-1][key]
+                errors[key] = abs(a-b) / (absolute + 0.002 * max(abs(a), abs(b)))
+        consecutive = consecutive + 1 if fixed_weather and i and max(errors.values()) <= 1.0 else 0
+    return {"established": consecutive >= 3, "fixed_weather": fixed_weather, "consecutive_passes": consecutive,
+            "required_consecutive": 3, "last_complete_cycle_normalized_errors": errors,
+            "state_tolerances": {k: {"absolute": a, "relative": r} for k, (_, a, r) in groups.items()},
+            "basis": "Scenario numerical repeatability at complete cycle boundaries; all normalized errors <= 1."}
 
 
 def _trace_rows(
@@ -581,19 +631,21 @@ def _trace_rows(
             state = np.asarray(states[index], dtype=float)
             n_gas = state[layout.n_gas].reshape(model.n_cells, 4)
             Tgas = state[layout.T_gas]
+            volume = direct_steam.gas_volume(model, state)
             pressures = (
                 n_gas.sum(axis=1)
                 * R
                 * Tgas
-                / model.cell_gas_volume_m3
+                / volume
             )
             local_water_partial = (
                 np.maximum(n_gas[:, 1], 0.0) * R * Tgas
-                / model.cell_gas_volume_m3
+                / volume
             )
             local_rh = local_water_partial / np.array(
                 [
                     (
+                        direct_steam.saturation_pressure_Pa(float(value)) if layout.liquid is not None else
                         material.diagnostic_saturation_pressure_Pa(
                             float(value)
                         )
@@ -608,6 +660,14 @@ def _trace_rows(
             water_loading = float(q[:, material.water_storage_index].mean())
             rows.append(
                 {
+                    **({"axial_solid_temperature_K": state[layout.T_bed].tolist(),
+                        "axial_pressure_Pa": pressures.tolist(), "axial_water_partial_Pa": local_water_partial.tolist(),
+                        "axial_adsorbed_water_mol_kg": q[:, material.water_storage_index].tolist(),
+                        "bed_liquid_mol_by_cell": (2 * state[layout.liquid]).tolist(),
+                        "outlet_water_mole_fraction": float(n_gas[-1, 1] / n_gas[-1].sum()),
+                        "steam_in_mol_cycle": 2 * float(state[layout.steam_in]),
+                        "bed_drain_mol_cycle": 2 * float(state[layout.bed_drain])}
+                       if layout.liquid is not None else {}),
                     "elapsed_s": float(times[index]),
                     "phase_elapsed_s": float(
                         times[index] - phase_starts.get(phase, 0.0)
@@ -638,12 +698,8 @@ def _trace_rows(
                     "local_rh_min": float(np.min(local_rh)),
                     "local_rh_mean": float(np.mean(local_rh)),
                     "local_rh_max": float(np.max(local_rh)),
-                    "local_relative_humidity_basis": (
-                        _relative_humidity_basis(material)
-                    ),
-                    "saturation_diagnostic_law": (
-                        _saturation_diagnostic_law(material)
-                    ),
+                    "local_relative_humidity_basis": ("p_H2O / IAPWS saturation at solid temperature" if layout.liquid is not None else _relative_humidity_basis(material)),
+                    "saturation_diagnostic_law": ("IAPWS saturation line" if layout.liquid is not None else _saturation_diagnostic_law(material)),
                 }
             )
     return rows
@@ -727,6 +783,9 @@ def run_spatial(
     electric_complete = True
     max_energy_relative = 0.0
     max_species_relative = 0.0
+    species_maxima = np.zeros(4)
+    regen = first_config["regeneration"]
+    wet = model.layout.liquid is not None
     partial_final_cycle = False
 
     def report_engine_progress(payload):
@@ -861,6 +920,8 @@ def run_spatial(
                 + terms["cooler_auxiliary"]
             )
             electric_components["cooling"] += float(terms["utilities"])
+            if "steam_generator" in terms:
+                electric_components["steam_generator"] = electric_components.get("steam_generator", 0.0) + terms["steam_generator"]
         else:
             electric_complete = False
         final_inventory = energy_inventory(
@@ -934,6 +995,7 @@ def run_spatial(
             )
         max_energy_relative = max(max_energy_relative, energy_relative)
         max_species_relative = max(max_species_relative, species_max)
+        species_maxima = np.maximum(species_maxima, species_relative)
         sampled = _trace_rows(
             model,
             audit_t,
@@ -989,6 +1051,10 @@ def run_spatial(
                     "vent_mol": (2.0 * final[model.layout.vent]).tolist(),
                     "product_mol": (2.0 * final[model.layout.product]).tolist(),
                     "condensate_mol": 2.0 * condensate,
+                    **({"steam_generator_input_J": 2.0 * float(final[model.layout.e_source_input]),
+                        "jacket_heat_J": 2.0 * delivered_source} if regen["kind"] != "electrical" else {}),
+                    **({name + "_mol": 2.0 * float(final[getattr(model.layout, name)])
+                        for name in ("steam_in", "bed_drain", "bed_condensed", "bed_evaporated")} if wet else {}),
                     "heater_J": 2.0 * float(final[model.layout.E_heat]),
                     "fan_J": 2.0 * float(final[model.layout.E_fan]),
                     "pump_J": 2.0 * float(final[model.layout.E_vac]),
@@ -1072,6 +1138,7 @@ def run_spatial(
     target_pressure_Pa = float(
         case["cycle"]["regeneration_pressure_Pa"]
     )
+    desorption_pressure = phase_endpoint_pressure(desorption_rows[-1]) if desorption_rows else None
     endpoint = {
         "regeneration_temperature_K": (
             desorption_rows[-1]["bed_temperature_min_K"]
@@ -1084,16 +1151,11 @@ def run_spatial(
             and desorption_rows[-1]["bed_temperature_min_K"]
             >= target_temperature_K - 2.0
         ),
-        "desorption_pressure_Pa": (
-            desorption_rows[-1]["min_pressure_Pa"]
-            if desorption_rows
-            else None
-        ),
+        "desorption_pressure_Pa": desorption_pressure,
+        **({"desorption_pressure_basis": "axial_outlet"} if wet else {}),
         "desorption_pressure_target_Pa": target_pressure_Pa,
         "desorption_pressure_pass": bool(
-            desorption_rows
-            and desorption_rows[-1]["min_pressure_Pa"]
-            <= 1.05 * target_pressure_Pa
+            desorption_pressure is not None and desorption_pressure <= 1.05 * target_pressure_Pa
         ),
         "cooling_temperature_K": (
             cooling_rows[-1]["bed_temperature_max_K"]
@@ -1234,6 +1296,31 @@ def run_spatial(
             for key, value in electric_components.items()
         },
     }
+    co2_sites = adapter.species_for_storage == 0
+    delta_q = (state[model.layout.q] - initial_snapshot[model.layout.q]).reshape(model.n_cells, model.n_storage)
+    delta_gas = (state[model.layout.n_gas] - initial_snapshot[model.layout.n_gas]).reshape(model.n_cells, 4)
+    metrics["CO2_inventory_change_kg"] = 2 * MW[0] * (model.cell_mass_kg @ delta_q[:, co2_sites].sum(axis=1) + delta_gas[:, 0].sum())
+    metrics["CO2_inlet_kg"] = 2 * MW[0] * inlet_total[0]
+    metrics["CO2_vented_kg"] = 2 * MW[0] * vent_total[0]
+    metrics["apparent_CO2_recovery_fraction"] = collected_kg / metrics["CO2_inlet_kg"] if inlet_total[0] > 0 else None
+    complete_cycles = [cycle for cycle in cycles if cycle["complete"]]
+    if complete_cycles:
+        last = complete_cycles[-1]
+        metrics["last_complete_cycle_CO2_kg_day"] = 2 * last["product_CO2_mol_half"] * MW[0] * 86400 / last["cycle_time_s"]
+    if regen["kind"] != "electrical":
+        meters = [cycle["meter_state_after_full_symmetry"] for cycle in cycles]
+        metrics["steam_generator_input_kWh"] = sum(m["steam_generator_input_J"] for m in meters) / 3.6e6
+        metrics["steam_generator_carrier"] = regen["generator_carrier"]
+        metrics["steam_generator_kWh_kg_CO2"] = metrics["steam_generator_input_kWh"] / collected_kg if collected_kg > 0 else None
+        if wet:
+            for name in ("steam_in", "bed_drain", "bed_condensed", "bed_evaporated"):
+                metrics[name + "_kg"] = sum(m[name + "_mol"] for m in meters) * MW[1]
+            metrics["bed_liquid_final_kg"] = 2 * max(0.0, float(state[model.layout.liquid].sum())) * MW[1]
+            metrics["steam_kg_per_kg_CO2"] = metrics["steam_in_kg"] / collected_kg if collected_kg > 0 else None
+        else:
+            heat_J = sum(m["jacket_heat_J"] for m in meters)
+            metrics["jacket_delivered_heat_kWh"] = heat_J / 3.6e6
+            metrics["jacket_steam_kg"] = first_systems.source.steam_mass_kg_s(heat_J)
     result = {
         "schema": "mof-screening-result/1",
         "case_label": case["label"],
@@ -1312,10 +1399,10 @@ def run_spatial(
         "water_burden": water_burden,
         "endpoint": endpoint,
         "checks": {
-            "mass_relative_residual_by_species": [max_species_relative],
-            "mass_relative_residual_basis": (
-                "maximum_relative_residual_across_species"
-            ),
+            "mass_relative_residual_by_species": species_maxima.tolist(),
+            "mass_relative_residual_by_name": dict(zip(("CO2", "H2O", "N2", "O2"), species_maxima.tolist())),
+            "mass_relative_residual_basis": "cycle maximum for each of CO2,H2O,N2,O2",
+            "max_species_relative_residual": max_species_relative,
             "mass_closure_pass": max_species_relative <= 1e-5,
             "energy_relative_residual": max_energy_relative,
             "energy_closure_pass": max_energy_relative <= 1e-6,
@@ -1401,6 +1488,17 @@ def run_spatial(
         },
         "failure": None,
     }
+    periodic = cycle_repeatability(cycles, model.layout, fixed_weather=case["weather"]["mode"] == "fixed")
+    result["horizon"].update(css_established=periodic["established"], cycle_repeatability=periodic)
+    if wet:
+        result["engine_identity"] = "axial-direct-steam/1"
+        result["water_burden"].update(local_relative_humidity_basis="p_H2O / IAPWS saturation at solid temperature", saturation_diagnostic_law="IAPWS saturation line")
+        result["geometry"].update(representation="axial_wet_packed_bed", axial_resolution="finite_volume")
+        result["assumptions"].update(engine="Axial gas and solid cells with distributed wall exchange",
+            humidity="Finite-rate bulk phase change with independent adsorbed water and an empirical wet sorption plateau.",
+            transport="Upwind gas advection, Ergun pressure drop with reduced free void, distributed first-order drainage.",
+            pressure_control="Suction valve and pump evaluated at the bed outlet.")
+    result["assumptions"]["hardware"] = "Configured heat source and cooling budget, ideal pump-inlet knockout, KNF N922 reference curve and 135 W running input."
     return annotate_result(result)
 
 
@@ -1417,6 +1515,7 @@ def build_lumped_config(material: dict, case: dict, weather) -> dict:
             "max_cooling_capacity_W": 2000.0,
         }
     }
+    config["utilities"]["wall_cooling"]["max_cooling_capacity_W"] = config["shared_equipment"]["combined_cooling_power_full_W"]
     config["cycle"]["adsorption_control"] = "fixed_total_moles"
     config["cycle"]["cooling_stop_offset_K"] = 0.5
     config["solver"]["initial_step_policy"] = (
@@ -1426,7 +1525,7 @@ def build_lumped_config(material: dict, case: dict, weather) -> dict:
     config["solver"]["initial_step_depletion_fraction"] = (
         DEFAULT_DEPLETION_FRACTION
     )
-    config = enable_pump_conditioner(config, target_temperature_C=55.0)
+    config = enable_pump_conditioner(config, target_temperature_C=config["shared_equipment"]["conditioner_target_C"])
     config["source_identity"]["lumped_engine"] = (
         "screening/mof_screening/lumped_port/engine.py"
     )
@@ -1482,6 +1581,7 @@ def run_lumped(
     )
     source_paths = (
         ROOT / "screening/mof_screening/runtime.py",
+        ROOT / "screening/mof_screening/purolite.py",
         ROOT / "screening/mof_screening/materials.py",
         ROOT / "screening/mof_screening/young2021.py",
         ROOT / "screening/mof_screening/young2021_hot.py",
@@ -1550,6 +1650,7 @@ def run_lumped(
                 adapter.equilibrium_family
                 in {
                     "young2021_wadst_gab",
+                    "purolite_a110_rh_curves_gab",
                     "young2021_hot_wadst_gab_extrapolated",
                     "young2021_cold_hot_wadst_gab_extrapolated",
                 }
@@ -1927,9 +2028,9 @@ def run_lumped(
                 "forcing segmented inside phases."
             ),
             "hardware": (
-                "KNF N922 50 Hz reference curve, 135 W running input, 2 kW "
-                "heater, combined 2 kW cooling at COP 3 and ideal 55 C "
-                "pump-inlet knockout."
+                "KNF N922 50 Hz reference curve, 135 W running input, "
+                f"heater as configured, {case['equipment'].get('cooler_power_W', 2000):g} W cooling at COP 3 "
+                f"and {case['equipment'].get('knockout_C', 55):g} C pump-inlet knockout."
             ),
             "weather": weather.provenance()["interval_semantics"],
             "transport": "Well-mixed gas and solid state; no spatial gradient.",

@@ -45,6 +45,20 @@ assert.equal(summary[1].collectedKgDay, '3.696e-4');
 assert.equal(summary[0].dryProductFraction, '81.23%');
 assert.equal(summary[0].evidence, 'representation failed');
 assert.equal(summary[0].numerical, 'qualified');
+assert.equal(summary[0].steamIntensity, null);
+assert.equal(summary[0].lastCycle, null);
+const steam = {
+  ...rows[0], wet_product_CO2_fraction: 0.65, steam_kg_per_kg_CO2: 0,
+  last_complete_cycle_CO2_kg_day: 1.25, cycle_repeatability_established: false,
+  steam_generator_kWh_kg_CO2: 8, steam_generator_carrier: 'electricity'
+};
+const steamSummary = comparisonView.summaryRows({ rows: [steam] })[0];
+assert.equal(steamSummary.wetProductFraction, '65.00%');
+assert.equal(steamSummary.steamIntensity, '0.00');
+assert.equal(steamSummary.lastCycle, '1.250');
+assert.equal(steamSummary.repeatability, false);
+assert.equal(steamSummary.externalHeatIntensity, null);
+assert.equal(comparisonView.summaryRows({ rows: [{ ...steam, steam_generator_carrier: 'external_heat' }] })[0].externalHeatIntensity, '8.00');
 
 const html = fs.readFileSync(
   path.join(__dirname, '..', 'app', 'mof_screening', 'static', 'index.html'),

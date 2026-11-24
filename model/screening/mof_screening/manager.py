@@ -978,6 +978,15 @@ class MofScreeningManager:
                     ),
                     "engine": result["engine"],
                     "configuration_sha256": configuration_hash,
+                    "regeneration_method": result.get("case", {}).get("regeneration", {}).get("kind", "electrical"),
+                    "steam_generator_input_kWh": metrics.get("steam_generator_input_kWh"),
+                    "steam_generator_carrier": metrics.get("steam_generator_carrier"),
+                    "steam_generator_kWh_kg_CO2": metrics.get("steam_generator_kWh_kg_CO2"),
+                    "steam_kg_per_kg_CO2": metrics.get("steam_kg_per_kg_CO2"),
+                    "last_complete_cycle_CO2_kg_day": metrics.get("last_complete_cycle_CO2_kg_day"),
+                    "cycle_repeatability_established": (
+                        (result.get("horizon", {}).get("cycle_repeatability") or {}).get("established")
+                    ),
                     "collected_CO2_kg_day": metrics.get("collected_CO2_kg_day"),
                     "electricity_kWh_day": metrics.get("electricity_kWh_day"),
                     "electricity_kWh_kg_CO2": metrics.get("electricity_kWh_kg_CO2"),
@@ -1113,6 +1122,12 @@ class MofScreeningManager:
             "Execution runtime policies are operational metadata and are "
             "excluded from the physical comparison basis."
         )
+        if not incompatible_fields:
+            rows.sort(key=lambda row: (
+                not row["closure_pass"] or row["hard_limits_status"] == "fail",
+                row["collected_CO2_kg_day"] is None,
+                -(row["collected_CO2_kg_day"] or 0.0),
+            ))
         return {
             "schema": "mof-screening-comparison/1",
             "rows": rows,
@@ -1138,7 +1153,7 @@ class MofScreeningManager:
             "ranking_note": (
                 "Collected CO2/day is shown as a screening metric. Rankings "
                 "are presented for exact configurations or compatible "
-                "controlled comparisons. Missing requested operating targets "
+                "controlled comparisons. Failed conservation or known hard-limit violations sort last. Missing requested operating targets "
                 "never removes a case by itself; weather, mass basis, engine, "
                 "initial state and source incompatibilities remain warnings."
             ),
@@ -1197,6 +1212,17 @@ class MofScreeningManager:
             "energy_closure_pass": checks.get("energy_closure_pass"),
             "energy_relative_residual": checks.get("energy_relative_residual"),
         }
+        wet_fields = []
+        if "steam_generator_input_kWh" in metrics:
+            for key in ("steam_generator_input_kWh", "steam_generator_carrier", "steam_in_kg",
+                        "bed_condensed_kg", "bed_evaporated_kg", "bed_drain_kg", "bed_liquid_final_kg",
+                        "jacket_steam_kg", "jacket_delivered_heat_kWh"):
+                if key in metrics:
+                    constant_columns[key] = metrics[key]
+            if "steam_in_kg" in metrics:
+                wet_fields = ["outlet_water_mole_fraction", "steam_in_mol_cycle", "bed_drain_mol_cycle",
+                              "axial_solid_temperature_K", "axial_pressure_Pa", "axial_water_partial_Pa",
+                              "axial_adsorbed_water_mol_kg", "bed_liquid_mol_by_cell"]
         headers = [
             "time_s",
             "cycle",
@@ -1221,6 +1247,7 @@ class MofScreeningManager:
             "local_rh_mean",
             "local_rh_max",
             "phase_elapsed_s",
+            *wet_fields,
             *constant_columns,
         ]
         writer.writerow(headers)
